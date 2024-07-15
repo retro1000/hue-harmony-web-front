@@ -47,8 +47,8 @@ const StyledRoot = styled("div")(() => ({
 
 // initial login credentials
 const initialValues = {
-  username: 'damitha200',
-  password: 'Damitha2001@',
+  username: 'jason@ui-lib.com',
+  password: 'dummyPass',
   remember: true
 };
 
@@ -100,14 +100,14 @@ export default function JwtLogin() {
                       fullWidth
                       size="small"
                       type="text"
-                      name="username"
-                      label="Username"
+                      name="email"
+                      label="Email"
                       variant="outlined"
                       onBlur={handleBlur}
-                      value={values.username}
+                      value={values.email}
                       onChange={handleChange}
-                      helperText={touched.username && errors.username}
-                      error={Boolean(errors.username && touched.username)}
+                      helperText={touched.email && errors.email}
+                      error={Boolean(errors.email && touched.email)}
                       sx={{ mb: 3 }}
                     />
 
