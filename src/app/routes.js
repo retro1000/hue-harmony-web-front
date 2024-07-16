@@ -9,7 +9,6 @@ import MatxLayout from "./components/MatxLayout/MatxLayout";
 
 import sessionRoutes from "./views/sessions/session-routes";
 import productRoutes from "./views/product/product-routes";
-import materialRoutes from "app/views/material-kit/MaterialRoutes";
 import homeRoutes from "app/views/home/home-routes";
 
 // E-CHART PAGE
@@ -25,7 +24,6 @@ const routes = [
       // </AuthGuard>
     ),
     children: [
-      ...materialRoutes,
       ...productRoutes,
       // ...homeRoutes,
       // dashboard route
