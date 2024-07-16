@@ -43,13 +43,13 @@ function ProductList() {
 
     return (
         <Container>
-        <Box className="breadcrumb">
-            <Breadcrumb routeSegments={[{ name: "Product", path: "/Product/list" }, { name: "List" }]} />
-        </Box>
+          <Box className="breadcrumb">
+              <Breadcrumb routeSegments={[{ name: "Product", path: "/Product/list" }, { name: "List" }]} />
+          </Box>
 
-        <Stack alignItems={'center'} justifyContent={'center'} spacing={3}>
-            <MuiTable columns={columns} dataTableData={datatableData}/>
-        </Stack>
+          <Stack alignItems={'center'} justifyContent={'center'} spacing={3}>
+              <MuiTable columns={columns} dataTableData={datatableData}/>
+          </Stack>
         </Container>
     );
 }
