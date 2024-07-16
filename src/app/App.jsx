@@ -10,7 +10,7 @@ import SettingsProvider from "./contexts/SettingsContext";
 // ROUTES
 import routes from "./routes";
 // FAKE SERVER
-// import "../fake-db";
+import "../fake-db";
 
 import {loadStripe} from '@stripe/stripe-js';
 
