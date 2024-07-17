@@ -161,7 +161,9 @@ function ProductList() {
                 </Box>
                 {searchResult && searchResult.length>0 && <MuiTable search={false} print={false} download={false} columns={columns} dataTableData={searchResult} selectableRows={'none'} filterType={'text'}/>}
               </SimpleCard>
-              <MuiTable print={true} download={true} title={'Products'} columns={columns} dataTableData={datatableData} selectableRows={'none'} filterType={'text'}/>
+              <SimpleCard>
+                <MuiTable print={true} download={true} title={'Products'} columns={columns} dataTableData={datatableData} selectableRows={'none'} filterType={'text'}/>
+              </SimpleCard>
           </Stack>
         </Container>
     );
