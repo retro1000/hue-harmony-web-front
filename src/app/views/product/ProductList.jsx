@@ -36,10 +36,10 @@ function ProductList() {
 
     const [datatableData, setDataTableData] = useState([
       ['D#45er', 'Wall paint', 'Dulux', 'Paint', 'Red', '4 Ltr', '11000.00', '13', 'Available'],
-      ['John Walsh', 'Example Inc.', 'Hartford', 'CT'],
-      ['Bob Herm', 'Example Inc.', 'Tampa', 'FL'],
-      ['James Houston', 'Example Inc.', 'Dallas', 'TX'],
-      ['Prabhakar Linwood', 'Example Inc.', 'Hartford', 'CT'],
+      ['D#45er', 'Wall paint', 'Dulux', 'Paint', 'Red', '4 Ltr', '11000.00', '13', 'Inactive'],
+      ['D#45er', 'Wall paint', 'Dulux', 'Paint', 'Red', '4 Ltr', '11000.00', '13', 'Pending'],
+      ['D#45er', 'Wall paint', 'Dulux', 'Paint', 'Red', '4 Ltr', '11000.00', '13', 'Blocked'],
+      ['D#45er', 'Wall paint', 'Dulux', 'Paint', 'Red', '4 Ltr', '11000.00', '13', 'Sold'],
       ['Kaui Ignace', 'Example Inc.', 'Yonkers', 'NY'],
       ['Esperanza Susanne', 'Example Inc.', 'Hartford', 'CT'],
       ['Christian Birgitte', 'Example Inc.', 'Tampa', 'FL'],
@@ -145,7 +145,7 @@ function ProductList() {
               </Box>
               <SimpleCard sx={{width: '100%', top: '-3em'}} title={'Search Products'}>
                 <Box display={'flex'} flexWrap={'wrap'} gap={'0.4em'} sx={{width: '100%'}}>
-                  <Select value={selectedAction} size="small" onChange={(event)=>setSelectedAction(event.target.value)}>
+                  <Select sx={{width: '20%'}} value={selectedAction} size="small" onChange={(event)=>setSelectedAction(event.target.value)}>
                     <MenuItem value={'barcode'}>Search by product barcode</MenuItem>
                     <MenuItem value={'name'}>Search by product name</MenuItem>
                     <MenuItem value={'color'}>Search by product color</MenuItem>
@@ -157,7 +157,7 @@ function ProductList() {
                     <MenuItem value={'brand'}>Search by product brand</MenuItem>
                     <MenuItem value={'all'}>Search by all</MenuItem>
                   </Select>
-                  <SearchBarDefault value={searchText} setValue={setSearchText} placeholder={'Search products...'} search={search}></SearchBarDefault>
+                  <SearchBarDefault sx={{width: '80%'}} value={searchText} setValue={setSearchText} placeholder={'Search products...'} search={search}></SearchBarDefault>
                 </Box>
                 {searchResult && searchResult.length>0 && <MuiTable search={false} print={false} download={false} columns={columns} dataTableData={searchResult} selectableRows={'none'} filterType={'text'}/>}
               </SimpleCard>

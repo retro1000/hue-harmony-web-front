@@ -81,7 +81,7 @@ const renderStatusChip = (status) => {
       color = '#4caf50';
       break;
     case 'Inactive':
-      color = 'yellow';
+      color = '#ffbc00';
       break;
     case 'Pending':
       color = 'blue';
@@ -95,7 +95,7 @@ const renderStatusChip = (status) => {
     default:
       color = 'gray';
   }
-  return <Chip label={status} sx={{background: color, color: 'white', height: '2em'}} variant="outlined" />;
+  return <Chip label={status} sx={{background: color, color: 'white', height: '2em', border: 'none'}} variant="outlined" />;
 };
 
 export default function MuiTable({ search, download, print, dataTableData, columns, filterType, selectableRows, title }){
