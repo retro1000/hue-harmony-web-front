@@ -19,6 +19,8 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  columns,
+  datatableData,
 } from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 import { Delete, Edit } from "@mui/icons-material";
@@ -72,6 +74,18 @@ function StockAdjustment() {
     },
   ];
 
+  const [datatableData, setDataTableData] = useState([
+    ["Joe James", "Example Inc.", "Yonkers", "NY", "Akila"],
+  ]);
+
+  const [columns, setColumns] = useState([
+    "#ID",
+    "Updated On",
+    "Status Change",
+    "Remarks",
+    "Changed By",
+  ]);
+
   return (
     <>
       <Container>
@@ -122,151 +136,173 @@ function StockAdjustment() {
             alignItems={"center"}
             justifyContent={"center"}
           >
-            {/* <Box p={3} bgcolor="#f5f5f5" borderRadius={2} height="100vh"> */}
-            <Paper
-              elevation={3}
-              style={{ padding: "16px", marginBottom: "16px" }}
-            >
-              <Typography variant="h5" textAlign={"right"}>
-                Stock Adjustment#: 119
-              </Typography>
-              <Box display="flex" justifyContent="space-between" mt={2}>
-                <Box></Box>
-                <Box></Box>
+            <Stack spacing={3}>
+              {/* <Box p={3} bgcolor="#f5f5f5" borderRadius={2} height="100vh"> */}
+              <Paper
+                elevation={3}
+                style={{ padding: "16px", marginBottom: "16px" }}
+              >
+                <Typography variant="h5" textAlign={"right"}>
+                  Stock Adjustment#: 119
+                </Typography>
                 <Box display="flex" justifyContent="space-between" mt={2}>
-                  <Box>
-                    <Stack
-                      direction="column"
-                      spacing={1}
-                      alignItems="flex-start"
-                    >
-                      <Typography variant="body1">
-                        Stock Adjustment #:
-                      </Typography>
-                      <Typography variant="body1">Created On:</Typography>
-                      <Typography variant="body1">Created by:</Typography>
-                      <Typography variant="body1">Status:</Typography>
-                    </Stack>
-                  </Box>
-                  <Box>
-                    <Stack direction="column" spacing={1} alignItems="flex-end">
-                      <Typography variant="body1">119</Typography>
-                      <Typography variant="body1">
-                        14/07/2024 01:10 PM
-                      </Typography>
-                      <Typography variant="body1">Codevus Bot</Typography>
-                      <Typography variant="body1">
-                        <span style={{ color: "orange" }}>Pending</span>
-                      </Typography>
-                    </Stack>
+                  <Box></Box>
+                  <Box></Box>
+                  <Box display="flex" justifyContent="space-between" mt={2}>
+                    <Box>
+                      <Stack
+                        direction="column"
+                        spacing={1}
+                        alignItems="flex-start"
+                      >
+                        <Typography variant="body1">
+                          Stock Adjustment #:
+                        </Typography>
+                        <Typography variant="body1">Created On:</Typography>
+                        <Typography variant="body1">Created by:</Typography>
+                        <Typography variant="body1">Status:</Typography>
+                      </Stack>
+                    </Box>
+                    <Box>
+                      <Stack
+                        direction="column"
+                        spacing={1}
+                        alignItems="flex-end"
+                      >
+                        <Typography variant="body1">119</Typography>
+                        <Typography variant="body1">
+                          14/07/2024 01:10 PM
+                        </Typography>
+                        <Typography variant="body1">Codevus Bot</Typography>
+                        <Typography variant="body1">
+                          <span style={{ color: "orange" }}>Pending</span>
+                        </Typography>
+                      </Stack>
+                    </Box>
                   </Box>
                 </Box>
-              </Box>
-            </Paper>
+              </Paper>
 
-            {/* <TableContainer component={Paper} elevation={1}> */}
-            <Table>
-              <TableHead>
-                <TableRow>
-                  <TableCell
-                    style={{
-                      width: "50px",
-                    }}
-                  >
-                    #
-                  </TableCell>
-                  <TableCell>Product Code</TableCell>
-                  <TableCell>Product Name</TableCell>
-                  <TableCell>GRN Code</TableCell>
-                  <TableCell>Store</TableCell>
-                  <TableCell>Old Quantity</TableCell>
-                  <TableCell>New Quantity</TableCell>
-                  <TableCell>Cost Difference</TableCell>
-                  <TableCell
-                    style={{
-                      maxwidth: "20px",
-                    }}
-                  >
-                    Actions
-                  </TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {data.map((row) => (
-                  <TableRow
-                    key={row.id}
-                    style={{
-                      height: "100px",
-                    }}
-                  >
+              {/* <TableContainer component={Paper} elevation={1}> */}
+              <Table>
+                <TableHead>
+                  <TableRow>
                     <TableCell
                       style={{
                         width: "50px",
                       }}
                     >
-                      {row.id}
+                      #
                     </TableCell>
-                    <TableCell>{row.code}</TableCell>
-                    <TableCell>{row.name}</TableCell>
-                    <TableCell>{row.grnCode}</TableCell>
-                    <TableCell>{row.store}</TableCell>
-                    <TableCell>{row.oldQty}</TableCell>
-                    <TableCell>{row.newQty}</TableCell>
-                    <TableCell>{row.costDiff}</TableCell>
+                    <TableCell>Product Code</TableCell>
+                    <TableCell>Product Name</TableCell>
+                    <TableCell>GRN Code</TableCell>
+                    <TableCell>Store</TableCell>
+                    <TableCell>Old Quantity</TableCell>
+                    <TableCell>New Quantity</TableCell>
+                    <TableCell>Cost Difference</TableCell>
                     <TableCell
                       style={{
                         maxwidth: "20px",
                       }}
                     >
-                      <Stack direction="row" spacing={1}>
-                        <Button
-                          variant="contained"
-                          color="warning"
-                          size="small"
-                          startIcon={<Edit />}
-                          style={{
-                            borderRadius: "50%",
-                            width: "40px",
-                            height: "40px",
-                            minWidth: "unset",
-                            padding: 0,
-                            display: "flex",
-                            justifyContent: "center",
-                            alignItems: "center",
-                            alignContent: "center",
-                          }}
-                        ></Button>
-                        <Button
-                          variant="contained"
-                          color="error"
-                          size="small"
-                          startIcon={<Delete />}
-                          style={{
-                            borderRadius: "50%",
-                            width: "40px",
-                            height: "40px",
-                            minWidth: "unset",
-                            padding: 0,
-                            display: "flex",
-                            justifyContent: "center",
-                            alignItems: "center",
-                            // alignContent: "center",
-                          }}
-                        ></Button>
-                      </Stack>
+                      Actions
                     </TableCell>
                   </TableRow>
-                ))}
-                <TableRow>
-                  <TableCell colSpan={7} align="center">
-                    <b>Total</b>
-                  </TableCell>
-                  <TableCell colSpan={2}>-9,975.00</TableCell>
-                </TableRow>
-              </TableBody>
-            </Table>
-            {/* </TableContainer> */}
-            {/* </Box> */}
+                </TableHead>
+                <TableBody>
+                  {data.map((row) => (
+                    <TableRow
+                      key={row.id}
+                      style={{
+                        height: "100px",
+                      }}
+                    >
+                      <TableCell
+                        style={{
+                          width: "50px",
+                        }}
+                      >
+                        {row.id}
+                      </TableCell>
+                      <TableCell>{row.code}</TableCell>
+                      <TableCell>{row.name}</TableCell>
+                      <TableCell>{row.grnCode}</TableCell>
+                      <TableCell>{row.store}</TableCell>
+                      <TableCell>{row.oldQty}</TableCell>
+                      <TableCell>{row.newQty}</TableCell>
+                      <TableCell>{row.costDiff}</TableCell>
+                      <TableCell
+                        style={{
+                          maxwidth: "20px",
+                        }}
+                      >
+                        <Stack direction="row" spacing={1}>
+                          <Button
+                            variant="contained"
+                            color="warning"
+                            size="small"
+                            startIcon={<Edit />}
+                            style={{
+                              borderRadius: "50%",
+                              width: "40px",
+                              height: "40px",
+                              minWidth: "unset",
+                              padding: 0,
+                              display: "flex",
+                              justifyContent: "center",
+                              alignItems: "center",
+                              alignContent: "center",
+                            }}
+                          ></Button>
+                          <Button
+                            variant="contained"
+                            color="error"
+                            size="small"
+                            startIcon={<Delete />}
+                            style={{
+                              borderRadius: "50%",
+                              width: "40px",
+                              height: "40px",
+                              minWidth: "unset",
+                              padding: 0,
+                              display: "flex",
+                              justifyContent: "center",
+                              alignItems: "center",
+                              // alignContent: "center",
+                            }}
+                          ></Button>
+                        </Stack>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                  <TableRow>
+                    <TableCell colSpan={7} align="center">
+                      <b>Total</b>
+                    </TableCell>
+                    <TableCell colSpan={2}>-9,975.00</TableCell>
+                  </TableRow>
+                </TableBody>
+              </Table>
+              <Paper
+                elevation={3}
+                style={{ padding: "16px", marginBottom: "16px" }}
+              >
+                <Stack>
+                  <Typography variant="h6" textAlign={"left"}>
+                    WorkFlow Logs
+                  </Typography>
+                  <MuiTable
+                    columns={columns}
+                    dataTableData={datatableData}
+                    alignItems={"center"}
+                    justifyContent={"center"}
+                  />
+                </Stack>
+              </Paper>
+              {/* </TableContainer> */}
+              {/* </Box> */}
+            </Stack>
           </SimpleCard>
         </Stack>
       </Container>
