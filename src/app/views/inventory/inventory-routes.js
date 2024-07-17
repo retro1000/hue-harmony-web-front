@@ -4,6 +4,7 @@ import { authRoles } from "app/auth/authRoles";
 import AuthGuard from "app/auth/AuthGuard";
 
 const StockAdjustment = Loadable(lazy(() => import("./StockAdjustment")));
+const Reservation = Loadable(lazy(() => import("./Reservation")));
 
 const inventoryRoutes = [
   {
@@ -11,6 +12,14 @@ const inventoryRoutes = [
     element: (
       <AuthGuard auth={authRoles.manager}>
         <StockAdjustment />
+      </AuthGuard>
+    ),
+  },
+  {
+    path: "/inventory/reservation",
+    element: (
+      <AuthGuard auth={authRoles.manager}>
+        <Reservation />
       </AuthGuard>
     ),
   },
