@@ -9,11 +9,13 @@ import MatxLayout from "./components/MatxLayout/MatxLayout";
 
 import sessionRoutes from "./views/sessions/session-routes";
 import productRoutes from "./views/product/product-routes";
-import materialRoutes from "app/views/material-kit/MaterialRoutes";
 import homeRoutes from "app/views/home/home-routes";
+import inventoryRoutes from "./views/inventory/inventory-routes";
 
 // E-CHART PAGE
-const AppEchart = Loadable(lazy(() => import("app/views/charts/echarts/AppEchart")));
+const AppEchart = Loadable(
+  lazy(() => import("app/views/charts/echarts/AppEchart"))
+);
 // DASHBOARD PAGE
 const Analytics = Loadable(lazy(() => import("app/views/dashboard/Analytics")));
 
@@ -21,32 +23,33 @@ const routes = [
   {
     element: (
       // <AuthGuard auth={authRoles.user}>
-        <MatxLayout />
+      <MatxLayout />
       // </AuthGuard>
     ),
     children: [
-      ...materialRoutes,
       ...productRoutes,
+      ...inventoryRoutes,
       // ...homeRoutes,
       // dashboard route
       {
         path: "/dashboard/default",
-        element: 
+        element: (
           <AuthGuard auth={authRoles.manager}>
             <Analytics />
-          </AuthGuard>     
+          </AuthGuard>
+        ),
       },
       // e-chart route
       {
         path: "/charts/echarts",
         element: <AppEchart />,
-        auth: authRoles.editor
-      }
-    ]
+        auth: authRoles.editor,
+      },
+    ],
   },
 
   // session pages route
-  ...sessionRoutes
+  ...sessionRoutes,
 ];
 
 export default routes;
