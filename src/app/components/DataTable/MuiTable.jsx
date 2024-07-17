@@ -1,11 +1,10 @@
 import React from 'react'
 import { useState, useEffect } from 'react';
 
-import { Chip, Grid, styled, Button, IconButton } from '@mui/material'
+import { Chip, Grid, Button, IconButton } from '@mui/material'
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 import MUIDataTable from 'mui-datatables'
-import { NoEncryption } from '@mui/icons-material';
 
 // const CustomMuiTable = styled(MUIDataTable)({
 //   '& .MuiGrid-root.MuiGrid-item.MuiGrid-grid-xs-12.css-1idn90j-MuiGrid-root': {
@@ -82,16 +81,19 @@ const renderStatusChip = (status) => {
       color = '#4caf50';
       break;
     case 'Inactive':
-      color = 'default';
+      color = 'yellow';
       break;
     case 'Pending':
-      color = 'warning';
+      color = 'blue';
       break;
     case 'Banned':
-      color = 'error';
+    case 'Canceled':
+    case 'Blocked':
+    case 'Failed':
+      color = 'red';
       break;
     default:
-      color = 'default';
+      color = 'gray';
   }
   return <Chip label={status} sx={{background: color, color: 'white', height: '2em'}} variant="outlined" />;
 };
@@ -129,7 +131,6 @@ export default function MuiTable({ search, download, print, dataTableData, colum
   }, [columns])
 
   return (
-    // <>
       <Grid container sx={{width: '100%'}}>
         <Grid item xs={12}>
           <ThemeProvider theme={theme}>
@@ -151,6 +152,5 @@ export default function MuiTable({ search, download, print, dataTableData, colum
           </ThemeProvider>
         </Grid>
       </Grid>
-    // </>
   )
 }
