@@ -2,11 +2,16 @@ import { lazy } from "react";
 import Loadable from "app/components/Loadable";
 import { authRoles } from "app/auth/authRoles";
 import AuthGuard from "app/auth/AuthGuard";
+import { element } from "prop-types";
 
 
 const UpserProduct = Loadable(lazy(() => import("./UpserProduct")));
 const ProductList = Loadable(lazy(() => import("./ProductList")));
 const ProductView = Loadable(lazy(() => import("./ProductView")));
+
+
+const Re = Loadable(lazy(() => import('./re.jsx')))
+const FilterProduct = Loadable(lazy(() => import('./FilterProduct.jsx')))
 
 
 const productRoutes = [
@@ -30,6 +35,17 @@ const productRoutes = [
       // <AuthGuard auth={authRoles.manager}>
         <ProductView />
       // </AuthGuard>
+  },
+
+
+  
+  {
+    path: "/product/re",
+    element: <Re />
+  },
+  {
+    path: "/product/filter-product",
+    element: <FilterProduct />
   }
 ];
 

@@ -1,9 +1,11 @@
 import React from 'react'
+import { useState, useEffect } from 'react';
 
-import { Grid, styled } from '@mui/material'
+import { Chip, Grid, styled, Button, IconButton } from '@mui/material'
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 import MUIDataTable from 'mui-datatables'
+import { NoEncryption } from '@mui/icons-material';
 
 // const CustomMuiTable = styled(MUIDataTable)({
 //   '& .MuiGrid-root.MuiGrid-item.MuiGrid-grid-xs-12.css-1idn90j-MuiGrid-root': {
@@ -39,26 +41,116 @@ const theme = () => createTheme({
   }
 })
 
-export default function MuiTable({dataTableData, columns}) {
+
+const renderButtons = (buttonsConfig, rowIndex) => {
+  return buttonsConfig.map((buttonConfig, index) => {
+    const { type, label, color, size, icon: Icon, onClick } = buttonConfig;
+    
+    if (type === 'icon') {
+      return (
+        <IconButton
+          key={index}
+          color={color}
+          size={size}
+          onClick={() => onClick(rowIndex)}
+        >
+          <Icon />
+        </IconButton>
+      );
+    } else {
+      return (
+        <Button
+          key={index}
+          variant="contained"
+          color={color}
+          size={size}
+          onClick={() => onClick(rowIndex)}
+          style={{ marginLeft: 8 }}
+        >
+          {label}
+        </Button>
+      );
+    }
+  });
+};
+
+const renderStatusChip = (status) => {
+  let color;
+  switch (status) {
+    case 'Active':
+    case 'Available':
+      color = '#4caf50';
+      break;
+    case 'Inactive':
+      color = 'default';
+      break;
+    case 'Pending':
+      color = 'warning';
+      break;
+    case 'Banned':
+      color = 'error';
+      break;
+    default:
+      color = 'default';
+  }
+  return <Chip label={status} sx={{background: color, color: 'white', height: '2em'}} variant="outlined" />;
+};
+
+export default function MuiTable({ search, download, print, dataTableData, columns, filterType, selectableRows, title }){
+
+  const [updatedCols, setUpdatedCols] = useState([])
+
+  useEffect(() => {
+    const newCols = columns.filter(val=>val.name!=='Actions'&&val.name!=='Status')
+    const option = columns.find(val=>val.name==='Actions')
+    const statusOption = columns.find(val=>val.name==='Status')
+    if(statusOption){
+      newCols.push({
+        name: 'Status',
+        label: 'Status',
+        options: {
+          customBodyRender: (value) => renderStatusChip(value)
+        }
+      })
+    }
+    if(option){
+      newCols.push({
+        name: 'Actions',
+        label: 'Actions',
+        options: {
+          customBodyRender: (value, tableMeta) => {
+            const rowIndex = tableMeta.rowIndex;
+            return <Grid sx={{display: 'flex', gap: '0.3em'}}>{renderButtons(option.options.buttonsConfig, rowIndex)}</Grid>;
+          }
+        }
+      })
+    }
+    setUpdatedCols(newCols)
+  }, [columns])
+
   return (
-    <>
-      <Grid container spacing={4}>
+    // <>
+      <Grid container sx={{width: '100%'}}>
         <Grid item xs={12}>
           <ThemeProvider theme={theme}>
                 <MUIDataTable
-                    // title="Employee List"
+                    title={title}
                     data={dataTableData}
-                    columns={columns}
+                    columns={updatedCols}
                     options={{
+                      selectableRows: selectableRows,
                       sort: true,
-                    filterType: 'checkbox',
-                    responsive: 'simple'
+                      print: print,
+                      download: download,
+                      search: search,
+                      filterType: filterType,
+                      responsive: 'simple'
                     }}
                     // className='custom_styles_footer custom_styles_shadow'
                 />
           </ThemeProvider>
         </Grid>
       </Grid>
-    </>
+    // </>
   )
 }

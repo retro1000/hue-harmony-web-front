@@ -1,7 +1,7 @@
 export const navigations = [
   { name: "Dashboard", path: "/dashboard/default", icon: "dashboard" },
   { 
-    name: "Products", 
+    name: "Products",
     icon: "shopping_basket",
     children: [
       { name: "Product list", icon: "web_asset", path: "/product/list" },
