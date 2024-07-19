@@ -26,6 +26,11 @@ export const navigations = [
         icon: "web_asset",
         path: "/inventory/reservation",
       },
+      {
+        name: "GRN",
+        icon: "web_asset",
+        path: "/inventory/grn",
+      },
     ],
   },
 
