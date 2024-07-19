@@ -92,8 +92,8 @@ function StockAdjustment() {
         <Box className="breadcrumb">
           <Breadcrumb
             routeSegments={[
-              { name: "Product", path: "/Product/list" },
-              { name: "List" },
+              { name: "Inventory", path: "/Inventory/Stock Adjustment" },
+              { name: "Stock Adjustment" },
             ]}
           />
         </Box>
