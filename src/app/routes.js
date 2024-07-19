@@ -19,7 +19,9 @@ import PaymentRoutes from "./views/payment/payment-routes";
 import PurchaseOrderRoutes from "./views/purchase_order/purchase-order-routes";
 
 // E-CHART PAGE
-const AppEchart = Loadable(lazy(() => import("app/views/charts/echarts/AppEchart")));
+const AppEchart = Loadable(
+  lazy(() => import("app/views/charts/echarts/AppEchart"))
+);
 // DASHBOARD PAGE
 const Analytics = Loadable(lazy(() => import("app/views/dashboard/Analytics")));
 
@@ -27,7 +29,7 @@ const routes = [
   {
     element: (
       // <AuthGuard auth={authRoles.user}>
-        <MatxLayout />
+      <MatxLayout />
       // </AuthGuard>
     ),
     children: [
@@ -43,22 +45,23 @@ const routes = [
       // dashboard route
       {
         path: "/dashboard/default",
-        element: 
+        element: (
           <AuthGuard auth={authRoles.manager}>
             <Analytics />
-          </AuthGuard>     
+          </AuthGuard>
+        ),
       },
       // e-chart route
       {
         path: "/charts/echarts",
         element: <AppEchart />,
-        auth: authRoles.editor
-      }
-    ]
+        auth: authRoles.editor,
+      },
+    ],
   },
 
   // session pages route
-  ...sessionRoutes
+  ...sessionRoutes,
 ];
 
 export default routes;

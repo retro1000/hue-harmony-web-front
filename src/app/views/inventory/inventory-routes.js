@@ -3,26 +3,35 @@ import Loadable from "app/components/Loadable";
 import { authRoles } from "app/auth/authRoles";
 import AuthGuard from "app/auth/AuthGuard";
 
-const InventoryList = Loadable(lazy(() => import("./InventoryList")));
-const StockAdjustmentList = Loadable(lazy(() => import("./StockAdjustmentList")));
+const StockAdjustment = Loadable(lazy(() => import("./StockAdjustment")));
+const Reservation = Loadable(lazy(() => import("./Reservation")));
+const GRN = Loadable(lazy(() => import("./Grn")));
 
-
-const InventoryRoutes = [
-  { 
-    path: "/inventory/list",
-    element: 
+const inventoryRoutes = [
+  {
+    path: "/inventory/stock-adjustment",
+    element: (
       <AuthGuard auth={authRoles.manager}>
-        <InventoryList />
+        <StockAdjustment />
       </AuthGuard>
+    ),
   },
-  { 
-    path: "/inventory/stock-adjustment/list",
-    element: 
+  {
+    path: "/inventory/reservation",
+    element: (
       <AuthGuard auth={authRoles.manager}>
-        <StockAdjustmentList />
+        <Reservation />
       </AuthGuard>
+    ),
   },
-  
+  {
+    path: "/inventory/grn",
+    element: (
+      <AuthGuard auth={authRoles.manager}>
+        <GRN />
+      </AuthGuard>
+    ),
+  },
 ];
 
-export default InventoryRoutes;
+export default inventoryRoutes;

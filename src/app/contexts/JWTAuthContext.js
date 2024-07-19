@@ -39,7 +39,7 @@ const AuthContext = createContext({
   method: "JWT",
   login: () => {},
   logout: () => {},
-  register: () => {}
+  register: () => {},
 });
 
 export const AuthProvider = ({ children }) => {
@@ -55,30 +55,33 @@ export const AuthProvider = ({ children }) => {
   // };
 
   const login = async (email, password) => {
-    console.log(password)
+    console.log(password);
     const response = await axios.post("/api/auth/login", { email, password });
     const { user, token, role } = response.data;
 
     // const token = ''
     // const role = 'ADMIN'
 
-    localStorage.setItem('token', token)
+    localStorage.setItem("token", token);
 
     dispatch({ type: "LOGIN", payload: { user, token, role } });
   };
 
-
   const register = async (email, username, password) => {
-    const response = await axios.post("/api/auth/register", { email, username, password });
+    const response = await axios.post("/api/auth/register", {
+      email,
+      username,
+      password,
+    });
     const { user, token } = response.data;
 
-    localStorage.setItem('token', token);
+    localStorage.setItem("token", token);
 
     dispatch({ type: "REGISTER", payload: { user } });
   };
 
   const logout = () => {
-    localStorage.removeItem('token');
+    localStorage.removeItem("token");
     dispatch({ type: "LOGOUT" });
   };
 
@@ -86,10 +89,16 @@ export const AuthProvider = ({ children }) => {
     (async () => {
       try {
         const { data } = await axios.get("/api/auth/profile");
-        dispatch({ type: "INIT", payload: { isAuthenticated: true, user: data.user, role: 'ADMIN' } });
+        dispatch({
+          type: "INIT",
+          payload: { isAuthenticated: true, user: data.user, role: "ADMIN" },
+        });
       } catch (err) {
         console.error(err);
-        dispatch({ type: "INIT", payload: { isAuthenticated: false, user: null, role: 'GUEST' } });
+        dispatch({
+          type: "INIT",
+          payload: { isAuthenticated: false, user: null, role: "GUEST" },
+        });
       }
     })();
     // (async () => {
@@ -116,7 +125,9 @@ export const AuthProvider = ({ children }) => {
   if (!state.isInitialized) return <MatxLoading />;
 
   return (
-    <AuthContext.Provider value={{ ...state, method: "JWT", login, logout, register }}>
+    <AuthContext.Provider
+      value={{ ...state, method: "JWT", login, logout, register }}
+    >
       {children}
     </AuthContext.Provider>
   );

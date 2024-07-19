@@ -1,6 +1,20 @@
 import { useState } from "react";
 
-import { Stack, Box, styled, Tabs, Tab, Typography, Select, Button, Grid, IconButton, Icon, MenuItem, Tooltip } from "@mui/material";
+import {
+  Stack,
+  Box,
+  styled,
+  Tabs,
+  Tab,
+  Typography,
+  Select,
+  Button,
+  Grid,
+  IconButton,
+  Icon,
+  MenuItem,
+  Tooltip
+} from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 
 import { SearchBarDefault, Breadcrumb, SimpleCard, MuiTable} from "app/components";
@@ -19,12 +33,11 @@ const Container = styled("div")(({ theme }) => ({
   [theme.breakpoints.down("sm")]: { margin: "16px" },
   "& .breadcrumb": {
     marginBottom: "30px",
-    [theme.breakpoints.down("sm")]: { marginBottom: "16px" }
-  }
+    [theme.breakpoints.down("sm")]: { marginBottom: "16px" },
+  },
 }));
 
 function ProductList() {
-
     const [selectedAction, setSelectedAction] = useState('barcode')
 
     const [searchText, setSearchText] = useState(undefined)
@@ -135,13 +148,18 @@ function ProductList() {
 
     }
 
-    return (
-        <Container>
-          <Box className="breadcrumb">
-              <Breadcrumb routeSegments={[{ name: "Product", path: "/Product/list" }, { name: "List" }]} />
-          </Box>
+  return (
+    <Container>
+      <Box className="breadcrumb">
+        <Breadcrumb
+          routeSegments={[
+            { name: "Product", path: "/Product/list" },
+            { name: "List" },
+          ]}
+        />
+      </Box>
 
-          <Stack sx={{display: 'flex', justifyContent: 'center', alignItems: 'flex-start', width: '100%'}} spacing={5}>
+      <Stack sx={{display: 'flex', justifyContent: 'center', alignItems: 'flex-start', width: '100%'}} spacing={5}>
               <Box gap={'0.5em'} display={'flex'} flexWrap={'wrap'} sx={{width: '100%'}}>
                 <Tooltip title={'Add new product'}><Button startIcon={<AddIcon />} variant="contained" color="primary">Product</Button></Tooltip>
                 <Tooltip title={'Add new bulk products'}><Button startIcon={<BulkAddIcon />} variant="contained" color="primary">Bulk products</Button></Tooltip>
