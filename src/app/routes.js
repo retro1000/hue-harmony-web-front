@@ -10,6 +10,13 @@ import MatxLayout from "./components/MatxLayout/MatxLayout";
 import sessionRoutes from "./views/sessions/session-routes";
 import productRoutes from "./views/product/product-routes";
 import homeRoutes from "app/views/home/home-routes";
+import grnRoutes from "./views/grn/grn-routes";
+import userRoutes from "./views/user/user-routes";
+import supplierRoutes from "./views/supplier/supplier-routes";
+import customerRoutes from "./views/customer/customer-routes";
+import InventoryRoutes from "./views/inventory/inventory-routes";
+import PaymentRoutes from "./views/payment/payment-routes";
+import PurchaseOrderRoutes from "./views/purchase_order/purchase-order-routes";
 
 // E-CHART PAGE
 const AppEchart = Loadable(lazy(() => import("app/views/charts/echarts/AppEchart")));
@@ -25,6 +32,13 @@ const routes = [
     ),
     children: [
       ...productRoutes,
+      ...grnRoutes,
+      ...userRoutes,
+      ...supplierRoutes,
+      ...customerRoutes,
+      ...InventoryRoutes,
+      ...PurchaseOrderRoutes,
+      ...PaymentRoutes,
       // ...homeRoutes,
       // dashboard route
       {

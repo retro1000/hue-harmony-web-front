@@ -143,7 +143,7 @@ export default function MatxVerticalNavExpansionPanel({ item, children, mode }) 
       <div
         ref={elementRef}
         className="expansion-panel submenu"
-        style={collapsed ? { maxHeight: "0px" } : { maxHeight: componentHeight.current + "px" }}>
+        style={collapsed ? { maxHeight: "0px", paddingLeft: '1.3em' } : { maxHeight: componentHeight.current + "px", paddingLeft: '1.3em' }}>
         {children}
       </div>
     </NavExpandRoot>

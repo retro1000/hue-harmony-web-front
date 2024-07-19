@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import { Stack, Box, styled, Tabs, Tab, Typography, Select, Button, Grid, IconButton, Icon, MenuItem } from "@mui/material";
+import { Stack, Box, styled, Tabs, Tab, Typography, Select, Button, Grid, IconButton, Icon, MenuItem, Tooltip } from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 
 import { SearchBarDefault, Breadcrumb, SimpleCard, MuiTable} from "app/components";
@@ -11,7 +11,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ViewIcon from '@mui/icons-material/RemoveRedEye'
 import AddIcon from '@mui/icons-material/AddBox'
-import { Tooltip } from "@mui/material";
+
 
 // STYLED COMPONENTS
 const Container = styled("div")(({ theme }) => ({
@@ -23,9 +23,9 @@ const Container = styled("div")(({ theme }) => ({
   }
 }));
 
-function UserList() {
+function PaymentList() {
 
-    const [selectedAction, setSelectedAction] = useState('id')
+    const [selectedAction, setSelectedAction] = useState('barcode')
 
     const [searchText, setSearchText] = useState(undefined)
 
@@ -56,24 +56,24 @@ function UserList() {
 
     const [columns, setColumns] = useState([
       {
-        name:'User Id',
-        label: 'User Id',
+        name:'Barcode',
+        label: 'Barcode',
       },
       {
-        name:'First Name',
-        label: 'First Name',
+        name:'Supplier Name',
+        label: 'Supplier Name',
       },
       {
-        name:'Last Name',
-        label: 'Last Name',
+        name:'Grand Total',
+        label: 'Grand Total (LKR)',
       },
       {
-        name:'Username',
-        label: 'Username',
+        name:'Created On',
+        label: 'Created On',
       },
       {
-        name:'Role',
-        label: 'Role',
+        name:'Created By',
+        label: 'Created By',
       },
       {
         name:'Status',
@@ -85,17 +85,6 @@ function UserList() {
         options: {
             buttonsConfig: [
               {
-                title: 'Enable user',
-                type: 'text',
-                label: 'Enable',
-                color: 'primary',
-                size: 'small',
-                onClick: (index) => {
-                  console.log('Delete icon button clicked for row', index);
-                },
-              },
-              {
-                title: 'View user',
                 type: 'icon',
                 icon: ViewIcon,
                 color: 'primary',
@@ -104,26 +93,6 @@ function UserList() {
                   console.log('Edit button clicked for row', index);
                 },
               },
-              {
-                title: 'Edit user',
-                type: 'icon',
-                icon: EditIcon,
-                color: 'primary',
-                size: 'small',
-                onClick: (index) => {
-                  console.log('Edit icon button clicked for row', index);
-                },
-              },
-              {
-                title: 'Remove user',
-                type: 'icon',
-                icon: DeleteIcon,
-                color: 'red',
-                size: 'small',
-                onClick: (index) => {
-                  console.log('Delete icon button clicked for row', index);
-                },
-              }
             ]
         },
       },
@@ -136,32 +105,31 @@ function UserList() {
     return (
         <Container>
           <Box className="breadcrumb">
-              <Breadcrumb routeSegments={[{ name: "User"}, { name: "List" }]} />
+              <Breadcrumb routeSegments={[{ name: "Payment"}, { name: "Summary" }]} />
           </Box>
 
           <Stack sx={{display: 'flex', justifyContent: 'center', alignItems: 'flex-start', width: '100%'}} spacing={5}>
               <Box gap={'0.5em'} display={'flex'} flexWrap={'wrap'} sx={{width: '100%'}}>
-                <Tooltip title='Add new user'><Button startIcon={<AddIcon />} variant="contained" color="primary">User</Button></Tooltip>
+                <Tooltip title={'Add new payment'}><Button startIcon={<AddIcon />} variant="contained" color="primary">Payment</Button></Tooltip>
               </Box>
-              <SimpleCard sx={{width: '100%', top: '-3em'}} title={'Search Users'}>
+              <SimpleCard sx={{width: '100%', top: '-3em'}} title={'Search payments'}>
                 <Box display={'flex'} flexWrap={'wrap'} gap={'0.4em'} sx={{width: '100%'}}>
                   <Select sx={{width: '20%'}} value={selectedAction} size="small" onChange={(event)=>setSelectedAction(event.target.value)}>
-                    <MenuItem value={'id'}>Search by user id</MenuItem>
-                    <MenuItem value={'f_name'}>Search by first name</MenuItem>
-                    <MenuItem value={'l_name'}>Search by last name</MenuItem>
-                    <MenuItem value={'username'}>Search by username</MenuItem>
+                    <MenuItem value={'barcode'}>Search by barcode</MenuItem>
+                    <MenuItem value={'grn'}>Search by GRN code</MenuItem>
+                    <MenuItem value={'name'}>Search by supplier name</MenuItem>
                     <MenuItem value={'all'}>Search by all</MenuItem>
                   </Select>
-                  <SearchBarDefault sx={{width: '80%'}} value={searchText} setValue={setSearchText} placeholder={'Search users...'} search={search}></SearchBarDefault>
+                  <SearchBarDefault sx={{width: '80%'}} value={searchText} setValue={setSearchText} placeholder={'Search payments...'} search={search}></SearchBarDefault>
                 </Box>
                 {searchResult && searchResult.length>0 && <MuiTable search={false} print={false} download={false} columns={columns} dataTableData={searchResult} selectableRows={'none'} filterType={'text'}/>}
               </SimpleCard>
               <SimpleCard sx={{width: '100%'}}>
-                <MuiTable print={true} download={true} title={'Users'} columns={columns} dataTableData={datatableData} selectableRows={'none'} filterType={'text'}/>
+                <MuiTable print={true} download={true} title={'Payments'} columns={columns} dataTableData={datatableData} selectableRows={'none'} filterType={'text'}/>
               </SimpleCard>
           </Stack>
         </Container>
     );
 }
 
-export default UserList;
+export default PaymentList;

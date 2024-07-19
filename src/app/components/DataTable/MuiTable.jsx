@@ -1,10 +1,12 @@
 import React from 'react'
 import { useState, useEffect } from 'react';
 
-import { Chip, Grid, Button, IconButton } from '@mui/material'
+import { Tooltip, Chip, Grid, Button, IconButton } from '@mui/material'
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { TButton, TIconButton } from '..';
 
 import MUIDataTable from 'mui-datatables'
+// import { makeStyles } from '@mui/styles';
 
 // const CustomMuiTable = styled(MUIDataTable)({
 //   '& .MuiGrid-root.MuiGrid-item.MuiGrid-grid-xs-12.css-1idn90j-MuiGrid-root': {
@@ -14,6 +16,24 @@ import MUIDataTable from 'mui-datatables'
 //       boxShadow: 'none'
 //   }
 // });
+
+// const useStyles = makeStyles((theme) => ({
+//   oddRow: {
+//       backgroundColor: '#f0f0f0',
+//       '&:hover': {
+//           backgroundColor: theme.palette.action.hover,
+//       },
+//   },
+//   evenRow: {
+//       backgroundColor: '#ffffff',
+//       '&:hover': {
+//           backgroundColor: theme.palette.action.hover,
+//       },
+//   },
+//   tableCell: {
+//       padding: '16px', // Adjust this value to make rows taller
+//   },
+// }));
 
 const theme = () => createTheme({
   components: {
@@ -43,31 +63,32 @@ const theme = () => createTheme({
 
 const renderButtons = (buttonsConfig, rowIndex) => {
   return buttonsConfig.map((buttonConfig, index) => {
-    const { type, label, color, size, icon: Icon, onClick } = buttonConfig;
+    const { title, type, label, color, size, icon, onClick } = buttonConfig;
     
     if (type === 'icon') {
       return (
-        <IconButton
+        <TIconButton
           key={index}
+          title={title}
           color={color}
           size={size}
-          onClick={() => onClick(rowIndex)}
-        >
-          <Icon />
-        </IconButton>
+          fun={() => onClick(rowIndex)}
+          icon={icon}
+        ></TIconButton>
       );
     } else {
       return (
-        <Button
+        <TButton
+          title={title}
+          sx={{textTransform: 'none'}}
           key={index}
-          variant="contained"
+          variant="outlined"
           color={color}
           size={size}
           onClick={() => onClick(rowIndex)}
           style={{ marginLeft: 8 }}
-        >
-          {label}
-        </Button>
+          label={label}
+        ></TButton>
       );
     }
   });
@@ -98,20 +119,55 @@ const renderStatusChip = (status) => {
   return <Chip label={status} sx={{background: color, color: 'white', height: '2em', border: 'none'}} variant="outlined" />;
 };
 
+const renderUserRoleChip = (role) => {
+  let color;
+  switch (role) {
+    case 'User':
+      color = '#4caf50';
+      break;
+    case 'Cashier':
+    case 'Back Office Staff':
+      color = '#ffbc00';
+      break;
+    case 'Inventory Manager':
+    case 'Sales Manager':
+      color = 'blue';
+      break;
+    case 'Admin':
+      color = 'red';
+      break;
+    default:
+      color = 'gray';
+  }
+  return <Chip label={role} sx={{background: color, color: 'white', height: '2em', border: 'none'}} variant="outlined" />;
+};
+
 export default function MuiTable({ search, download, print, dataTableData, columns, filterType, selectableRows, title }){
+
+  // const classes = useStyles();
 
   const [updatedCols, setUpdatedCols] = useState([])
 
   useEffect(() => {
-    const newCols = columns.filter(val=>val.name!=='Actions'&&val.name!=='Status')
+    const newCols = columns.filter(val=>val.name!=='Actions'&&val.name!=='Status'&&val.name!=='Role')
     const option = columns.find(val=>val.name==='Actions')
     const statusOption = columns.find(val=>val.name==='Status')
+    const roleOption = columns.find(val=>val.name==='Role')
     if(statusOption){
       newCols.push({
         name: 'Status',
         label: 'Status',
         options: {
           customBodyRender: (value) => renderStatusChip(value)
+        }
+      })
+    }
+    if(roleOption){
+      newCols.push({
+        name: 'Role',
+        label: 'Role',
+        options: {
+          customBodyRender: (value) => renderUserRoleChip(value)
         }
       })
     }
@@ -140,6 +196,21 @@ export default function MuiTable({ search, download, print, dataTableData, colum
                     columns={updatedCols}
                     options={{
                       selectableRows: selectableRows,
+                      // customRowRender: (data, dataIndex, rowIndex) => {
+                      //   const rowColor = rowIndex % 2 === 0 ? '#f0f0f0' : '#ffffff'; // Alternating colors
+                      //   return (
+                      //     <tr style={{ backgroundColor: rowColor }}>
+                      //       {data.map((value, columnIndex) => (
+                      //         <td key={columnIndex}>{value}</td>
+                      //       ))}
+                      //     </tr>
+                      //   );
+                      // },
+                      // setRowProps: (row, dataIndex, rowIndex) => {
+                      //   return {
+                      //       className: rowIndex % 2 === 0 ? 'evenRow' : 'oddRow',
+                      //   };
+                      // },
                       sort: true,
                       print: print,
                       download: download,
@@ -147,6 +218,9 @@ export default function MuiTable({ search, download, print, dataTableData, colum
                       filterType: filterType,
                       responsive: 'simple'
                     }}
+                    // classes={{
+                    //   row: classes.tableRow,
+                    // }}
                     // className='custom_styles_footer custom_styles_shadow'
                 />
           </ThemeProvider>

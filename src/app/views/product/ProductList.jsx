@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import { Stack, Box, styled, Tabs, Tab, Typography, Select, Button, Grid, IconButton, Icon, MenuItem } from "@mui/material";
+import { Stack, Box, styled, Tabs, Tab, Typography, Select, Button, Grid, IconButton, Icon, MenuItem, Tooltip } from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 
 import { SearchBarDefault, Breadcrumb, SimpleCard, MuiTable} from "app/components";
@@ -10,8 +10,8 @@ import { useNotistack } from 'app/hooks/useNotistack';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ViewIcon from '@mui/icons-material/RemoveRedEye'
-import { Search, WidthFull } from "@mui/icons-material";
-import { fullWidth } from "app/utils/constant";
+import AddIcon from '@mui/icons-material/AddBox'
+import BulkAddIcon from '@mui/icons-material/Queue'
 
 // STYLED COMPONENTS
 const Container = styled("div")(({ theme }) => ({
@@ -97,6 +97,7 @@ function ProductList() {
         options: {
             buttonsConfig: [
               {
+                title: 'View item',
                 type: 'icon',
                 icon: ViewIcon,
                 color: 'primary',
@@ -106,6 +107,7 @@ function ProductList() {
                 },
               },
               {
+                title: 'Edit item',
                 type: 'icon',
                 icon: EditIcon,
                 color: 'primary',
@@ -115,9 +117,10 @@ function ProductList() {
                 },
               },
               {
+                title: 'Remove item',
                 type: 'icon',
                 icon: DeleteIcon,
-                color: 'red',
+                color: 'error',
                 size: 'small',
                 onClick: (index) => {
                   console.log('Delete icon button clicked for row', index);
@@ -140,8 +143,8 @@ function ProductList() {
 
           <Stack sx={{display: 'flex', justifyContent: 'center', alignItems: 'flex-start', width: '100%'}} spacing={5}>
               <Box gap={'0.5em'} display={'flex'} flexWrap={'wrap'} sx={{width: '100%'}}>
-                <Button variant="contained" color="primary">Create product</Button>
-                <Button variant="contained" color="primary">Create bulk products</Button>
+                <Tooltip title={'Add new product'}><Button startIcon={<AddIcon />} variant="contained" color="primary">Product</Button></Tooltip>
+                <Tooltip title={'Add new bulk products'}><Button startIcon={<BulkAddIcon />} variant="contained" color="primary">Bulk products</Button></Tooltip>
               </Box>
               <SimpleCard sx={{width: '100%', top: '-3em'}} title={'Search Products'}>
                 <Box display={'flex'} flexWrap={'wrap'} gap={'0.4em'} sx={{width: '100%'}}>
@@ -161,7 +164,7 @@ function ProductList() {
                 </Box>
                 {searchResult && searchResult.length>0 && <MuiTable search={false} print={false} download={false} columns={columns} dataTableData={searchResult} selectableRows={'none'} filterType={'text'}/>}
               </SimpleCard>
-              <SimpleCard>
+              <SimpleCard sx={{width: '100%'}}>
                 <MuiTable print={true} download={true} title={'Products'} columns={columns} dataTableData={datatableData} selectableRows={'none'} filterType={'text'}/>
               </SimpleCard>
           </Stack>
