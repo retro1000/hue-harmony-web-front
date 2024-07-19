@@ -34,7 +34,11 @@ export const navigations = [
     icon: "inventory",
     children: [
       { name: "Summary", iconText: "E", path: "/inventory/list" },
-      { name: "Stock Adjustments", iconText: "E", path: "/inventory/stock-adjustment/list" },
+      { name: "Reservation", iconText: "E", path: "/inventory/reservation" },
+      { name: "Stock Adjustments", iconText: "E", children: [
+        { name: "Summary", iconText: "E", path: "/inventory/stock-adjustment/list" },
+        { name: "Approve", iconText: "E", path: "/inventory/stock-adjustment" },
+      ]},
     ] 
   },
   { 
