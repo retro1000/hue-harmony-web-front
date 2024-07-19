@@ -58,7 +58,7 @@ export const AuthProvider = ({ children }) => {
     console.log(password);
     const response = await axios.post("/api/auth/login", { email, password });
     const { user, token, role } = response.data;
-    
+
     // const token = ''
     // const role = 'ADMIN'
 

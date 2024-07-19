@@ -7,6 +7,11 @@ const UpserProduct = Loadable(lazy(() => import("./UpserProduct")));
 const ProductList = Loadable(lazy(() => import("./ProductList")));
 const ProductView = Loadable(lazy(() => import("./ProductView")));
 
+
+const Re = Loadable(lazy(() => import('./re.jsx')))
+const FilterProduct = Loadable(lazy(() => import('./FilterProduct.jsx')))
+
+
 const productRoutes = [
   {
     path: "/product/list",
@@ -28,10 +33,21 @@ const productRoutes = [
     path: "/product/view/:id",
     element: (
       // <AuthGuard auth={authRoles.manager}>
-      <ProductView />
+        <ProductView />
+      // </AuthGuard>
     ),
-    // </AuthGuard>
   },
+
+
+  
+  {
+    path: "/product/re",
+    element: <Re />
+  },
+  {
+    path: "/product/filter-product",
+    element: <FilterProduct />
+  }
 ];
 
 export default productRoutes;
