@@ -17,11 +17,15 @@ import customerRoutes from "./views/customer/customer-routes";
 import InventoryRoutes from "./views/inventory/inventory-routes";
 import PaymentRoutes from "./views/payment/payment-routes";
 import PurchaseOrderRoutes from "./views/purchase_order/purchase-order-routes";
+import posRoutes from "./views/pos/pos-routes"
 
 // E-CHART PAGE
 const AppEchart = Loadable(
   lazy(() => import("app/views/charts/echarts/AppEchart"))
 );
+// Import lazy from React
+const SpecialPage = Loadable(lazy(() => import("app/views/pos/Pos-home")));
+
 // DASHBOARD PAGE
 const Analytics = Loadable(lazy(() => import("app/views/dashboard/Analytics")));
 
@@ -62,6 +66,10 @@ const routes = [
 
   // session pages route
   ...sessionRoutes,
+  {
+    path: "/special",
+    element: <SpecialPage />,
+  },
 ];
 
 export default routes;
