@@ -22,7 +22,7 @@ const CustomSearchBar = styled(SearchBar)(({ theme }) => ({
 function SearchBarDefault({ sx, value, setValue, search, placeholder }){
     return (
     <CustomSearchBar
-        sx={{width: '90%'}}
+        sx={sx}
         value={value}
         onChange={newValue => setValue(newValue)}
         onSearch={search}

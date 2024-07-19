@@ -30,3 +30,7 @@ export { default as ReviewStatsCard } from "./Review/ReviewStatsCard";
 export { default as QuantitySelector } from "./QuantitySelector";
 export { default as HomeBaner } from "./baner/HomeBaner";
 export { default as SearchBarDefault } from "./SearchBar/SearchBarDefault";
+export { default as TButton } from "./Button/TButton";
+export { default as TIconButton } from "./Button/TIconButton";
+export { default as NumSliderFilter } from "./SliderFilter/NumSliderFilter";
+
