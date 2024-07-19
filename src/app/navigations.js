@@ -24,6 +24,7 @@ export const navigations = [
     ],
   },
 
+
   { label: "PAGES", type: "label" },
   {
     name: "Session/Auth",

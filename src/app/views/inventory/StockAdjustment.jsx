@@ -98,6 +98,7 @@ function StockAdjustment() {
           />
         </Box>
 
+
         <Stack
           textAlign="center"
           position="relative"

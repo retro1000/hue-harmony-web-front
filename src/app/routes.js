@@ -11,11 +11,15 @@ import sessionRoutes from "./views/sessions/session-routes";
 import productRoutes from "./views/product/product-routes";
 import homeRoutes from "app/views/home/home-routes";
 import inventoryRoutes from "./views/inventory/inventory-routes";
+import posRoutes from "./views/pos/pos-routes"
 
 // E-CHART PAGE
 const AppEchart = Loadable(
   lazy(() => import("app/views/charts/echarts/AppEchart"))
 );
+// Import lazy from React
+const SpecialPage = Loadable(lazy(() => import("app/views/pos/Pos-home")));
+
 // DASHBOARD PAGE
 const Analytics = Loadable(lazy(() => import("app/views/dashboard/Analytics")));
 
@@ -29,6 +33,7 @@ const routes = [
     children: [
       ...productRoutes,
       ...inventoryRoutes,
+
       // ...homeRoutes,
       // dashboard route
       {
@@ -50,6 +55,10 @@ const routes = [
 
   // session pages route
   ...sessionRoutes,
+  {
+    path: "/special",
+    element: <SpecialPage />,
+  },
 ];
 
 export default routes;
