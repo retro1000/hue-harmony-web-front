@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from 'react-router-dom';
 
 import { Stack, Box, styled, Tabs, Tab, Typography, Select, Button, Grid, IconButton, Icon, MenuItem } from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
@@ -25,6 +26,8 @@ const Container = styled("div")(({ theme }) => ({
 
 function CustomerList() {
 
+    const navigate = useNavigate();
+
     const [selectedAction, setSelectedAction] = useState('barcode')
 
     const [searchText, setSearchText] = useState(undefined)
@@ -35,7 +38,7 @@ function CustomerList() {
     ])
 
     const [datatableData, setDataTableData] = useState([
-      ['D#45er', 'Dulux', '11000.00', '13 Jun 2024', 'User1',  'Available'],
+      ['1', 'D#45er', 'Dulux', '11000.00', '13 Jun 2024', 'User1',  'Available'],
       ['D#45er', 'Wall paint', 'Dulux', 'Paint', 'Red', '4 Ltr', '11000.00', '13', 'Inactive'],
       ['D#45er', 'Wall paint', 'Dulux', 'Paint', 'Red', '4 Ltr', '11000.00', '13', 'Pending'],
       ['D#45er', 'Wall paint', 'Dulux', 'Paint', 'Red', '4 Ltr', '11000.00', '13', 'Blocked'],
@@ -55,6 +58,13 @@ function CustomerList() {
     ]);
 
     const [columns, setColumns] = useState([
+      {
+        name: 'id',
+        label: 'ID',
+        options: {
+          display: false,
+        },
+      },
       {
         name:'Barcode',
         label: 'Barcode',
@@ -90,7 +100,7 @@ function CustomerList() {
                 color: 'primary',
                 size: 'small',
                 onClick: (index) => {
-                  console.log('Edit button clicked for row', index);
+                  navigate(`/customer/view/${datatableData[index][0]}`)
                 },
               },
             ]

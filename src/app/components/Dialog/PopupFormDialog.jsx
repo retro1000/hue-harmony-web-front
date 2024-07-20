@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import { Stack, Box, Radio, FormControlLabel, RadioGroup, Grid, FormLabel, FormControl } from '@mui/material';
+import { Stack, Box, Radio, FormControlLabel, RadioGroup, Grid, FormLabel, FormControl, Icon, Typography } from '@mui/material';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
-// import TextField from '@mui/material/TextField';
+import TextField from '@mui/material/TextField';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
@@ -10,14 +10,20 @@ import DialogContentText from '@mui/material/DialogContentText';
 
 import { FileUpload, NumberFormatField } from '..';
 
-export default function FormDialog({open, title, setOpen, message, fields, setVariations}) {
+import PhoneInput from 'react-phone-input-2'
+import 'react-phone-input-2/lib/style.css'
+
+
+export default function FormDialog({open, titleIcon: TitleIcon, title, setOpen, message, fields, setVariations, submitButton, reasonCloseOn=false}) {
 
     const [values, setValues] = useState({});
 
 
-  const handleClose = () => {
-    setOpen(false);
-    setValues({})
+  const handleClose = (event, reason) => {
+    if (!reasonCloseOn || (reason !== "backdropClick" && reason !== "escapeKeyDown")) {
+      setOpen(false);
+      setValues({})
+    }
   }
 
   const handleSubmit = () => {
@@ -26,21 +32,30 @@ export default function FormDialog({open, title, setOpen, message, fields, setVa
     setValues({})
   }
 
-  const textFields = [].concat(fields.filter(field=>(['number', 'text', 'email'].includes(field.type))))
-  const radios = [].concat(fields.filter(field=>(field.type==='radio')))
-  const files = [].concat(fields.filter(field=>(field.type==='file')))
+  // const textFields = [].concat(fields.filter(field=>(['number', 'text', 'email'].includes(field.type))))
+  // const radios = [].concat(fields.filter(field=>(field.type==='radio')))
+  // const files = [].concat(fields.filter(field=>(field.type==='file')))
   let index = 0;
 
   return (
     <Box>
       <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
-        <DialogTitle id="form-dialog-title">{title}</DialogTitle>
+        <DialogTitle id="form-dialog-title" sx={{borderBottom: '1px solid gray'}}>
+          {
+            TitleIcon ?
+            <Grid marginLeft={'-18px'} display={'flex'} gap={'0.5em'} justifyContent={'flex-start'} alignItems={'center'}>
+              {TitleIcon}
+              <Typography variant='h6' sx={{color: 'gray'}}>{title}</Typography>
+            </Grid> :
+            <Typography marginLeft={'-18px'} variant='h6' sx={{color: 'gray'}}>{title}</Typography>
+          }
+        </DialogTitle>
 
         <DialogContent>
           <DialogContentText sx={{marginBottom: '1.2em'}}>
             {message ? message : ''}
           </DialogContentText>
-          <Stack sx={{display: 'flex', alignItems: 'flex-start'}}>
+          {/* <Stack sx={{display: 'flex', alignItems: 'flex-start'}}>
           {
             (
                 (Array.isArray(fields) && fields.length>0) ? (
@@ -96,16 +111,16 @@ export default function FormDialog({open, title, setOpen, message, fields, setVa
                     )  : ('')
             )
           }
-          </Stack>
+          </Stack> */}
         </DialogContent>
 
         <DialogActions>
           <Button variant="outlined" color="primary" onClick={handleClose}>
-            Cancel
+            Close
           </Button>
 
           <Button variant="contained" onClick={handleSubmit} color="primary">
-            Submit
+            {submitButton}
           </Button>
         </DialogActions>
       </Dialog>
