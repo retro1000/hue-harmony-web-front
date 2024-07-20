@@ -8,7 +8,7 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 
-import { FileUpload, NumberFormatField } from '..';
+import { SearchableSelectMultiple, FileUpload, NumberFormatField } from '..';
 
 import PhoneInput from 'react-phone-input-2'
 import 'react-phone-input-2/lib/style.css'
@@ -39,6 +39,7 @@ const createFormFields = (fields) => {
             label={`${field.label}${field.required?'*':''}`}
             placeholder={field.placeholder}
             type={field.type}
+            sx={field.sx || {maxWidth: '350px', minWidth: '200px', width: '30%'}}
             // error={productErrors.productSubTitle !== undefined}
             // helperText={productErrors.productSubTitle}
           ></TextField>
@@ -62,6 +63,7 @@ const createFormFields = (fields) => {
             decimalScale={field.decimalScale}
             fixedDecimalScale={field.fixedDecimalScale}
             value={field.value}
+            sx={field.sx || {maxWidth: '200px', minWidth: '150px', width: '20%'}}
             // error={props.variationErrors[item.identifier]?.unitCost!==undefined}
             // helperText={props.variationErrors[item.identifier]?.unitCost}
             onChange={(event) => field.setValue(event.target.value)}
@@ -69,17 +71,22 @@ const createFormFields = (fields) => {
         )
       case 'tel':
         return (
-          <PhoneInput
-            country={'lk'}
-            value={field.value}
-            onChange={(value) => field.setValue(value)}
-            inputComponent={TextField}
-            inputProps={{
-              variant: 'outlined',
-              label: `${field.label}${field.required?'*':''}`,
-              fullWidth: false
-            }}
-          />
+          <FormControl sx={field.sx || { maxWidth: '280px', minWidth: '250px', width: '20%' }}>
+            <FormLabel sx={{marginBottom: '0.5em'}}>{`${field.label}${field.required ? '*' : ''}`}</FormLabel>
+            <PhoneInput
+              containerStyle={field.sx || { maxWidth: '280px', minWidth: '250px', width: '20%' }}
+              inputStyle={field.sx || { maxWidth: '280px', minWidth: '250px', width: '20%' }}
+              country={'lk'}
+              value={field.value}
+              onChange={(value) => field.setValue(value)}
+              inputComponent={TextField}
+              inputProps={{
+                variant: 'outlined',
+                // label: `${field.label}${field.required ? '*' : ''}`, // Remove this line as we are using FormLabel
+                // fullWidth: false
+              }}
+      />
+    </FormControl>
         )
       case 'radio':
         return (
@@ -103,7 +110,18 @@ const createFormFields = (fields) => {
         )
       case 'select':
         return (
-          <></>
+          <div style={{width: `${field.break?'100%':'max-content'}`}}>
+            <SearchableSelectMultiple
+              key={`select-${field.id}-${f_index++}`}
+              id={`select-${field.id}-${f_index++}`}
+              label={field.label} 
+              multiple={field.multi} 
+              options={field.options} 
+              setSelectedValues={(val)=>field.setValue(val)} 
+              selectedValues={field.value} 
+              sx={field.sx || {width: '40%', maxWidth: '250px', minWidth: '200px'}} 
+            />
+          </div>
         )
       default:
     }
@@ -111,7 +129,7 @@ const createFormFields = (fields) => {
 }
 
 
-export default function PopupFormDialog({open, titleIcon: TitleIcon, title, setOpen, message, fields, setVariations, submitButton, reasonCloseOn=false, setValues}) {
+export default function PopupFormDialog({popupSx='md', open, titleIcon: TitleIcon, title, setOpen, message, fields, setVariations, submitButton, reasonCloseOn=false, setValues}) {
 
   const [expand, setExpand] = useState(false);
 
@@ -138,8 +156,8 @@ export default function PopupFormDialog({open, titleIcon: TitleIcon, title, setO
 
   return (
     <Box>
-      <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
-        <DialogTitle id="form-dialog-title" sx={{borderBottom: '1px solid gray'}}>
+      <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title" maxWidth={popupSx} fullWidth={true}>
+        <DialogTitle id="form-dialog-title" sx={{borderBottom: '1px solid silver'}}>
           {
             TitleIcon ?
             <Grid marginLeft={'-18px'} display={'flex'} gap={'0.5em'} justifyContent={'flex-start'} alignItems={'center'}>
@@ -150,25 +168,27 @@ export default function PopupFormDialog({open, titleIcon: TitleIcon, title, setO
           }
         </DialogTitle>
 
-        <DialogContent>
+        <DialogContent fullWidth={true}>
           <DialogContentText sx={{marginBottom: '1.2em'}}>
             {message ? message : ''}
           </DialogContentText>
-          <Stack sx={{display: 'flex', alignItems: 'flex-start'}} spacing={2}>
+          <br></br>
+          <Box sx={{display: 'flex', alignItems: 'flex-start', width: '100%', flexWrap: 'wrap'}} spacing={3} gap={3}>
             {
               (fields && fields.require && fields.require.length>0) ?
                 <>{createFormFields(fields.require)}</> : ''
             }
             {
               (fields && fields.optional && fields.optional.length>0) ?
-                <AccordionRoot sx={{padding: 'none'}}>
+                <AccordionRoot>
                   <Accordion sx={{padding: 'none', boxShadow: 'none'}}>
-                    <AccordionSummary sx={{padding: 'none'}} expandIcon={expand?<MinusIcon />:<AddIcon />} onClick={handleAccordionClick}>Additional Information</AccordionSummary>
-                    <AccordionDetails sx={{padding: 'none'}}>{createFormFields(fields.optional)}</AccordionDetails>
+                    <AccordionSummary style={{padding: '0', borderBottom: '0.1em solid #00ff82', minHeight: '0', height: '25px', color:'#00ff82', fontSize: '1.1em'}} expandIcon={!expand?<MinusIcon sx={{color:'#00ff82'}} />:<AddIcon sx={{color: '#00ff82'}} />} onClick={handleAccordionClick}>Additional Information</AccordionSummary>
+                    <br></br>
+                    <AccordionDetails sx={{padding: '0'}}>{createFormFields(fields.optional)}</AccordionDetails>
                   </Accordion>
                 </AccordionRoot> : ''
             }
-          </Stack>
+          </Box>
         </DialogContent>
 
         <DialogActions>
