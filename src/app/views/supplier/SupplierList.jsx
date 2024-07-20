@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Stack, Box, styled, Tabs, Tab, Typography, Select, Button, Grid, IconButton, Icon, MenuItem, Tooltip } from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 
-import { SearchBarDefault, Breadcrumb, SimpleCard, MuiTable} from "app/components";
+import { PopupFormDialog, SearchBarDefault, Breadcrumb, SimpleCard, MuiTable, TButton} from "app/components";
 
 import { useNotistack } from 'app/hooks/useNotistack';
 
@@ -11,6 +11,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ViewIcon from '@mui/icons-material/RemoveRedEye'
 import AddIcon from '@mui/icons-material/AddBox'
+import AddSupplierIcon from '@mui/icons-material/Storefront'
 
 
 // STYLED COMPONENTS
@@ -23,11 +24,26 @@ const Container = styled("div")(({ theme }) => ({
   }
 }));
 
+const addSupplierFields = {
+  require: [
+    {key: 'sup_name_text', required: true, id: 'sup_name_text', name: 'supplierName', label: 'Supplier Name', type: 'text', placeholder: 'Enter supplier name', value: '', sx:{width:'200px'}},
+    {key: 'address_text', required: true, id: 'sup_name_text', name: 'supplierName', label: 'Supplier Name', type: 'text', placeholder: 'Enter supplier name', value: '', sx:{width:'200px'}},
+    {key: 'sup_name_text', id: 'sup_name_text', name: 'supplierName', label: 'Supplier Name', type: 'text', placeholder: 'Enter supplier name', value: '', sx:{width:'200px'}},
+    {key: 'mobile_tel', id: 'mobile_tel', name: 'mobilePhone', label: 'Mobile Phone', type: 'tel', placeholder: 'Enter mobile number', value: '', sx:{width:'200px'}},
+    {key: 'land_tel', id: 'land_tel', required: true, name: 'landPhone', label: 'Land Phone', type: 'tel', placeholder: 'Enter landphone number', value: '', sx:{width:'200px'}},
+  ],
+  optional: [
+
+  ]
+}
+
 function SupplierList() {
 
     const [selectedAction, setSelectedAction] = useState('barcode')
 
     const [searchText, setSearchText] = useState(undefined)
+
+    const [addSupplierOn, setAddSupplierOn] = useState(false)
 
     const [searchResult, setSearchResult] = useState([
       ['D#45er', 'Wall paint', 'Dulux', 'Paint', 'Red', '4 Ltr', '11000.00', '13', 'Available'],
@@ -110,7 +126,14 @@ function SupplierList() {
 
           <Stack sx={{display: 'flex', justifyContent: 'center', alignItems: 'flex-start', width: '100%'}} spacing={5}>
               <Box gap={'0.5em'} display={'flex'} flexWrap={'wrap'} sx={{width: '100%'}}>
-                <Tooltip title={'Add new supplier'}><Button startIcon={<AddIcon />} variant="contained" color="primary">Supplier</Button></Tooltip>
+                <TButton
+                   title={'Add new supplier'}
+                   startIcon={<AddIcon />}
+                   variant="contained"
+                   color="primary"
+                   fun={setAddSupplierOn}
+                   label={'Supplier'}
+                ></TButton>
               </Box>
               <SimpleCard sx={{width: '100%', top: '-3em'}} title={'Search Good recieved notes'}>
                 <Box display={'flex'} flexWrap={'wrap'} gap={'0.4em'} sx={{width: '100%'}}>
@@ -128,6 +151,19 @@ function SupplierList() {
                 <MuiTable print={true} download={true} title={'Good recieved notes'} columns={columns} dataTableData={datatableData} selectableRows={'none'} filterType={'text'}/>
               </SimpleCard>
           </Stack>
+
+          <PopupFormDialog
+                  open={addSupplierOn}
+                  title="Add Supplier"
+                  submitButton="Add Supplier"
+                  titleIcon={<AddSupplierIcon />}
+                  fields={addSupplierFields}
+                  setOpen={setAddSupplierOn}
+                  reasonCloseOn={true}
+                  setVariations={(val) => {
+                    console.log(val)
+                  }}
+                />
         </Container>
     );
 }

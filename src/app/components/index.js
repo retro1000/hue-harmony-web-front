@@ -22,6 +22,7 @@ export { default as FileUpload } from "./FileUploads/FileUpload";
 export { default as MultiFileUpload } from "./FileUploads/MultiFileUpload";
 export { default as MuiTable } from "./DataTable/MuiTable";
 export { default as FormDialog } from "./Dialog/FormDialog";
+export { default as PopupFormDialog } from "./Dialog/PopupFormDialog";
 export { default as NumberFormatField } from "./InputField/NumberFormatField";
 export { default as ReactQuillEditior } from "./ReactQuillEditior";
 export { default as SwiperSlider1 } from "./SwiperSlider/SwiperSlider1";
