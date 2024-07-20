@@ -98,7 +98,6 @@ function StockAdjustment() {
           />
         </Box>
 
-
         <Stack
           textAlign="center"
           position="relative"
@@ -296,8 +295,14 @@ function StockAdjustment() {
                   <MuiTable
                     columns={columns}
                     dataTableData={datatableData}
-                    alignItems={"center"}
-                    justifyContent={"center"}
+                    alignItems="center"
+                    justifyContent="center"
+                    search={false}
+                    download={false}
+                    print={false}
+                    filterType={false}
+                    selectableRows={false}
+                    title={false}
                   />
                 </Stack>
               </Paper>
