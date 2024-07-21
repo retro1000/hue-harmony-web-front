@@ -3,17 +3,25 @@ import Loadable from "app/components/Loadable";
 import { authRoles } from "app/auth/authRoles";
 import AuthGuard from "app/auth/AuthGuard";
 
-const StockAdjustment = Loadable(lazy(() => import("./Pos-home")));
+const PosHomePage = Loadable(lazy(() => import("./Pos-home")));
 
-const inventoryRoutes = [
+const PosRoutes = [
     {
-        path: "/pos",
+        path: "/pos-home",
         element: (
-            <AuthGuard auth={authRoles.manager}>
-                <StockAdjustment />
-            </AuthGuard>
+            //<AuthGuard auth={authRoles.manager}>
+                <PosHomePage />
+            //</AuthGuard>
+        ),
+    },
+    {
+        path: "pos/order-list",
+        element: (
+            //<AuthGuard auth={authRoles.manager}>
+                <PosHomePage />
+            //</AuthGuard>
         ),
     },
 ];
 
-export default inventoryRoutes;
+export default PosRoutes;

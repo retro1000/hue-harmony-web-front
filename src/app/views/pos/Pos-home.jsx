@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import AppBar from '@mui/material/AppBar';
+
 import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
+
 import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
+
 import Container from '@mui/material/Container';
 import TextField from '@mui/material/TextField';
 import FormControl from '@mui/material/FormControl';
@@ -27,6 +26,7 @@ import { color } from 'echarts';
 import SaveIcon from '@mui/icons-material/Save';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import PaymentIcon from '@mui/icons-material/Payment';
+import PosNav from 'app/components/Pos/PosNav';
 
 const products = [
     { id: 'P3452', name: 'HP LAPTOP', price: 75000, availability: '170,000.667 Nos', imageUrl: '/assets/images/sample.jpeg' },
@@ -67,7 +67,7 @@ function createData(name, calories, fat, carbs, protein) {
 
   
 
-const ResponsiveAppBar = () => {
+const PosHome = () => {
     const [age, setAge] = React.useState('');
 
     const [data, setData] = useState(rows);
@@ -86,28 +86,7 @@ const ResponsiveAppBar = () => {
     return (
         <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
             {/* Navigation Bar */}
-            <AppBar position="static" sx={{ backgroundColor: 'grey', boxShadow: 'none' }}>
-                <Container maxWidth="lg" sx={{ display: 'flex', justifyContent: 'flex-end', mr: 0 }}>
-                    <Toolbar disableGutters>
-                        <Button variant="contained" color="primary" sx={{ mr: 1, boxShadow: 'none' }}>
-                            New Order
-                        </Button>
-                        <Link to={'/pos/order-list'}>
-                            <Button variant="contained" color="primary" sx={{ mr: 1, boxShadow: 'none' }}>
-                                Order List
-                            </Button>
-                        </Link>
-                        <Link to={'/pos/sales-summary'}>
-                            <Button variant="contained" color="primary" sx={{ mr: 1, boxShadow: 'none' }}>
-                                Sales Summary
-                            </Button>
-                        </Link>
-                        <Button variant="contained" sx={{ backgroundColor: 'red', color: 'white', boxShadow: 'none' }}>
-                            Logout
-                        </Button>
-                    </Toolbar>
-                </Container>
-            </AppBar>
+            <PosNav></PosNav>
 
             {/* Main Content */}
             <Box
@@ -286,15 +265,15 @@ const ResponsiveAppBar = () => {
                         <Box display={'flex'} flexDirection={'row'} justifyContent="space-between" gap={1}>
 
                         
-                    <Paper elevation={0} square sx={{marginTop:1,background:'black',display:'flex',height:'4vh',paddingRight:0.6 }}>
+                    <Paper elevation={4}  sx={{marginTop:1,background:'black',display:'flex',height:'4vh',paddingRight:0.6 }}>
                     <SaveIcon  sx={{ fontSize: 20,marginTop:0.6 ,color:'white'}}></SaveIcon>
                     <Typography fontSize={'1rem'} fontWeight={500} sx={{marginLeft:0.4,marginTop:0.4,color:'white'}}>Save</Typography>
                     </Paper>
-                    <Paper elevation={0} square sx={{marginTop:1,background:'grey',display:'flex',height:'4vh',paddingRight:0.6 }}>
+                    <Paper elevation={4}  sx={{marginTop:1,background:'grey',display:'flex',height:'4vh',paddingRight:0.6 }}>
                     <HighlightOffIcon  sx={{ fontSize: 20,marginTop:0.6,color:'white' }}></HighlightOffIcon>
                     <Typography fontSize={'1rem'} fontWeight={500} sx={{marginLeft:0.4,marginTop:0.4,color:'white'}}>Void</Typography>
                     </Paper>
-                    <Paper elevation={0} square sx={{marginTop:1,background:'blue',display:'flex',height:'4vh',paddingRight:0.6 }}>
+                    <Paper elevation={4}  sx={{marginTop:1,background:'blue',display:'flex',height:'4vh',paddingRight:0.6 }}>
                     <PaymentIcon  sx={{ fontSize: 20,marginTop:0.6,color:'white' }}></PaymentIcon>
                     <Typography fontSize={'1rem'} fontWeight={500} sx={{marginLeft:0.4,marginTop:0.4,color:'white'}}>Payment</Typography>
                     </Paper>
@@ -311,4 +290,4 @@ const ResponsiveAppBar = () => {
     );
 }
 
-export default ResponsiveAppBar;
+export default PosHome;
