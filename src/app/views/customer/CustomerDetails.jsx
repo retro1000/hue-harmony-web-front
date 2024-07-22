@@ -148,6 +148,7 @@ function CustomerDetails() {
             display="flex"
             justifyContent="flex-start"
             alignContent="flex-start"
+            alignItems="flex-start"
             mt={2}
             gap={2}
           >
