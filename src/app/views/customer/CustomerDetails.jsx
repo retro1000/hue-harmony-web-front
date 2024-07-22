@@ -114,7 +114,7 @@ function CustomerDetails() {
       <Stack
         textAlign="center"
         position="relative"
-        alignItems={"center"}
+        // alignItems={"center"}
         justifyContent={"center"}
         spacing={3}
       >
