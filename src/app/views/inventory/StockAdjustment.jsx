@@ -105,7 +105,6 @@ function StockAdjustment() {
           justifyContent={"center"}
           spacing={3}
         >
-          {/* <MuiTable columns={columns} dataTableData={datatableData}/> */}
           <SimpleCard
             sx={{ width: "100%" }}
             alignItems={"center"}
