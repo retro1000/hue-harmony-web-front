@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { styled, Stack, Box, Radio, FormControlLabel, RadioGroup, Grid, FormLabel, FormControl, Icon, Typography, Accordion, AccordionDetails, AccordionSummary } from '@mui/material';
+import { styled, Stack, Box, Radio, FormControlLabel, RadioGroup, Grid, FormLabel, FormControl, Select, MenuItem, Icon, Typography, Accordion, AccordionDetails, AccordionSummary } from '@mui/material';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import TextField from '@mui/material/TextField';
@@ -33,16 +33,19 @@ const createFormFields = (fields) => {
       case 'email':
       case 'password':
         return (
-          <TextField
-            value={field.value}
-            onChange={(event) => field.setValue(event.target.value)}
-            label={`${field.label}${field.required?'*':''}`}
-            placeholder={field.placeholder}
-            type={field.type}
-            sx={field.sx || {maxWidth: '350px', minWidth: '200px', width: '30%'}}
-            // error={productErrors.productSubTitle !== undefined}
-            // helperText={productErrors.productSubTitle}
-          ></TextField>
+          <Stack display='flex' gap='0.5em' sx={field.sx || {maxWidth: '350px', minWidth: '200px', width: '30%'}}>
+              <div style={{display: 'flex', gap: '0.2em'}}><Typography color='#363636'>{field.label}</Typography>{field.required?<Typography color='red'>*</Typography>:''}</div>
+              <TextField
+              value={field.value}
+              onChange={(event) => field.setValue(event.target.value)}
+              // label={`${field.label}${field.required?'*':''}`}
+              placeholder={field.placeholder}
+              type={field.type}
+              sx={{width: '100%'}}
+              // error={productErrors.productSubTitle !== undefined}
+              // helperText={productErrors.productSubTitle}
+            ></TextField>
+          </Stack>
         )
       case 'file':
         // return (
@@ -50,30 +53,32 @@ const createFormFields = (fields) => {
         // )
       case 'number':
         return (
-          <NumberFormatField
-              inputProps={{
-              id:`${field.id}-input-${f_index++}`,
-              placeholder:`${field.placeholder}`,
-              label:`${field.label}${field.required?'*':''}`,
-              type:"number",
-              inputProps:{ 'aria-label': `${field.id}-input-${f_index}`, step:'any', inputMode: 'decimal' }
-            }}
-            label={`${field.label}${field.required?'*':''}`}
-            allowNegative={field.allowNegative}
-            decimalScale={field.decimalScale}
-            fixedDecimalScale={field.fixedDecimalScale}
-            value={field.value}
-            sx={field.sx || {maxWidth: '200px', minWidth: '150px', width: '20%'}}
-            // error={props.variationErrors[item.identifier]?.unitCost!==undefined}
-            // helperText={props.variationErrors[item.identifier]?.unitCost}
-            onChange={(event) => field.setValue(event.target.value)}
-          />
+            <Stack  display='flex' gap='0.5em' sx={field.sx || {maxWidth: '200px', minWidth: '150px', width: '20%'}}>
+              <div style={{display: 'flex', gap: '0.2em'}}><Typography color='#363636'>{field.label}</Typography>{field.required?<Typography color='red'>*</Typography>:''}</div>
+              <NumberFormatField
+                  inputProps={{
+                  id:`${field.id}-input-${f_index++}`,
+                  placeholder:`${field.placeholder}`,
+                  // label:`${field.label}${field.required?'*':''}`,
+                  type:"number",
+                  inputProps:{ 'aria-label': `${field.id}-input-${f_index}`, step:'any', inputMode: 'decimal' }
+                }}
+                // label={`${field.label}${field.required?'*':''}`}
+                allowNegative={field.allowNegative}
+                decimalScale={field.decimalScale}
+                fixedDecimalScale={field.fixedDecimalScale}
+                value={field.value}
+                // error={props.variationErrors[item.identifier]?.unitCost!==undefined}
+                // helperText={props.variationErrors[item.identifier]?.unitCost}
+                onChange={(event) => field.setValue(event.target.value)}
+              />
+            </Stack>
         )
       case 'tel':
         return (
-          <FormControl sx={field.sx || { maxWidth: '280px', minWidth: '250px', width: '20%' }}>
-            <FormLabel sx={{marginBottom: '0.5em'}}>{`${field.label}${field.required ? '*' : ''}`}</FormLabel>
-            <PhoneInput
+          <Stack display='flex' gap='0.4em' sx={field.sx || { maxWidth: '280px', minWidth: '250px', width: '20%' }}>
+             <div style={{display: 'flex', gap: '0.2em'}}><Typography color='#363636'>{field.label}</Typography>{field.required?<Typography color='red'>*</Typography>:''}</div>
+             <PhoneInput
               containerStyle={field.sx || { maxWidth: '280px', minWidth: '250px', width: '20%' }}
               inputStyle={field.sx || { maxWidth: '280px', minWidth: '250px', width: '20%' }}
               country={'lk'}
@@ -85,14 +90,14 @@ const createFormFields = (fields) => {
                 // label: `${field.label}${field.required ? '*' : ''}`, // Remove this line as we are using FormLabel
                 // fullWidth: false
               }}
-      />
-    </FormControl>
+            />
+          </Stack>
         )
       case 'radio':
         return (
-          <FormControl sx={{marginTop: '1.7em'}}>
-            <FormLabel id={`${field.id}-radio-input-${f_index++}`}>{`${field.label}${field.required?'*':''}`}</FormLabel>
-            <RadioGroup
+          <Stack display='flex' gap='0.5em' sx={{marginTop: '1.7em'}}>
+             <div style={{display: 'flex', gap: '0.2em'}}><Typography color='#363636'>{field.label}</Typography>{field.required?<Typography color='red'>*</Typography>:''}</div>
+             <RadioGroup
               aria-labelledby={`${field.id}-radio-input-${f_index}`}
               name="radio-buttons-group"
               row
@@ -106,27 +111,39 @@ const createFormFields = (fields) => {
                 ))
               }
             </RadioGroup>
-          </FormControl>
+          </Stack>
         )
       case 'select':
         return (
           <div style={{width: `${field.break?'100%':'max-content'}`}}>
-            <SearchableSelectMultiple
-              key={`select-${field.id}-${f_index++}`}
-              id={`select-${field.id}-${f_index++}`}
-              label={field.label} 
-              multiple={field.multi} 
-              options={field.options} 
-              setSelectedValues={(val)=>field.setValue(val)} 
-              selectedValues={field.value} 
-              sx={field.sx || {width: '40%', maxWidth: '250px', minWidth: '200px'}} 
-            />
+            <Stack  display='flex' gap='0.5em' sx={field.sx || {width: '40%', maxWidth: '250px', minWidth: '200px'}} >
+              <div style={{display: 'flex', gap: '0.2em'}}><Typography color='#363636'>{field.label}</Typography>{field.required?<Typography color='red'>*</Typography>:''}</div>
+              <Select key={`select-${field.id}-${f_index++}`} id={`select-${field.id}-${f_index++}`}value={field.value} size="small" onChange={(event)=>field.setValue(event.target.value)}>
+                {
+                  field.options.map(option=>(
+                    <MenuItem value={option.value}>{option.label}</MenuItem>
+                  ))
+                }
+              </Select>
+              {/* <SearchableSelectMultiple
+                key={`select-${field.id}-${f_index++}`}
+                id={`select-${field.id}-${f_index++}`}
+                // label={field.label} 
+                multiple={field.multi} 
+                options={field.options} 
+                setSelectedValues={(val)=>field.setValue(val)} 
+                selectedValues={field.value} 
+                
+              /> */}
+            </Stack>
           </div>
         )
       default:
     }
   })
 }
+
+const formMaxHeight = 500
 
 
 export default function PopupFormDialog({popupSx='md', open, titleIcon: TitleIcon, title, setOpen, message, fields, setVariations, submitButton, reasonCloseOn=false, setValues}) {
@@ -168,7 +185,7 @@ export default function PopupFormDialog({popupSx='md', open, titleIcon: TitleIco
           }
         </DialogTitle>
 
-        <DialogContent fullWidth={true}>
+        <DialogContent fullWidth={true} sx={{overflowY: 'scroll', maxHeight: '500px'}}>
           <DialogContentText sx={{marginBottom: '1.2em'}}>
             {message ? message : ''}
           </DialogContentText>
@@ -181,10 +198,11 @@ export default function PopupFormDialog({popupSx='md', open, titleIcon: TitleIco
             {
               (fields && fields.optional && fields.optional.length>0) ?
                 <AccordionRoot>
+                  <br></br>
                   <Accordion sx={{padding: 'none', boxShadow: 'none'}}>
-                    <AccordionSummary style={{padding: '0', borderBottom: '0.1em solid #00ff82', minHeight: '0', height: '25px', color:'#00ff82', fontSize: '1.1em'}} expandIcon={!expand?<MinusIcon sx={{color:'#00ff82'}} />:<AddIcon sx={{color: '#00ff82'}} />} onClick={handleAccordionClick}>Additional Information</AccordionSummary>
+                    <AccordionSummary style={{padding: '0', borderBottom: '0.1em solid gray', minHeight: '0', height: '25px', color:'gray', fontSize: '1.1em'}} expandIcon={!expand?<MinusIcon sx={{color:'gray'}} />:<AddIcon sx={{color: 'gray'}} />} onClick={handleAccordionClick}>Additional Information</AccordionSummary>
                     <br></br>
-                    <AccordionDetails sx={{padding: '0'}}>{createFormFields(fields.optional)}</AccordionDetails>
+                    <AccordionDetails sx={{padding: '0'}}><Box sx={{display: 'flex', alignItems: 'flex-start', width: '100%', flexWrap: 'wrap'}} spacing={3} gap={3}>{createFormFields(fields.optional)}</Box></AccordionDetails>
                   </Accordion>
                 </AccordionRoot> : ''
             }
