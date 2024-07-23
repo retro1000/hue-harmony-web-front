@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-import { Stack, Box, styled, Tabs, Tab, Typography, Select, Button, Grid, IconButton, Icon, MenuItem, Tooltip } from "@mui/material";
+import { Accordion, AccordionDetails, AccordionSummary, Stack, Box, styled, Tabs, Tab, Typography, Select, Button, Grid, IconButton, Icon, MenuItem, Tooltip } from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 
 import { TButton, SearchBarDefault, Breadcrumb, SimpleCard, MuiTable, SearchableSelectMultiple, NumSliderFilter} from "app/components";
@@ -12,6 +12,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import ViewIcon from '@mui/icons-material/RemoveRedEye'
 import ErrorIcon from '@mui/icons-material/Error'
 import FilterIcon from '@mui/icons-material/FilterAlt'
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 
 
 // STYLED COMPONENTS
@@ -181,6 +182,14 @@ function InventoryList() {
 
     }
 
+    const AccordionRoot = styled("div")(({ theme }) => ({
+      width: "100%",
+      "& .heading": {
+        fontSize: theme.typography.pxToRem(15),
+        fontWeight: theme.typography.fontWeightRegular,
+      },
+    }));
+
     return (
         <Container>
           <Box className="breadcrumb">
@@ -191,60 +200,69 @@ function InventoryList() {
               {/* <Box gap={'0.5em'} display={'flex'} flexWrap={'wrap'} sx={{width: '100%'}}>
                 <Button variant="contained" color="primary">Create grn</Button>
               </Box> */}
-              <SimpleCard sx={{width: '100%', top: '-3em'}} title={'Filter inventory'} spacing={3}>
-                <Box display={'flex'} flexWrap={'wrap'} gap={'0.4em'} sx={{width: '100%'}}>
-                  <Select sx={{width: '20%'}} value={selectedAction} size="small" onChange={(event)=>setSelectedAction(event.target.value)}>
-                    <MenuItem value={'barcode'}>Search by barcode</MenuItem>
-                    <MenuItem value={'grn'}>Search by GRN code</MenuItem>
-                    <MenuItem value={'name'}>Search by supplier name</MenuItem>
-                    <MenuItem value={'all'}>Search by all</MenuItem>
-                  </Select>
-                  <SearchBarDefault sx={{width: '80%'}} value={searchText} setValue={setSearchText} placeholder={'Search inventory...'} search={search}></SearchBarDefault>
-                </Box>
-                <br></br>
-                <Box display={'flex'} flexWrap={'wrap'} spacing={3}>
-                  <Box width={'100%'} display={'flex'} flexWrap={'wrap'} flexDirection={'column'}>  
-                    <NumSliderFilter
-                      heading={'Selling Price'}
-                      label={'Price'}
-                      curr={'LKR'}
-                      range={sellPriceRange}
-                      // sx={{ color: 'purple' }}
-                      min={sellPriceMin}
-                      max={sellPriceMax}
-                      setRange={setSellPriceRange}
-                    ></NumSliderFilter>
-                    <NumSliderFilter
-                      heading={'Stock Available'}
-                      label={'Quantity'}
-                      curr={''}
-                      range={qtyRange}
-                      // sx={{ color: 'purple' }}
-                      min={qtyMin}
-                      max={qtyMax}
-                      setRange={setQtyRange}
-                    ></NumSliderFilter>
-                  </Box>
-                  <Box width={'100%'} gap={'3em'} display={'flex'} flexWrap={'wrap'} spacing={3}>
-                    <SearchableSelectMultiple label={"Brand"} multiple={false} options={filterKeys.brand} setSelectedValues={setSelectedBrand} selectedValues={selectedBrand} sx={{width: '20%', maxWidth: '200px', minWidth: '150px'}}></SearchableSelectMultiple>
-                    <SearchableSelectMultiple label={"Color"} multiple={false} options={filterKeys.color} setSelectedValues={setSelectedColor} selectedValues={selectedColor} sx={{width: '20%', maxWidth: '200px', minWidth: '150px'}}></SearchableSelectMultiple>
-                    <SearchableSelectMultiple label={"Size"} multiple={false} options={filterKeys.size} setSelectedValues={setSelectedSize} selectedValues={selectedSize} sx={{width: '20%', maxWidth: '200px', minWidth: '150px'}}></SearchableSelectMultiple>
-                    <SearchableSelectMultiple label={"Product type"} multiple={false} options={filterKeys.type} setSelectedValues={setSelectedType} selectedValues={selectedType} sx={{width: '20%', maxWidth: '200px', minWidth: '150px'}}></SearchableSelectMultiple>
-                  </Box>
-                </Box>
-                <br></br>
-                <TButton
-                  title={'Filter inventory'}
-                  color="primary"
-                  variant="contained"
-                  startIcon={<FilterIcon />}
-                  label={'Filter'}
-                ></TButton>
-                {searchResult && searchResult.length>0 && <MuiTable search={false} print={false} download={false} columns={columns} dataTableData={searchResult} selectableRows={'none'} filterType={'text'}/>}
-              </SimpleCard>
               <SimpleCard sx={{width: '100%'}}>
                 <MuiTable print={true} download={true} title={`Inventory Summary As Of ${currDate}` } columns={columns} dataTableData={datatableData} selectableRows={'none'} filterType={'text'}/>
               </SimpleCard>
+              <div style={{width: '100%'}}>
+                <AccordionRoot>
+                  <Accordion sx={{width: '100%', borderRadius: '8px', marginBottom: '1em'}}>
+                    <AccordionSummary sx={{borderRadius: '8px'}} expandIcon={<ExpandMoreIcon />} id="panel-header" aria-controls="panel-content">
+                      <Typography variant="h6" fontSize='1.3em'>Filter inventory</Typography>
+                    </AccordionSummary>
+                    <AccordionDetails sx={{borderRadius: '8px'}}>
+                      <Box display={'flex'} flexWrap={'wrap'} gap={'0.4em'} sx={{width: '100%'}}>
+                        <Select sx={{width: '20%'}} value={selectedAction} size="small" onChange={(event)=>setSelectedAction(event.target.value)}>
+                          <MenuItem value={'barcode'}>Search by barcode</MenuItem>
+                          <MenuItem value={'grn'}>Search by GRN code</MenuItem>
+                          <MenuItem value={'name'}>Search by supplier name</MenuItem>
+                          <MenuItem value={'all'}>Search by all</MenuItem>
+                        </Select>
+                        <SearchBarDefault sx={{width: '80%'}} value={searchText} setValue={setSearchText} placeholder={'Search inventory...'} search={search}></SearchBarDefault>
+                      </Box>
+                      <Box display={'flex'} flexWrap={'wrap'} sx={{marginTop: '1em'}}>
+                        <Box width={'100%'} display={'flex'} flexWrap={'wrap'} flexDirection={'column'}>
+                          <NumSliderFilter
+                            heading={'Selling Price'}
+                            label={'Price'}
+                            curr={'LKR'}
+                            range={sellPriceRange}
+                            min={sellPriceMin}
+                            max={sellPriceMax}
+                            setRange={setSellPriceRange}
+                          />
+                          <NumSliderFilter
+                            heading={'Stock Available'}
+                            label={'Quantity'}
+                            curr={''}
+                            range={qtyRange}
+                            min={qtyMin}
+                            max={qtyMax}
+                            setRange={setQtyRange}
+                          />
+                        </Box>
+                        <Box width={'100%'} display={'flex'} flexWrap={'wrap'} gap={'3em'}>
+                          <SearchableSelectMultiple label={"Brand"} multiple={false} options={filterKeys.brand} setSelectedValues={setSelectedBrand} selectedValues={selectedBrand} sx={{width: '20%', maxWidth: '200px', minWidth: '150px'}} />
+                          <SearchableSelectMultiple label={"Color"} multiple={false} options={filterKeys.color} setSelectedValues={setSelectedColor} selectedValues={selectedColor} sx={{width: '20%', maxWidth: '200px', minWidth: '150px'}} />
+                          <SearchableSelectMultiple label={"Size"} multiple={false} options={filterKeys.size} setSelectedValues={setSelectedSize} selectedValues={selectedSize} sx={{width: '20%', maxWidth: '200px', minWidth: '150px'}} />
+                          <SearchableSelectMultiple label={"Product type"} multiple={false} options={filterKeys.type} setSelectedValues={setSelectedType} selectedValues={selectedType} sx={{width: '20%', maxWidth: '200px', minWidth: '150px'}} />
+                        </Box>
+                      </Box>
+                      <Box sx={{marginTop: '1em'}}>
+                        <TButton
+                          title={'Filter inventory'}
+                          color="primary"
+                          variant="contained"
+                          startIcon={<FilterIcon />}
+                          label={'Filter'}
+                        />
+                      </Box>
+                      {searchResult && searchResult.length > 0 && (
+                        <MuiTable search={false} print={false} download={false} columns={columns} dataTableData={searchResult} selectableRows={'none'} filterType={'text'} />
+                      )}
+                    </AccordionDetails>
+                  </Accordion>
+                </AccordionRoot>
+              </div>
           </Stack>
         </Container>
     );

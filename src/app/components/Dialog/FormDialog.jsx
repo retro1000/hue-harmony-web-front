@@ -51,16 +51,6 @@ export default function FormDialog({open, title, setOpen, message, fields, setVa
                   {<Grid container gap={'1.3em'} flexWrap="wrap" alignItems="center" justifyContent={"flex-start"} spacing={1}>
                     {
                       textFields.map(field=>(
-                        // <TextField
-                        //         autoFocus
-                        //         id={`${field.id}-radio-input-${index}`}
-                        //         type={field.type}
-                        //         value={values[field.id]?values[field.id]:''}
-                        //         label={field.label}
-                        //         placeholder={field.placeholder}
-                        //         inputProps={{ 'aria-label': `${field.label}-${index++}` }}
-                        //         onChange={(event) => {const updatedValues = {...values, [field.id]: event.target.value};setValues(updatedValues)}}
-                        //         />
                         <NumberFormatField
                                   inputProps={{
                                     id:`${field.id}-input-${index}`,

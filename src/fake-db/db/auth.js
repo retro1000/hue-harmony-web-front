@@ -12,6 +12,15 @@ const userList = [
     email: "jason@ui-lib.com",
     avatar: "/assets/images/face-6.jpg",
     age: 25
+  },
+  {
+    id: 2,
+    role: "USER",
+    name: "Jason Alexande",
+    username: "jason_alexande",
+    email: "jason@ui-libr.com",
+    avatar: "/assets/images/face-6.jpg",
+    age: 25
   }
 ];
 
@@ -27,7 +36,7 @@ Mock.onPost("/api/auth/login").reply(async (config) => {
 
     if (!user) return [400, { message: "Invalid email or password" }];
 
-    const payload = { user: userList[0], token: 'token', role: userList[0].role };
+    const payload = { user: user, token: 'token', role: user.role };
     return [200, payload];
   } catch (err) {
     console.error(err);

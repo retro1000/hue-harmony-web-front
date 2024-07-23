@@ -1,59 +1,74 @@
 export const navigations = [
   { name: "Dashboard", path: "/dashboard/default", icon: "dashboard" },
-  { 
+  {
     name: "Products",
     icon: "shopping_basket",
     children: [
       { name: "Summary", iconText: "E", path: "/product/list" },
       { name: "Create new product", iconText: "E", path: "/product/create" },
-    ] 
+    ],
   },
-  { 
+  {
     name: "GRN",
     icon: "summarize",
-    children: [
-      { name: "Summary", iconText: "E", path: "/grn/list" },
-    ] 
+    children: [{ name: "Summary", iconText: "E", path: "/grn/list" }],
   },
-  { 
+  {
     name: "Payments",
     icon: "account_balance",
-    children: [
-      { name: "Summary", iconText: "E", path: "/payment/list" },
-    ] 
+    children: [{ name: "Summary", iconText: "E", path: "/payment/list" }],
   },
-  { 
+  {
     name: "Purchase Order",
     icon: "shopping_cart",
     children: [
       { name: "Summary", iconText: "E", path: "/purchase-order/list" },
-    ] 
+    ],
   },
-  { 
+  {
     name: "Inventory",
     icon: "inventory",
     children: [
       { name: "Summary", iconText: "E", path: "/inventory/list" },
-      { name: "Stock Adjustments", iconText: "E", path: "/inventory/stock-adjustment/list" },
-    ] 
+      { name: "Reservation", iconText: "E", path: "/inventory/reservation" },
+      { name: "GRN", iconText: "E", path: "/inventory/Grn" },
+      {
+        name: "Credit/Debit Note",
+        iconText: "E",
+        path: "/inventory/creditdebitnote",
+      },
+      {
+        name: "Stock Adjustments",
+        iconText: "E",
+        children: [
+          {
+            name: "Summary",
+            iconText: "E",
+            path: "/inventory/stock-adjustment/list",
+          },
+          {
+            name: "Approve",
+            iconText: "E",
+            path: "/inventory/stock-adjustment",
+          },
+        ],
+      },
+    ],
   },
-  { 
+  {
     name: "Stake Holders",
     icon: "group",
     children: [
       { name: "Users", iconText: "E", path: "/user/list" },
       { name: "Customers", iconText: "E", path: "/customer/list" },
       { name: "Suppliers", iconText: "E", path: "/supplier/list" },
-    ] 
+    ],
   },
-  { 
+  {
     name: "Reports",
     icon: "assessment",
-    children: [
-      
-    ] 
+    children: [],
   },
-
 
   // { label: "PAGES", type: "label" },
   // {
