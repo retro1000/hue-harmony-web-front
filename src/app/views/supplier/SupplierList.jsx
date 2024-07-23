@@ -24,19 +24,6 @@ const Container = styled("div")(({ theme }) => ({
   }
 }));
 
-const addSupplierFields = {
-  require: [
-    {key: 'sup_name_text', required: true, id: 'sup_name_text', name: 'supplierName', label: 'Supplier Name', type: 'text', placeholder: 'Enter supplier name', value: '', sx:{width:'200px'}},
-    {key: 'address_text', required: true, id: 'sup_name_text', name: 'supplierName', label: 'Supplier Name', type: 'text', placeholder: 'Enter supplier name', value: '', sx:{width:'200px'}},
-    {key: 'sup_name_text', id: 'sup_name_text', name: 'supplierName', label: 'Supplier Name', type: 'text', placeholder: 'Enter supplier name', value: '', sx:{width:'200px'}},
-    {key: 'mobile_tel', id: 'mobile_tel', name: 'mobilePhone', label: 'Mobile Phone', type: 'tel', placeholder: 'Enter mobile number', value: '', sx:{width:'200px'}},
-    {key: 'land_tel', id: 'land_tel', required: true, name: 'landPhone', label: 'Land Phone', type: 'tel', placeholder: 'Enter landphone number', value: '', sx:{width:'200px'}},
-  ],
-  optional: [
-
-  ]
-}
-
 function SupplierList() {
 
     const [selectedAction, setSelectedAction] = useState('barcode')
@@ -44,6 +31,23 @@ function SupplierList() {
     const [searchText, setSearchText] = useState(undefined)
 
     const [addSupplierOn, setAddSupplierOn] = useState(false)
+
+    const [newSupplier, setNewSupplier] = useState({})
+
+    const addSupplierFields = {
+      require: [
+        {key: 'sup_name_text', required: true, id: 'sup_name_text', name: 'supplierName', label: 'Supplier Name', type: 'text', placeholder: 'Enter supplier name', value: newSupplier.supplierName || '', setValue: (val) => setNewSupplier({...newSupplier, supplierName: val})},
+        {key: 'address_text', required: true, id: 'sup_name_text', name: 'supplierAddress', label: 'Supplier Address', type: 'text', placeholder: 'Enter supplier address', value: newSupplier.supplierAddress || '', setValue: (val) => setNewSupplier({...newSupplier, supplierAddress: val}), sx: {width: '50%'}},
+        {key: 'type_select', id: 'type_select', name: 'supplierType', label: 'Supplier Type', required: true, type: 'select', value: newSupplier.supplierType || 'Local', setValue: (val) => setNewSupplier({...newSupplier, supplierType: val}), break:true,  options: [{label: 'Local', value: 'Local'}, {label: 'Foreign', value: 'Foreign'}]},
+        {key: 'land_tel', id: 'land_tel', required: true, name: 'landPhone', label: 'Land Phone', type: 'tel', placeholder: 'Enter landphone number', value: newSupplier.landPhone || '', setValue: (val) => setNewSupplier({...newSupplier, landPhone: val})},
+        {key: 'mobile_tel', id: 'mobile_tel', name: 'mobilePhone', label: 'Mobile Phone', type: 'tel', placeholder: 'Enter mobile number', value: newSupplier.mobilePhone || '', setValue: (val) => setNewSupplier({...newSupplier, mobilePhone: val})},
+      ],
+      optional: [
+        {key: 'sup_email_text', required: false, id: 'sup_email_text', name: 'supplierEmail', label: 'Supplier Email', type: 'email', placeholder: 'Enter supplier email', value: newSupplier.supplierEmail || '', setValue: (val) => setNewSupplier({...newSupplier, supplierEmail: val})},
+        {key: 'industry_select', id: 'industry_select', name: 'supplierIndustry', label: 'Supplier Inustry', type: 'select', value: newSupplier.supplierIndustry || 'Local', setValue: (val) => setNewSupplier({...newSupplier, supplierIndustry: val}), break:false, multi: false, options: [{label: 'Local', value: 'Local'}, {label: 'Foreign', value: 'Foreign'}]},
+        {key: 'category_select', id: 'category_select', name: 'supplierCategory', label: 'Supplier Category', type: 'select', value: newSupplier.supplierCategory || 'Local', setValue: (val) => setNewSupplier({...newSupplier, supplierCategory: val}), break:false, multi: false, options: [{label: 'Local', value: 'Local'}, {label: 'Foreign', value: 'Foreign'}]},
+      ]
+    }
 
     const [searchResult, setSearchResult] = useState([
       ['D#45er', 'Wall paint', 'Dulux', 'Paint', 'Red', '4 Ltr', '11000.00', '13', 'Available'],
@@ -160,9 +164,7 @@ function SupplierList() {
                   fields={addSupplierFields}
                   setOpen={setAddSupplierOn}
                   reasonCloseOn={true}
-                  setVariations={(val) => {
-                    console.log(val)
-                  }}
+                  setValues={setNewSupplier}
                 />
         </Container>
     );
