@@ -13,9 +13,9 @@ import {
   CardMedia,
   Rating,
 } from "@mui/material";
-import Header from "../../components/ProductPage/Header";
-import Footer from "../../components/ProductPage/Footer";
-import ProductGrid from "../../components/ProductPage/ProductGrid";
+import Header from "./Header";
+import Footer from "./Footer";
+import ProductGrid from "./ProductGrid";
 
 const ProductPage = () => {
   return (
