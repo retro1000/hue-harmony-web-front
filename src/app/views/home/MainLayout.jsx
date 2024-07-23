@@ -6,8 +6,10 @@ import { ThemeProvider, createTheme } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import Hero from "../../components/HomePage/Hero";
 import PopularProducts from "../../components/HomePage/PopularProducts";
-import NewProduct from "../../components/HomePage/NewProduct";
+import Banner from "../../components/HomePage/NewProduct";
+import ColorOfTheYear from "../../components/HomePage/UnderUnderHero";
 import Footer from "../../components/ProductPage/Footer";
+import PaintStories from "../../components/HomePage/UnderHero";
 
 const theme = createTheme({
   palette: {
@@ -29,7 +31,9 @@ const MainLayout = () => {
       <CssBaseline />
       <Hero />
       <PopularProducts />
-      <NewProduct />
+      <Banner />
+      <PaintStories/>
+      <ColorOfTheYear/>
       <Footer />
     </ThemeProvider>
   );
