@@ -173,7 +173,7 @@ export default function PopupFormDialog({popupSx='md', open, titleIcon: TitleIco
 
   return (
     <Box>
-      <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title" maxWidth={popupSx} fullWidth={true}>
+      <Dialog sx={{'& .MuiPaper-root': {borderRadius: '10px'}}} open={open} onClose={handleClose} aria-labelledby="form-dialog-title" maxWidth={popupSx} fullWidth={true}>
         <DialogTitle id="form-dialog-title" sx={{borderBottom: '1px solid silver'}}>
           {
             TitleIcon ?
@@ -210,7 +210,7 @@ export default function PopupFormDialog({popupSx='md', open, titleIcon: TitleIco
         </DialogContent>
 
         <DialogActions>
-          <Button variant="outlined" color="secondary" onClick={handleClose}>
+          <Button variant="outlined" color="primary" onClick={handleClose}>
             Close
           </Button>
 
