@@ -210,7 +210,7 @@ export default function PopupFormDialog({popupSx='md', open, titleIcon: TitleIco
         </DialogContent>
 
         <DialogActions>
-          <Button variant="outlined" color="primary" onClick={handleClose}>
+          <Button variant="outlined" color="secondary" onClick={handleClose}>
             Close
           </Button>
 
