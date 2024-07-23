@@ -10,6 +10,7 @@ const ProductView = Loadable(lazy(() => import("./ProductView")));
 
 const Re = Loadable(lazy(() => import('./re.jsx')))
 const FilterProduct = Loadable(lazy(() => import('./FilterProduct.jsx')))
+const Home = Loadable(lazy(() => import('../home/MainLayout.jsx')))
 
 
 const productRoutes = [
@@ -47,6 +48,10 @@ const productRoutes = [
   {
     path: "/product/filter-product",
     element: <FilterProduct />
+  },
+  {
+    path: "/product/Home",
+    element: <Home />
   }
 ];
 
