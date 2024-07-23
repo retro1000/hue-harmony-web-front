@@ -18,9 +18,9 @@ const customerRoutes = [
   {
     path: "/customer/view/:id",
     element: (
-      // <AuthGuard auth={authRoles.manager}>
-      <CustomerDetail />
-      // </AuthGuard>
+      <AuthGuard auth={authRoles.manager}>
+        <CustomerDetail />
+      </AuthGuard>
     ),
   },
 ];

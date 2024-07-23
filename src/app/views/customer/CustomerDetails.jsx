@@ -114,7 +114,7 @@ function CustomerDetails() {
       <Stack
         textAlign="center"
         position="relative"
-        alignItems={"center"}
+        // alignItems={"center"}
         justifyContent={"center"}
         spacing={3}
       >
@@ -148,6 +148,7 @@ function CustomerDetails() {
             display="flex"
             justifyContent="flex-start"
             alignContent="flex-start"
+            alignItems="flex-start"
             mt={2}
             gap={2}
           >
