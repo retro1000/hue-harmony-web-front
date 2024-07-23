@@ -1,53 +1,9 @@
-import React, { useState } from 'react';
+
 import { Card, CardContent, Typography, Checkbox, Button, FormControlLabel, FormGroup, Accordion, AccordionSummary, AccordionDetails } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
-const App = () => {
-  const [filters, setFilters] = useState({
-    positionExterior: false,
-    positionInterior: false,
-    positionInteriorExterior: false,
-    productTypeCleaner: false,
-    productTypePaint: false,
-    productTypeUndercoat: false,
-    productTypeVarnish: false,
-    productTypeWaterproofing: false,
-    roomTypeBathroom: false,
-    roomTypeBedroom: false,
-  });
 
-  const handleClearAll = () => {
-    setFilters({
-      positionExterior: false,
-      positionInterior: false,
-      positionInteriorExterior: false,
-      productTypeCleaner: false,
-      productTypePaint: false,
-      productTypeUndercoat: false,
-      productTypeVarnish: false,
-      productTypeWaterproofing: false,
-      roomTypeBathroom: false,
-      roomTypeBedroom: false,
-    });
-  };
-
-  const handleFilterChange = (event) => {
-    setFilters({
-      ...filters,
-      [event.target.name]: event.target.checked,
-    });
-  };
-
-  return (
-    <Filters
-      filters={filters}
-      handleFilterChange={handleFilterChange}
-      handleClearAll={handleClearAll}
-    />
-  );
-};
-
-const Filters = ({ filters, handleFilterChange, handleClearAll }) => (
+export const Filters = ({ filters, handleFilterChange, handleClearAll }) => (
   <Card style={{ marginBottom: 16 }}>
     <CardContent>
       <Typography variant="h6">Filters</Typography>
@@ -127,4 +83,4 @@ const Filters = ({ filters, handleFilterChange, handleClearAll }) => (
   </Card>
 );
 
-export default App;
+
