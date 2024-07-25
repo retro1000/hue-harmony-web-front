@@ -17,8 +17,9 @@ import customerRoutes from "./views/customer/customer-routes";
 import InventoryRoutes from "./views/inventory/inventory-routes";
 import PaymentRoutes from "./views/payment/payment-routes";
 import PurchaseOrderRoutes from "./views/purchase_order/purchase-order-routes";
-import posRoutes from "./views/pos/pos-routes"
 import PosRoutes from "./views/pos/pos-routes";
+import loginRoutes from "./views/login/login-routes";
+import aboutRoutes from "./views/AboutPage/About-routes";
 
 // E-CHART PAGE
 const AppEchart = Loadable(
@@ -46,7 +47,9 @@ const routes = [
       ...InventoryRoutes,
       ...PurchaseOrderRoutes,
       ...PaymentRoutes,
-      // ...homeRoutes,
+      ...homeRoutes,
+      ...loginRoutes,
+      ...aboutRoutes,
       // dashboard route
       {
         path: "/dashboard/default",

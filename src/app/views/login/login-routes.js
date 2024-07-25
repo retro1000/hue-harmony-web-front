@@ -5,7 +5,7 @@ const Login = Loadable(lazy(() => import('../login/LoginPage.jsx')));
 
 const loginRoutes = [
   {
-    path: "/login/login",
+    path: "/login",
     element: <Login />
   }
 ];

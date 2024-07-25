@@ -7,7 +7,7 @@ const Home = Loadable(lazy(() => import('../home/MainLayout.jsx')))
 
 const homeRoutes = [
   {
-    path: "/product/Home",
+    path: "/Home",
     element: <Home />
   }
 ];
