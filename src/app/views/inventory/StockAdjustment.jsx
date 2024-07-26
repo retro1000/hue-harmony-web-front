@@ -98,7 +98,6 @@ function StockAdjustment() {
           />
         </Box>
 
-
         <Stack
           textAlign="center"
           position="relative"
@@ -106,7 +105,6 @@ function StockAdjustment() {
           justifyContent={"center"}
           spacing={3}
         >
-          {/* <MuiTable columns={columns} dataTableData={datatableData}/> */}
           <SimpleCard
             sx={{ width: "100%" }}
             alignItems={"center"}
@@ -296,8 +294,14 @@ function StockAdjustment() {
                   <MuiTable
                     columns={columns}
                     dataTableData={datatableData}
-                    alignItems={"center"}
-                    justifyContent={"center"}
+                    alignItems="center"
+                    justifyContent="center"
+                    search={false}
+                    download={false}
+                    print={false}
+                    filterType={false}
+                    selectableRows={false}
+                    title={false}
                   />
                 </Stack>
               </Paper>

@@ -4,10 +4,13 @@ import { authRoles } from "app/auth/authRoles";
 import AuthGuard from "app/auth/AuthGuard";
 
 const StockAdjustment = Loadable(lazy(() => import("./StockAdjustment")));
-const StockAdjustmentList = Loadable(lazy(() => import("./StockAdjustmentList")));
+const StockAdjustmentList = Loadable(
+  lazy(() => import("./StockAdjustmentList"))
+);
 const Reservation = Loadable(lazy(() => import("./Reservation")));
 const GRN = Loadable(lazy(() => import("./Grn")));
 const InventoryList = Loadable(lazy(() => import("./InventoryList")));
+const CreditDebitNote = Loadable(lazy(() => import("./Credit-DebitNote")));
 
 const inventoryRoutes = [
   {
@@ -37,8 +40,16 @@ const inventoryRoutes = [
   {
     path: "/inventory/grn",
     element: (
+      // <AuthGuard auth={authRoles.manager}>
+      <GRN />
+      // </AuthGuard>
+    ),
+  },
+  {
+    path: "/inventory/creditdebitnote",
+    element: (
       <AuthGuard auth={authRoles.manager}>
-        <GRN />
+        <CreditDebitNote />
       </AuthGuard>
     ),
   },

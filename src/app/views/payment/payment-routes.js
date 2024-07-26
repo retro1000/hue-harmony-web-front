@@ -3,18 +3,26 @@ import Loadable from "app/components/Loadable";
 import { authRoles } from "app/auth/authRoles";
 import AuthGuard from "app/auth/AuthGuard";
 
-
 const PaymentList = Loadable(lazy(() => import("./PaymentList")));
-
+const BulkPaymentDetails = Loadable(lazy(() => import("./BulkPaymentDetails")));
 
 const PaymentRoutes = [
-  { 
+  {
     path: "/payment/list",
-    element: 
+    element: (
       <AuthGuard auth={authRoles.manager}>
         <PaymentList />
       </AuthGuard>
-  }
+    ),
+  },
+  {
+    path: "/payment/bulkpaymentdetails",
+    element: (
+      <AuthGuard auth={authRoles.manager}>
+        <BulkPaymentDetails />
+      </AuthGuard>
+    ),
+  },
 ];
 
 export default PaymentRoutes;

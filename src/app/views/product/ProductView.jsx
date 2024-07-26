@@ -306,9 +306,9 @@ function ProductView() {
 
     return (
         <Container sx={{'@media (max-width: 431px)': {overflow: 'auto'}}}>
-            <Box className="breadcrumb">
+            {/* <Box className="breadcrumb">
                 <Breadcrumb routeSegments={[{ name: "Product", path: "/Product/list" }, {name: productTitle}, {name: ''}]} />
-            </Box>
+            </Box> */}
 
             <Box spacing={3}>
                 <Box sx={{display:'flex', gap:'1em', flexWrap:'wrap', justifyContent:'space-between', alignItems:'flex-start', width: '100%', height: '100%', maxWidth: '1290px'}}>
