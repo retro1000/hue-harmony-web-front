@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Stack, Box, styled, Tabs, Tab, Typography, Select, Button, Grid, IconButton, Icon, MenuItem } from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 
-import { SearchBarDefault, Breadcrumb, SimpleCard, MuiTable} from "app/components";
+import { PopupFormDialog, SearchBarDefault, Breadcrumb, SimpleCard, MuiTable, TButton} from "app/components";
 
 import { useNotistack } from 'app/hooks/useNotistack';
 
@@ -11,7 +11,8 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ViewIcon from '@mui/icons-material/RemoveRedEye'
 import AddIcon from '@mui/icons-material/AddBox'
-import { Tooltip } from "@mui/material";
+import AddUserIcon from '@mui/icons-material/PersonAddAlt'
+// import { Tooltip } from "@mui/material";
 
 // STYLED COMPONENTS
 const Container = styled("div")(({ theme }) => ({
@@ -28,6 +29,32 @@ function UserList() {
     const [selectedAction, setSelectedAction] = useState('id')
 
     const [searchText, setSearchText] = useState(undefined)
+
+    const [addUserOn, setAddUserOn] = useState(false)
+
+    const [newUser, setNewUser] = useState({})
+
+    const addUserFields = [
+      {
+        title: 'User Details',
+        inputs: [
+          {key: 'f_name_text', required: true, id: 'f_name_text', name: 'firstName', label: 'First Name', type: 'text', placeholder: 'Enter first name', value: newUser.firstName || '', setValue: (val) => setNewUser({...newUser, firstName: val})},
+          {key: 'l_name_text', required: true, id: 'l_name_text', name: 'lastName', label: 'Last Name', type: 'text', placeholder: 'Enter last name', value: newUser.lastName || '', setValue: (val) => setNewUser({...newUser, lastName: val})},
+          {key: 'email', required: true, id: 'email', name: 'email', label: 'Email', type: 'email', placeholder: 'Enter email address', value: newUser.email || '', setValue: (val) => setNewUser({...newUser, email: val})},
+          {key: 'username_text', required: true, id: 'username_text', name: 'username', label: 'Username', type: 'text', placeholder: 'Enter username', value: newUser.username || '', setValue: (val) => setNewUser({...newUser, username: val})},
+          {key: 'password', required: true, id: 'password', name: 'password', label: 'Password', type: 'password', value: newUser.password || '', setValue: (val) => setNewUser({...newUser, password: val})},
+          {key: 'retype_password', required: true, id: 'retype_password', name: 'retypePassword', label: 'Retype Password', type: 'password', value: newUser.retypePassword || '', setValue: (val) => setNewUser({...newUser, retypePassword: val})},
+          {key: 'role_select', id: 'role_select', name: 'role', label: 'Role', required: true, type: 'select', value: newUser.role || 0, setValue: (val) => setNewUser({...newUser, role: val}), break:true,  options: [{label: 'Admin', value: 1}, {label: 'User', value: 2}]},
+        ]
+      },
+      {
+        title: 'Additional Details',
+        inputs: [
+          {key: 'adddress_text', required: false, id: 'adddress_text', name: 'address', label: 'Address', type: 'text', placeholder: 'Enter address', value: newUser.address || '', setValue: (val) => setNewUser({...newUser, address: val})},
+          {key: 'mobile_tel', required: false, id: 'mobile_tel', name: 'mobilePhone', label: 'Mobile Phone', type: 'tel', placeholder: 'Enter mobile number', value: newUser.mobilePhone || '', setValue: (val) => setNewUser({...newUser, mobilePhone: val})},
+        ]
+      }
+    ]
 
     const [searchResult, setSearchResult] = useState([
       ['D#45er', 'Wall paint', 'Dulux', 'Paint', 'Red', '4 Ltr', '11000.00', '13', 'Available'],
@@ -141,7 +168,15 @@ function UserList() {
 
           <Stack sx={{display: 'flex', justifyContent: 'center', alignItems: 'flex-start', width: '100%'}} spacing={5}>
               <Box gap={'0.5em'} display={'flex'} flexWrap={'wrap'} sx={{width: '100%'}}>
-                <Tooltip title='Add new user'><Button startIcon={<AddIcon />} variant="contained" color="primary">User</Button></Tooltip>
+                <TButton
+                  title='Add new user'
+                  startIcon={<AddIcon />} 
+                  variant="contained" 
+                  color="primary"
+                  label={'User'}
+                  fun={setAddUserOn}
+                >
+                </TButton>
               </Box>
               <SimpleCard sx={{width: '100%', top: '-3em'}} title={'Search Users'}>
                 <Box display={'flex'} flexWrap={'wrap'} gap={'0.4em'} sx={{width: '100%'}}>
@@ -160,6 +195,17 @@ function UserList() {
                 <MuiTable print={true} download={true} title={'Users'} columns={columns} dataTableData={datatableData} selectableRows={'none'} filterType={'text'}/>
               </SimpleCard>
           </Stack>
+
+          <PopupFormDialog
+                  open={addUserOn}
+                  title="Add User"
+                  submitButton="Add User"
+                  titleIcon={<AddUserIcon />}
+                  fields={addUserFields}
+                  setOpen={setAddUserOn}
+                  reasonCloseOn={true}
+                  setValues={setNewUser}
+                />
         </Container>
     );
 }
