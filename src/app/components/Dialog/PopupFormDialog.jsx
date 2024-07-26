@@ -76,17 +76,17 @@ const createFormFields = (fields) => {
                   // label:`${field.label}${field.required?'*':''}`,
                   type:"number",
                   inputProps:{ 'aria-label': `${field.id}-input-${f_index}`, step:'any', inputMode: 'decimal' }
-                }}
-                // label={`${field.label}${field.required?'*':''}`}
-                allowNegative={field.allowNegative || false}
-                decimalScale={field.decimalScale || 3}
-                fixedDecimalScale={field.fixedDecimalScale || false}
-                value={field.value}
-                min={field.min}
-                max={field.max}
-                // error={props.variationErrors[item.identifier]?.unitCost!==undefined}
-                // helperText={props.variationErrors[item.identifier]?.unitCost}
-                onChange={(event) => field.setValue(event.target.value)}
+                  }}
+                  // label={`${field.label}${field.required?'*':''}`}
+                  allowNegative={field.allowNegative || false}
+                  decimalScale={field.decimalScale || 3}
+                  fixedDecimalScale={field.fixedDecimalScale || false}
+                  value={field.value}
+                  min={field.min}
+                  max={field.max}
+                  // error={props.variationErrors[item.identifier]?.unitCost!==undefined}
+                  // helperText={props.variationErrors[item.identifier]?.unitCost}
+                  onChange={(event) => field.setValue(event.target.value)}
               />
             </Stack>
         )
