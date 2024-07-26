@@ -19,6 +19,7 @@ import PaymentRoutes from "./views/payment/payment-routes";
 import PurchaseOrderRoutes from "./views/purchase_order/purchase-order-routes";
 import posRoutes from "./views/pos/pos-routes"
 import PosRoutes from "./views/pos/pos-routes";
+import WishlistPage from "components/WishlistPage";
 
 // E-CHART PAGE
 const AppEchart = Loadable(

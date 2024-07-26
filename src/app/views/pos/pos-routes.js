@@ -4,6 +4,7 @@ import { authRoles } from "app/auth/authRoles";
 import AuthGuard from "app/auth/AuthGuard";
 
 const PosHomePage = Loadable(lazy(() => import("./Pos-home")));
+const WishlistPage = Loadable(lazy(() => import("../../../../src/components/App/App")));
 
 const PosRoutes = [
     {
@@ -19,6 +20,14 @@ const PosRoutes = [
         element: (
             //<AuthGuard auth={authRoles.manager}>
                 <PosHomePage />
+            //</AuthGuard>
+        ),
+    },
+    {
+        path: "wishlist",
+        element: (
+            //<AuthGuard auth={authRoles.manager}>
+                <WishlistPage />
             //</AuthGuard>
         ),
     },
