@@ -74,13 +74,19 @@ function GrnList() {
         name: "Received Quantity",
         options: {
           customHeadRender: (columnMeta) => (
-            <th style={{ width: '10%', borderBottom: '0.1em solid silver'  }}>
+            <th style={{ width: '12%', borderBottom: '0.1em solid silver'  }}>
               {columnMeta.name}
             </th>
           ),
           customBodyRender: (value, tableMeta, updateValue) => (
             <NumberFormatField
+              inputProps={{
+                // id:`${field.id}-input-${f_index++}`,
+                type:"number",
+                inputProps:{ 'aria-label': `-input-`, step:'any', inputMode: 'decimal' }
+              }}
               size={'small'}
+              allowNegative={false}
               value={value}
               onChange={(e) => updateValue(e.target.value)}
             />
