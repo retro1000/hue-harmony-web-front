@@ -1,6 +1,6 @@
 
 import React from "react";
-import { Box, Typography, Grid, Container, Divider } from "@mui/material";
+import { Box, Typography, Grid, Container } from "@mui/material";
 import AboutHeader from "../../components/aboutpage/AboutHeader";
 import BrandCars from "../../components/aboutpage/BrandCars";
 import PartnerLogos from "../../components/aboutpage/PartnerLogos";

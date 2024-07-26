@@ -21,6 +21,8 @@ import PosRoutes from "./views/pos/pos-routes";
 import loginRoutes from "./views/sessions/login/login-routes";
 import signupRoutes from "./views/sessions/register/signup-routes";
 import BillingRoutes from "./views/Billing/Billing-routes";
+import profileRoutes from "./views/Profile/profile-routes";
+import PChartRoutes from "./views/PaintChart/PChart-routes";
 
 // E-CHART PAGE
 const AppEchart = Loadable(
@@ -52,6 +54,8 @@ const routes = [
       ...loginRoutes,
       ...signupRoutes,
       ...BillingRoutes,
+      ...profileRoutes,
+      ...PChartRoutes,
       // dashboard route
       {
         path: "/dashboard/default",
