@@ -8,13 +8,21 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 
-import { SearchableSelectMultiple, FileUpload, NumberFormatField } from '..';
+import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { LocalizationProvider } from '@mui/x-date-pickers';
+
+import moment from 'moment';
+
+
+import { MuiTable, SearchableSelectMultiple, FileUpload, NumberFormatField } from '..';
 
 import PhoneInput from 'react-phone-input-2'
 import 'react-phone-input-2/lib/style.css'
 
 import AddIcon from '@mui/icons-material/Add'
 import MinusIcon from '@mui/icons-material/Remove'
+import { useEffect } from 'react';
 
 const AccordionRoot = styled("div")(({ theme }) => ({
   width: "100%",
@@ -36,21 +44,27 @@ const createFormFields = (fields) => {
           <Stack display='flex' gap='0.5em' sx={field.sx || {maxWidth: '350px', minWidth: '200px', width: '30%'}}>
               <div style={{display: 'flex', gap: '0.2em'}}><Typography color='#363636'>{field.label}</Typography>{field.required?<Typography color='red'>*</Typography>:''}</div>
               <TextField
-              value={field.value}
-              onChange={(event) => field.setValue(event.target.value)}
-              // label={`${field.label}${field.required?'*':''}`}
-              placeholder={field.placeholder}
-              type={field.type}
-              sx={{width: '100%'}}
-              // error={productErrors.productSubTitle !== undefined}
-              // helperText={productErrors.productSubTitle}
-            ></TextField>
+                value={field.value}
+                onChange={(event) => field.setValue(event.target.value)}
+                // label={`${field.label}${field.required?'*':''}`}
+                placeholder={field.placeholder}
+                type={field.type}
+                sx={{width: '100%'}}
+                rows={field.rows || 1}
+                multiline={field.rows || false}
+                // error={productErrors.productSubTitle !== undefined}
+                // helperText={productErrors.productSubTitle}
+              ></TextField>
           </Stack>
         )
       case 'file':
-        // return (
-        //   <FileUpload close={field.close} id={`${field.id}-input-${f_index++}`} sx={{marginBottom: '1.9em', marginLeft: '-6px'}} required={field.required} file={values[field.id]?values[field.id]:''} setFile={(val) => {const updatedValues = {...values,[field.id]: val};setValues(updatedValues)}}/>
-        // )
+        return (
+          // <FileUpload close={field.close} id={`${field.id}-input-${f_index++}`} required={field.required} file={field.value || ''} setFile={(val) => {const updatedValues = {...field.value, [field.id]: val};field.setValue(updatedValues)}}/>
+            <Stack display='flex' gap='0.5em' sx={field.sx}>
+              <div style={{display: 'flex', gap: '0.2em'}}><Typography color='#363636'>{field.label}</Typography>{field.required?<Typography color='red'>*</Typography>:''}</div>
+              <FileUpload close={field.close} id={`${field.id}-input-${f_index++}`} required={field.required} file={field.value || ''} setFile={(val) => {const updatedValues = {...field.value, [field.id]: val};field.setValue(updatedValues)}}/>
+            </Stack>
+        )
       case 'number':
         return (
             <Stack  display='flex' gap='0.5em' sx={field.sx || {maxWidth: '200px', minWidth: '150px', width: '20%'}}>
@@ -64,10 +78,12 @@ const createFormFields = (fields) => {
                   inputProps:{ 'aria-label': `${field.id}-input-${f_index}`, step:'any', inputMode: 'decimal' }
                 }}
                 // label={`${field.label}${field.required?'*':''}`}
-                allowNegative={field.allowNegative}
-                decimalScale={field.decimalScale}
-                fixedDecimalScale={field.fixedDecimalScale}
+                allowNegative={field.allowNegative || false}
+                decimalScale={field.decimalScale || 3}
+                fixedDecimalScale={field.fixedDecimalScale || false}
                 value={field.value}
+                min={field.min}
+                max={field.max}
                 // error={props.variationErrors[item.identifier]?.unitCost!==undefined}
                 // helperText={props.variationErrors[item.identifier]?.unitCost}
                 onChange={(event) => field.setValue(event.target.value)}
@@ -125,20 +141,61 @@ const createFormFields = (fields) => {
                   ))
                 }
               </Select>
-              {/* <SearchableSelectMultiple
+            </Stack>
+          </div>
+        )
+      case 'multi_select':
+        return(
+          <Stack  display='flex' gap='0.5em' sx={field.sx || {width: '80%'}} >
+              <div style={{display: 'flex', gap: '0.2em'}}><Typography color='#363636'>{field.label}</Typography>{field.required?<Typography color='red'>*</Typography>:''}</div>
+              <SearchableSelectMultiple
+                size={'medium'}
                 key={`select-${field.id}-${f_index++}`}
                 id={`select-${field.id}-${f_index++}`}
                 // label={field.label} 
                 multiple={field.multi} 
                 options={field.options} 
                 setSelectedValues={(val)=>field.setValue(val)} 
-                selectedValues={field.value} 
-                
-              /> */}
-            </Stack>
-          </div>
+                selectedValues={field.value}
+              />
+          </Stack>
+        )
+      case 'date':
+        return(
+          <Stack  display='flex' gap='0.5em' sx={field.sx || {width: '30%'}} >
+              <div style={{display: 'flex', gap: '0.2em'}}><Typography color='#363636'>{field.label}</Typography>{field.required?<Typography color='red'>*</Typography>:''}</div>
+              <LocalizationProvider dateAdapter={AdapterMoment}>
+                <DatePicker
+                  key={`select-${field.id}-${f_index++}`}
+                  id={`select-${field.id}-${f_index++}`}
+                  value={field.value?moment(field.value):null}
+                  onChange={(val)=>field.setValue(moment(val))}
+                  renderInput={(params) => <TextField {...params} />}
+                  
+                ></DatePicker>
+              </LocalizationProvider>
+          </Stack>
+        )
+      case 'list':
+        return(
+          <Stack  display='flex' gap='0.5em' sx={field.sx || {width: '100%'}} >
+              <div style={{display: 'flex', gap: '0.2em'}}><Typography color='#363636'>{field.label}</Typography>{field.required?<Typography color='red'>*</Typography>:''}</div>
+              <br></br>
+              <MuiTable 
+                search={false}
+                download={false}
+                print={false}
+                dataTableData={field.value} 
+                columns={field.col}
+                filter={false}
+                cols={false}
+                pagination={false}
+                selectableRows={false}
+              />
+          </Stack>
         )
       default:
+        return ''
     }
   })
 }
@@ -148,17 +205,23 @@ const formMaxHeight = 500
 
 export default function PopupFormDialog({popupSx='md', open, titleIcon: TitleIcon, title, setOpen, message, fields, setVariations, submitButton, reasonCloseOn=false, setValues}) {
 
-  const [expand, setExpand] = useState(false);
+  const [expand, setExpand] = useState([]);
+
+  useEffect(() => {
+    // console.log(fields.map((f, index)=>(index!==0)))
+    setExpand(fields.map((f, index)=>(index===0)))
+  }, [])
 
   const handleClose = (event, reason) => {
     if (!reasonCloseOn || (reason !== "backdropClick" && reason !== "escapeKeyDown")) {
       setOpen(false);
       setValues({})
+      setExpand([])
     }
   }
 
-  const handleAccordionClick = () => {
-    setExpand((prevExpand) => !prevExpand);
+  const handleAccordionClick = (i) => {
+    setExpand(expand.map((e, index) => i===index?!e:e));
   };
 
   const handleSubmit = () => {
@@ -170,7 +233,6 @@ export default function PopupFormDialog({popupSx='md', open, titleIcon: TitleIco
   // const textFields = [].concat(fields.filter(field=>(['number', 'text', 'email'].includes(field.type))))
   // const radios = [].concat(fields.filter(field=>(field.type==='radio')))
   // const files = [].concat(fields.filter(field=>(field.type==='file')))
-
   return (
     <Box>
       <Dialog sx={{'& .MuiPaper-root': {borderRadius: '10px'}}} open={open} onClose={handleClose} aria-labelledby="form-dialog-title" maxWidth={popupSx} fullWidth={true}>
@@ -186,12 +248,25 @@ export default function PopupFormDialog({popupSx='md', open, titleIcon: TitleIco
         </DialogTitle>
 
         <DialogContent fullWidth={true} sx={{overflowY: 'scroll', maxHeight: '500px'}}>
-          <DialogContentText sx={{marginBottom: '1.2em'}}>
+          {/* <DialogContentText sx={{marginBottom: '1.2em'}}>
             {message ? message : ''}
-          </DialogContentText>
+          </DialogContentText> */}
           <br></br>
           <Box sx={{display: 'flex', alignItems: 'flex-start', width: '100%', flexWrap: 'wrap'}} spacing={3} gap={3}>
             {
+              fields && fields.length>0?
+                fields.map((field, index) => (
+                  <AccordionRoot key={field.title}>
+                    {index===0?'':<br></br>}
+                    <Accordion sx={{padding: 'none', boxShadow: 'none'}} defaultExpanded={index===0}>
+                      <AccordionSummary style={{padding: '0', borderBottom: '0.1em solid gray', minHeight: '0', height: '25px', color:'gray', fontSize: '1.1em'}} expandIcon={(()=>{return (expand[index]?<MinusIcon sx={{color:'gray'}} />:<AddIcon sx={{color: 'gray'}} />)})()} onClick={()=>handleAccordionClick(index)}>{field.title}</AccordionSummary>
+                      <br></br>
+                      <AccordionDetails sx={{padding: '0'}}><Box sx={{display: 'flex', alignItems: 'flex-start', width: '100%', flexWrap: 'wrap'}} spacing={3} gap={3}>{createFormFields(field.inputs)}</Box></AccordionDetails>
+                    </Accordion>
+                  </AccordionRoot>
+                )) : ''
+            }
+            {/* {
               (fields && fields.require && fields.require.length>0) ?
                 <>{createFormFields(fields.require)}</> : ''
             }
@@ -205,10 +280,10 @@ export default function PopupFormDialog({popupSx='md', open, titleIcon: TitleIco
                     <AccordionDetails sx={{padding: '0'}}><Box sx={{display: 'flex', alignItems: 'flex-start', width: '100%', flexWrap: 'wrap'}} spacing={3} gap={3}>{createFormFields(fields.optional)}</Box></AccordionDetails>
                   </Accordion>
                 </AccordionRoot> : ''
-            }
+            } */}
           </Box>
         </DialogContent>
-
+        <br></br>    
         <DialogActions>
           <Button variant="outlined" color="primary" onClick={handleClose}>
             Close

@@ -40,7 +40,7 @@ const ReleaseButton = styled(Button)({
   },
 });
 
-function Grn() {
+function BulkPaymentDetails() {
   const data = [
     {
       id: 1,
@@ -66,13 +66,24 @@ function Grn() {
     "Changed By",
   ]);
 
+  const dataUp = [
+    {
+      Account: "Pet Shop_Cash",
+      paymentMethod: "Cash",
+      effectiveDate: "14/07/2024",
+      ref: "",
+      chequeNo: "",
+      remarks: "",
+    },
+  ];
+
   return (
     <Container>
       <Box className="breadcrumb">
         <Breadcrumb
           routeSegments={[
-            { name: "Inventory", path: "/Inventory/GRN" },
-            { name: "GRN" },
+            { name: "Payment", path: "/Payment/BulkPayment" },
+            { name: "BulkPayment" },
           ]}
         />
       </Box>
@@ -103,8 +114,14 @@ function Grn() {
               <Button variant="contained" color="error">
                 Cancel
               </Button>
+              <Button variant="contained" color="secondary">
+                Reject
+              </Button>
+              <Button variant="contained" color="info">
+                Pending
+              </Button>
               <Button variant="contained" color="success">
-                Approve
+                Complete
               </Button>
             </Stack>
           </Stack>
@@ -115,18 +132,57 @@ function Grn() {
           alignItems="center"
           justifyContent="center"
         >
-          <Stack spacing={3} alignItems="center">
+          <Stack spacing={2} alignItems="center">
             <Paper
-              elevation={4}
+              elevation={3}
               style={{ padding: "16px", marginBottom: "16px", width: "100%" }}
             >
               <Typography variant="h5" textAlign="right">
-                Good Return Note#: 119
+                Bulk Payment#: 119
               </Typography>
               <Box display="flex" justifyContent="space-between" mt={2}>
-                <Box></Box>
-                <Box></Box>
-                <Box></Box>
+                <Box>
+                  {/* <TableContainer component={Paper}>
+                    <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                      <TableBody>
+                        {dataUp.map((row) => (
+                          <TableRow>
+                            <TableCell align="left">Account</TableCell>
+                            <TableCell align="right">{row.Account}</TableCell>
+                          </TableRow>
+                        ))}
+                      </TableBody>
+                    </Table>
+                  </TableContainer> */}
+                  <Stack direction="column" spacing={1} alignItems="flex-start">
+                    <Typography variant="body1">Account:</Typography>
+                    <Typography variant="body1">Payment Method:</Typography>
+                    <Typography variant="body1">Effective Date:</Typography>
+                    <Typography variant="body1">Ref:</Typography>
+                    <Typography variant="body1">Cheque No:</Typography>
+                    <Typography variant="body1">Remarks:</Typography>
+                  </Stack>
+                </Box>
+                {dataUp.map((data) => (
+                  <Box>
+                    <Stack
+                      direction="column"
+                      spacing={1}
+                      alignItems="flex-start"
+                    >
+                      <Typography variant="body1">{data.Account}</Typography>
+                      <Typography variant="body1">
+                        {data.paymentMethod}
+                      </Typography>
+                      <Typography variant="body1">
+                        {data.effectiveDate}
+                      </Typography>
+                      <Typography variant="body1">{data.ref}</Typography>
+                      <Typography variant="body1">{data.chequeNo}</Typography>
+                      <Typography variant="body1">{data.remarks}</Typography>
+                    </Stack>
+                  </Box>
+                ))}
                 <Box>
                   <Stack direction="column" spacing={1} alignItems="flex-start">
                     <Typography variant="body1">Reservation #:</Typography>
@@ -152,9 +208,7 @@ function Grn() {
               <Table>
                 <TableHead>
                   <TableRow>
-                    <CenteredTableCell style={{ width: "100px" }}>
-                      #
-                    </CenteredTableCell>
+                    <CenteredTableCell>Bill#</CenteredTableCell>
                     <CenteredTableCell>Product</CenteredTableCell>
                     <CenteredTableCell>Store Name</CenteredTableCell>
                     <CenteredTableCell>Issued Qty</CenteredTableCell>
@@ -182,15 +236,6 @@ function Grn() {
                         >
                           <ReleaseButton
                             variant="contained"
-                            startIcon={<Description />}
-                            sx={{
-                              backgroundColor: "#03DAC6",
-                            }}
-                          >
-                            Serials
-                          </ReleaseButton>
-                          <ReleaseButton
-                            variant="contained"
                             startIcon={<Edit />}
                             sx={{
                               backgroundColor: "warning",
@@ -216,15 +261,11 @@ function Grn() {
                 <Box></Box>
                 <Box>
                   <Stack direction="column" spacing={1} alignItems="flex-start">
-                    <Typography variant="h5">Gross Total:</Typography>
-                    <Typography variant="body2">VAT Payable</Typography>
                     <Typography variant="h5">Total Amount</Typography>
                   </Stack>
                 </Box>
                 <Box>
                   <Stack direction="column" spacing={1} alignItems="flex-end">
-                    <Typography variant="h5">123,123.00 LKR</Typography>
-                    <Typography variant="body2">222.00 LKR</Typography>
                     <Typography variant="h5">
                       <span style={{ color: "red" }}>1,475.00 LKR</span>
                     </Typography>
@@ -232,29 +273,6 @@ function Grn() {
                 </Box>
               </Box>
             </Stack>
-
-            <Paper
-              elevation={3}
-              style={{ padding: "16px", marginBottom: "16px", width: "100%" }}
-            >
-              <Stack>
-                <Typography variant="h6" textAlign="left">
-                  WorkFlow Logs
-                </Typography>
-                <MuiTable
-                  columns={columns}
-                  dataTableData={datatableData}
-                  alignItems="center"
-                  justifyContent="center"
-                  search={false}
-                  download={false}
-                  print={false}
-                  filterType={false}
-                  selectableRows={false}
-                  title={false}
-                />
-              </Stack>
-            </Paper>
           </Stack>
         </SimpleCard>
       </Stack>
@@ -262,4 +280,4 @@ function Grn() {
   );
 }
 
-export default Grn;
+export default BulkPaymentDetails;
