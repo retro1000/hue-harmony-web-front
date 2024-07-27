@@ -27,14 +27,14 @@ import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 import { Delete, Edit, Group } from "@mui/icons-material";
 
 import { Breadcrumb, SimpleCard, MuiTable } from "app/components";
-import { suppliers } from "./SupplierList";
+import { suppliers } from "./WholesaleOrderList";
 
 import { useNotistack } from "app/hooks/useNotistack";
 import { tableCellClasses } from "@mui/material";
 
 import ViewIcon from "@mui/icons-material/RemoveRedEye";
 
-function SupplierDetails() {
+function OrderDetails() {
 
   const { id } = useParams();
 
@@ -178,7 +178,7 @@ function SupplierDetails() {
       <Box className="breadcrumb">
         <Breadcrumb
           routeSegments={[
-            { name: "Suppliers", path: "/supplier/list" },
+            { name: "Orders", path: "/Orders/list" },
             { name: id },
           ]}
         />
@@ -518,32 +518,10 @@ function SupplierDetails() {
           </Stack>
         </Stack>
 
-        <SimpleCard title='Supplier GRN' sx={{ width: "100%" }}>
-          <MuiTable
-            print={true}
-            download={true}
-            // title={"Good recieved notes"}
-            columns={columns}
-            dataTableData={datatableData}
-            selectableRows={"none"}
-            filterType={"text"}
-          />
-        </SimpleCard>
-
-        <SimpleCard title='Supplier Invoices' sx={{ width: "100%" }}>
-          <MuiTable
-            print={true}
-            download={true}
-            // title={"Good recieved notes"}
-            columns={columns}
-            dataTableData={datatableData}
-            selectableRows={"none"}
-            filterType={"text"}
-          />
-        </SimpleCard>
+        
       </Stack>
     </Container>
   );
 }
 
-export default SupplierDetails;
+export default OrderDetails;

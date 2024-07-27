@@ -20,6 +20,7 @@ import PurchaseOrderRoutes from "./views/purchase_order/purchase-order-routes";
 import posRoutes from "./views/pos/pos-routes"
 import PosRoutes from "./views/pos/pos-routes";
 import InvoiceRoutes from "./views/invoice/invoice-routes";
+import orderRoutes from "./views/order/order-routes";
 
 // E-CHART PAGE
 const AppEchart = Loadable(
@@ -39,6 +40,7 @@ const routes = [
       // </AuthGuard>
     ),
     children: [
+      ...orderRoutes,
       ...productRoutes,
       ...grnRoutes,
       ...userRoutes,
