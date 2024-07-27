@@ -8,6 +8,7 @@ import Banner from "../../components/HomePage/NewProduct";
 import ColorOfTheYear from "../../components/HomePage/UnderUnderHero";
 import Footer from "../../components/ProductPage/Footer";
 import PaintStories from "../../components/HomePage/UnderHero";
+import { Box } from "@mui/material";
 
 const theme = createTheme({
   palette: {
@@ -23,15 +24,22 @@ const theme = createTheme({
   },
 });
 
+const styles = {
+  padding: 15
+};
+
+
 const MainLayout = () => {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <Hero />
+      <Box sx={( styles )}>
       <PopularProducts />
       <Banner />
       <PaintStories/>
       <ColorOfTheYear/>
+      </Box>
       <Footer />
     </ThemeProvider>
   );

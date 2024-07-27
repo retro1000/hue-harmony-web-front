@@ -10,12 +10,12 @@ const ContactForm = () => {
           sx={{
             width: 10,
             height: 40,
-            bgcolor: "pink",
+            bgcolor: "#ED005D",
             borderRadius: 1,
             mr: 2,
           }}
         />
-        <Typography variant="subtitle1" color="primary" fontWeight={600}>
+        <Typography variant="subtitle1" color="#ED005D" fontWeight={600}>
           Contact
         </Typography>
       </Box>
@@ -45,7 +45,7 @@ const ContactForm = () => {
         sx={{ mb: 3 }}
       />
       <TextField fullWidth label="Subject" variant="standard" sx={{ mb: 3 }} />
-      <Button variant="contained" color="primary" fullWidth sx={{ mt: 2 }}>
+      <Button variant="contained"  fullWidth sx={{ mt: 2, backgroundColor: '#ED005D', color: 'white' }}>
         Connect with us
       </Button>
     </Box>

@@ -63,6 +63,9 @@ const LoginForm = ({ loginTitle, loginSubtitle }) => {
         label="Subscribe to our monthly newsletter"
         sx={{ alignSelf: "flex-start" }}
       />
+      
+      <Box sx={{display: 'flex',
+        justifyContent: 'center'}}>
       <Button
         variant="contained"
         color="primary"
@@ -73,15 +76,18 @@ const LoginForm = ({ loginTitle, loginSubtitle }) => {
           padding: "16px",
           fontSize: "22px",
           fontWeight: 500,
+          width: "200px",
         }}
       >
+        
         Log In
       </Button>
+      </Box>
       <Typography
         variant="body2"
         sx={{ marginTop: "10px", alignSelf: "flex-start" }}
       >
-        Don't have an account? <u>Sign Up</u>
+        Don't have an account? <a href= "#">Sign Up</a>
       </Typography>
     </Box>
   );

@@ -6,9 +6,6 @@ const ColorOfTheYear = () => {
     <Box
       sx={{
         borderColor: 'rgba(159, 158, 158, 1)',
-        borderTop: '1px solid',
-        borderRight: '1px solid',
-        borderBottom: '1px solid',
         backgroundColor: '#fff',
         marginTop: 6,
         padding: { xs: '40px 20px', md: '50px 55px' },

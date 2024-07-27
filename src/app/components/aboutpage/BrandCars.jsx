@@ -1,6 +1,7 @@
 
 import React from "react";
 import { Box, Typography, Container } from "@mui/material";
+import LogoSlider from "../../components/aboutpage/Slider";
 
 const BrandCars = () => {
   return (
@@ -24,11 +25,12 @@ const BrandCars = () => {
         </Typography>
         <Box
           component="img"
-          src="h/5779f835c2c11105dac7aed3c1853c667864e12fa20973630a3a65a33d9c4181?apiKey=6f06a6b4e70e4dde93ec8099db2adb9d&&apiKey=6f06a6b4e70e4dde93ec8099db2adb9d"
+          src="https://cdn.builder.io/api/v1/image/assets/TEMP/5779f835c2c11105dac7aed3c1853c667864e12fa20973630a3a65a33d9c4181?apiKey=6f06a6b4e70e4dde93ec8099db2adb9d&&apiKey=6f06a6b4e70e4dde93ec8099db2adb9d"
           alt="Divider"
           sx={{ flex: 1 }}
         />
       </Box>
+      <LogoSlider/>
     </Container>
   );
 };

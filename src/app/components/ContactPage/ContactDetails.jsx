@@ -4,7 +4,7 @@ import { Box, Container, Grid, Typography } from "@mui/material";
 
 const ContactDetails = () => {
   return (
-    <Box sx={{ bgcolor: "primary.main", color: "white", py: 10 }}>
+    <Box sx={{ bgcolor: "#ED005D", color: "white", py: 10 }}>
       <Container maxWidth="lg">
         <Grid container spacing={4}>
           <Grid item xs={12} md={4}>

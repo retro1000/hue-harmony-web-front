@@ -96,6 +96,27 @@ const Footer = () => {
           <Typography variant="body2" sx={{ color: "#fafafa", mb: 2 }}>
             Shop
           </Typography>
+          
+        </Grid>
+        <Grid item xs={12} sm={6} md={3}>
+          <Typography
+            variant="subtitle1"
+            sx={{ color: "#fafafa", fontWeight: 500, mb: 3 }}
+          >
+            Quick Link
+          </Typography>
+          <Typography variant="body2" sx={{ color: "#fafafa", mb: 2 }}>
+            Privacy Policy
+          </Typography>
+          <Typography variant="body2" sx={{ color: "#fafafa", mb: 2 }}>
+            Terms Of Use
+          </Typography>
+          <Typography variant="body2" sx={{ color: "#fafafa", mb: 2 }}>
+            FAQ
+          </Typography>
+          <Typography variant="body2" sx={{ color: "#fafafa", mb: 2 }}>
+            Contact
+          </Typography>
         </Grid>
         <Grid item xs={12} sm={6} md={3}>
           <Typography
@@ -118,43 +139,7 @@ const Footer = () => {
           </Typography>
         </Grid>
       </Grid>
-      <Box sx={{ mt: 4.5, textAlign: "center" }}>
-        <img
-          src="http://b.io/ext_39-"
-          alt="App Store"
-          style={{ width: 195, marginBottom: 3 }}
-        />
-        <Box sx={{ display: "flex", justifyContent: "center", gap: 2.5 }}>
-          <IconButton>
-            <img
-              src="http://b.io/ext_40-"
-              alt="Social 1"
-              style={{ width: 24, height: 24 }}
-            />
-          </IconButton>
-          <IconButton>
-            <img
-              src="http://b.io/ext_41-"
-              alt="Social 2"
-              style={{ width: 24, height: 24 }}
-            />
-          </IconButton>
-          <IconButton>
-            <img
-              src="http://b.io/ext_42-"
-              alt="Social 3"
-              style={{ width: 24, height: 24 }}
-            />
-          </IconButton>
-          <IconButton>
-            <img
-              src="http://b.io/ext_43-"
-              alt="Social 4"
-              style={{ width: 24, height: 24 }}
-            />
-          </IconButton>
-        </Box>
-      </Box>
+      
       <Box
         sx={{
           display: "flex",
@@ -164,13 +149,9 @@ const Footer = () => {
           color: "#fff",
         }}
       >
-        <img
-          src="http://b.io/ext_44-"
-          alt="Copyright"
-          style={{ width: 20, marginRight: 0.75 }}
-        />
+        
         <Typography variant="body2">
-          Copyright Paints 2024. All right reserved
+        &copy; Copyright Paints 2024. All right reserved
         </Typography>
       </Box>
     </Box>

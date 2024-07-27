@@ -3,7 +3,7 @@ import Loadable from "app/components/Loadable";
 
 
 const BillingDetails = Loadable(lazy(() => import('../Billing/BillingDetails')))
-const Cart = Loadable(lazy(() => import('../Billing/CartPage')))
+const Cart = Loadable(lazy(() => import('../Billing/cart/CartPage')))
 
 
 
@@ -17,7 +17,6 @@ const BillingRoutes = [
     path: "/BillingDetails",
     element: <BillingDetails />
   },
-  
 ];
 
 export default BillingRoutes;
