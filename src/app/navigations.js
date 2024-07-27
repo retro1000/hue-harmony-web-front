@@ -6,6 +6,7 @@ export const navigations = [
     children: [
       { name: "Summary", iconText: "E", path: "/product/list" },
       { name: "Create new product", iconText: "E", path: "/product/create" },
+      { name: "Product Details", iconText: "E", path: "/products/view" },
     ],
   },
   {
