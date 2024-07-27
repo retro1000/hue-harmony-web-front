@@ -142,7 +142,7 @@ const renderUserRoleChip = (role) => {
   return <Chip label={role} sx={{background: color, color: 'white', height: '2em', border: 'none'}} variant="outlined" />;
 };
 
-export default function MuiTable({ rowsPerPage, pagination, filter, cols, search, download, print, dataTableData, columns, filterType, selectableRows, title }){
+export default function MuiTable({ rowsPerPage=true, pagination=true, filter, cols, search, download, print, dataTableData, columns, filterType, selectableRows, title }){
 
   // const classes = useStyles();
 
