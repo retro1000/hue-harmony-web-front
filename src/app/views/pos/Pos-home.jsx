@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { ThemeProvider } from '@mui/material/styles';
+import PosTheme from 'app/components/Themes/posTheme';
 
 import Box from '@mui/material/Box';
 
@@ -84,6 +86,7 @@ const PosHome = () => {
     };
 
     return (
+        
         <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
             {/* Navigation Bar */}
             <PosNav></PosNav>
@@ -287,6 +290,7 @@ const PosHome = () => {
        
             </Box>
         </Box>
+        
     );
 }
 
