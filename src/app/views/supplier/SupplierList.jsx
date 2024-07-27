@@ -126,7 +126,7 @@ function SupplierList() {
     },
     {
       title: 'Additional Details',
-      optional: [
+      inputs: [
         {
           key: "sup_email_text",
           required: false,
