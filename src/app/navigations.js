@@ -30,6 +30,7 @@ export const navigations = [
     icon: "shopping_cart",
     children: [
       { name: "Summary", iconText: "E", path: "/purchase-order/list" },
+      { name: "Sales Order", iconText: "E", path: "/sales-order/view" },
     ],
   },
   {

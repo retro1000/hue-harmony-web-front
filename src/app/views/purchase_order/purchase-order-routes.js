@@ -7,6 +7,9 @@ const PurchaseOrderList = Loadable(lazy(() => import("./PurchaseOrderList")));
 const PurchaseOrderDetails = Loadable(
   lazy(() => import("./PurchaseOrderDetails"))
 );
+const SalesOrderDetails = Loadable(
+  lazy(() => import("./PurchaseOrderDetails"))
+);
 
 const PurchaseOrderRoutes = [
   {
@@ -22,6 +25,14 @@ const PurchaseOrderRoutes = [
     element: (
       <AuthGuard auth={authRoles.manager}>
         <PurchaseOrderDetails />
+      </AuthGuard>
+    ),
+  },
+  {
+    path: "/sales-order/view",
+    element: (
+      <AuthGuard auth={authRoles.manager}>
+        <SalesOrderDetails />
       </AuthGuard>
     ),
   },
