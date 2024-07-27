@@ -11,7 +11,7 @@ const ProductTable = () => {
         Product Details
       </Typography>
       <Button variant="contained" color="primary" startIcon={<AddIcon />}>
-        Add Item
+        Add Product
       </Button>
       <Typography variant="subtitle2" sx={{ mt: 1 }}>
         Note: Please add all the items and Click Finish to Proceed.
@@ -64,12 +64,22 @@ const ProductTable = () => {
         </Table>
       </TableContainer>
       <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 2 }}>
-        <Button variant="contained" color="success">
-          Validate & Finish
-        </Button>
-        <Button variant="contained">
-          Save as Draft
-        </Button>
+      <Button
+  variant="contained"
+  startIcon={<AddIcon />}
+  sx={{ bgcolor: '#9e9e9e', }} // Grey color with hover effect
+>
+  Add Item
+</Button>
+      <Box sx={{ display: 'flex', justifyContent: 'space-between',width:'25%' }}>
+  <Button variant="contained" color="success">
+    Validate & Finish
+  </Button>
+  <Button variant="contained">
+    Save as Draft
+  </Button>
+</Box>
+       
       </Box>
     </Box>
   );

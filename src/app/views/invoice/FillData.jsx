@@ -3,10 +3,13 @@ import { Box, TextField, Grid, Typography, MenuItem } from '@mui/material';
 
 const FillData = () => {
   return (
-    <Box sx={{ mb: 4, p: 2, border: '1px solid #ccc', borderRadius: 2 }}>
-      <Typography variant="h6" gutterBottom>
+    <Box sx={{ p: 2, borderRadius: 2 }}>
+        <Box sx={{display:'flex',justifyContent:'center',paddingBottom:2}}>
+        <Typography variant="h5" fontWeight={600} gutterBottom>
         Please Fill Data
       </Typography>
+        </Box>
+     
       <Grid container spacing={2}>
         <Grid item xs={4}>
           <TextField select label="Store" fullWidth required>
