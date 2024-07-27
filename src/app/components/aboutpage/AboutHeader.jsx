@@ -10,11 +10,11 @@ const AboutHeader = () => {
           sx={{
             width: 4,
             height: 40,
-            bgcolor: "primary.main",
+            bgcolor: '#ED005D' ,
             borderRadius: "0 4px 4px 0",
           }}
         />
-        <Typography variant="subtitle1" color="primary">
+        <Typography variant="subtitle1" color='#ED005D'>
           About
         </Typography>
       </Box>
