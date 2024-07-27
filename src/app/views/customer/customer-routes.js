@@ -10,7 +10,7 @@ const customerRoutes = [
   {
     path: "/customer/list",
     element: (
-      <AuthGuard auth={authRoles.manager}>
+      <AuthGuard auth={authRoles.back_office}>
         <CustomerList />
       </AuthGuard>
     ),
@@ -18,7 +18,7 @@ const customerRoutes = [
   {
     path: "/customer/view/:id",
     element: (
-      <AuthGuard auth={authRoles.manager}>
+      <AuthGuard auth={authRoles.back_office}>
         <CustomerDetail />
       </AuthGuard>
     ),

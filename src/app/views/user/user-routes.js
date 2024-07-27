@@ -10,7 +10,7 @@ const userRoutes = [
   { 
     path: "/user/list",
     element: 
-      <AuthGuard auth={authRoles.manager}>
+      <AuthGuard auth={authRoles.admin}>
         <UserList />
       </AuthGuard>
   },

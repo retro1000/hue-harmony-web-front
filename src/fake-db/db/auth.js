@@ -9,7 +9,7 @@ const userList = [
     role: "ADMIN",
     name: "Jason Alexander",
     username: "jason_alexander",
-    email: "jason@ui-lib.com",
+    email: "admin@s.com",
     avatar: "/assets/images/face-6.jpg",
     age: 25
   },
@@ -18,10 +18,46 @@ const userList = [
     role: "USER",
     name: "Jason Alexande",
     username: "jason_alexande",
-    email: "jason@ui-libr.com",
+    email: "user@s.com",
     avatar: "/assets/images/face-6.jpg",
     age: 25
-  }
+  },
+  {
+    id: 3,
+    role: "BACKOFFICE",
+    name: "Jason Alexander",
+    username: "jason_alexander",
+    email: "backoffice@s.com",
+    avatar: "/assets/images/face-6.jpg",
+    age: 25
+  },
+  {
+    id: 4,
+    role: "CASHIER",
+    name: "Jason Alexander",
+    username: "jason_alexander",
+    email: "cachier@s.com",
+    avatar: "/assets/images/face-6.jpg",
+    age: 25
+  },
+  {
+    id: 5,
+    role: "INVENTORYMANAGER",
+    name: "Jason Alexander",
+    username: "jason_alexander",
+    email: "inventorymanager@s.com",
+    avatar: "/assets/images/face-6.jpg",
+    age: 25
+  },
+  {
+    id: 6,
+    role: "SALESMANAGER",
+    name: "Jason Alexander",
+    username: "jason_alexander",
+    email: "salesmanager@s.com",
+    avatar: "/assets/images/face-6.jpg",
+    age: 25
+  },
 ];
 
 // FOLLOWING CODES ARE MOCK SERVER IMPLEMENTATION

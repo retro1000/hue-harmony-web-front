@@ -5,48 +5,58 @@ import AuthGuard from "app/auth/AuthGuard";
 
 const UpserProduct = Loadable(lazy(() => import("./UpserProduct")));
 const ProductList = Loadable(lazy(() => import("./ProductList")));
+const StoreProductList = Loadable(lazy(() => import("./StoreProductList")));
 const ProductView = Loadable(lazy(() => import("./ProductView")));
-
-
-const Re = Loadable(lazy(() => import('./re.jsx')))
 const FilterProduct = Loadable(lazy(() => import('./FilterProduct.jsx')))
-
 
 const productRoutes = [
   {
     path: "/product/list",
     element: (
-      <AuthGuard auth={authRoles.manager}>
+      <AuthGuard auth={authRoles.back_office}>
         <ProductList />
+      </AuthGuard>
+    ),
+  },
+  {
+    path: "/product/store/list",
+    element: (
+      <AuthGuard auth={authRoles.admin}>
+        <StoreProductList />
       </AuthGuard>
     ),
   },
   {
     path: "/product/create",
     element: (
-      <AuthGuard auth={authRoles.manager}>
+      <AuthGuard auth={authRoles.admin}>
         <UpserProduct />
+      </AuthGuard>
+    ),
+  },
+  {
+    path: "/product/detail/:id",
+    element: (
+      <AuthGuard auth={authRoles.admin}>
+        <ProductView />
       </AuthGuard>
     ),
   },
   {
     path: "/product/view/:id",
     element: (
-      // <AuthGuard auth={authRoles.manager}>
+      <AuthGuard auth={authRoles.userOrGuest}>
         <ProductView />
-      // </AuthGuard>
+      </AuthGuard>
     ),
-  },
-
-
-  
-  {
-    path: "/product/re",
-    element: <Re />
   },
   {
     path: "/product/filter-product",
-    element: <FilterProduct />
+    element: (
+      <AuthGuard auth={authRoles.userOrGuest}>
+        <FilterProduct />
+      </AuthGuard>
+    )
   }
 ];
 

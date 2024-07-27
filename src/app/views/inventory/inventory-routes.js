@@ -16,7 +16,7 @@ const inventoryRoutes = [
   {
     path: "/inventory/stock-adjustment",
     element: (
-      <AuthGuard auth={authRoles.manager}>
+      <AuthGuard auth={authRoles.inventory_manager}>
         <StockAdjustment />
       </AuthGuard>
     ),
@@ -24,7 +24,7 @@ const inventoryRoutes = [
   {
     path: "/inventory/stock-adjustment/list",
     element: (
-      <AuthGuard auth={authRoles.manager}>
+      <AuthGuard auth={authRoles.inventory_manager}>
         <StockAdjustmentList />
       </AuthGuard>
     ),
@@ -32,7 +32,7 @@ const inventoryRoutes = [
   {
     path: "/inventory/reservation",
     element: (
-      <AuthGuard auth={authRoles.manager}>
+      <AuthGuard auth={authRoles.inventory_manager}>
         <Reservation />
       </AuthGuard>
     ),
@@ -56,7 +56,7 @@ const inventoryRoutes = [
   {
     path: "/inventory/list",
     element: (
-      <AuthGuard auth={authRoles.manager}>
+      <AuthGuard auth={[...authRoles.manager, ...authRoles.cachier]}>
         <InventoryList />
       </AuthGuard>
     ),

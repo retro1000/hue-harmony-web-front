@@ -24,7 +24,7 @@ const Container = styled("div")(({ theme }) => ({
   }
 }));
 
-function InvoiceList() {
+function PurchaseInvoiceList() {
 
     const navigate = useNavigate();
 
@@ -142,4 +142,4 @@ function InvoiceList() {
     );
 }
 
-export default InvoiceList;
+export default PurchaseInvoiceList;
