@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, Fragment } from "react";
 import { useParams, useLocation } from "react-router-dom";
 
 import {
@@ -32,9 +32,78 @@ import { suppliers } from "./SupplierList";
 import { useNotistack } from "app/hooks/useNotistack";
 import { tableCellClasses } from "@mui/material";
 
+import ViewIcon from "@mui/icons-material/RemoveRedEye";
+
 function SupplierDetails() {
+
   const { id } = useParams();
+
   const location = useLocation();
+
+  const [datatableData, setDataTableData] = useState([
+    ['D#45er', 'Dulux', '11000.00', '13 Jun 2024', 'User1',  'Available'],
+    ['D#45er', 'Wall paint', 'Dulux', 'Paint', 'Red', '4 Ltr', '11000.00', '13', 'Inactive'],
+    ['D#45er', 'Wall paint', 'Dulux', 'Paint', 'Red', '4 Ltr', '11000.00', '13', 'Pending'],
+    ['D#45er', 'Wall paint', 'Dulux', 'Paint', 'Red', '4 Ltr', '11000.00', '13', 'Blocked'],
+    ['D#45er', 'Wall paint', 'Dulux', 'Paint', 'Red', '4 Ltr', '11000.00', '13', 'Sold'],
+    ['Kaui Ignace', 'Example Inc.', 'Yonkers', 'NY'],
+    ['Esperanza Susanne', 'Example Inc.', 'Hartford', 'CT'],
+    ['Christian Birgitte', 'Example Inc.', 'Tampa', 'FL'],
+    ['Meral Elias', 'Example Inc.', 'Hartford', 'CT'],
+    ['Deep Pau', 'Example Inc.', 'Yonkers', 'NY'],
+    ['Sebastiana Hani', 'Example Inc.', 'Dallas', 'TX'],
+    ['Marciano Oihana', 'Example Inc.', 'Yonkers', 'NY'],
+    ['Brigid Ankur', 'Example Inc.', 'Dallas', 'TX'],
+    ['Anna Siranush', 'Example Inc.', 'Yonkers', 'NY'],
+    ['Avram Sylva', 'Example Inc.', 'Hartford', 'CT'],
+    ['Serafima Babatunde', 'Example Inc.', 'Tampa', 'FL'],
+    ['Gaston Festus', 'Example Inc.', 'Tampa', 'FL'],
+  ]);
+
+  const [columns, setColumns] = useState([
+    {
+      name:'Barcode',
+      label: 'Barcode',
+    },
+    {
+      name:'Supplier Name',
+      label: 'Supplier Name',
+    },
+    {
+      name:'Grand Total',
+      label: 'Grand Total (LKR)',
+    },
+    {
+      name:'Created On',
+      label: 'Created On',
+    },
+    {
+      name:'Created By',
+      label: 'Created By',
+    },
+    {
+      name:'Status',
+      label: 'Status',
+    },
+    {
+      name: "Actions",
+      label: "Actions",
+      options: {
+          buttonsConfig: [
+            {
+              type: 'icon',
+              icon: ViewIcon,
+              color: 'primary',
+              size: 'small',
+              onClick: (index) => {
+                console.log('Edit button clicked for row', index);
+              },
+            },
+          ]
+      },
+    },
+  ]);
+
   const { name, grandTotal, createdOn, createdBy, status } =
     location.state || {};
   const Container = styled("div")(({ theme }) => ({
@@ -72,7 +141,7 @@ function SupplierDetails() {
       Createdon: "",
     },
   ];
-  console.log(status);
+  
 
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -199,7 +268,7 @@ function SupplierDetails() {
             <Table sx={{ minWidth: 700 }} aria-label="customized table">
               <TableBody>
                 {data.map((customer) => (
-                  <React.Fragment key={customer.id}>
+                  <Fragment key={customer.id}>
                     <StyledTableRow>
                       <StyledTableCell align="center">Code</StyledTableCell>
                       <StyledTableCell align="center">
@@ -284,7 +353,7 @@ function SupplierDetails() {
                         {customer.Createdon}
                       </StyledTableCell>
                     </StyledTableRow>
-                  </React.Fragment>
+                  </Fragment>
                 ))}
               </TableBody>
             </Table>
@@ -313,7 +382,7 @@ function SupplierDetails() {
               <Table sx={{ minWidth: 700 }} aria-label="customized table">
                 <TableBody>
                   {data.map((customer) => (
-                    <React.Fragment key={customer.id}>
+                    <Fragment key={customer.id}>
                       <StyledTableRow>
                         <StyledTableCell align="center">Code</StyledTableCell>
                         <StyledTableCell align="center">
@@ -366,7 +435,7 @@ function SupplierDetails() {
                           {customer.CityTown}
                         </StyledTableCell>
                       </StyledTableRow>
-                    </React.Fragment>
+                    </Fragment>
                   ))}
                 </TableBody>
               </Table>
@@ -388,7 +457,7 @@ function SupplierDetails() {
               <Table sx={{ minWidth: 700 }} aria-label="customized table">
                 <TableBody>
                   {data.map((customer) => (
-                    <React.Fragment key={customer.id}>
+                    <Fragment key={customer.id}>
                       <StyledTableRow>
                         <StyledTableCell align="center">Code</StyledTableCell>
                         <StyledTableCell align="center">
@@ -441,13 +510,37 @@ function SupplierDetails() {
                           {customer.CityTown}
                         </StyledTableCell>
                       </StyledTableRow>
-                    </React.Fragment>
+                    </Fragment>
                   ))}
                 </TableBody>
               </Table>
             </TableContainer>
           </Stack>
         </Stack>
+
+        <SimpleCard title='Supplier GRN' sx={{ width: "100%" }}>
+          <MuiTable
+            print={true}
+            download={true}
+            // title={"Good recieved notes"}
+            columns={columns}
+            dataTableData={datatableData}
+            selectableRows={"none"}
+            filterType={"text"}
+          />
+        </SimpleCard>
+
+        <SimpleCard title='Supplier Invoices' sx={{ width: "100%" }}>
+          <MuiTable
+            print={true}
+            download={true}
+            // title={"Good recieved notes"}
+            columns={columns}
+            dataTableData={datatableData}
+            selectableRows={"none"}
+            filterType={"text"}
+          />
+        </SimpleCard>
       </Stack>
     </Container>
   );

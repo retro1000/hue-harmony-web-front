@@ -122,4 +122,12 @@ export const navigations = [
   //   type: "extLink",
   //   path: "http://demos.ui-lib.com/matx-react-doc/"
   // }
+  {
+    name: "Invoices",
+    icon: "shopping_basket",
+    children: [
+      { name: "Summary", iconText: "E", path: "/invoice/list" },
+      
+    ],
+  },
 ];
