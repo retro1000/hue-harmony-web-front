@@ -87,7 +87,7 @@ const categoryWidth = '30%';
 const ProductDetails = () => {
   return (
     <Container maxWidth="lg">
-      <Paper elevation={0} style={{ padding: 5, borderRadius: 20,mt:4 }}>
+      <Paper elevation={0} style={{ padding: 5, borderRadius: 20,marginTop:20 }}>
         <Grid container spacing={2} component={Box} p={2} borderColor="grey.500">
           <Grid item xs={4} component={Box} borderRight={0.3} borderColor="grey.500" pr={2}>
             <img src={productData.imageUrl} alt="Product" style={{ width: '100%' }} />
