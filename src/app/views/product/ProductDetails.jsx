@@ -116,11 +116,9 @@ const ProductDetails = () => {
       </Paper>
 
       <Paper elevation={0} style={{ padding: 20, marginTop: 30,borderRadius:20 }}>
-       
-      
-      
-      <Grid container>
-  <Grid item component={Box} xs={5} sx={{ border: '1px solid #ccc', borderRadius: '4px', p: 2,width:'10%' }}>
+    <Grid container sx={{width:'100%'}}>
+  <Grid item xs={5.5} md={6} sx={{ borderRadius: '4px', p: 2 }}>
+    <Box>
     <Typography variant="h6" gutterBottom>
       PRICING & COSTING INFO
     </Typography>
@@ -175,9 +173,11 @@ const ProductDetails = () => {
       <Typography variant="body2">TAXABLE?</Typography>
       <Typography variant="body1">YES</Typography>
     </Box>
+    </Box>
   </Grid>
 
-  <Grid item xs={5} sx={{ border: '1px solid #ccc', borderRadius: '4px', p: 2 }}>
+  <Grid item xs={5} md={6} sx={{ borderRadius: '4px', p: 2 }}>
+  
     <Typography variant="h6" gutterBottom>
       OTHER INFO
     </Typography>
@@ -205,6 +205,7 @@ const ProductDetails = () => {
       <Typography variant="body2">NET WEIGHT (Kg)</Typography>
       <Typography variant="body1">0.000</Typography>
     </Box>
+    
   </Grid>
 </Grid>
 
