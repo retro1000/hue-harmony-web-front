@@ -19,6 +19,11 @@ import PaymentRoutes from "./views/payment/payment-routes";
 import PurchaseOrderRoutes from "./views/purchase_order/purchase-order-routes";
 import posRoutes from "./views/pos/pos-routes"
 import PosRoutes from "./views/pos/pos-routes";
+import loginRoutes from "./views/sessions/login/login-routes";
+import signupRoutes from "./views/sessions/register/signup-routes";
+import BillingRoutes from "./views/Billing/Billing-routes";
+import profileRoutes from "./views/Profile/profile-routes";
+import PChartRoutes from "./views/PaintChart/PChart-routes";
 import InvoiceRoutes from "./views/invoice/invoice-routes";
 import orderRoutes from "./views/order/order-routes";
 
