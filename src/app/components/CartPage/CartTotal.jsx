@@ -33,7 +33,7 @@ const CartTotal = ({ subtotal, shipping, total }) => {
         <Typography align="right">{total}</Typography>
       </Grid>
       <Grid item xs={12}>
-        <Button variant="contained" color="primary" fullWidth>
+        <Button variant="contained" sx={{ backgroundColor: '#ED005D', color: '#fff' }} fullWidth>
           Proceed to checkout
         </Button>
       </Grid>

@@ -11,9 +11,8 @@ const CouponForm = () => {
       <Grid item xs={4}>
         <Button
           variant="contained"
-          color="primary"
           fullWidth
-          style={{ height: "100%" }}
+          style={{ height: "100%", backgroundColor: '#ED005D', color: '#fff'}}
         >
           Apply Coupon
         </Button>

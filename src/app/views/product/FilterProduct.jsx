@@ -5,6 +5,8 @@ import Footer from "../../components/ProductPage/Footer";
 import ProductGrid from "../../components/ProductPage/ProductGrid";
 import FilterBar, { filtersConfig } from "../../components/ProductPage/Filtering";
 import FilterList from "../../components/ProductPage/Filtering";
+import SearchBar from "../../components/ProductPage/SearchBar";
+import SortButton from "../../components/ProductPage/SortButton";
 
 const ProductPage = () => {
   const [filters, setFilters] = useState({
@@ -124,6 +126,18 @@ const ProductPage = () => {
             >
               Explore Our Products
             </Typography>
+            <Box sx={{
+              display: 'flex',
+              flexDirection: 'row',
+              justifyContent: 'flex-end',
+              alignItems: 'flex-start',
+              gap: 2,
+      
+            }}>
+            <SortButton/>
+            <SearchBar/>
+            
+            </Box>
             <ProductGrid />
             <Button
               variant="contained"
