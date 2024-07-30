@@ -23,6 +23,8 @@ import signupRoutes from "./views/sessions/register/signup-routes";
 import BillingRoutes from "./views/Billing/Billing-routes";
 import profileRoutes from "./views/Profile/profile-routes";
 import PChartRoutes from "./views/PaintChart/PChart-routes";
+import InvoiceRoutes from "./views/invoice/invoice-routes";
+import orderRoutes from "./views/order/order-routes";
 
 // E-CHART PAGE
 const AppEchart = Loadable(
