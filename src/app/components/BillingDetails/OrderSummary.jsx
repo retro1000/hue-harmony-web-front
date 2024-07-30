@@ -1,6 +1,6 @@
 
 import React from "react";
-import { Typography, Grid, Divider, Button, TextField ,  FormControlLabel,
+import { Typography, Grid, Divider, Button, TextField ,  FormControlLabel, 
   Radio,
   RadioGroup,} from "@mui/material";
 
@@ -54,7 +54,7 @@ const OrderSummary = () => {
         <TextField fullWidth label="Coupon Code" variant="outlined" />
       </Grid>
       <Grid item xs={12}>
-        <Button variant="contained" color="primary" fullWidth>
+        <Button variant="contained" sx={{ backgroundColor: '#ED005D', color: '#fff' }} fullWidth>
           Apply Coupon
         </Button>
       </Grid>
@@ -76,7 +76,7 @@ const OrderSummary = () => {
       </Grid>
 
       <Grid item xs={12}>
-        <Button variant="contained" color="secondary" fullWidth>
+        <Button variant="contained" sx={{ backgroundColor: '#ED005D', color: '#fff' }} fullWidth>
           Place Order
         </Button>
       </Grid>

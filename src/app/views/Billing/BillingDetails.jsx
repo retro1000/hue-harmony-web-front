@@ -4,9 +4,11 @@ import { Container, Grid, Paper } from "@mui/material";
 import BillingDetailsHeader from "../../components/BillingDetails/BillingDetailsHeader";
 import BillingForm from "../../components/BillingDetails/BillingForm";
 import OrderSummary from "../../components/BillingDetails/OrderSummary";
+import Footer from "../../components/ProductPage/Footer";
 
 const BillingDetails = () => {
   return (
+    <>
     <Container maxWidth="lg">
       <BillingDetailsHeader />
       <Grid container spacing={3}>
@@ -21,7 +23,10 @@ const BillingDetails = () => {
           </Paper>
         </Grid>
       </Grid>
+      
     </Container>
+    <Footer/>
+    </>
   );
 };
 
