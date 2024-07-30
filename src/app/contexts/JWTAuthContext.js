@@ -1,5 +1,6 @@
 import { createContext, useEffect, useReducer } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 // CUSTOM COMPONENT
 import { MatxLoading } from "app/components";
@@ -40,10 +41,12 @@ const AuthContext = createContext({
   login: () => {},
   logout: () => {},
   register: () => {},
+  getRole: () => {}
 });
 
 export const AuthProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
+  const navigate = useNavigate()
 
   // const login = async (username, password, rememberMe) => {
   //   const response = await axios.post(`${backendApi}/login/validate`, { username:username, password:password, rememberMe:rememberMe });
@@ -54,18 +57,19 @@ export const AuthProvider = ({ children }) => {
   //   dispatch({ type: "LOGIN", payload: { user, role } });
   // };
 
-  const login = async (email, password) => {
-    console.log(password);
+  const login = async (email, password, rememberMe) => {
     const response = await axios.post("/api/auth/login", { email, password });
     const { user, token, role } = response.data;
-
-    // const token = ''
-    // const role = 'ADMIN'
 
     localStorage.setItem("token", token);
 
     dispatch({ type: "LOGIN", payload: { user, token, role } });
+    return role;
   };
+
+  const getRole = async () => {
+    return initialState.role;
+  }
 
   const register = async (email, username, password) => {
     const response = await axios.post("/api/auth/register", {
@@ -83,6 +87,7 @@ export const AuthProvider = ({ children }) => {
   const logout = () => {
     localStorage.removeItem("token");
     dispatch({ type: "LOGOUT" });
+    navigate('/home')
   };
 
   useEffect(() => {
@@ -126,7 +131,7 @@ export const AuthProvider = ({ children }) => {
 
   return (
     <AuthContext.Provider
-      value={{ ...state, method: "JWT", login, logout, register }}
+      value={{ ...state, method: "JWT", login, logout, register, getRole }}
     >
       {children}
     </AuthContext.Provider>

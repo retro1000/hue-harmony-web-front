@@ -83,8 +83,7 @@ const officeNav = [
   },
 ];
 
-export const navigation = () => {
-  const { role } = useAuth
+const getNavigation = (role) => {
 
   switch(role){
     case 'ADMIN':
@@ -99,6 +98,11 @@ export const navigation = () => {
       return []      
   }
 }
+
+export const useNavigation = () => {
+  const { role } = useAuth();
+  return getNavigation(role);
+};
 
 
 export const navigations = [

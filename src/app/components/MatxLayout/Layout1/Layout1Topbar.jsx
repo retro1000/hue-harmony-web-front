@@ -168,14 +168,14 @@ const Layout1Topbar = () => {
                     label='Log in'
                     variant="outlined"
                     sx={{bordder: '#000000', color: 'black'}}
-                    fun={() => navigate('/session/signin')}
+                    fun={() => navigate('/login')}
                   ></TButton>
                   <TButton
                     title='Signup'
                     label='Sign up'
                     variant="contained"
                     sx={{background: '#ED005D', color: 'white'}}
-                    fun={() => navigate('/session/signup')}
+                    fun={() => navigate('/signup')}
                   ></TButton>
                 </Box>
               </React.Fragment> :
