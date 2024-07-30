@@ -36,7 +36,7 @@ export const filtersConfig = [
 ];
 
 const FilterList = ({ filter, filters, handleFilterChange }) => (
-  <Accordion>
+  <Accordion sx={{ boxShadow: 'none', border: 'none' }}>
     <AccordionSummary expandIcon={<ExpandMoreIcon />}>
       <Typography variant="h6">{filter.category}</Typography>
     </AccordionSummary>
