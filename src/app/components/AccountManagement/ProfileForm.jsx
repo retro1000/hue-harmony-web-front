@@ -89,8 +89,17 @@ const ProfileForm = () => {
           xs={12}
           sx={{ display: "flex", justifyContent: "flex-end", gap: 2 }}
         >
-          <Button variant="outlined">Cancel</Button>
-          <Button variant="contained" color="primary">
+          <Button 
+          variant="outlined"
+          sx={{
+          color: '#ED005D',
+          borderColor: '#ED005D',
+        '&:hover': {
+          borderColor: '#ED005D', 
+          backgroundColor: 'rgba(237, 0, 93, 0.04)', 
+        },
+      }}>Cancel</Button>
+          <Button variant="contained" sx={{ backgroundColor: '#ED005D', color: '#fff' }}>
             Save Changes
           </Button>
         </Grid>

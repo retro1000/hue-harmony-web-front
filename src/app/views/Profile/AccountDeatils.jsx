@@ -4,9 +4,11 @@ import { Box, Typography, Container, Grid, Paper } from "@mui/material";
 import Breadcrumb from "../../components/AccountManagement/Breadcrumb";
 import Sidebar from "../../components/AccountManagement/Sidebar";
 import ProfileForm from "../../components/AccountManagement/ProfileForm";
+import Footer from "../../components/ProductPage/Footer";
 
 const AccountDetails = () => {
   return (
+    <>
     <Box
       sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}
     >
@@ -18,7 +20,7 @@ const AccountDetails = () => {
           </Grid>
           <Grid item xs={12} md={9}>
             <Paper elevation={3} sx={{ p: 4 }}>
-              <Typography variant="h5" color="primary" gutterBottom>
+              <Typography variant="h5" color="#ED005D" gutterBottom>
                 Edit Your Profile
               </Typography>
               <br></br>
@@ -28,6 +30,8 @@ const AccountDetails = () => {
         </Grid>
       </Container>
     </Box>
+    <Footer/>
+    </>
   );
 };
 
