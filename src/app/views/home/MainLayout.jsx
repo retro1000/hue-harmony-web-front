@@ -8,6 +8,7 @@ import Banner from "../../components/HomePage/NewProduct";
 import ColorOfTheYear from "../../components/HomePage/UnderUnderHero";
 import Footer from "../../components/ProductPage/Footer";
 import PaintStories from "../../components/HomePage/UnderHero";
+import LetsPaintHero from "../../components/HomePage/BottomHero";
 import { Box } from "@mui/material";
 
 const theme = createTheme({
@@ -39,7 +40,9 @@ const MainLayout = () => {
       <Banner />
       <PaintStories/>
       <ColorOfTheYear/>
+     
       </Box>
+      <LetsPaintHero/>
       <Footer />
     </ThemeProvider>
   );
