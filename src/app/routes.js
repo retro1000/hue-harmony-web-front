@@ -17,7 +17,6 @@ import customerRoutes from "./views/customer/customer-routes";
 import InventoryRoutes from "./views/inventory/inventory-routes";
 import PaymentRoutes from "./views/payment/payment-routes";
 import PurchaseOrderRoutes from "./views/purchase_order/purchase-order-routes";
-import posRoutes from "./views/pos/pos-routes"
 import PosRoutes from "./views/pos/pos-routes";
 import loginRoutes from "./views/sessions/login/login-routes";
 import signupRoutes from "./views/sessions/register/signup-routes";
@@ -54,7 +53,12 @@ const routes = [
       ...InventoryRoutes,
       ...PurchaseOrderRoutes,
       ...PaymentRoutes,
-      // ...homeRoutes,
+      ...homeRoutes,
+      ...loginRoutes,
+      ...signupRoutes,
+      ...BillingRoutes,
+      ...profileRoutes,
+      ...PChartRoutes,
       // dashboard route
       ...InvoiceRoutes,
       {
