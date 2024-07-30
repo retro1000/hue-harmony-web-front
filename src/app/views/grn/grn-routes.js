@@ -10,7 +10,7 @@ const grnRoutes = [
   { 
     path: "/grn/list",
     element: 
-      <AuthGuard auth={authRoles.manager}>
+      <AuthGuard auth={authRoles.inventory_manager}>
         <GrnList />
       </AuthGuard>
   },

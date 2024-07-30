@@ -34,6 +34,7 @@ const productRoutes = [
       </AuthGuard>
     ),
   },
+  //single variation view
   {
     path: "/product/detail/:id",
     element: (

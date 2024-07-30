@@ -12,7 +12,7 @@ const PurchaseOrderRoutes = [
   {
     path: "/purchase-order/list",
     element: (
-      <AuthGuard auth={authRoles.manager}>
+      <AuthGuard auth={[...authRoles.back_office, ...authRoles.inventory_manager]}>
         <PurchaseOrderList />
       </AuthGuard>
     ),
@@ -20,7 +20,7 @@ const PurchaseOrderRoutes = [
   {
     path: "/purchase-order/view/:id",
     element: (
-      <AuthGuard auth={authRoles.manager}>
+      <AuthGuard auth={[...authRoles.back_office, ...authRoles.inventory_manager]}>
         <PurchaseOrderDetails />
       </AuthGuard>
     ),

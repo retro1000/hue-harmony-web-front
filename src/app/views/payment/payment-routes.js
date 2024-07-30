@@ -10,7 +10,7 @@ const PaymentRoutes = [
   {
     path: "/payment/list",
     element: (
-      <AuthGuard auth={authRoles.manager}>
+      <AuthGuard auth={[...authRoles.back_office, ...authRoles.sales_manager]}>
         <PaymentList />
       </AuthGuard>
     ),
@@ -18,7 +18,7 @@ const PaymentRoutes = [
   {
     path: "/payment/bulkpaymentdetails",
     element: (
-      <AuthGuard auth={authRoles.manager}>
+      <AuthGuard auth={[...authRoles.back_office, ...authRoles.sales_manager]}>
         <BulkPaymentDetails />
       </AuthGuard>
     ),
