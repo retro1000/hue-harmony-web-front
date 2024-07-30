@@ -34,6 +34,14 @@ const productRoutes = [
       </AuthGuard>
     ),
   },
+  {
+    path: "/product/update/:id",
+    element: (
+      <AuthGuard auth={authRoles.admin}>
+        <UpserProduct />
+      </AuthGuard>
+    ),
+  },
   //single variation view
   {
     path: "/product/detail/:id",

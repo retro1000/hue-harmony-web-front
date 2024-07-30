@@ -48,7 +48,7 @@ const inventoryRoutes = [
   {
     path: "/inventory/creditdebitnote",
     element: (
-      <AuthGuard auth={authRoles.manager}>
+      <AuthGuard auth={[...authRoles.back_office, ...authRoles.inventory_manager]}>
         <CreditDebitNote />
       </AuthGuard>
     ),
