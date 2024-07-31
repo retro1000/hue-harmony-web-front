@@ -8,12 +8,12 @@ const ProductList = Loadable(lazy(() => import("./ProductList")));
 const StoreProductList = Loadable(lazy(() => import("./StoreProductList")));
 const ProductView = Loadable(lazy(() => import("./ProductView")));
 const FilterProduct = Loadable(lazy(() => import('./FilterProduct.jsx')))
-
+//inventory variation view
 const productRoutes = [
   {
     path: "/product/list",
     element: (
-      <AuthGuard auth={authRoles.back_office}>
+      <AuthGuard auth={[...authRoles.back_office, ...authRoles.inventory_manager]}>
         <ProductList />
       </AuthGuard>
     ),
@@ -42,6 +42,7 @@ const productRoutes = [
       </AuthGuard>
     ),
   },
+  //ProductDetails link to /product/details/view/:id
   //single variation view
   {
     path: "/product/detail/:id",

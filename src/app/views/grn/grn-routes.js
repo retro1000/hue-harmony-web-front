@@ -4,8 +4,8 @@ import { authRoles } from "app/auth/authRoles";
 import AuthGuard from "app/auth/AuthGuard";
 
 const GrnList = Loadable(lazy(() => import("./GrnList")));
-
-
+//grn create edit back
+//approve inventory
 const grnRoutes = [
   { 
     path: "/grn/list",

@@ -11,7 +11,7 @@ const PosRoutes = [
     {
         path: "/pos-home",
         element: (
-            <AuthGuard auth={[...authRoles.cachier, ...authRoles.sales_manager]}>
+            <AuthGuard auth={[...authRoles.cachier]}>
                 <PosHomePage />
             </AuthGuard>
         ),
@@ -19,7 +19,7 @@ const PosRoutes = [
     {
         path: "pos/order-list",
         element: (
-            <AuthGuard auth={[...authRoles.cachier, ...authRoles.sales_manager]}>
+            <AuthGuard auth={[...authRoles.cachier]}>
                 <PosOrderList />
             </AuthGuard>
         ),
@@ -27,7 +27,7 @@ const PosRoutes = [
     {
         path: "pos/sales-summary",
         element: (
-            <AuthGuard auth={[...authRoles.cachier, ...authRoles.sales_manager]}>
+            <AuthGuard auth={[...authRoles.cachier]}>
                 <SalesSummary />
             </AuthGuard>
         ),

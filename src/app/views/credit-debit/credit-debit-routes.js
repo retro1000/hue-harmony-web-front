@@ -5,9 +5,9 @@ import AuthGuard from "app/auth/AuthGuard";
 
 const CreditList = Loadable(lazy(() => import("./CreditList")));
 const DebitList = Loadable(lazy(() => import("./DebitList")));
-const CreditDebitDetail = Loadable(lazy(() => import("./CreditDebitdetailss")));
-
-const customerRoutes = [
+const CreditDebitDetail = Loadable(lazy(() => import("./CreditDebitdetails")));
+//approve credit debit inventory manager
+const creditDebitRoutes = [
   {
     path: "/credit-debit/credit/list",
     element: (
@@ -34,4 +34,4 @@ const customerRoutes = [
   },
 ];
 
-export default customerRoutes;
+export default creditDebitRoutes;
