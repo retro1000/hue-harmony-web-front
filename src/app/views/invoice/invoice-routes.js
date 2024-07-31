@@ -3,14 +3,9 @@ import Loadable from "app/components/Loadable";
 import { authRoles } from "app/auth/authRoles";
 import AuthGuard from "app/auth/AuthGuard";
 
-
 const CreateInvoice = Loadable(lazy(() => import("./CreateInvoice")));
 const InvoiceList = Loadable(lazy(() => import("./InvoiceList")));
-
-
-
-
-
+const InvoiceDetail = Loadable(lazy(() => import("./InvoiceDetails")));
 
 const InvoiceRoutes = [
   {
@@ -29,7 +24,14 @@ const InvoiceRoutes = [
       </AuthGuard>
     ),
   },
-  
+  {
+    path: "/invoice/view/:id",
+    element: (
+      <AuthGuard auth={authRoles.manager}>
+        <InvoiceDetail />
+      </AuthGuard>
+    ),
+  },
 ];
 
 export default InvoiceRoutes;
