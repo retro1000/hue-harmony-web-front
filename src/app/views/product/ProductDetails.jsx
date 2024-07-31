@@ -23,7 +23,7 @@ const productData = {
   reorderPoint: 13,
   jobInitiation: 'YES',
   qualityControl: 'YES',
-  imageUrl: '/assets/images/photo-1.jpg', // Placeholder image URL
+  imageUrl: '/assets/images/dulux.png', // Placeholder image URL
 };
 
 const pricingInfo = [
@@ -148,14 +148,25 @@ const ProductDetails = () => {
         <Grid container spacing={2} component={Box} p={2} borderColor="grey.500">
           <Grid item xs={6} component={Box} borderRight={0.3} borderColor="grey.500" pr={2}>
           <Box
+  sx={{
+    display: 'flex',
+    justifyContent: 'center', // Center the image horizontally    // Center the image vertically
+    height: '100%',           // Ensure the container has a height
+    width: '100%',            // Ensure the container has a width
+  }}
+>
+  <Box
     component="img"
     src={productData.imageUrl}
     alt="Product"
     sx={{
-      width: '100%',
-      boxShadow: 3,
+      width: '60%',   // Set fixed width as a percentage of the parent container
+      height: '60%', // Maintain aspect ratio of the image
+   // Optional: Set a maximum height if needed
+      objectFit: 'contain', // Ensure the entire image is visible
     }}
   />
+</Box>
           </Grid>
           <Grid item xs={6} component={Box} p={2}>
             <Box display="flex" justifyContent="center" pb={1} mb={1}>
@@ -216,7 +227,7 @@ const ProductDetails = () => {
       >
         <Box pl={3} mb={4}>
           <Typography variant="h5" fontWeight={600} gutterBottom>
-            Product GRN Stats
+            PRODUCT GRN STATS
           </Typography>
         </Box>
         <Line data={stockAnalyticsChartData} options={chartOptions} color={'red'} />
@@ -225,4 +236,4 @@ const ProductDetails = () => {
   );
 };
 
-export default ProductDetails;
+export default ProductDetails;  
