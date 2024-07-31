@@ -33,6 +33,7 @@ const ReleaseButton = styled(Button)({
   backgroundColor: "#28a745",
   color: "#fff",
   borderRadius: "20px",
+  minWidth: "85px",
   padding: "8px 16px",
   textTransform: "none",
   "&:hover": {
