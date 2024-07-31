@@ -4,9 +4,11 @@ import { Container, Typography, Grid, Button, Divider,Breadcrumbs,Link,Box } fro
 import CartItem from "../../../components/CartPage/CartItem";
 import CouponForm from "../../../components/CartPage/CouponForm";
 import CartTotal from "../../../components/CartPage/CartTotal";
+import Footer from "../../../components/ProductPage/Footer";
 
 const CartPage = () => {
   return (
+    <>
     <Container maxWidth="lg">
       <Box
         sx={{
@@ -93,6 +95,8 @@ const CartPage = () => {
       </Grid>
       <Divider style={{ margin: "40px 0" }} />
     </Container>
+    <Footer/>
+    </>
   );
 };
 
