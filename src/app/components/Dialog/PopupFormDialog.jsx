@@ -48,14 +48,9 @@ const createFormFields = (fields) => {
           </Stack>
         )
       case 'file':
-        return (
-          // <FileUpload close={field.close} id={`${field.id}-input-${f_index++}`} required={field.required} file={field.value || ''} setFile={(val) => {const updatedValues = {...field.value, [field.id]: val};field.setValue(updatedValues)}}/>
-
-          <Stack display='flex' gap='0.5em' sx={field.sx}>
-            <div style={{display: 'flex', gap: '0.2em'}}><Typography color='#363636'>{field.label}</Typography>{field.required?<Typography color='red'>*</Typography>:''}</div>
-            <FileUpload close={field.close} id={`${field.id}-input-${f_index++}`} required={field.required} file={field.value || ''} setFile={(val) => {const updatedValues = {...field.value, [field.id]: val};field.setValue(updatedValues)}}/>
-          </Stack>
-        )
+        // return (
+        //   <FileUpload close={field.close} id={`${field.id}-input-${f_index++}`} sx={{marginBottom: '1.9em', marginLeft: '-6px'}} required={field.required} file={values[field.id]?values[field.id]:''} setFile={(val) => {const updatedValues = {...values,[field.id]: val};setValues(updatedValues)}}/>
+        // )
       case 'number':
         return (
             <Stack  display='flex' gap='0.5em' sx={field.sx || {maxWidth: '200px', minWidth: '150px', width: '20%'}}>
@@ -69,12 +64,10 @@ const createFormFields = (fields) => {
                   inputProps:{ 'aria-label': `${field.id}-input-${f_index}`, step:'any', inputMode: 'decimal' }
                 }}
                 // label={`${field.label}${field.required?'*':''}`}
-                allowNegative={field.allowNegative || false}
-                decimalScale={field.decimalScale || 3}
-                fixedDecimalScale={field.fixedDecimalScale || false}
+                allowNegative={field.allowNegative}
+                decimalScale={field.decimalScale}
+                fixedDecimalScale={field.fixedDecimalScale}
                 value={field.value}
-                min={field.min}
-                max={field.max}
                 // error={props.variationErrors[item.identifier]?.unitCost!==undefined}
                 // helperText={props.variationErrors[item.identifier]?.unitCost}
                 onChange={(event) => field.setValue(event.target.value)}
@@ -132,27 +125,20 @@ const createFormFields = (fields) => {
                   ))
                 }
               </Select>
-            </Stack>
-          </div>
-        )
-      case 'multi_select':
-        return(
-          <Stack  display='flex' gap='0.5em' sx={field.sx || {width: '80%'}} >
-              <div style={{display: 'flex', gap: '0.2em'}}><Typography color='#363636'>{field.label}</Typography>{field.required?<Typography color='red'>*</Typography>:''}</div>
-              <SearchableSelectMultiple
-                size={'medium'}
+              {/* <SearchableSelectMultiple
                 key={`select-${field.id}-${f_index++}`}
                 id={`select-${field.id}-${f_index++}`}
                 // label={field.label} 
                 multiple={field.multi} 
                 options={field.options} 
                 setSelectedValues={(val)=>field.setValue(val)} 
-                selectedValues={field.value}
-              />
-          </Stack>
+                selectedValues={field.value} 
+                
+              /> */}
+            </Stack>
+          </div>
         )
       default:
-        return ''
     }
   })
 }
@@ -187,7 +173,7 @@ export default function PopupFormDialog({popupSx='md', open, titleIcon: TitleIco
 
   return (
     <Box>
-      <Dialog sx={{'& .MuiPaper-root': {borderRadius: '10px'}}} open={open} onClose={handleClose} aria-labelledby="form-dialog-title" maxWidth={popupSx} fullWidth={true}>
+      <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title" maxWidth={popupSx} fullWidth={true}>
         <DialogTitle id="form-dialog-title" sx={{borderBottom: '1px solid silver'}}>
           {
             TitleIcon ?
@@ -222,7 +208,7 @@ export default function PopupFormDialog({popupSx='md', open, titleIcon: TitleIco
             }
           </Box>
         </DialogContent>
-        <br></br>    
+
         <DialogActions>
           <Button variant="outlined" color="primary" onClick={handleClose}>
             Close

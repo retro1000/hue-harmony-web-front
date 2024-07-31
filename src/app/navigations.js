@@ -16,14 +16,7 @@ export const navigations = [
   {
     name: "Payments",
     icon: "account_balance",
-    children: [
-      { name: "Summary", iconText: "E", path: "/payment/list" },
-      {
-        name: "Bulk Payment Details",
-        iconText: "E",
-        path: "/payment/bulkpaymentdetails",
-      },
-    ],
+    children: [{ name: "Summary", iconText: "E", path: "/payment/list" }],
   },
   {
     name: "Purchase Order",

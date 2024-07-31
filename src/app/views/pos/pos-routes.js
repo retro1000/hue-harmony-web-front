@@ -4,8 +4,6 @@ import { authRoles } from "app/auth/authRoles";
 import AuthGuard from "app/auth/AuthGuard";
 
 const PosHomePage = Loadable(lazy(() => import("./Pos-home")));
-const PosOrderList = Loadable(lazy(()=>import("./Order-list")))
-const SalesSummary = Loadable(lazy(()=>import("./Sales-summary")))
 
 const PosRoutes = [
     {
@@ -20,19 +18,10 @@ const PosRoutes = [
         path: "pos/order-list",
         element: (
             //<AuthGuard auth={authRoles.manager}>
-                <PosOrderList />
+                <PosHomePage />
             //</AuthGuard>
         ),
     },
-    {
-        path: "pos/sales-summary",
-        element: (
-            //<AuthGuard auth={authRoles.manager}>
-                <SalesSummary />
-            //</AuthGuard>
-        ),
-    },
-    
 ];
 
 export default PosRoutes;

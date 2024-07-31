@@ -2,7 +2,7 @@ import react from 'react'
 import { NumericFormat } from 'react-number-format';
 import { TextField } from '@mui/material';
 
-function NumberFormatField({ textFieldProps, allowNegative, decimalScale, fixedDecimalScale, min, max, ...rest }){
+function NumberFormatField({ textFieldProps, allowNegative, decimalScale, fixedDecimalScale, ...rest }){
 
     return (
         <NumericFormat
@@ -12,13 +12,6 @@ function NumberFormatField({ textFieldProps, allowNegative, decimalScale, fixedD
           allowNegative={allowNegative}
           inputProps={textFieldProps}
           {...rest}
-          isAllowed={(values) => {
-            if(min && max){
-              const { floatValue } = values;
-              return floatValue >= min && floatValue <= max;
-            }
-            return true;
-          }}
         />
       );
 }
