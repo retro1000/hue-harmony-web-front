@@ -26,6 +26,7 @@ import PChartRoutes from "./views/PaintChart/PChart-routes";
 import InvoiceRoutes from "./views/invoice/invoice-routes";
 import orderRoutes from "./views/order/order-routes";
 import creditDebitRoutes from "./views/credit-debit/credit-debit-routes";
+import productsDetails from "./views/ProductsDetails/PDetails-route";
 
 // E-CHART PAGE
 const AppEchart = Loadable(
@@ -63,6 +64,7 @@ const routes = [
       ...creditDebitRoutes,
       // dashboard route
       ...InvoiceRoutes,
+      ...productsDetails,
       {
         path: "/dashboard/default",
         element: (

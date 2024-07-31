@@ -49,10 +49,10 @@ const products = [
   },
 ];
 
-const ProductGrid = () => {
+const ProductGrid = ({Title}) => {
   return (
     <>
-      <Typography variant="h4">Popular now</Typography>
+      <Typography variant="h4">{Title}</Typography>
       <Grid
         container
         spacing={2.5}
