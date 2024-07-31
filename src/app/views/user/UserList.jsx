@@ -32,7 +32,11 @@ function UserList() {
 
     const [addUserOn, setAddUserOn] = useState(false)
 
+    const [editUserOn, setEditUserOn] = useState(false);
+    const [currentEditUser, setCurrentEditUser] = useState(null);
+
     const [newUser, setNewUser] = useState({})
+    const [editUser, setEditUserValues] = useState({})
 
     const addUserFields = [
       {
@@ -52,6 +56,27 @@ function UserList() {
         inputs: [
           {key: 'adddress_text', required: false, id: 'adddress_text', name: 'address', label: 'Address', type: 'text', placeholder: 'Enter address', value: newUser.address || '', setValue: (val) => setNewUser({...newUser, address: val})},
           {key: 'mobile_tel', required: false, id: 'mobile_tel', name: 'mobilePhone', label: 'Mobile Phone', type: 'tel', placeholder: 'Enter mobile number', value: newUser.mobilePhone || '', setValue: (val) => setNewUser({...newUser, mobilePhone: val})},
+        ]
+      }
+    ]
+
+    const editUserFields = [
+      {
+        title: 'User Details',
+        inputs: [
+          {key: 'f_name_text', required: true, id: 'f_name_text', name: 'firstName', label: 'First Name', type: 'text', placeholder: 'Enter first name', value: editUser.firstName || '', setValue: (val) => setEditUserValues({...editUser, firstName: val})},
+          {key: 'l_name_text', required: true, id: 'l_name_text', name: 'lastName', label: 'Last Name', type: 'text', placeholder: 'Enter last name', value: editUser.lastName || '', setValue: (val) => setEditUserValues({...editUser, lastName: val})},
+          {key: 'email', required: true, id: 'email', name: 'email', label: 'Email', type: 'email', placeholder: 'Enter email address', value: editUser.email || '', setValue: (val) => setEditUserValues({...editUser, email: val})},
+          {key: 'username_text', required: true, id: 'username_text', name: 'username', label: 'Username', type: 'text', placeholder: 'Enter username', value: editUser.username || '', setValue: (val) => setEditUserValues({...editUser, username: val})},
+          {key: 'password', required: true, id: 'password', name: 'password', label: 'Password', type: 'password', value: editUser.password || '', setValue: (val) => setEditUserValues({...editUser, password: val})},
+          {key: 'role_select', id: 'role_select', name: 'role', label: 'Role', required: true, type: 'select', value: editUser.role || 0, setValue: (val) => setEditUserValues({...editUser, role: val}), break:true,  options: [{label: 'Admin', value: 1}, {label: 'User', value: 2}]},
+        ]
+      },
+      {
+        title: 'Additional Details',
+        inputs: [
+          {key: 'adddress_text', required: false, id: 'adddress_text', name: 'address', label: 'Address', type: 'text', placeholder: 'Enter address', value: editUser.address || '', setValue: (val) => setEditUserValues({...editUser, address: val})},
+          {key: 'mobile_tel', required: false, id: 'mobile_tel', name: 'mobilePhone', label: 'Mobile Phone', type: 'tel', placeholder: 'Enter mobile number', value: editUser.mobilePhone || '', setValue: (val) => setEditUserValues({...editUser, mobilePhone: val})},
         ]
       }
     ]
@@ -118,7 +143,7 @@ function UserList() {
                 color: 'primary',
                 size: 'small',
                 onClick: (index) => {
-                  console.log('Delete icon button clicked for row', index);
+                  console.log('Enable button clicked for row', index);
                 },
               },
               {
@@ -128,7 +153,7 @@ function UserList() {
                 color: 'primary',
                 size: 'small',
                 onClick: (index) => {
-                  console.log('Edit button clicked for row', index);
+                  console.log('View button clicked for row', index);
                 },
               },
               {
@@ -138,7 +163,20 @@ function UserList() {
                 color: 'primary',
                 size: 'small',
                 onClick: (index) => {
-                  console.log('Edit icon button clicked for row', index);
+                  const user = datatableData[index];
+                  setCurrentEditUser(user);
+                  setEditUserValues({
+                    firstName: user[1],
+                    lastName: user[2],
+                    email: user[3],
+                    username: user[4],
+                    password: '',
+                    retypePassword: '',
+                    role: user[5],
+                    address: user[6],
+                    mobilePhone: user[7],
+                  });
+                  setEditUserOn(true);
                 },
               },
               {
@@ -206,6 +244,17 @@ function UserList() {
                   reasonCloseOn={true}
                   setValues={setNewUser}
                 />
+
+          <PopupFormDialog
+              open={editUserOn}
+              title="Edit User"
+              submitButton="Save Changes"
+              titleIcon={<EditIcon />}
+              fields={editUserFields}
+              setOpen={setEditUserOn}
+              reasonCloseOn={true}
+              setValues={setEditUserValues}
+          />
         </Container>
     );
 }
