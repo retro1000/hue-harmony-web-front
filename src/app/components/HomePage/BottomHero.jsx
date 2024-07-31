@@ -18,7 +18,7 @@ const LetsPaintHero = () => {
     >
       <Box
         component="img"
-        src="https://cdn.builder.io/api/v1/image/assets/TEMP/cf14b92b626943eedc120b2cf9613cb5c1e0a54176dc8584d041165099e47d45?apiKey=6f06a6b4e70e4dde93ec8099db2adb9d&&apiKey=6f06a6b4e70e4dde93ec8099db2adb9d"
+        src="assets/images/2099.jpg"
         alt="Background"
         sx={{
           position: 'absolute',

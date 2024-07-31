@@ -34,4 +34,5 @@ export { default as SearchBarDefault } from "./SearchBar/SearchBarDefault";
 export { default as TButton } from "./Button/TButton";
 export { default as TIconButton } from "./Button/TIconButton";
 export { default as NumSliderFilter } from "./SliderFilter/NumSliderFilter";
-
+export { default as ProductCard } from "./Card/ProductCard";
+export { default as Header } from "./Header";

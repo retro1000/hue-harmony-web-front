@@ -1,10 +1,11 @@
 
 import React from "react";
 import { Box, Typography, Grid, Container } from "@mui/material";
-import AboutHeader from "../../components/aboutpage/AboutHeader";
 import BrandCars from "../../components/aboutpage/BrandCars";
 import PartnerLogos from "../../components/aboutpage/PartnerLogos";
 import FAQSection from "../../components/aboutpage/FAQSection";
+import { Header } from "../../components";
+import Footer from "app/components/ProductPage/Footer";
 
 const AboutPage = () => {
   return (
@@ -13,7 +14,7 @@ const AboutPage = () => {
         <Grid container spacing={3}>
           <Grid item xs={12} md={7}>
             <br />
-            <AboutHeader />
+            <Header title={"About"} subTitle={"About Dulux"}/>
             <Typography variant="body1" sx={{ mt: 4, color: "text.secondary" }}>
               With a proven track record of excellence and over 50 years of
               experience in Sri Lanka, AkzoNobel Paints, formally known as ICI
@@ -49,6 +50,7 @@ const AboutPage = () => {
       <BrandCars />
       <PartnerLogos />
       <FAQSection />
+      <Footer />
     </Box>
   );
 };

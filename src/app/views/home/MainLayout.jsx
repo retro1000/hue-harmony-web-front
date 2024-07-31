@@ -12,14 +12,14 @@ import LetsPaintHero from "../../components/HomePage/BottomHero";
 import { Box } from "@mui/material";
 
 const theme = createTheme({
-  palette: {
-    primary: {
-      main: "#ed005d",
-    },
-    secondary: {
-      main: "#000000",
-    },
-  },
+  // palette: {
+  //   primary: {
+  //     main: "#ed005d",
+  //   },
+  //   secondary: {
+  //     main: "#000000",
+  //   },
+  // },
   typography: {
     fontFamily: "Poppins, Arial, sans-serif",
   },
@@ -36,11 +36,10 @@ const MainLayout = () => {
       <CssBaseline />
       <Hero />
       <Box sx={( styles )}>
-      <PopularProducts />
-      <Banner />
-      <PaintStories/>
-      <ColorOfTheYear/>
-     
+        <PopularProducts />
+        <Banner />
+        <PaintStories/>
+        <ColorOfTheYear/>
       </Box>
       <LetsPaintHero/>
       <Footer />

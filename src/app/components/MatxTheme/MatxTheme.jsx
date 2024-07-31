@@ -4,7 +4,7 @@ import useSettings from "app/hooks/useSettings";
 const MatxTheme = ({ children }) => {
   const { settings } = useSettings();
   let activeTheme = { ...settings.themes[settings.activeTheme] };
-console.log(activeTheme)
+
   const customTheme = createTheme({
     ...activeTheme,
     components: {
@@ -22,7 +22,7 @@ console.log(activeTheme)
         },
         variants: [
           {
-            props: { variant: 'green' },
+            props: { variant: 'rose' },
             style: {
               backgroundColor: '#4caf50',
               color: '#fff',

@@ -8,14 +8,14 @@ const Footer = () => {
       sx={{
         backgroundColor: "#000",
         width: "100%",
-        mt: 5,
+        // mt: 5,
         p: "80px 0 24px",
       }}
     >
       <Grid
         container
         spacing={2.5}
-        sx={{ maxWidth: 1167, mx: "auto", px: 2.5 }}
+        sx={{ maxWidth: 1167, mx: "auto", px: 2.5, display: "flex", flexWrap: "wrap" }}
       >
         <Grid item xs={12} sm={6} md={3}>
           <Typography
@@ -123,7 +123,7 @@ const Footer = () => {
             variant="subtitle1"
             sx={{ color: "#fafafa", fontWeight: 500, mb: 3 }}
           >
-            Quick Link
+            Download App
           </Typography>
           <Typography variant="body2" sx={{ color: "#fafafa", mb: 2 }}>
             Privacy Policy
