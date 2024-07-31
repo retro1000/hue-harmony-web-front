@@ -27,8 +27,7 @@ import TableRow from '@mui/material/TableRow';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { color } from 'echarts';
 import SaveIcon from '@mui/icons-material/Save';
-import HighlightOffIcon from '@mui/icons-material/HighlightOff';
-import PaymentIcon from '@mui/icons-material/Payment';
+
 import PosNav from 'app/components/Pos/PosNav';
 
 const products = [
