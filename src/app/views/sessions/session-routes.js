@@ -6,12 +6,12 @@ import AuthGuard from "app/auth/AuthGuard";
 const NotFound = Loadable(lazy(() => import("./NotFound")));
 const ForgotPassword = Loadable(lazy(() => import("./ForgotPassword")));
 
-const JwtLogin = Loadable(lazy(() => import("./login/JwtLogin")));
-const JwtRegister = Loadable(lazy(() => import("./register/JwtRegister")));
+// const JwtLogin = Loadable(lazy(() => import("./login/JwtLogin")));
+// const JwtRegister = Loadable(lazy(() => import("./register/JwtRegister")));
 
 const sessionRoutes = [
-  { path: "/session/signup", element: <JwtRegister /> },
-  { path: "/session/signin", element: <JwtLogin /> },
+  // { path: "/session/signup", element: <JwtRegister /> },
+  // { path: "/session/signin", element: <JwtLogin /> },
   { 
     path: "/session/forgot-password",
     element:
