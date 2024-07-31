@@ -4,30 +4,53 @@ import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
+import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
+import ListAltIcon from '@mui/icons-material/ListAlt';
+import ExitToAppIcon from '@mui/icons-material/ExitToApp';
+import AssessmentIcon from '@mui/icons-material/Assessment';
 
 function PosNav() {
     return (
-        <AppBar position="static" sx={{ backgroundColor: 'grey', boxShadow: 'none' }}>
+        <AppBar position="static" sx={{ backgroundColor: 'grey.400', boxShadow: 'none' }}>
             <Container maxWidth="xl" sx={{ display: 'flex', justifyContent: 'flex-end', mr: 0 }}>
                 <Toolbar disableGutters>
                     <Link to={'/pos-home'}>
-                        <Button variant="contained" color="primary" sx={{ mr: 1, boxShadow: 'none' }}>
-                            New Order
-                        </Button>
+                    <Button
+        variant="contained"
+        color="primary"
+        sx={{ mr: 1, boxShadow: 'none' }}
+        startIcon={<AddShoppingCartIcon />}
+      >
+        New Order
+      </Button>
                     </Link>
                     <Link to={'/pos/order-list'}>
-                        <Button variant="contained" color="primary" sx={{ mr: 1, boxShadow: 'none' }}>
-                            Order List
-                        </Button>
+                    <Button
+        variant="contained"
+        color="primary"
+        sx={{ mr: 1, boxShadow: 'none' }}
+        startIcon={<ListAltIcon />}
+      >
+        Order List
+      </Button>
                     </Link>
                     <Link to={'/pos/sales-summary'}>
-                        <Button variant="contained" color="primary" sx={{ mr: 1, boxShadow: 'none' }}>
-                            Sales Summary
-                        </Button>
+                    <Button
+        variant="contained"
+        color="primary"
+        sx={{ mr: 1, boxShadow: 'none' }}
+        startIcon={<AssessmentIcon />}
+      >
+        Sales Summary
+      </Button>
                     </Link>
-                    <Button variant="contained" sx={{ backgroundColor: 'red', color: 'white', boxShadow: 'none' }}>
-                        Logout
-                    </Button>
+                    <Button
+        variant="contained"
+        sx={{ backgroundColor: 'red', color: 'white', boxShadow: 'none' }}
+        startIcon={<ExitToAppIcon />}
+      >
+        Logout
+      </Button>
                 </Toolbar>
             </Container>
         </AppBar>
