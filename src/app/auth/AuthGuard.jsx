@@ -19,9 +19,9 @@ import useAuth from "app/hooks/useAuth";
 const AuthGuard = ({ auth, children }) => {
     const { isAuthenticated, role } = useAuth();
     const location = useLocation();
-
-    if (!isAuthenticated && !auth.includes(role)) {
-      return <Navigate replace to="/session/signin" state={{ from: location }} />;
+// console.log(auth)
+    if (!auth.includes("GUEST") && (!isAuthenticated || !auth.includes(role))) {
+      return <Navigate replace to="/login" state={{ from: location }} />;
     }
 
     return children;

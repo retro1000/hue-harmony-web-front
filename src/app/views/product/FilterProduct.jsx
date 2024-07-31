@@ -1,12 +1,13 @@
 // ProductPage.jsx
 import React, { useState } from "react";
-import { Box, Typography, Button, Paper } from "@mui/material";
+import { Box, Typography, Button, Paper, Grid, Container } from "@mui/material";
 import Footer from "../../components/ProductPage/Footer";
 import ProductGrid from "../../components/ProductPage/ProductGrid";
 import FilterBar, { filtersConfig } from "../../components/ProductPage/Filtering";
 import FilterList from "../../components/ProductPage/Filtering";
 import SearchBar from "../../components/ProductPage/SearchBar";
 import SortButton from "../../components/ProductPage/SortButton";
+import { Header } from "app/components";
 
 const ProductPage = () => {
   const [filters, setFilters] = useState({
@@ -59,105 +60,62 @@ const ProductPage = () => {
   };
 
   return (
-    <>
-      <Box
-        sx={{
-          backgroundColor: '#fff',
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-        }}
-      >
-        <Box
-          sx={{
-            display: 'flex',
-            mt: 2,
-            width: '100%',
-            maxWidth: 1170,
-            gap: 2.5,
-            justifyContent: 'space-between',
-          }}
-        >
-          <Box sx={{ width: '25%', p: 2, mr: 2 }}>
-            <Typography variant="h5" gutterBottom>
-              Filters
-            </Typography>
-            <Button variant="text" color="primary" onClick={handleClearAll}>
-              Clear All
-            </Button>
-            <FilterList
-              filters={filters}
-              filtersConfig={filtersConfig}
-              handleFilterChange={handleFilterChange}
-            />
-          </Box>
-          <Box sx={{ display: "flex", flexDirection: "column", p: 2.5, flex: 1 }}>
-            <Box sx={{ display: "flex", width: 142, maxWidth: "100%", gap: 2 }}>
-              <Box
-                sx={{
-                  display: "flex",
-                  flexDirection: "column",
-                  justifyContent: "center",
-                }}
-              >
-                <Box
+      
+    <Box>
+      <Container sx={{display: 'flex', flexDirection: 'column'}}>
+        {/* <Grid container spacing={3}> */}
+            <br />
+            <Header title="Our Products" subTitle="Explore Our Products"/>
+            <Box 
+              sx={{
+                display: 'flex',
+                flexDirection: 'row',
+                justifyContent: 'flex-end',
+                alignItems: 'flex-start',
+                gap: 2,
+                marginTop: '2em'
+              }}
+            >
+              <SortButton/>
+              <SearchBar/>
+            </Box>
+            <Grid sx={{display: 'flex', justifyContent: 'center', alignItems: 'flex-start', gap:'1em', marginTop: '2em'}}>
+              <Box sx={{ position: 'sticky', width: '30%', mr: 2 }}>
+                <Typography variant="h5" gutterBottom>
+                  Filters
+                </Typography>
+                <Button variant="text" color="primary" onClick={handleClearAll}>
+                  Clear All
+                </Button>
+                <FilterList
+                  filters={filters}
+                  filtersConfig={filtersConfig}
+                  handleFilterChange={handleFilterChange}
+                />
+              </Box>
+              <Box display={'flex'} alignItems={'center'} justifyContent={'center'} flexDirection={'column'}>
+                <ProductGrid />
+                <Button
+                  variant="contained"
                   sx={{
                     borderRadius: 0.5,
                     backgroundColor: "#ed005d",
-                    height: 40,
+                    mt: 7.5,
+                    color: "#fafafa",
+                    p: "16px 48px",
+                    fontWeight: 500,
+                    alignSelf: 'center'
                   }}
-                />
+                >
+                  View All Products
+                </Button>
               </Box>
-              <Typography
-                variant="h6"
-                sx={{ color: "#ed005d", my: "auto", fontWeight: 600 }}
-              >
-                Our Products
-              </Typography>
-            </Box>
-            <Typography
-              variant="h4"
-              sx={{
-                color: "#000",
-                letterSpacing: 1.44,
-                mt: 2.5,
-                fontWeight: 600,
-              }}
-            >
-              Explore Our Products
-            </Typography>
-            <Box sx={{
-              display: 'flex',
-              flexDirection: 'row',
-              justifyContent: 'flex-end',
-              alignItems: 'flex-start',
-              gap: 2,
-      
-            }}>
-            <SortButton/>
-            <SearchBar/>
-            
-            </Box>
-            <ProductGrid />
-            <Button
-              variant="contained"
-              sx={{
-                borderRadius: 0.5,
-                backgroundColor: "#ed005d",
-                mt: 7.5,
-                color: "#fafafa",
-                p: "16px 48px",
-                fontWeight: 500,
-                alignSelf: 'center'
-              }}
-            >
-              View All Products
-            </Button>
-          </Box>
-        </Box>
-        <Footer />
-      </Box>
-    </>
+            </Grid>
+        {/* </Grid> */}
+      </Container>
+      <Footer />
+
+    </Box>
   );
 };
 

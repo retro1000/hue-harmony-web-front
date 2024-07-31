@@ -12,25 +12,25 @@ const PosRoutes = [
     {
         path: "/pos-home",
         element: (
-            //<AuthGuard auth={authRoles.manager}>
+            <AuthGuard auth={[...authRoles.cachier]}>
                 <PosHomePage />
-            //</AuthGuard>
+            </AuthGuard>
         ),
     },
     {
         path: "pos/order-list",
         element: (
-            //<AuthGuard auth={authRoles.manager}>
+            <AuthGuard auth={[...authRoles.cachier]}>
                 <PosOrderList />
-            //</AuthGuard>
+            </AuthGuard>
         ),
     },
     {
         path: "pos/sales-summary",
         element: (
-            //<AuthGuard auth={authRoles.manager}>
+            <AuthGuard auth={[...authRoles.cachier]}>
                 <SalesSummary />
-            //</AuthGuard>
+            </AuthGuard>
         ),
     },
     

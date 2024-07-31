@@ -28,11 +28,13 @@ import {
 
 import { useNotistack } from "app/hooks/useNotistack";
 
-import EditIcon from "@mui/icons-material/Edit";
-import DeleteIcon from "@mui/icons-material/Delete";
-import ViewIcon from "@mui/icons-material/RemoveRedEye";
-import AddIcon from "@mui/icons-material/AddBox";
-import AddCustomerIcon from "@mui/icons-material/PersonAdd";
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
+import ViewIcon from '@mui/icons-material/RemoveRedEye'
+import AddIcon from '@mui/icons-material/AddBox'
+import AddCustomerIcon from '@mui/icons-material/PersonAdd'
+import useAuth from "app/hooks/useAuth";
+
 
 // STYLED COMPONENTS
 const Container = styled("div")(({ theme }) => ({
@@ -45,7 +47,10 @@ const Container = styled("div")(({ theme }) => ({
 }));
 
 function CustomerList() {
-  const navigate = useNavigate();
+
+    const {role} = useAuth()
+
+    const navigate = useNavigate();
 
   const [selectedAction, setSelectedAction] = useState("barcode");
 
@@ -370,96 +375,40 @@ function CustomerList() {
         <Breadcrumb routeSegments={[{ name: "Customer" }, { name: "List" }]} />
       </Box>
 
-      <Stack
-        sx={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "flex-start",
-          width: "100%",
-        }}
-        spacing={5}
-      >
-        <Box
-          gap={"0.5em"}
-          display={"flex"}
-          flexWrap={"wrap"}
-          sx={{ width: "100%" }}
-        >
-          <TButton
-            title={"Add new customer"}
-            startIcon={<AddIcon />}
-            variant={"contained"}
-            label={"Customer"}
-            color={"primary"}
-            fun={setAddCustomerOn}
-          ></TButton>
-        </Box>
-        <SimpleCard
-          sx={{ width: "100%", top: "-3em" }}
-          title={"Search customers"}
-        >
-          <Box
-            display={"flex"}
-            flexWrap={"wrap"}
-            gap={"0.4em"}
-            sx={{ width: "100%" }}
-          >
-            <Select
-              sx={{ width: "20%" }}
-              value={selectedAction}
-              size="small"
-              onChange={(event) => setSelectedAction(event.target.value)}
-            >
-              <MenuItem value={"barcode"}>Search by name</MenuItem>
-              <MenuItem value={"name"}>Search by contact number</MenuItem>
-              <MenuItem value={"name"}>Search by address</MenuItem>
-              <MenuItem value={"all"}>Search by all</MenuItem>
-            </Select>
-            <SearchBarDefault
-              sx={{ width: "80%" }}
-              value={searchText}
-              setValue={setSearchText}
-              placeholder={"Search customers..."}
-              search={search}
-            ></SearchBarDefault>
-          </Box>
-          {searchResult && searchResult.length > 0 && (
-            <MuiTable
-              search={false}
-              print={false}
-              download={false}
-              columns={columns}
-              dataTableData={searchResult}
-              selectableRows={"none"}
-              filterType={"text"}
-            />
-          )}
-        </SimpleCard>
-        <SimpleCard sx={{ width: "100%" }}>
-          <MuiTable
-            print={true}
-            download={true}
-            title={"Customers"}
-            columns={columns}
-            dataTableData={datatableData}
-            selectableRows={"none"}
-            filterType={"text"}
-          />
-        </SimpleCard>
-      </Stack>
-
-      <PopupFormDialog
-        open={addCustomerOn}
-        title="Add Customer"
-        submitButton="Add Customer"
-        titleIcon={<AddCustomerIcon />}
-        fields={addCustomerFields}
-        setOpen={setAddCustomerOn}
-        reasonCloseOn={true}
-        setValues={setNewCustomer}
-      />
-    </Container>
-  );
+          <Stack sx={{display: 'flex', justifyContent: 'center', alignItems: 'flex-start', width: '100%'}} spacing={5}>
+              <Box gap={'0.5em'} display={'flex'} flexWrap={'wrap'} sx={{width: '100%'}}>
+                {role==='BACKOFFICE'?<TButton title={'Add new customer'} startIcon={<AddIcon />} variant={'contained'} label={'Customer'} color={'primary'} fun={setAddCustomerOn}></TButton>:""}
+              </Box>
+              <SimpleCard sx={{width: '100%', top: '-3em'}} title={'Search customers'}>
+                <Box display={'flex'} flexWrap={'wrap'} gap={'0.4em'} sx={{width: '100%'}}>
+                  <Select sx={{width: '20%'}} value={selectedAction} size="small" onChange={(event)=>setSelectedAction(event.target.value)}>
+                    <MenuItem value={'barcode'}>Search by name</MenuItem>
+                    <MenuItem value={'name'}>Search by contact number</MenuItem>
+                    <MenuItem value={'name'}>Search by address</MenuItem>
+                    <MenuItem value={'all'}>Search by all</MenuItem>
+                  </Select>
+                  <SearchBarDefault sx={{width: '80%'}} value={searchText} setValue={setSearchText} placeholder={'Search customers...'} search={search}></SearchBarDefault>
+                </Box>
+                {searchResult && searchResult.length>0 && <MuiTable search={false} print={false} download={false} columns={columns} dataTableData={searchResult} selectableRows={'none'} filterType={'text'}/>}
+              </SimpleCard>
+              <SimpleCard sx={{width: '100%'}}>
+                <MuiTable print={true} download={true} title={'Customers'} columns={columns} dataTableData={datatableData} selectableRows={'none'} filterType={'text'}/>
+              </SimpleCard>
+          </Stack>
+          {role==='BACKOFFICE'?
+            <PopupFormDialog
+              open={addCustomerOn}
+              title="Add Customer"
+              submitButton="Add Customer"
+              titleIcon={<AddCustomerIcon />}
+              fields={addCustomerFields}
+              setOpen={setAddCustomerOn}
+              reasonCloseOn={true}
+              setValues={setNewCustomer}
+            />:''
+          }
+        </Container>
+    );
 }
 
 export default CustomerList;

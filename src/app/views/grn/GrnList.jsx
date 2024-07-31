@@ -29,11 +29,13 @@ import {
 
 import { useNotistack } from "app/hooks/useNotistack";
 
-import EditIcon from "@mui/icons-material/Edit";
-import DeleteIcon from "@mui/icons-material/Delete";
-import ViewIcon from "@mui/icons-material/RemoveRedEye";
-import AddIcon from "@mui/icons-material/AddBox";
-import AddGrnIcon from "@mui/icons-material/NoteAdd";
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
+import ViewIcon from '@mui/icons-material/RemoveRedEye'
+import AddIcon from '@mui/icons-material/AddBox'
+import AddGrnIcon from '@mui/icons-material/NoteAdd'
+import useAuth from "app/hooks/useAuth";
+
 
 // STYLED COMPONENTS
 const Container = styled("div")(({ theme }) => ({
@@ -47,6 +49,9 @@ const Container = styled("div")(({ theme }) => ({
 
 function GrnList() {
   const [selectedAction, setSelectedAction] = useState("barcode");
+
+  const {role} = useAuth()
+
 
   const [searchText, setSearchText] = useState(undefined);
 
@@ -413,96 +418,46 @@ function GrnList() {
         />
       </Box>
 
-      <Stack
-        sx={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "flex-start",
-          width: "100%",
-        }}
-        spacing={5}
-      >
-        <Box
-          gap={"0.5em"}
-          display={"flex"}
-          flexWrap={"wrap"}
-          sx={{ width: "100%" }}
-        >
-          <TButton
-            startIcon={<AddIcon />}
-            variant="contained"
-            color="primary"
-            label="GRN"
-            title="Create new GRN"
-            fun={setAddGrnOn}
-          ></TButton>
-        </Box>
-        <SimpleCard
-          sx={{ width: "100%", top: "-3em" }}
-          title={"Search Good recieved notes"}
-        >
-          <Box
-            display={"flex"}
-            flexWrap={"wrap"}
-            gap={"0.4em"}
-            sx={{ width: "100%" }}
-          >
-            <Select
-              sx={{ width: "20%" }}
-              value={selectedAction}
-              size="small"
-              onChange={(event) => setSelectedAction(event.target.value)}
-            >
-              <MenuItem value={"barcode"}>Search by grn barcode</MenuItem>
-              <MenuItem value={"name"}>Search by supplier name</MenuItem>
-              <MenuItem value={"all"}>Search by all</MenuItem>
-            </Select>
-            <SearchBarDefault
-              sx={{ width: "80%" }}
-              value={searchText}
-              setValue={setSearchText}
-              placeholder={"Search Good recieved notes..."}
-              search={search}
-            ></SearchBarDefault>
-          </Box>
-          {searchResult && searchResult.length > 0 && (
-            <MuiTable
-              search={false}
-              print={false}
-              download={false}
-              columns={columns}
-              dataTableData={searchResult}
-              selectableRows={"none"}
-              filterType={"text"}
-            />
-          )}
-        </SimpleCard>
-        <SimpleCard sx={{ width: "100%" }}>
-          <MuiTable
-            print={true}
-            download={true}
-            title={"Good recieved notes"}
-            columns={columns}
-            dataTableData={datatableData}
-            selectableRows={"none"}
-            filterType={"text"}
-          />
-        </SimpleCard>
-      </Stack>
+          <Stack sx={{display: 'flex', justifyContent: 'center', alignItems: 'flex-start', width: '100%'}} spacing={5}>
+              <Box gap={'0.5em'} display={'flex'} flexWrap={'wrap'} sx={{width: '100%'}}>
+              {role==='BACKOFFICE'?<TButton 
+                  startIcon={<AddIcon />} 
+                  variant="contained" 
+                  color="primary" 
+                  label='GRN' 
+                  title="Create new GRN"
+                  fun={setAddGrnOn}
+                ></TButton>:''}
+              </Box>
+              <SimpleCard sx={{width: '100%', top: '-3em'}} title={'Search Good recieved notes'}>
+                <Box display={'flex'} flexWrap={'wrap'} gap={'0.4em'} sx={{width: '100%'}}>
+                  <Select sx={{width: '20%'}} value={selectedAction} size="small" onChange={(event)=>setSelectedAction(event.target.value)}>
+                    <MenuItem value={'barcode'}>Search by grn barcode</MenuItem>
+                    <MenuItem value={'name'}>Search by supplier name</MenuItem>
+                    <MenuItem value={'all'}>Search by all</MenuItem>
+                  </Select>
+                  <SearchBarDefault sx={{width: '80%'}} value={searchText} setValue={setSearchText} placeholder={'Search Good recieved notes...'} search={search}></SearchBarDefault>
+                </Box>
+                {searchResult && searchResult.length>0 && <MuiTable search={false} print={false} download={false} columns={columns} dataTableData={searchResult} selectableRows={'none'} filterType={'text'}/>}
+              </SimpleCard>
+              <SimpleCard sx={{width: '100%'}}>
+                <MuiTable print={true} download={true} title={'Good recieved notes'} columns={columns} dataTableData={datatableData} selectableRows={'none'} filterType={'text'}/>
+              </SimpleCard>
+          </Stack>
 
-      <PopupFormDialog
-        open={addGrnOn}
-        title="Create GRN"
-        submitButton="Create GRN"
-        titleIcon={<AddGrnIcon />}
-        fields={addGrnFields}
-        setOpen={setAddGrnOn}
-        reasonCloseOn={true}
-        setValues={setNewGrn}
-        // popupSx="lg"
-      />
-    </Container>
-  );
+          {role==='BACKOFFICE'?<PopupFormDialog
+                  open={addGrnOn}
+                  title="Create GRN"
+                  submitButton="Create GRN"
+                  titleIcon={<AddGrnIcon />}
+                  fields={addGrnFields}
+                  setOpen={setAddGrnOn}
+                  reasonCloseOn={true}
+                  setValues={setNewGrn}
+                  // popupSx="lg"
+                />:''}
+        </Container>
+    );
 }
 
 export default GrnList;

@@ -8,15 +8,14 @@ const StockAdjustmentList = Loadable(
   lazy(() => import("./StockAdjustmentList"))
 );
 const Reservation = Loadable(lazy(() => import("./Reservation")));
-const GRN = Loadable(lazy(() => import("./Grn")));
 const InventoryList = Loadable(lazy(() => import("./InventoryList")));
-const CreditDebitNote = Loadable(lazy(() => import("./Credit-DebitNote")));
 
+//adjustment approve inventory
 const inventoryRoutes = [
   {
     path: "/inventory/stock-adjustment",
     element: (
-      <AuthGuard auth={authRoles.manager}>
+      <AuthGuard auth={authRoles.inventory_manager}>
         <StockAdjustment />
       </AuthGuard>
     ),
@@ -24,7 +23,7 @@ const inventoryRoutes = [
   {
     path: "/inventory/stock-adjustment/list",
     element: (
-      <AuthGuard auth={authRoles.manager}>
+      <AuthGuard auth={authRoles.inventory_manager}>
         <StockAdjustmentList />
       </AuthGuard>
     ),
@@ -32,31 +31,15 @@ const inventoryRoutes = [
   {
     path: "/inventory/reservation",
     element: (
-      <AuthGuard auth={authRoles.manager}>
+      <AuthGuard auth={authRoles.sales_manager}>
         <Reservation />
-      </AuthGuard>
-    ),
-  },
-  {
-    path: "/inventory/grn",
-    element: (
-      // <AuthGuard auth={authRoles.manager}>
-      <GRN />
-      // </AuthGuard>
-    ),
-  },
-  {
-    path: "/inventory/creditdebitnote",
-    element: (
-      <AuthGuard auth={authRoles.manager}>
-        <CreditDebitNote />
       </AuthGuard>
     ),
   },
   {
     path: "/inventory/list",
     element: (
-      <AuthGuard auth={authRoles.manager}>
+      <AuthGuard auth={[...authRoles.manager, ...authRoles.cachier]}>
         <InventoryList />
       </AuthGuard>
     ),

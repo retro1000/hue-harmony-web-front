@@ -10,7 +10,7 @@ const ContactPage = Loadable(lazy(() => import('../home/ContactPage.jsx')))
 
 const homeRoutes = [
   {
-    path: "/Home",
+    path: "/",
     element: <Home />
   },
   {

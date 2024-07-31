@@ -11,7 +11,7 @@ const orderRoutes = [
   {
     path: "/order/view/:id",
     element: (
-      <AuthGuard auth={authRoles.manager}>
+      <AuthGuard auth={[...authRoles.sales_manager, ...authRoles.back_office]}>
         <OrderDetails />
       </AuthGuard>
     ),
@@ -19,7 +19,7 @@ const orderRoutes = [
   {
     path: "/order/retail/list",
     element: (
-      <AuthGuard auth={authRoles.manager}>
+      <AuthGuard auth={[...authRoles.sales_manager, ...authRoles.back_office]}>
         <RetailOrderList />
       </AuthGuard>
     ),
@@ -27,7 +27,7 @@ const orderRoutes = [
   {
     path: "/order/wholesale/list",
     element: (
-      <AuthGuard auth={authRoles.manager}>
+      <AuthGuard auth={[...authRoles.back_office, ...authRoles.sales_manager]}>
         <WholesaleOrderList />
       </AuthGuard>
     ),

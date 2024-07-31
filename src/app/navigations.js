@@ -1,3 +1,226 @@
+import useAuth from "./hooks/useAuth";
+
+const adminNav = [
+  { name: "Dashboard", path: "/dashboard/default", icon: "dashboard" },
+  {
+    name: "Products",
+    icon: "shopping_basket",
+    children: [
+      { name: "Summary", iconText: "E", path: "/product/store/list" },
+      { name: "Create product", iconText: "E", path: "/product/create" },
+    ],
+  },
+  {
+    name: "Inventory",
+    icon: "inventory",
+    children: [
+      { name: "Summary", iconText: "E", path: "/inventory/list" },
+    ],
+  },
+  {
+    name: "Stake Holders",
+    icon: "group",
+    children: [
+      { name: "Users", iconText: "E", path: "/user/list" },
+      // { name: "Customers", iconText: "E", path: "/customer/list" },
+      // { name: "Suppliers", iconText: "E", path: "/supplier/list" },
+    ],
+  },
+];
+
+const inventoryNav = [
+  { name: "Dashboard", path: "/dashboard/default", icon: "dashboard" },
+  {
+    name: "GRN",
+    icon: "summarize",
+    children: [{ name: "Summary", iconText: "E", path: "/grn/list" }],
+  },
+  {
+    name: "Products",
+    icon: "shopping_basket",
+    children: [
+      { name: "Summary", iconText: "E", path: "/product/list" },
+    ],
+  },
+  {
+    name: "Credit/Debit",
+    icon: "request_quote",
+    children: [
+      { name: "Credit Summary", iconText: "E", path: "/credit-debit/credit/list" },
+      { name: "Debit Summary", iconText: "E", path: "/credit-debit/debit/list" },
+    ],
+  },
+  {
+    name: "Inventory",
+    icon: "inventory",
+    children: [
+      { name: "Summary", iconText: "E", path: "/inventory/list" },
+      {
+        name: "Stock Adjustments",
+        iconText: "E",
+        children: [
+          {
+            name: "Summary",
+            iconText: "E",
+            path: "/inventory/stock-adjustment/list",
+          },
+          {
+            name: "Approve",
+            iconText: "E",
+            path: "/inventory/stock-adjustment",
+          },
+        ],
+      },
+    ],
+  },
+  {
+    name: "Invoices",
+    icon: "description",
+    children: [
+      { name: "Sales Invoices", iconText: "E", path: "/invoice/sales/list" },
+      
+    ],
+  },
+  {
+    name: "Purchase Order",
+    icon: "shopping_cart",
+    children: [
+      { name: "Purchase Order", iconText: "E", path: "/purchase-order/list" },
+      { name: "Sales Order", iconText: "E", path: "/sales-order/view" },
+    ],
+  },
+];
+
+const salesNav = [
+  { name: "Dashboard", path: "/dashboard/default", icon: "dashboard" },
+  {
+    name: "Stake Holders",
+    icon: "group",
+    children: [
+      { name: "Customers", iconText: "E", path: "/customer/list" },
+    ],
+  },
+  {
+    name: "Inventory",
+    icon: "inventory",
+    children: [
+      { name: "Summary", iconText: "E", path: "/inventory/list" },
+      { name: "Reservation", iconText: "E", path: "/inventory/reservation" },
+    ],
+  },
+  {
+    name: "Orders",
+    icon: "attach_money",
+    children: [
+      { name: "Retail", iconText: "E", path: "/order/retail/list" },
+      { name: "WholeSale", iconText: "E", path: "/order/wholesale/list" },
+    ],
+  },
+  {
+    name: "Payments",
+    icon: "account_balance",
+    children: [
+      { name: "Summary", iconText: "E", path: "/payment/list" },
+      
+    ],
+  },
+  {
+    name: "Purchase Order",
+    icon: "shopping_cart",
+    children: [
+      { name: "Sales Order", iconText: "E", path: "/sales-order/view" },
+    ],
+  },
+];
+
+const officeNav = [
+  { name: "Dashboard", path: "/dashboard/default", icon: "dashboard" },
+  {
+    name: "Stake Holders",
+    icon: "group",
+    children: [
+      { name: "Customers", iconText: "E", path: "/customer/list" },
+      { name: "Suppliers", iconText: "E", path: "/supplier/list" },
+    ],
+  },
+  {
+    name: "Products",
+    icon: "shopping_basket",
+    children: [
+      { name: "Summary", iconText: "E", path: "/product/list" },
+    ],
+  },
+  {
+    name: "Credit/Debit",
+    icon: "request_quote",
+    children: [
+      { name: "Credit Summary", iconText: "E", path: "/credit-debit/credit/list" },
+      { name: "Debit Summary", iconText: "E", path: "/credit-debit/debit/list" },
+    ],
+  },
+  {
+    name: "Inventory",
+    icon: "inventory",
+    children: [
+      { name: "Summary", iconText: "E", path: "/inventory/list" },
+    ],
+  },
+  {
+    name: "Invoices",
+    icon: "description",
+    children: [
+      { name: "Sales Invoices", iconText: "E", path: "/invoice/sales/list" },
+      { name: "Purchase Invoices", iconText: "E", path: "/invoice/purchase/list" },
+      
+    ],
+  },
+  {
+    name: "Payments",
+    icon: "account_balance",
+    children: [
+      { name: "Summary", iconText: "E", path: "/payment/list" },
+      
+    ],
+  },
+  {
+    name: "Orders",
+    icon: "attach_money",
+    children: [
+      { name: "Retail", iconText: "E", path: "/order/retail/list" },
+      { name: "WholeSale", iconText: "E", path: "/order/wholesale/list" },
+    ],
+  },
+  {
+    name: "Purchase Order",
+    icon: "shopping_cart",
+    children: [
+      { name: "Puchase Order", iconText: "E", path: "/purchase-order/list" },
+    ],
+  },
+];
+
+const getNavigation = (role) => {
+
+  switch(role){
+    case 'ADMIN':
+      return adminNav;
+    case 'INVENTORYMANAGER':
+      return inventoryNav;
+    case 'SALESMANAGER':
+      return salesNav;
+    case 'BACKOFFICE':
+      return officeNav;
+    default:
+      return []      
+  }
+}
+
+export const useNavigation = () => {
+  const { role } = useAuth();
+  return getNavigation(role);
+};
+
+
 export const navigations = [
   { name: "Dashboard", path: "/dashboard/default", icon: "dashboard" },
   {
@@ -94,40 +317,6 @@ export const navigations = [
     icon: "assessment",
     children: [],
   },
-
-  // { label: "PAGES", type: "label" },
-  // {
-  //   name: "Session/Auth",
-  //   icon: "security",
-  //   children: [
-  //     { name: "Sign in", iconText: "SI", path: "/session/signin" },
-  //     { name: "Sign up", iconText: "SU", path: "/session/signup" },
-  //     { name: "Forgot Password", iconText: "FP", path: "/session/forgot-password" },
-  //     { name: "Error", iconText: "404", path: "/session/404" }
-  //   ]
-  // },
-  // { label: "Components", type: "label" },
-  // {
-  //   name: "Components",
-  //   icon: "favorite",
-  //   badge: { value: "30+", color: "secondary" },
-  //   children: [
-  //     { name: "Auto Complete", path: "/material/autocomplete", iconText: "A" },
-  //     { name: "Buttons", path: "/material/buttons", iconText: "B" },
-  //     { name: "Checkbox", path: "/material/checkbox", iconText: "C" },
-  //     { name: "Dialog", path: "/material/dialog", iconText: "D" },
-  //     { name: "Expansion Panel", path: "/material/expansion-panel", iconText: "E" },
-  //     { name: "Form", path: "/material/form", iconText: "F" },
-  //     { name: "Icons", path: "/material/icons", iconText: "I" },
-  //     { name: "Menu", path: "/material/menu", iconText: "M" },
-  //     { name: "Progress", path: "/material/progress", iconText: "P" },
-  //     { name: "Radio", path: "/material/radio", iconText: "R" },
-  //     { name: "Switch", path: "/material/switch", iconText: "S" },
-  //     { name: "Slider", path: "/material/slider", iconText: "S" },
-  //     { name: "Snackbar", path: "/material/snackbar", iconText: "S" },
-  //     { name: "Table", path: "/material/table", iconText: "T" }
-  //   ]
-  // },
   {
     name: "Charts",
     icon: "trending_up",
