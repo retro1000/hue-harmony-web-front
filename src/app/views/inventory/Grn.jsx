@@ -121,7 +121,7 @@ function Grn() {
               style={{ padding: "16px", marginBottom: "16px", width: "100%" }}
             >
               <Typography variant="h5" textAlign="right">
-                Reservation Form#: 119
+                Good Return Note#: 119
               </Typography>
               <Box display="flex" justifyContent="space-between" mt={2}>
                 <Box></Box>

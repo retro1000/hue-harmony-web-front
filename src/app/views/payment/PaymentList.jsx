@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Stack, Box, styled, Tabs, Tab, Typography, Select, Button, Grid, IconButton, Icon, MenuItem, Tooltip } from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 
-import { SearchBarDefault, Breadcrumb, SimpleCard, MuiTable} from "app/components";
+import { SearchBarDefault, Breadcrumb, SimpleCard, MuiTable, TButton, PopupFormDialog} from "app/components";
 
 import { useNotistack } from 'app/hooks/useNotistack';
 
@@ -11,7 +11,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ViewIcon from '@mui/icons-material/RemoveRedEye'
 import AddIcon from '@mui/icons-material/AddBox'
-
+import AddPaymentIcon from '@mui/icons-material/AddBox'
 
 // STYLED COMPONENTS
 const Container = styled("div")(({ theme }) => ({
@@ -28,6 +28,35 @@ function PaymentList() {
     const [selectedAction, setSelectedAction] = useState('barcode')
 
     const [searchText, setSearchText] = useState(undefined)
+
+    const [addPaymentOn, setAddPaymentOn] = useState(false)
+
+    const [newPayment, setNewPayment] = useState({})
+
+    const addPaymentFields = [
+      {
+        title: 'Payment Details',
+        inputs: [
+          { key: 'payment_date', required: true, id: 'payment_date', name: 'paymentDate', label: 'Payment Date', type: 'date', value: newPayment.paymentDate || null, setValue: (val) => setNewPayment({ ...newPayment, paymentDate: val }) },
+          { key: 'amount', required: true, id: 'amount', name: 'amount', label: 'Amount', type: 'number', placeholder: 'Enter payment amount', value: newPayment.amount || '', setValue: (val) => setNewPayment({ ...newPayment, amount: val }) },
+          { key: 'method', required: true, id: 'method', name: 'method', label: 'Payment Method', type: 'select', value: newPayment.method || 'Credit Card', setValue: (val) => setNewPayment({ ...newPayment, method: val }), options: [{ label: 'Credit Card', value: 'Credit Card' }, { label: 'Bank Transfer', value: 'Bank Transfer' }, { label: 'Cash', value: 'Cash' }] },
+        ]
+      },
+      {
+        title: 'Recipient Details',
+        inputs: [
+          { key: 'recipient_name', required: true, id: 'recipient_name', name: 'recipientName', label: 'Recipient Name', type: 'text', placeholder: 'Enter recipient name', value: newPayment.recipientName || '', setValue: (val) => setNewPayment({ ...newPayment, recipientName: val }) },
+          { key: 'recipient_account', required: true, id: 'recipient_account', name: 'recipientAccount', label: 'Recipient Account', type: 'text', placeholder: 'Enter recipient account number', value: newPayment.recipientAccount || '', setValue: (val) => setNewPayment({ ...newPayment, recipientAccount: val }) },
+        ]
+      },
+      {
+        title: 'Additional Details',
+        inputs: [
+          { key: 'payment_notes', required: false, id: 'payment_notes', name: 'paymentNotes', label: 'Payment Notes', type: 'text', rows: 6, placeholder: 'Enter any additional notes', value: newPayment.paymentNotes || '', setValue: (val) => setNewPayment({ ...newPayment, paymentNotes: val }), sx: { width: '100%', maxWidth: '600px' } },
+        ]
+      }
+    ];
+    
 
     const [searchResult, setSearchResult] = useState([
       ['D#45er', 'Wall paint', 'Dulux', 'Paint', 'Red', '4 Ltr', '11000.00', '13', 'Available'],
@@ -110,8 +139,15 @@ function PaymentList() {
 
           <Stack sx={{display: 'flex', justifyContent: 'center', alignItems: 'flex-start', width: '100%'}} spacing={5}>
               <Box gap={'0.5em'} display={'flex'} flexWrap={'wrap'} sx={{width: '100%'}}>
-                <Tooltip title={'Add new payment'}><Button startIcon={<AddIcon />} variant="contained" color="primary">Payment</Button></Tooltip>
-              </Box>
+                <TButton 
+                    startIcon={<AddIcon />} 
+                    variant="contained" 
+                    color="primary" 
+                    label='Payment' 
+                    title="Create new payment"
+                    fun={setAddPaymentOn}
+                  ></TButton>              
+                </Box>
               <SimpleCard sx={{width: '100%', top: '-3em'}} title={'Search payments'}>
                 <Box display={'flex'} flexWrap={'wrap'} gap={'0.4em'} sx={{width: '100%'}}>
                   <Select sx={{width: '20%'}} value={selectedAction} size="small" onChange={(event)=>setSelectedAction(event.target.value)}>
@@ -128,6 +164,17 @@ function PaymentList() {
                 <MuiTable print={true} download={true} title={'Payments'} columns={columns} dataTableData={datatableData} selectableRows={'none'} filterType={'text'}/>
               </SimpleCard>
           </Stack>
+
+          <PopupFormDialog
+                  open={addPaymentOn}
+                  title="Create Payment"
+                  submitButton="Create Payment"
+                  titleIcon={<AddPaymentIcon />}
+                  fields={addPaymentFields}
+                  setOpen={setAddPaymentOn}
+                  reasonCloseOn={true}
+                  setValues={setNewPayment}
+                />
         </Container>
     );
 }
