@@ -23,6 +23,52 @@ const errorColor = {
 };
 
 export const themeColors = {
+  blue: {
+    palette: {
+      type: 'light',
+      primary: {
+        main: '#1976d2',
+        contrastText: '#ffffff',
+      },
+      secondary: {
+        main: '#FFAF38',
+        contrastText: textLight.primary,
+      },
+      rose: {
+        main: '#ED005D',
+        contrastText: 'white',
+      },
+      rose_secondary: {
+        main: '#000000',
+        contrastText: 'black',
+      },
+      error: errorColor,
+      background: {
+        paper: '#fff',
+        default: '#fafafa',
+      },
+      text: textLight,
+    },
+  },
+  whiteRose: {
+    palette: {
+      type: 'rose',
+      primary: {
+        main: '#ED005D',
+        contrastText: 'white',
+      },
+      secondary: {
+        main: '#000000',
+        contrastText: 'black',
+      },
+      background: {
+        paper: '#fff',
+        default: '#fafafa',
+      },
+      error: errorColor,
+      text: textLight,
+    },
+  },
   whitePurple: {
     palette: {
       type: 'light',
@@ -171,25 +217,7 @@ export const themeColors = {
       text: textDark,
     },
   },
-  blue: {
-    palette: {
-      type: 'light',
-      primary: {
-        main: '#1976d2',
-        contrastText: '#ffffff',
-      },
-      secondary: {
-        main: '#FFAF38',
-        contrastText: textLight.primary,
-      },
-      error: errorColor,
-      background: {
-        paper: '#fff',
-        default: '#fafafa',
-      },
-      text: textLight,
-    },
-  },
+  
   blueDark: {
     palette: {
       type: 'dark',
