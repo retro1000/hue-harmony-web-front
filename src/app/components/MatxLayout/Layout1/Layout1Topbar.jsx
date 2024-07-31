@@ -38,6 +38,7 @@ import React from "react";
 
 import WishListIcon from '@mui/icons-material/Favorite'
 import { Typography } from "antd";
+import { color } from "echarts";
 
 // STYLED COMPONENTS
 const StyledIconButton = styled(IconButton)(({ theme }) => ({
@@ -114,7 +115,8 @@ const Layout1Topbar = () => {
     borderBottom: '0.1em solid gray',
     height: !user || role==='USER' ? 80 : topBarHeight,
     // boxShadow: themeShadows[8],
-    transition: "all 0.3s ease"
+    transition: "all 0.3s ease",
+    background: 'white'
   });
 
   return (
@@ -165,14 +167,15 @@ const Layout1Topbar = () => {
                     title='Login'
                     label='Log in'
                     variant="outlined"
-                    color='error'
+                    sx={{bordder: '#000000', color: 'black'}}
                     fun={() => navigate('/session/signin')}
                   ></TButton>
                   <TButton
                     title='Signup'
                     label='Sign up'
                     variant="contained"
-                    color='error'
+                    sx={{background: '#ED005D', color: 'white'}}
+                    fun={() => navigate('/session/signup')}
                   ></TButton>
                 </Box>
               </React.Fragment> :

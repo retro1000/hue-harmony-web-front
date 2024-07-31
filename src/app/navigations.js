@@ -15,6 +15,22 @@ export const navigations = [
     children: [{ name: "Summary", iconText: "E", path: "/grn/list" }],
   },
   {
+    name: "Invoices",
+    icon: "description",
+    children: [
+      { name: "Summary", iconText: "E", path: "/invoice/list" },
+      
+    ],
+  },
+  {
+    name: "Orders",
+    icon: "attach_money",
+    children: [
+      { name: "Retail", iconText: "E", path: "/order/retail/list" },
+      { name: "WholeSale", iconText: "E", path: "/order/wholesale/list" },
+    ],
+  },
+  {
     name: "Payments",
     icon: "account_balance",
     children: [
@@ -31,6 +47,7 @@ export const navigations = [
     icon: "shopping_cart",
     children: [
       { name: "Summary", iconText: "E", path: "/purchase-order/list" },
+      { name: "Sales Order", iconText: "E", path: "/sales-order/view" },
     ],
   },
   {
@@ -122,4 +139,5 @@ export const navigations = [
   //   type: "extLink",
   //   path: "http://demos.ui-lib.com/matx-react-doc/"
   // }
+  
 ];

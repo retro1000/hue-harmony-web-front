@@ -10,6 +10,7 @@ const ProductDetails = Loadable(lazy(() => import("./ProductDetails")));
 
 const Re = Loadable(lazy(() => import('./re.jsx')))
 const FilterProduct = Loadable(lazy(() => import('./FilterProduct.jsx')))
+const Home = Loadable(lazy(() => import('../home/MainLayout.jsx')))
 
 
 const productRoutes = [

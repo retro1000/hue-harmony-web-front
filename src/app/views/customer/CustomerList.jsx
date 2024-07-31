@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { Stack, Box, styled, Tabs, Tab, Typography, Select, Button, Grid, IconButton, Icon, MenuItem } from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 
-import { SearchBarDefault, Breadcrumb, SimpleCard, MuiTable, TButton} from "app/components";
+import { SearchBarDefault, Breadcrumb, SimpleCard, MuiTable, TButton, PopupFormDialog} from "app/components";
 
 import { useNotistack } from 'app/hooks/useNotistack';
 
@@ -12,6 +12,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ViewIcon from '@mui/icons-material/RemoveRedEye'
 import AddIcon from '@mui/icons-material/AddBox'
+import AddCustomerIcon from '@mui/icons-material/PersonAdd'
 
 
 // STYLED COMPONENTS
@@ -36,6 +37,109 @@ function CustomerList() {
       ['D#45er', 'Wall paint', 'Dulux', 'Paint', 'Red', '4 Ltr', '11000.00', '13', 'Available'],
       ['John Walsh', 'Example Inc.', 'Hartford', 'CT'],
     ])
+
+    const [addCustomerOn, setAddCustomerOn] = useState(false);
+
+  const [newCustomer, setNewCustomer] = useState({});
+
+  const addCustomerFields = [
+    {
+      title: 'Customer Details',
+      inputs: [
+        {
+          key: "cus_f_name_text",
+          required: true,
+          id: "cus_f_name_text",
+          name: "firstName",
+          label: "First Name",
+          type: "text",
+          placeholder: "Enter customer first name",
+          value: newCustomer.firstName || "",
+          setValue: (val) =>
+            setNewCustomer({ ...newCustomer, firstName: val }),
+        },
+        {
+          key: "cus_l_name_text",
+          required: true,
+          id: "cus_l_name_text",
+          name: "lastName",
+          label: "Last Name",
+          type: "text",
+          placeholder: "Enter customer last name",
+          value: newCustomer.lastName || "",
+          setValue: (val) =>
+            setNewCustomer({ ...newCustomer, lastName: val }),
+        },
+        {
+          key: "b_address_text",
+          required: true,
+          break: false,
+          id: "b_address_text",
+          name: "billingAddress",
+          label: "Billing Address",
+          type: "text",
+          placeholder: "Enter billing address",
+          value: newCustomer.billingAddress || "",
+          setValue: (val) =>
+            setNewCustomer({ ...newCustomer, billingAddress: val }),
+          sx: { width: "50%" },
+        },
+        {
+          key: "s_address_text",
+          required: true,
+          id: "s_address_text",
+          name: "shippingAddress",
+          label: "Shipping Address",
+          type: "text",
+          break: true,
+          placeholder: "Enter shipping address",
+          value: newCustomer.shippingAddress || "",
+          setValue: (val) =>
+            setNewCustomer({ ...newCustomer, shippingAddress: val }),
+          sx: { width: "50%" },
+        },
+        {
+          key: "contact_no",
+          id: "contact_no",
+          required: true, 
+          name: "primaryContactNo",
+          label: "Primary Contact Number",
+          type: "tel",
+          placeholder: "Enter primary contact number",
+          value: newCustomer.primaryContactNo || "",
+          setValue: (val) => setNewCustomer({ ...newCustomer, primaryContactNo: val }),
+        },
+      ]
+    },
+    {
+      title: 'Additional Details',
+      inputs: [
+        {
+          key: "sup_email_text",
+          required: false,
+          id: "sup_email_text",
+          name: "customerEmail",
+          label: "Customer Email",
+          type: "email",
+          placeholder: "Enter customer email",
+          value: newCustomer.customerEmail || "",
+          setValue: (val) =>
+            setNewCustomer({ ...newCustomer, customerEmail: val }),
+        },
+        {
+          key: "secondary_contact_no",
+          id: "secondary_contact_no",
+          required: true, 
+          name: "otherContactNo",
+          label: "Other Contact Number",
+          type: "tel",
+          placeholder: "Enter other contact number",
+          value: newCustomer.otherContactNo || "",
+          setValue: (val) => setNewCustomer({ ...newCustomer, otherContactNo: val }),
+        },
+      ]
+    }
+  ];
 
     const [datatableData, setDataTableData] = useState([
       ['1', 'D#45er', 'Dulux', '11000.00', '13 Jun 2024', 'User1',  'Available'],
@@ -70,8 +174,8 @@ function CustomerList() {
         label: 'Barcode',
       },
       {
-        name:'Supplier Name',
-        label: 'Supplier Name',
+        name:'Customer Name',
+        label: 'Customer Name',
       },
       {
         name:'Grand Total',
@@ -120,8 +224,7 @@ function CustomerList() {
 
           <Stack sx={{display: 'flex', justifyContent: 'center', alignItems: 'flex-start', width: '100%'}} spacing={5}>
               <Box gap={'0.5em'} display={'flex'} flexWrap={'wrap'} sx={{width: '100%'}}>
-                {/* <Button variant="contained" color="primary">Create grn</Button> */}
-                <TButton title={'Add new customer'} startIcon={<AddIcon />} variant={'contained'} label={'Customer'} color={'primary'} fun={(e)=>console.log(e)}></TButton>
+                <TButton title={'Add new customer'} startIcon={<AddIcon />} variant={'contained'} label={'Customer'} color={'primary'} fun={setAddCustomerOn}></TButton>
               </Box>
               <SimpleCard sx={{width: '100%', top: '-3em'}} title={'Search customers'}>
                 <Box display={'flex'} flexWrap={'wrap'} gap={'0.4em'} sx={{width: '100%'}}>
@@ -139,6 +242,17 @@ function CustomerList() {
                 <MuiTable print={true} download={true} title={'Customers'} columns={columns} dataTableData={datatableData} selectableRows={'none'} filterType={'text'}/>
               </SimpleCard>
           </Stack>
+
+          <PopupFormDialog
+            open={addCustomerOn}
+            title="Add Customer"
+            submitButton="Add Customer"
+            titleIcon={<AddCustomerIcon />}
+            fields={addCustomerFields}
+            setOpen={setAddCustomerOn}
+            reasonCloseOn={true}
+            setValues={setNewCustomer}
+          />
         </Container>
     );
 }

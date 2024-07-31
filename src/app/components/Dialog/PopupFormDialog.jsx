@@ -41,21 +41,21 @@ const createFormFields = (fields) => {
       case 'email':
       case 'password':
         return (
-          <Stack display='flex' gap='0.5em' sx={field.sx || {maxWidth: '350px', minWidth: '200px', width: '30%'}}>
-              <div style={{display: 'flex', gap: '0.2em'}}><Typography color='#363636'>{field.label}</Typography>{field.required?<Typography color='red'>*</Typography>:''}</div>
-              <TextField
-                value={field.value}
-                onChange={(event) => field.setValue(event.target.value)}
-                // label={`${field.label}${field.required?'*':''}`}
-                placeholder={field.placeholder}
-                type={field.type}
-                sx={{width: '100%'}}
-                rows={field.rows || 1}
-                multiline={field.rows || false}
-                // error={productErrors.productSubTitle !== undefined}
-                // helperText={productErrors.productSubTitle}
-              ></TextField>
-          </Stack>
+            <Stack display='flex' gap='0.5em' sx={field.sx || {maxWidth: '350px', minWidth: '200px', width: '30%'}}>
+                <div style={{display: 'flex', gap: '0.2em'}}><Typography color='#363636'>{field.label}</Typography>{field.required?<Typography color='red'>*</Typography>:''}</div>
+                <TextField
+                  value={field.value}
+                  onChange={(event) => field.setValue(event.target.value)}
+                  // label={`${field.label}${field.required?'*':''}`}
+                  placeholder={field.placeholder}
+                  type={field.type}
+                  sx={{width: '100%'}}
+                  rows={field.rows || 1}
+                  multiline={field.rows || false}
+                  // error={productErrors.productSubTitle !== undefined}
+                  // helperText={productErrors.productSubTitle}
+                ></TextField>
+            </Stack>
         )
       case 'file':
         return (
@@ -259,7 +259,7 @@ export default function PopupFormDialog({popupSx='md', open, titleIcon: TitleIco
                   <AccordionRoot key={field.title}>
                     {index===0?'':<br></br>}
                     <Accordion sx={{padding: 'none', boxShadow: 'none'}} defaultExpanded={index===0}>
-                      <AccordionSummary style={{padding: '0', borderBottom: '0.1em solid gray', minHeight: '0', height: '25px', color:'gray', fontSize: '1.1em'}} expandIcon={(()=>{return (expand[index]?<MinusIcon sx={{color:'gray'}} />:<AddIcon sx={{color: 'gray'}} />)})()} onClick={()=>handleAccordionClick(index)}>{field.title}</AccordionSummary>
+                      <AccordionSummary style={{padding: '0', borderBottom: '0.1em solid gray', minHeight: '0', height: '25px', color:'gray', fontSize: '1.1em'}} expandIcon={(()=>{return (!expand[index]?<MinusIcon sx={{color:'gray'}} />:<AddIcon sx={{color: 'gray'}} />)})()} onClick={()=>handleAccordionClick(index)}>{field.title}</AccordionSummary>
                       <br></br>
                       <AccordionDetails sx={{padding: '0'}}><Box sx={{display: 'flex', alignItems: 'flex-start', width: '100%', flexWrap: 'wrap'}} spacing={3} gap={3}>{createFormFields(field.inputs)}</Box></AccordionDetails>
                     </Accordion>

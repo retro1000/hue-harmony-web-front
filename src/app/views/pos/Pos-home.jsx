@@ -3,7 +3,8 @@ import { ThemeProvider } from '@mui/material/styles';
 import PosTheme from 'app/components/Themes/posTheme';
 
 import Box from '@mui/material/Box';
-
+import {  Button, IconButton } from '@mui/material';
+import { Add, Remove, Delete, Save, Payment, Cancel } from '@mui/icons-material';
 import Typography from '@mui/material/Typography';
 
 import Container from '@mui/material/Container';
@@ -31,16 +32,16 @@ import PaymentIcon from '@mui/icons-material/Payment';
 import PosNav from 'app/components/Pos/PosNav';
 
 const products = [
-    { id: 'P3452', name: 'HP LAPTOP', price: 75000, availability: '170,000.667 Nos', imageUrl: '/assets/images/sample.jpeg' },
-    { id: 'P3453', name: 'RAM 4GB', price: 7000, availability: '58.000 Nos', imageUrl: '/assets/images/sample.jpeg' },
+    { id: 'P3452', name: 'HP LAPTOP', price: 75000, availability: '170,000.667 Nos', imageUrl: '/assets/images/dulux.png' },
+    { id: 'P3453', name: 'RAM 4GB', price: 7000, availability: '58.000 Nos', imageUrl: '/assets/images/dulux.png' },
     { id: '0013', name: 'test for qu..', price: 0, availability: '7.000 Nos', imageUrl: '/assets/images/sample.jpeg' },
-    { id: '0036', name: 'test for ch..', price: 0, availability: '10.000 Nos', imageUrl: '/assets/images/sample.jpeg' },
-    { id: '009', name: 'TEST FOR GR..', price: 0, availability: '87.000 Nos', imageUrl: '/assets/images/sample.jpeg' },
-    { id: '010', name: 'Test For GR..', price: 0, availability: '14.000 Nos', imageUrl: '/assets/images/sample.jpeg' },
+    { id: '0036', name: 'test for ch..', price: 0, availability: '10.000 Nos', imageUrl: '/assets/images/dulux.png' },
+    { id: '009', name: 'TEST FOR GR..', price: 0, availability: '87.000 Nos', imageUrl: '/assets/images/dulux.png' },
+    { id: '010', name: 'Test For GR..', price: 0, availability: '14.000 Nos', imageUrl: '/assets/images/dulux.png' },
     { id: '012', name: 'Test for GR..', price: 0, availability: '188.000 Kg', imageUrl: '/assets/images/sample.jpeg' },
-    { id: '012365', name: 'test for ro..', price: 0, availability: '99.000 Nos', imageUrl: '/assets/images/sample.jpeg' },
+    { id: '012365', name: 'test for ro..', price: 0, availability: '99.000 Nos', imageUrl: '/assets/images/dulux.png' },
     { id: '013', name: 'test for cr..', price: 0, availability: '80.000 Nos', imageUrl: '/assets/images/sample.jpeg' },
-    { id: '013', name: 'test for cr..', price: 0, availability: '80.000 Nos', imageUrl: '/assets/images/sample.jpeg' },
+    { id: '013', name: 'test for cr..', price: 0, availability: '80.000 Nos', imageUrl: '/assets/images/dulux.png' },
     { id: '013', name: 'test for cr..', price: 0, availability: '80.000 Nos', imageUrl: '/assets/images/sample.jpeg' },
 ];
 
@@ -102,13 +103,13 @@ const PosHome = () => {
             >
                 <Box
                     sx={{
-                        width: '60%',
+                        width: '65%',
                         backgroundColor: 'white',
                         display: 'flex',
                         flexDirection: 'column',
                         color: 'white',
-                        padding: 1,
-                        borderRight: '0.5px solid black',
+                        padding: 0.5,
+                       
                     }}
                 >
                     <Box sx={{ width: '100%', display: 'flex', flexDirection: 'row', height: '5.5vh', padding: 1, justifyContent: 'space-around',marginTop:-1.2 }}>
@@ -149,12 +150,12 @@ const PosHome = () => {
                             maxHeight: '83vh', // Adjust height as needed
                             overflowY: 'scroll', // Always show vertical scrollbar
                             overflowX: 'hidden', // Hide horizontal scrollbar if not needed
-                            padding: 2, // Optional: adjust padding
+                            padding: 1, // Optional: adjust padding
                             position: 'relative',
-                            marginTop: 2,
-                            marginRight: 6, // Optional: adjust padding
+                            marginTop: 1,
+                            marginRight: 3, // Optional: adjust padding
                             '&::-webkit-scrollbar': {
-                                width: 15, // Width of the scrollbar
+                                width: 8, // Width of the scrollbar
                             },
                             '&::-webkit-scrollbar-track': {
                                 backgroundColor: '#f1f1f1', // Track color
@@ -177,17 +178,20 @@ const PosHome = () => {
                         </Grid>
                     </Container>
                 </Box>
+                
                 <Box
                     sx={{
-                        width: '40%',
+                        width: '35%',
                         height: '92.5vh',
                         backgroundColor: 'white',
                         display: 'flex',
                         flexDirection:'column',
                         color: 'white',
+                        boxShadow: 6,
                     }}
                 >
-                    <Typography variant="h1" component="h2" color="black" fontSize={'1rem'} fontWeight={500} marginTop={0.6} align="left" width={'98%'} borderTop={'1px solid black'} borderBottom={'1px solid black'} height={'5vh'} padding={1.2} marginLeft={0.6} marginRight={0.6}>
+                    <Typography variant="h1" component="h2" color="grey.700" fontSize={'1.2rem'} fontWeight={'Bold'} marginTop={0.6} align="left" width={'98%'}  height={'5vh'} padding={0.8} marginLeft={0.6} marginRight={0.6} style={{ borderTop: '2px solid grey',
+    borderBottom: '2px solid grey'}}>
                        Please Add Items to Cart
                     </Typography>
                     <Box display={'flex'} width={'100%'} flexDirection={'row'} justifyContent="end" padding={1}>
@@ -197,55 +201,105 @@ const PosHome = () => {
                     </Paper>
                     </Box>
                    
-                    <Box width={'100%'} padding={2} height={'60vh'}>
+                    <Box width={'100%'} padding={1.5} height={'60vh'}>
                     <TableContainer width="80%" component={Paper} elevation={0} maxHeight='10vh' position="relative">
-      <Table aria-label="simple table">
-        <TableHead >
-          <TableRow square>
-            <TableCell sx={{tableCellStyle,width:140,backgroundColor: '#f5f5f5',padding:0.8}} >Item</TableCell>
-            <TableCell sx={{tableCellStyle,width:60,backgroundColor: '#f5f5f5'}} align="left">Quantity</TableCell>
-            <TableCell sx={{tableCellStyle,width:90,backgroundColor: '#f5f5f5'}} align="right">Discount</TableCell>
-            <TableCell sx={{tableCellStyle,width:90,backgroundColor: '#f5f5f5'}} align="right">Price</TableCell>
-            <TableCell sx={{tableCellStyle,width:70,backgroundColor: '#f5f5f5'}} align="left"></TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody  sx={{
+                    <Table aria-label="simple table">
+      <TableHead>
+        <TableRow>
+        <TableCell
+  sx={{
+    width: 120,
+    padding: 0.8,
+    fontWeight: 'Bold',
+    fontSize: '1.1rem',
+    fontFamily: 'Poppins, sans-serif',
+    color: 'grey.800' // or a specific color code like '#424242' for a greyish black
+  }}
+>
+  Item
+</TableCell>
+          <TableCell  sx={{
+    width: 100,
+    padding: 0.8,
+    fontWeight: 'Bold',
+    fontSize: '1.1rem',
+    fontFamily: 'Poppins, sans-serif',
+    color: 'grey.800' // or a specific color code like '#424242' for a greyish black
+  }} align="left">Quantity</TableCell>
+          <TableCell  sx={{
+    width: 100,
+    padding: 0.8,
+    fontWeight: 'Bold',
+    fontSize: '1.1rem',
+    fontFamily: 'Poppins, sans-serif',
+    color: 'grey.800' // or a specific color code like '#424242' for a greyish black
+  }} align="center">Discount</TableCell>
+          <TableCell sx={{
+    width: 90,
+    padding: 0.8,
+    fontWeight: 'Bold',
+    fontSize: '1.1rem',
+    fontFamily: 'Poppins, sans-serif',
+    color: 'grey.800' // or a specific color code like '#424242' for a greyish black
+  }} align="center">Price</TableCell>
+          <TableCell sx={{
+    width: 70,
+    padding: 0.8,
+    fontWeight: 'Bold',
+    fontSize: '1.1rem',
+    fontFamily: 'Poppins, sans-serif',
+    color: 'grey.800' // or a specific color code like '#424242' for a greyish black
+  }} align="left"></TableCell>
+        </TableRow>
+      </TableHead>
+      <TableBody>
+        {rows.map((row, index) => (
+          <TableRow key={row.name} sx={{ '&:last-child td, &:last-child th': { border: 0 }, fontWeight: 'bold' }}>
+          <TableCell component="th" scope="row" sx={{ fontSize: '0.9rem' }}>
+            <Typography component="span" sx={{ fontWeight: 'bold', fontSize: 'inherit' }}>
+              {row.name}
+            </Typography>
+            <Box sx={{ display: 'flex', alignItems: 'center' }}>
+              <Typography component="span" sx={{ color: 'blue', fontSize: 'inherit' }}>
+                LKR
+              </Typography>
+              <input
+                type="number"
+                value={row.fat}
+                onChange={(event) => handleInputChange(index, event)}
+                style={{ 
+                  width: '60%', 
+                  textAlign: 'center', 
+                  border: '0.5px solid grey',
+                  fontSize: 'inherit',
+                  fontWeight: 400,
+                }}
+              />
+            </Box>
+          </TableCell>
           
-        }}>
-          {rows.map((row,index) => (
-            <TableRow
-              key={row.name}
-              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-            >
-              <TableCell component="th" scope="row">
-                {row.name}
-                <Box sx={{ display: 'flex' }}>
-        <label sx={{ color: 'green', fontSize: '0.8rem' }}>Lkr</label>
-        <input
-        type="number"
-        value={row.fat}
-        onChange={(event) => handleInputChange(index, event)}
-        style={{ width: '40%', textAlign: 'left', marginLeft: '0.8rem' }} // Adjust styling as needed
-        />
-    </Box>
-               
-              </TableCell>
-              <TableCell align="center">
-                <input
-                  type="number"
-                  value={row.fat}
-                  onChange={(event) => handleInputChange(index, event)}
-                  style={{ width: '100%', textAlign: 'left' }} // Adjust styling as needed
-                />
-              </TableCell>
-              <TableCell align="right">{row.calories}</TableCell>
-              
-              <TableCell align="right">{row.carbs}</TableCell>
-              <TableCell align="right">{row.protein}</TableCell>
-            </TableRow>
-          ))}
-                </TableBody>
-            </Table>
+          <TableCell align="center" sx={{ fontSize: '0.9rem',fontWeight:500 }}>
+            <input
+              type="number"
+              value={row.fat}
+              onChange={(event) => handleInputChange(index, event)}
+              style={{ 
+                width: '80%', 
+                textAlign: 'center', 
+                border: '0.5px solid grey',
+                fontSize: 'inherit',
+                fontWeight:500,
+              }}
+            />
+          </TableCell>
+          
+          <TableCell align="center" sx={{ fontSize: '0.9rem',fontWeight:500,color:'grey.800' }}>{row.calories}</TableCell>
+          <TableCell align="center" sx={{ fontSize: '0.9rem',fontWeight:500,color:'grey.800' }}>{row.carbs}</TableCell>
+          <TableCell align="center" sx={{ fontSize: '0.9rem',fontWeight:500 }}>{row.protein}</TableCell>
+        </TableRow>
+        ))}
+      </TableBody>
+    </Table>
         </TableContainer>
 
                     </Box>
@@ -268,27 +322,21 @@ const PosHome = () => {
                         <Box display={'flex'} flexDirection={'row'} justifyContent="space-between" gap={1}>
 
                         
-                    <Paper elevation={4}  sx={{marginTop:1,background:'black',display:'flex',height:'4vh',paddingRight:0.6 }}>
-                    <SaveIcon  sx={{ fontSize: 20,marginTop:0.6 ,color:'white'}}></SaveIcon>
-                    <Typography fontSize={'1rem'} fontWeight={500} sx={{marginLeft:0.4,marginTop:0.4,color:'white'}}>Save</Typography>
-                    </Paper>
-                    <Paper elevation={4}  sx={{marginTop:1,background:'grey',display:'flex',height:'4vh',paddingRight:0.6 }}>
-                    <HighlightOffIcon  sx={{ fontSize: 20,marginTop:0.6,color:'white' }}></HighlightOffIcon>
-                    <Typography fontSize={'1rem'} fontWeight={500} sx={{marginLeft:0.4,marginTop:0.4,color:'white'}}>Void</Typography>
-                    </Paper>
-                    <Paper elevation={4}  sx={{marginTop:1,background:'blue',display:'flex',height:'4vh',paddingRight:0.6 }}>
-                    <PaymentIcon  sx={{ fontSize: 20,marginTop:0.6,color:'white' }}></PaymentIcon>
-                    <Typography fontSize={'1rem'} fontWeight={500} sx={{marginLeft:0.4,marginTop:0.4,color:'white'}}>Payment</Typography>
-                    </Paper>
+                        <Button variant="contained" startIcon={<Save />}>SAVE</Button>
+        <Button variant="contained" color="error" startIcon={<Cancel />}>VOID</Button>
+        <Button variant="contained" color="primary" startIcon={<Payment />}>PAYMENT</Button>
+      
                     </Box>
                     </Box>
                         
                     </Box>
                     
                 </Box>
-           
+                
+                
        
             </Box>
+            
         </Box>
         
     );
