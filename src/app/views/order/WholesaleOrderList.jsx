@@ -58,7 +58,7 @@ function WholesaleOrderList() {
 
   const addSupplierFields = [
     {
-      title: 'Supplier Details',
+      title: "Supplier Details",
       inputs: [
         {
           key: "sup_name_text",
@@ -120,12 +120,13 @@ function WholesaleOrderList() {
           type: "tel",
           placeholder: "Enter mobile number",
           value: newSupplier.mobilePhone || "",
-          setValue: (val) => setNewSupplier({ ...newSupplier, mobilePhone: val }),
+          setValue: (val) =>
+            setNewSupplier({ ...newSupplier, mobilePhone: val }),
         },
-      ]
+      ],
     },
     {
-      title: 'Additional Details',
+      title: "Additional Details",
       inputs: [
         {
           key: "sup_email_text",
@@ -171,89 +172,164 @@ function WholesaleOrderList() {
             { label: "Foreign", value: "Foreign" },
           ],
         },
-      ]
-    }
+      ],
+    },
   ];
 
   const [searchResult, setSearchResult] = useState([
     [
-      "D#45er",
-      "Wall paint",
-      "Dulux",
-      "Paint",
-      "Red",
-      "4 Ltr",
-      "11000.00",
-      "13",
-      "Available",
-    ],
-    ["John Walsh", "Example Inc.", "Hartford", "CT"],
-  ]);
-
-  const [datatableData, setDataTableData] = useState([
-    ["1", "Dulux", "qwe", "13 Jun 2024", "User1", "Available"],
-    [
-      "D#45er",
-      "Wall paint",
-      "Dulu",
-      "Paint",
-      "Red",
-      "4 Ltr",
-      "11000.00",
-      "13",
-      "Inactive",
-    ],
-    [
-      "D#45er",
-      "Wall paint",
-      "Dulux",
-      "Paint",
-      "Red",
-      "4 Ltr",
-      "11000.00",
-      "13",
+      "PO#001",
+      "Paint House Ltd",
+      "25,000.00",
+      "01 Jul 2024",
+      "Alice Brown",
       "Pending",
     ],
     [
-      "D#45er",
-      "Wall paint",
-      "Dulux",
-      "Paint",
-      "Red",
-      "4 Ltr",
-      "11000.00",
-      "13",
-      "Blocked",
+      "PO#002",
+      "Color World",
+      "40,000.00",
+      "02 Jul 2024",
+      "John Doe",
+      "Completed",
     ],
     [
-      "D#45er",
-      "Wall paint",
-      "Dulux",
-      "Paint",
-      "Red",
-      "4 Ltr",
-      "11000.00",
-      "13",
-      "Sold",
+      "PO#003",
+      "Paint Suppliers Inc.",
+      "18,500.00",
+      "03 Jul 2024",
+      "Jane Smith",
+      "Pending",
     ],
-    ["Kaui Ignace", "Example Inc.", "Yonkers", "NY"],
-    ["Esperanza Susanne", "Example Inc.", "Hartford", "CT"],
-    ["Christian Birgitte", "Example Inc.", "Tampa", "FL"],
-    ["Meral Elias", "Example Inc.", "Hartford", "CT"],
-    ["Deep Pau", "Example Inc.", "Yonkers", "NY"],
-    ["Sebastiana Hani", "Example Inc.", "Dallas", "TX"],
-    ["Marciano Oihana", "Example Inc.", "Yonkers", "NY"],
-    ["Brigid Ankur", "Example Inc.", "Dallas", "TX"],
-    ["Anna Siranush", "Example Inc.", "Yonkers", "NY"],
-    ["Avram Sylva", "Example Inc.", "Hartford", "CT"],
-    ["Serafima Babatunde", "Example Inc.", "Tampa", "FL"],
-    ["Gaston Festus", "Example Inc.", "Tampa", "FL"],
+  ]);
+
+  const [datatableData, setDataTableData] = useState([
+    [
+      "PO#001",
+      "Paint House Ltd",
+      "25,000.00",
+      "01 Jul 2024",
+      "Alice Brown",
+      "Pending",
+    ],
+    [
+      "PO#002",
+      "Color World",
+      "40,000.00",
+      "02 Jul 2024",
+      "John Doe",
+      "Completed",
+    ],
+    [
+      "PO#003",
+      "Paint Suppliers Inc.",
+      "18,500.00",
+      "03 Jul 2024",
+      "Jane Smith",
+      "Pending",
+    ],
+    [
+      "PO#004",
+      "Brilliant Colors",
+      "32,750.00",
+      "04 Jul 2024",
+      "Emma Johnson",
+      "Completed",
+    ],
+    [
+      "PO#005",
+      "Urban Paints",
+      "29,300.00",
+      "05 Jul 2024",
+      "Chris White",
+      "Pending",
+    ],
+    [
+      "PO#006",
+      "Brush Strokes",
+      "22,100.00",
+      "06 Jul 2024",
+      "Mike Green",
+      "Cancelled",
+    ],
+    [
+      "PO#007",
+      "Royal Paints",
+      "33,500.00",
+      "07 Jul 2024",
+      "Sara Black",
+      "Completed",
+    ],
+    [
+      "PO#008",
+      "Master Colors",
+      "45,000.00",
+      "08 Jul 2024",
+      "Diana King",
+      "Completed",
+    ],
+    [
+      "PO#009",
+      "Supreme Coatings",
+      "26,400.00",
+      "09 Jul 2024",
+      "Tom Blue",
+      "Pending",
+    ],
+    [
+      "PO#010",
+      "Artistic Supplies",
+      "27,900.00",
+      "10 Jul 2024",
+      "Lily Gray",
+      "Completed",
+    ],
+    [
+      "PO#011",
+      "Spectrum Suppliers",
+      "30,000.00",
+      "11 Jul 2024",
+      "Max White",
+      "Completed",
+    ],
+    [
+      "PO#012",
+      "Rainbow Paints",
+      "19,800.00",
+      "12 Jul 2024",
+      "Nina Red",
+      "Pending",
+    ],
+    [
+      "PO#013",
+      "Ace Paints",
+      "23,400.00",
+      "13 Jul 2024",
+      "Jack Orange",
+      "Completed",
+    ],
+    [
+      "PO#014",
+      "Color Masters",
+      "28,700.00",
+      "14 Jul 2024",
+      "Ella Purple",
+      "Pending",
+    ],
+    [
+      "PO#015",
+      "Elegant Paints",
+      "31,600.00",
+      "15 Jul 2024",
+      "Sam Yellow",
+      "Completed",
+    ],
   ]);
 
   const [columns, setColumns] = useState([
     {
-      name: "Barcode",
-      label: "Barcode",
+      name: "Order ID",
+      label: "Order ID",
     },
     {
       name: "Supplier Name",
@@ -311,7 +387,11 @@ function WholesaleOrderList() {
     <Container>
       <Box className="breadcrumb">
         <Breadcrumb
-          routeSegments={[{ name: "Orders" }, { name: "Wholesale" }, { name: "Summary" }]}
+          routeSegments={[
+            { name: "Orders" },
+            { name: "Wholesale" },
+            { name: "Summary" },
+          ]}
         />
       </Box>
 
@@ -339,10 +419,7 @@ function WholesaleOrderList() {
             label={"Order"}
           ></TButton>
         </Box>
-        <SimpleCard
-          sx={{ width: "100%", top: "-3em" }}
-          title={"Search orders"}
-        >
+        <SimpleCard sx={{ width: "100%", top: "-3em" }} title={"Search orders"}>
           <Box
             display={"flex"}
             flexWrap={"wrap"}

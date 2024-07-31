@@ -52,101 +52,193 @@ function RetailOrderList() {
 
   const [searchText, setSearchText] = useState(undefined);
 
-    const [searchResult, setSearchResult] = useState([
+  const [searchResult, setSearchResult] = useState([
     [
-      "D#45er",
-      "Wall paint",
-      "Dulux",
-      "Paint",
-      "Red",
-      "4 Ltr",
-      "11000.00",
-      "13",
-      "Available",
+      "ORD12345",
+      "A to Z Paint Supplies",
+      "Wall Paint",
+      "10",
+      "1,500.00",
+      "15,000.00",
+      "31 Jul 2024",
+      "Admin1",
+      "Completed",
     ],
-    ["John Walsh", "Example Inc.", "Hartford", "CT"],
+    [
+      "ORD67890",
+      "Paints & More",
+      "Acrylic Paint",
+      "5",
+      "2,000.00",
+      "10,000.00",
+      "29 Jul 2024",
+      "Admin2",
+      "Pending",
+    ],
   ]);
 
   const [datatableData, setDataTableData] = useState([
-    ["1", "Dulux", "qwe", "13 Jun 2024", "User1", "Available"],
     [
-      "D#45er",
-      "Wall paint",
-      "Dulu",
-      "Paint",
-      "Red",
-      "4 Ltr",
-      "11000.00",
-      "13",
-      "Inactive",
+      "1",
+      "ORD001",
+      "Quality Paints Ltd.",
+      "Oil-Based Paint",
+      "20",
+      "1,200.00",
+      "24,000.00",
+      "30 Jul 2024",
+      "John Doe",
+      "Completed",
     ],
     [
-      "D#45er",
-      "Wall paint",
-      "Dulux",
-      "Paint",
-      "Red",
-      "4 Ltr",
-      "11000.00",
-      "13",
+      "2",
+      "ORD002",
+      "Color World Inc.",
+      "Gloss Paint",
+      "15",
+      "1,800.00",
+      "27,000.00",
+      "29 Jul 2024",
+      "Jane Smith",
       "Pending",
     ],
     [
-      "D#45er",
-      "Wall paint",
-      "Dulux",
-      "Paint",
-      "Red",
-      "4 Ltr",
-      "11000.00",
-      "13",
-      "Blocked",
+      "3",
+      "ORD003",
+      "Global Paint Co.",
+      "Spray Paint",
+      "10",
+      "1,000.00",
+      "10,000.00",
+      "28 Jul 2024",
+      "Alice Johnson",
+      "Completed",
     ],
     [
-      "D#45er",
-      "Wall paint",
-      "Dulux",
-      "Paint",
-      "Red",
-      "4 Ltr",
-      "11000.00",
-      "13",
-      "Sold",
+      "4",
+      "ORD004",
+      "Paint Masters",
+      "Matt Paint",
+      "12",
+      "900.00",
+      "10,800.00",
+      "27 Jul 2024",
+      "Bob Williams",
+      "Cancelled",
     ],
-    ["Kaui Ignace", "Example Inc.", "Yonkers", "NY"],
-    ["Esperanza Susanne", "Example Inc.", "Hartford", "CT"],
-    ["Christian Birgitte", "Example Inc.", "Tampa", "FL"],
-    ["Meral Elias", "Example Inc.", "Hartford", "CT"],
-    ["Deep Pau", "Example Inc.", "Yonkers", "NY"],
-    ["Sebastiana Hani", "Example Inc.", "Dallas", "TX"],
-    ["Marciano Oihana", "Example Inc.", "Yonkers", "NY"],
-    ["Brigid Ankur", "Example Inc.", "Dallas", "TX"],
-    ["Anna Siranush", "Example Inc.", "Yonkers", "NY"],
-    ["Avram Sylva", "Example Inc.", "Hartford", "CT"],
-    ["Serafima Babatunde", "Example Inc.", "Tampa", "FL"],
-    ["Gaston Festus", "Example Inc.", "Tampa", "FL"],
+    [
+      "5",
+      "ORD005",
+      "Decor Paints",
+      "Primer",
+      "8",
+      "500.00",
+      "4,000.00",
+      "26 Jul 2024",
+      "Charlie Brown",
+      "Completed",
+    ],
+    [
+      "6",
+      "ORD006",
+      "Paint Shoppe",
+      "Varnish",
+      "6",
+      "2,500.00",
+      "15,000.00",
+      "25 Jul 2024",
+      "Diana Ross",
+      "Pending",
+    ],
+    [
+      "7",
+      "ORD007",
+      "Ultimate Paint Supplies",
+      "Enamel",
+      "9",
+      "1,300.00",
+      "11,700.00",
+      "24 Jul 2024",
+      "Ethan Hunt",
+      "Completed",
+    ],
+    [
+      "8",
+      "ORD008",
+      "Premium Paints",
+      "Acrylic Paint",
+      "11",
+      "1,600.00",
+      "17,600.00",
+      "23 Jul 2024",
+      "Fiona Apple",
+      "Cancelled",
+    ],
+    [
+      "9",
+      "ORD009",
+      "Value Paints",
+      "Latex Paint",
+      "7",
+      "2,100.00",
+      "14,700.00",
+      "22 Jul 2024",
+      "George Clooney",
+      "Completed",
+    ],
+    [
+      "10",
+      "ORD010",
+      "Best Paints & Co.",
+      "Thinner",
+      "14",
+      "800.00",
+      "11,200.00",
+      "21 Jul 2024",
+      "Holly Golightly",
+      "Pending",
+    ],
   ]);
 
   const [columns, setColumns] = useState([
     {
-      name: "Barcode",
-      label: "Barcode",
+      name: "id",
+      label: "ID",
+      options: {
+        display: false,
+      },
+    },
+    {
+      name: "Order Number",
+      label: "Order Number",
     },
     {
       name: "Supplier Name",
       label: "Supplier Name",
     },
     {
+      name: "Product Name",
+      label: "Product Name",
+    },
+    {
+      name: "Quantity",
+      label: "Quantity",
+    },
+    {
+      name: "Price per Unit",
+      label: "Price per Unit (LKR)",
+    },
+    {
       name: "Grand Total",
       label: "Grand Total (LKR)",
     },
     {
-      name: "Created On",
-      label: "Created On",
+      name: "Order Date",
+      label: "Order Date",
     },
     {
-      name: "Created By",
-      label: "Created By",
+      name: "Processed By",
+      label: "Processed By",
     },
     {
       name: "Status",
@@ -166,11 +258,15 @@ function RetailOrderList() {
               const selectedSupplier = datatableData[index];
               const supplierData = {
                 id: selectedSupplier[0],
-                name: selectedSupplier[1],
-                grandTotal: selectedSupplier[2],
-                createdOn: selectedSupplier[3],
-                createdBy: selectedSupplier[4],
-                status: selectedSupplier[5],
+                orderNumber: selectedSupplier[1],
+                supplierName: selectedSupplier[2],
+                productName: selectedSupplier[3],
+                quantity: selectedSupplier[4],
+                pricePerUnit: selectedSupplier[5],
+                grandTotal: selectedSupplier[6],
+                orderDate: selectedSupplier[7],
+                processedBy: selectedSupplier[8],
+                status: selectedSupplier[9],
               };
               navigate(`/order/view/${supplierData.id}`, {
                 state: supplierData,
@@ -188,7 +284,11 @@ function RetailOrderList() {
     <Container>
       <Box className="breadcrumb">
         <Breadcrumb
-          routeSegments={[{ name: "Orders" }, { name: "Retail" }, { name: "Summary" }]}
+          routeSegments={[
+            { name: "Orders" },
+            { name: "Retail" },
+            { name: "Summary" },
+          ]}
         />
       </Box>
 
@@ -201,11 +301,7 @@ function RetailOrderList() {
         }}
         spacing={5}
       >
-        
-        <SimpleCard
-          sx={{ width: "100%", top: "-3em" }}
-          title={"Search orders"}
-        >
+        <SimpleCard sx={{ width: "100%", top: "-3em" }} title={"Search orders"}>
           <Box
             display={"flex"}
             flexWrap={"wrap"}
@@ -255,7 +351,6 @@ function RetailOrderList() {
           />
         </SimpleCard>
       </Stack>
-
     </Container>
   );
 }
