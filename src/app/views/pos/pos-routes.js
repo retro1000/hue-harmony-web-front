@@ -7,6 +7,7 @@ const PosHomePage = Loadable(lazy(() => import("./Pos-home")));
 const PosOrderList = Loadable(lazy(()=>import("./Order-list")))
 const SalesSummary = Loadable(lazy(()=>import("./Sales-summary")))
 
+
 const PosRoutes = [
     {
         path: "/pos-home",
@@ -32,6 +33,7 @@ const PosRoutes = [
             //</AuthGuard>
         ),
     },
+    
     
 ];
 
