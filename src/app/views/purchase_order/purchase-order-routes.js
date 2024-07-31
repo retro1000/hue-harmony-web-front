@@ -7,9 +7,7 @@ const PurchaseOrderList = Loadable(lazy(() => import("./PurchaseOrderList")));
 const PurchaseOrderDetails = Loadable(
   lazy(() => import("./PurchaseOrderDetails"))
 );
-const SalesOrderDetails = Loadable(
-  lazy(() => import("./PurchaseOrderDetails"))
-);
+const SalesOrderDetails = Loadable(lazy(() => import("./SalesOrderDetails")));
 
 const PurchaseOrderRoutes = [
   {

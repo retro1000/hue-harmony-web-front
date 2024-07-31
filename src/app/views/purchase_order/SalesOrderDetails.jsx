@@ -57,6 +57,20 @@ function SalesOrderDetails() {
     ["Joe James", "Example Inc.", "Yonkers", "NY", "Akila"],
   ]);
 
+  const [
+    datatableDatacustomeroutstanding,
+    setDataTableDatacustomeroutstanding,
+  ] = useState([
+    [
+      "3,249,103.84",
+      "3,249,103.84",
+      "3,249,103.84",
+      "3,249,103.84",
+      "3,249,103.84",
+      "3,249,103.84",
+    ],
+  ]);
+
   const [columns, setColumns] = useState([
     "#ID",
     "Updated On",
@@ -65,16 +79,22 @@ function SalesOrderDetails() {
     "Changed By",
   ]);
 
+  const [customeroutstandcolumns, setCustomerOutstandingColumns] = useState([
+    "CURRENT (0-30 DAYS)",
+    "OVERDUE(31-60 DAYS)",
+    "OVERDUE(61-90)",
+    "OVERDUE(91-120)",
+    "PASTDUE(OVER 120 DAYS)",
+    "TOTAL",
+  ]);
+
   const dataUp = [
     {
-      PO: "1",
-      supplier: "Cash",
+      SO: "1",
+      store: "Cash",
+      gpratio: "14/07/2024",
       createdon: "14/07/2024",
-      createdby: "14/07/2024",
-      store: "MAIN STORE",
-      creditperiod: "30",
-      purchaseordertype: "LOCAL",
-      payableaccount: "ACCOUNT Payable",
+      createdby: "MAIN STORE",
       status: "Pending",
     },
   ];
@@ -84,11 +104,34 @@ function SalesOrderDetails() {
       <Box className="breadcrumb">
         <Breadcrumb
           routeSegments={[
-            { name: "Payment", path: "/Payment/Purchase Order" },
-            { name: "BulkPayment" },
+            { name: "Purchase Order", path: "/Payment/Sales Order" },
+            { name: "Sales Order" },
           ]}
         />
       </Box>
+
+      <Paper
+        elevation={3}
+        style={{ padding: "16px", marginBottom: "16px", width: "100%" }}
+      >
+        <Stack>
+          <Typography variant="h6" textAlign="left">
+            Customer Outstanding
+          </Typography>
+          <MuiTable
+            columns={customeroutstandcolumns}
+            dataTableData={datatableDatacustomeroutstanding}
+            alignItems="center"
+            justifyContent="center"
+            search={false}
+            download={false}
+            print={false}
+            filterType={false}
+            selectableRows={false}
+            title={false}
+          />
+        </Stack>
+      </Paper>
 
       <Stack
         textAlign="center"
@@ -117,16 +160,10 @@ function SalesOrderDetails() {
                 Reject
               </Button>
               <Button variant="contained" color="secondary">
-                On Hold
+                Check Availability
               </Button>
               <Button variant="contained" color="info">
                 Approve
-              </Button>
-              <Button variant="contained" color="info">
-                Place Order
-              </Button>
-              <Button variant="contained" color="success">
-                Complete
               </Button>
             </Stack>
           </Stack>
@@ -147,68 +184,30 @@ function SalesOrderDetails() {
               </Typography>
               <Box display="flex" justifyContent="space-between" mt={2}>
                 <Box>
-                  {/* <Stack direction="column" spacing={1} alignItems="flex-start">
-                    <Typography variant="body1">Account:</Typography>
-                    <Typography variant="body1">Payment Method:</Typography>
-                    <Typography variant="body1">Effective Date:</Typography>
-                    <Typography variant="body1">Ref:</Typography>
-                    <Typography variant="body1">Cheque No:</Typography>
-                    <Typography variant="body1">Remarks:</Typography>
-                  </Stack> */}
+                  <Typography variant="h6">C</Typography>
+                  <Typography variant="body1">CS0001</Typography>
                 </Box>
                 {dataUp.map((data) => (
-                  <Box>
-                    {/* <Stack
-                      direction="column"
-                      spacing={1}
-                      alignItems="flex-start"
-                    >
-                      <Typography variant="body1">{data.Account}</Typography>
-                      <Typography variant="body1">
-                        {data.paymentMethod}
-                      </Typography>
-                      <Typography variant="body1">
-                        {data.effectiveDate}
-                      </Typography>
-                      <Typography variant="body1">{data.ref}</Typography>
-                      <Typography variant="body1">{data.chequeNo}</Typography>
-                      <Typography variant="body1">{data.remarks}</Typography>
-                    </Stack> */}
-                  </Box>
+                  <Box></Box>
                 ))}
                 <Box>
                   <Stack direction="column" spacing={1} alignItems="flex-start">
-                    <Typography variant="body1">PO #:</Typography>
-                    <Typography variant="body1">Supplier:</Typography>
+                    <Typography variant="body1">SO #:</Typography>
+                    <Typography variant="body1">Store:</Typography>
+                    <Typography variant="body1">GP Ratio:</Typography>
                     <Typography variant="body1">Created On:</Typography>
                     <Typography variant="body1">Created by:</Typography>
-                    <Typography variant="body1">Store:</Typography>
-                    <Typography variant="body1">Credit Period:</Typography>
-                    <Typography variant="body1">
-                      Purchase Order Type:
-                    </Typography>
-
-                    <Typography variant="body1">Payable Account:</Typography>
                     <Typography variant="body1">Status:</Typography>
                   </Stack>
                 </Box>
                 {dataUp.map((data) => (
                   <Box>
                     <Stack direction="column" spacing={1} alignItems="flex-end">
-                      <Typography variant="body1">{data.PO}</Typography>
-                      <Typography variant="body1">{data.supplier}</Typography>
+                      <Typography variant="body1">{data.So}</Typography>
+                      <Typography variant="body1">{data.store}</Typography>
+                      <Typography variant="body1">{data.gpratio}</Typography>
                       <Typography variant="body1">{data.createdon}</Typography>
                       <Typography variant="body1">{data.createdby}</Typography>
-                      <Typography variant="body1">{data.store}</Typography>
-                      <Typography variant="body1">
-                        {data.creditperiod}
-                      </Typography>
-                      <Typography variant="body1">
-                        {data.purchaseordertype}
-                      </Typography>
-                      <Typography variant="body1">
-                        {data.payableaccount}
-                      </Typography>
                       <Typography variant="body1">
                         <span style={{ color: "orange" }}>{data.status}</span>
                       </Typography>
@@ -308,50 +307,6 @@ function SalesOrderDetails() {
           <Stack>
             <Typography variant="h6" textAlign="left">
               WorkFlow Logs
-            </Typography>
-            <MuiTable
-              columns={columns}
-              dataTableData={datatableData}
-              alignItems="center"
-              justifyContent="center"
-              search={false}
-              download={false}
-              print={false}
-              filterType={false}
-              selectableRows={false}
-              title={false}
-            />
-          </Stack>
-        </Paper>
-        <Paper
-          elevation={3}
-          style={{ padding: "16px", marginBottom: "16px", width: "100%" }}
-        >
-          <Stack>
-            <Typography variant="h6" textAlign="left">
-              Advance Payments Summary for this Purchase Order
-            </Typography>
-            <MuiTable
-              columns={columns}
-              dataTableData={datatableData}
-              alignItems="center"
-              justifyContent="center"
-              search={false}
-              download={false}
-              print={false}
-              filterType={false}
-              selectableRows={false}
-              title={false}
-            />
-          </Stack>
-        </Paper>
-        <Paper
-          elevation={3}
-          style={{ padding: "16px", marginBottom: "16px", width: "100%" }}
-        >
-          <Stack>
-            <Typography variant="h6" textAlign="left">
-              GRN Summary for this Purchase Order
             </Typography>
             <MuiTable
               columns={columns}
