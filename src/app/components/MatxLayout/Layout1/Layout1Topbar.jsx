@@ -127,7 +127,7 @@ const Layout1Topbar = () => {
             !user || role==='USER' ?
               <React.Fragment>
                 <Box
-                  onClick={()=>navigate("/home")}
+                  onClick={()=>navigate("/")}
                   component="img"
                   src="/assets/images/logos/HH01.png"
                   alt="Logo"
@@ -135,7 +135,7 @@ const Layout1Topbar = () => {
                 >
                 </Box>
                 <Box display='flex' alignItems='center' gap='1.5em' marginLeft='3em'>
-                  <Typography style={{fontWeight: '500', fontSize: '15px', textDecoration: 'underline'}} onClick={()=>navigate("/home")}>Home</Typography>
+                  <Typography style={{fontWeight: '500', fontSize: '15px', textDecoration: 'underline'}} onClick={()=>navigate("/")}>Home</Typography>
                   <Typography style={{fontWeight: '500', fontSize: '15px'}} onClick={()=>navigate("/colors")}>All Colors</Typography>
                   <Typography style={{fontWeight: '500', fontSize: '15px'}} onClick={()=>navigate("/product/filter-product")}>Products</Typography>
                   <Typography style={{fontWeight: '500', fontSize: '15px'}} onClick={()=>navigate("/about")}>About</Typography>

@@ -12,7 +12,8 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ViewIcon from '@mui/icons-material/RemoveRedEye'
 import AddIcon from '@mui/icons-material/AddBox'
-import AddCustomerIcon from '@mui/icons-material/PersonAdd'
+import AddCreditIcon from '@mui/icons-material/PersonAdd'
+import useAuth from "app/hooks/useAuth";
 
 
 // STYLED COMPONENTS
@@ -29,6 +30,8 @@ function CreditList() {
 
     const navigate = useNavigate();
 
+    const {role} = useAuth() 
+
     const [selectedAction, setSelectedAction] = useState('barcode')
 
     const [searchText, setSearchText] = useState(undefined)
@@ -38,13 +41,13 @@ function CreditList() {
       ['John Walsh', 'Example Inc.', 'Hartford', 'CT'],
     ])
 
-    const [addCustomerOn, setAddCustomerOn] = useState(false);
+    const [addCreditOn, setAddCreditOn] = useState(false);
 
-  const [newCustomer, setNewCustomer] = useState({});
+  const [newCredit, setNewCredit] = useState({});
 
-  const addCustomerFields = [
+  const addCreditFields = [
     {
-      title: 'Customer Details',
+      title: 'Credit Details',
       inputs: [
         {
           key: "cus_f_name_text",
@@ -53,10 +56,10 @@ function CreditList() {
           name: "firstName",
           label: "First Name",
           type: "text",
-          placeholder: "Enter customer first name",
-          value: newCustomer.firstName || "",
+          placeholder: "Enter Credit first name",
+          value: newCredit.firstName || "",
           setValue: (val) =>
-            setNewCustomer({ ...newCustomer, firstName: val }),
+            setNewCredit({ ...newCredit, firstName: val }),
         },
         {
           key: "cus_l_name_text",
@@ -65,10 +68,10 @@ function CreditList() {
           name: "lastName",
           label: "Last Name",
           type: "text",
-          placeholder: "Enter customer last name",
-          value: newCustomer.lastName || "",
+          placeholder: "Enter Credit last name",
+          value: newCredit.lastName || "",
           setValue: (val) =>
-            setNewCustomer({ ...newCustomer, lastName: val }),
+            setNewCredit({ ...newCredit, lastName: val }),
         },
         {
           key: "b_address_text",
@@ -79,9 +82,9 @@ function CreditList() {
           label: "Billing Address",
           type: "text",
           placeholder: "Enter billing address",
-          value: newCustomer.billingAddress || "",
+          value: newCredit.billingAddress || "",
           setValue: (val) =>
-            setNewCustomer({ ...newCustomer, billingAddress: val }),
+            setNewCredit({ ...newCredit, billingAddress: val }),
           sx: { width: "50%" },
         },
         {
@@ -93,9 +96,9 @@ function CreditList() {
           type: "text",
           break: true,
           placeholder: "Enter shipping address",
-          value: newCustomer.shippingAddress || "",
+          value: newCredit.shippingAddress || "",
           setValue: (val) =>
-            setNewCustomer({ ...newCustomer, shippingAddress: val }),
+            setNewCredit({ ...newCredit, shippingAddress: val }),
           sx: { width: "50%" },
         },
         {
@@ -106,8 +109,8 @@ function CreditList() {
           label: "Primary Contact Number",
           type: "tel",
           placeholder: "Enter primary contact number",
-          value: newCustomer.primaryContactNo || "",
-          setValue: (val) => setNewCustomer({ ...newCustomer, primaryContactNo: val }),
+          value: newCredit.primaryContactNo || "",
+          setValue: (val) => setNewCredit({ ...newCredit, primaryContactNo: val }),
         },
       ]
     },
@@ -118,13 +121,13 @@ function CreditList() {
           key: "sup_email_text",
           required: false,
           id: "sup_email_text",
-          name: "customerEmail",
-          label: "Customer Email",
+          name: "CreditEmail",
+          label: "Credit Email",
           type: "email",
-          placeholder: "Enter customer email",
-          value: newCustomer.customerEmail || "",
+          placeholder: "Enter Credit email",
+          value: newCredit.CreditEmail || "",
           setValue: (val) =>
-            setNewCustomer({ ...newCustomer, customerEmail: val }),
+            setNewCredit({ ...newCredit, CreditEmail: val }),
         },
         {
           key: "secondary_contact_no",
@@ -134,8 +137,8 @@ function CreditList() {
           label: "Other Contact Number",
           type: "tel",
           placeholder: "Enter other contact number",
-          value: newCustomer.otherContactNo || "",
-          setValue: (val) => setNewCustomer({ ...newCustomer, otherContactNo: val }),
+          value: newCredit.otherContactNo || "",
+          setValue: (val) => setNewCredit({ ...newCredit, otherContactNo: val }),
         },
       ]
     }
@@ -174,8 +177,8 @@ function CreditList() {
         label: 'Barcode',
       },
       {
-        name:'Customer Name',
-        label: 'Customer Name',
+        name:'Credit Name',
+        label: 'Credit Name',
       },
       {
         name:'Grand Total',
@@ -204,7 +207,7 @@ function CreditList() {
                 color: 'primary',
                 size: 'small',
                 onClick: (index) => {
-                  navigate(`/customer/view/${datatableData[index][0]}`)
+                  navigate(`/Credit/view/${datatableData[index][0]}`)
                 },
               },
             ]
@@ -219,14 +222,21 @@ function CreditList() {
     return (
         <Container>
           <Box className="breadcrumb">
-              <Breadcrumb routeSegments={[{ name: "Customer"}, { name: "List" }]} />
+              <Breadcrumb routeSegments={[{ name: "Credit"}, { name: "List" }]} />
           </Box>
 
           <Stack sx={{display: 'flex', justifyContent: 'center', alignItems: 'flex-start', width: '100%'}} spacing={5}>
               <Box gap={'0.5em'} display={'flex'} flexWrap={'wrap'} sx={{width: '100%'}}>
-                <TButton title={'Add new customer'} startIcon={<AddIcon />} variant={'contained'} label={'Customer'} color={'primary'} fun={setAddCustomerOn}></TButton>
+                {role==='BACKOFFICE'?<TButton 
+                  title={'Add new Credit'} 
+                  startIcon={<AddIcon />} 
+                  variant={'contained'} 
+                  label={'Credit'} 
+                  color={'primary'} 
+                  fun={setAddCreditOn}>
+                </TButton>:''}
               </Box>
-              <SimpleCard sx={{width: '100%', top: '-3em'}} title={'Search customers'}>
+              <SimpleCard sx={{width: '100%', top: '-3em'}} title={'Search Credits'}>
                 <Box display={'flex'} flexWrap={'wrap'} gap={'0.4em'} sx={{width: '100%'}}>
                   <Select sx={{width: '20%'}} value={selectedAction} size="small" onChange={(event)=>setSelectedAction(event.target.value)}>
                     <MenuItem value={'barcode'}>Search by name</MenuItem>
@@ -234,25 +244,27 @@ function CreditList() {
                     <MenuItem value={'name'}>Search by address</MenuItem>
                     <MenuItem value={'all'}>Search by all</MenuItem>
                   </Select>
-                  <SearchBarDefault sx={{width: '80%'}} value={searchText} setValue={setSearchText} placeholder={'Search customers...'} search={search}></SearchBarDefault>
+                  <SearchBarDefault sx={{width: '80%'}} value={searchText} setValue={setSearchText} placeholder={'Search Credits...'} search={search}></SearchBarDefault>
                 </Box>
                 {searchResult && searchResult.length>0 && <MuiTable search={false} print={false} download={false} columns={columns} dataTableData={searchResult} selectableRows={'none'} filterType={'text'}/>}
               </SimpleCard>
               <SimpleCard sx={{width: '100%'}}>
-                <MuiTable print={true} download={true} title={'Customers'} columns={columns} dataTableData={datatableData} selectableRows={'none'} filterType={'text'}/>
+                <MuiTable print={true} download={true} title={'Credits'} columns={columns} dataTableData={datatableData} selectableRows={'none'} filterType={'text'}/>
               </SimpleCard>
           </Stack>
-
-          <PopupFormDialog
-            open={addCustomerOn}
-            title="Add Customer"
-            submitButton="Add Customer"
-            titleIcon={<AddCustomerIcon />}
-            fields={addCustomerFields}
-            setOpen={setAddCustomerOn}
-            reasonCloseOn={true}
-            setValues={setNewCustomer}
-          />
+          {  
+            role==='BACKOFFICE'?
+            <PopupFormDialog
+              open={addCreditOn}
+              title="Add Credit"
+              submitButton="Add Credit"
+              titleIcon={<AddCreditIcon />}
+              fields={addCreditFields}
+              setOpen={setAddCreditOn}
+              reasonCloseOn={true}
+              setValues={setNewCredit}
+            />:''
+          }
         </Container>
     );
 }

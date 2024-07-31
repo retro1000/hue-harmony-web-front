@@ -13,6 +13,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import ViewIcon from '@mui/icons-material/RemoveRedEye'
 import AddIcon from '@mui/icons-material/AddBox'
 import AddCustomerIcon from '@mui/icons-material/PersonAdd'
+import useAuth from "app/hooks/useAuth";
 
 
 // STYLED COMPONENTS
@@ -26,6 +27,8 @@ const Container = styled("div")(({ theme }) => ({
 }));
 
 function CustomerList() {
+
+    const {role} = useAuth()
 
     const navigate = useNavigate();
 
@@ -224,7 +227,7 @@ function CustomerList() {
 
           <Stack sx={{display: 'flex', justifyContent: 'center', alignItems: 'flex-start', width: '100%'}} spacing={5}>
               <Box gap={'0.5em'} display={'flex'} flexWrap={'wrap'} sx={{width: '100%'}}>
-                <TButton title={'Add new customer'} startIcon={<AddIcon />} variant={'contained'} label={'Customer'} color={'primary'} fun={setAddCustomerOn}></TButton>
+                {role==='BACKOFFICE'?<TButton title={'Add new customer'} startIcon={<AddIcon />} variant={'contained'} label={'Customer'} color={'primary'} fun={setAddCustomerOn}></TButton>:""}
               </Box>
               <SimpleCard sx={{width: '100%', top: '-3em'}} title={'Search customers'}>
                 <Box display={'flex'} flexWrap={'wrap'} gap={'0.4em'} sx={{width: '100%'}}>
@@ -242,17 +245,18 @@ function CustomerList() {
                 <MuiTable print={true} download={true} title={'Customers'} columns={columns} dataTableData={datatableData} selectableRows={'none'} filterType={'text'}/>
               </SimpleCard>
           </Stack>
-
-          <PopupFormDialog
-            open={addCustomerOn}
-            title="Add Customer"
-            submitButton="Add Customer"
-            titleIcon={<AddCustomerIcon />}
-            fields={addCustomerFields}
-            setOpen={setAddCustomerOn}
-            reasonCloseOn={true}
-            setValues={setNewCustomer}
-          />
+          {role==='BACKOFFICE'?
+            <PopupFormDialog
+              open={addCustomerOn}
+              title="Add Customer"
+              submitButton="Add Customer"
+              titleIcon={<AddCustomerIcon />}
+              fields={addCustomerFields}
+              setOpen={setAddCustomerOn}
+              reasonCloseOn={true}
+              setValues={setNewCustomer}
+            />:''
+          }
         </Container>
     );
 }

@@ -8,9 +8,8 @@ const StockAdjustmentList = Loadable(
   lazy(() => import("./StockAdjustmentList"))
 );
 const Reservation = Loadable(lazy(() => import("./Reservation")));
-const GRN = Loadable(lazy(() => import("./Grn")));
 const InventoryList = Loadable(lazy(() => import("./InventoryList")));
-const CreditDebitNote = Loadable(lazy(() => import("./Credit-DebitNote")));
+
 //adjustment approve inventory
 const inventoryRoutes = [
   {
@@ -37,22 +36,6 @@ const inventoryRoutes = [
       </AuthGuard>
     ),
   },
-  {
-    path: "/inventory/grn",
-    element: (
-      // <AuthGuard auth={authRoles.manager}>
-      <GRN />
-      // </AuthGuard>
-    ),
-  },
-  // {
-  //   path: "/inventory/creditdebitnote",
-  //   element: (
-  //     <AuthGuard auth={[...authRoles.back_office, ...authRoles.inventory_manager]}>
-  //       <CreditDebitNote />
-  //     </AuthGuard>
-  //   ),
-  // },
   {
     path: "/inventory/list",
     element: (

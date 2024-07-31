@@ -11,6 +11,13 @@ const adminNav = [
     ],
   },
   {
+    name: "Inventory",
+    icon: "inventory",
+    children: [
+      { name: "Summary", iconText: "E", path: "/inventory/list" },
+    ],
+  },
+  {
     name: "Stake Holders",
     icon: "group",
     children: [
@@ -29,17 +36,25 @@ const inventoryNav = [
     children: [{ name: "Summary", iconText: "E", path: "/grn/list" }],
   },
   {
+    name: "Products",
+    icon: "shopping_basket",
+    children: [
+      { name: "Summary", iconText: "E", path: "/product/list" },
+    ],
+  },
+  {
+    name: "Credit/Debit",
+    icon: "request_quote",
+    children: [
+      { name: "Credit Summary", iconText: "E", path: "/credit-debit/credit/list" },
+      { name: "Debit Summary", iconText: "E", path: "/credit-debit/debit/list" },
+    ],
+  },
+  {
     name: "Inventory",
     icon: "inventory",
     children: [
       { name: "Summary", iconText: "E", path: "/inventory/list" },
-      { name: "Reservation", iconText: "E", path: "/inventory/reservation" },
-      // { name: "GRN", iconText: "E", path: "/inventory/Grn" },
-      {
-        name: "Credit/Debit Note",
-        iconText: "E",
-        path: "/inventory/creditdebitnote",
-      },
       {
         name: "Stock Adjustments",
         iconText: "E",
@@ -58,11 +73,64 @@ const inventoryNav = [
       },
     ],
   },
+  {
+    name: "Invoices",
+    icon: "description",
+    children: [
+      { name: "Sales Invoices", iconText: "E", path: "/invoice/sales/list" },
+      
+    ],
+  },
+  {
+    name: "Purchase Order",
+    icon: "shopping_cart",
+    children: [
+      { name: "Purchase Order", iconText: "E", path: "/purchase-order/list" },
+      { name: "Sales Order", iconText: "E", path: "/sales-order/view" },
+    ],
+  },
 ];
 
 const salesNav = [
   { name: "Dashboard", path: "/dashboard/default", icon: "dashboard" },
-
+  {
+    name: "Stake Holders",
+    icon: "group",
+    children: [
+      { name: "Customers", iconText: "E", path: "/customer/list" },
+    ],
+  },
+  {
+    name: "Inventory",
+    icon: "inventory",
+    children: [
+      { name: "Summary", iconText: "E", path: "/inventory/list" },
+      { name: "Reservation", iconText: "E", path: "/inventory/reservation" },
+    ],
+  },
+  {
+    name: "Orders",
+    icon: "attach_money",
+    children: [
+      { name: "Retail", iconText: "E", path: "/order/retail/list" },
+      { name: "WholeSale", iconText: "E", path: "/order/wholesale/list" },
+    ],
+  },
+  {
+    name: "Payments",
+    icon: "account_balance",
+    children: [
+      { name: "Summary", iconText: "E", path: "/payment/list" },
+      
+    ],
+  },
+  {
+    name: "Purchase Order",
+    icon: "shopping_cart",
+    children: [
+      { name: "Sales Order", iconText: "E", path: "/sales-order/view" },
+    ],
+  },
 ];
 
 const officeNav = [
@@ -71,15 +139,63 @@ const officeNav = [
     name: "Stake Holders",
     icon: "group",
     children: [
-      // { name: "Users", iconText: "E", path: "/user/list" },
       { name: "Customers", iconText: "E", path: "/customer/list" },
       { name: "Suppliers", iconText: "E", path: "/supplier/list" },
     ],
   },
   {
-    name: "Credit/Debit Note",
-    iconText: "E",
-    path: "/inventory/creditdebitnote",
+    name: "Products",
+    icon: "shopping_basket",
+    children: [
+      { name: "Summary", iconText: "E", path: "/product/list" },
+    ],
+  },
+  {
+    name: "Credit/Debit",
+    icon: "request_quote",
+    children: [
+      { name: "Credit Summary", iconText: "E", path: "/credit-debit/credit/list" },
+      { name: "Debit Summary", iconText: "E", path: "/credit-debit/debit/list" },
+    ],
+  },
+  {
+    name: "Inventory",
+    icon: "inventory",
+    children: [
+      { name: "Summary", iconText: "E", path: "/inventory/list" },
+    ],
+  },
+  {
+    name: "Invoices",
+    icon: "description",
+    children: [
+      { name: "Sales Invoices", iconText: "E", path: "/invoice/sales/list" },
+      { name: "Purchase Invoices", iconText: "E", path: "/invoice/purchase/list" },
+      
+    ],
+  },
+  {
+    name: "Payments",
+    icon: "account_balance",
+    children: [
+      { name: "Summary", iconText: "E", path: "/payment/list" },
+      
+    ],
+  },
+  {
+    name: "Orders",
+    icon: "attach_money",
+    children: [
+      { name: "Retail", iconText: "E", path: "/order/retail/list" },
+      { name: "WholeSale", iconText: "E", path: "/order/wholesale/list" },
+    ],
+  },
+  {
+    name: "Purchase Order",
+    icon: "shopping_cart",
+    children: [
+      { name: "Puchase Order", iconText: "E", path: "/purchase-order/list" },
+    ],
   },
 ];
 

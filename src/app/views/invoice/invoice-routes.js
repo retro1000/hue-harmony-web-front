@@ -37,7 +37,7 @@ const InvoiceRoutes = [
   {
     path: "/invoice/view/:id",
     element: (
-      <AuthGuard auth={[...authRoles.back_office, ...authRoles.inventory_manager, ...authRoles.cachier, ...authRoles.sales_manager]}>
+      <AuthGuard auth={[...authRoles.back_office, ...authRoles.inventory_manager, ...authRoles.sales_manager]}>
         {/*single invoice view*/}
         {/* <CreateInvoice /> */}
       </AuthGuard>

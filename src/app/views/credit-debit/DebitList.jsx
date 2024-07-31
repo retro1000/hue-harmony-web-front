@@ -12,7 +12,8 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ViewIcon from '@mui/icons-material/RemoveRedEye'
 import AddIcon from '@mui/icons-material/AddBox'
-import AddCustomerIcon from '@mui/icons-material/PersonAdd'
+import AddDebitIcon from '@mui/icons-material/PersonAdd'
+import useAuth from "app/hooks/useAuth";
 
 
 // STYLED COMPONENTS
@@ -29,6 +30,8 @@ function DebitList() {
 
     const navigate = useNavigate();
 
+    const {role} = useAuth()
+console.log(role)
     const [selectedAction, setSelectedAction] = useState('barcode')
 
     const [searchText, setSearchText] = useState(undefined)
@@ -38,13 +41,13 @@ function DebitList() {
       ['John Walsh', 'Example Inc.', 'Hartford', 'CT'],
     ])
 
-    const [addCustomerOn, setAddCustomerOn] = useState(false);
+    const [addDebitOn, setAddDebitOn] = useState(false);
 
-  const [newCustomer, setNewCustomer] = useState({});
+  const [newDebit, setNewDebit] = useState({});
 
-  const addCustomerFields = [
+  const addDebitFields = [
     {
-      title: 'Customer Details',
+      title: 'Debit Details',
       inputs: [
         {
           key: "cus_f_name_text",
@@ -53,10 +56,10 @@ function DebitList() {
           name: "firstName",
           label: "First Name",
           type: "text",
-          placeholder: "Enter customer first name",
-          value: newCustomer.firstName || "",
+          placeholder: "Enter Debit first name",
+          value: newDebit.firstName || "",
           setValue: (val) =>
-            setNewCustomer({ ...newCustomer, firstName: val }),
+            setNewDebit({ ...newDebit, firstName: val }),
         },
         {
           key: "cus_l_name_text",
@@ -65,10 +68,10 @@ function DebitList() {
           name: "lastName",
           label: "Last Name",
           type: "text",
-          placeholder: "Enter customer last name",
-          value: newCustomer.lastName || "",
+          placeholder: "Enter Debit last name",
+          value: newDebit.lastName || "",
           setValue: (val) =>
-            setNewCustomer({ ...newCustomer, lastName: val }),
+            setNewDebit({ ...newDebit, lastName: val }),
         },
         {
           key: "b_address_text",
@@ -79,9 +82,9 @@ function DebitList() {
           label: "Billing Address",
           type: "text",
           placeholder: "Enter billing address",
-          value: newCustomer.billingAddress || "",
+          value: newDebit.billingAddress || "",
           setValue: (val) =>
-            setNewCustomer({ ...newCustomer, billingAddress: val }),
+            setNewDebit({ ...newDebit, billingAddress: val }),
           sx: { width: "50%" },
         },
         {
@@ -93,9 +96,9 @@ function DebitList() {
           type: "text",
           break: true,
           placeholder: "Enter shipping address",
-          value: newCustomer.shippingAddress || "",
+          value: newDebit.shippingAddress || "",
           setValue: (val) =>
-            setNewCustomer({ ...newCustomer, shippingAddress: val }),
+            setNewDebit({ ...newDebit, shippingAddress: val }),
           sx: { width: "50%" },
         },
         {
@@ -106,8 +109,8 @@ function DebitList() {
           label: "Primary Contact Number",
           type: "tel",
           placeholder: "Enter primary contact number",
-          value: newCustomer.primaryContactNo || "",
-          setValue: (val) => setNewCustomer({ ...newCustomer, primaryContactNo: val }),
+          value: newDebit.primaryContactNo || "",
+          setValue: (val) => setNewDebit({ ...newDebit, primaryContactNo: val }),
         },
       ]
     },
@@ -118,13 +121,13 @@ function DebitList() {
           key: "sup_email_text",
           required: false,
           id: "sup_email_text",
-          name: "customerEmail",
-          label: "Customer Email",
+          name: "DebitEmail",
+          label: "Debit Email",
           type: "email",
-          placeholder: "Enter customer email",
-          value: newCustomer.customerEmail || "",
+          placeholder: "Enter Debit email",
+          value: newDebit.DebitEmail || "",
           setValue: (val) =>
-            setNewCustomer({ ...newCustomer, customerEmail: val }),
+            setNewDebit({ ...newDebit, DebitEmail: val }),
         },
         {
           key: "secondary_contact_no",
@@ -134,8 +137,8 @@ function DebitList() {
           label: "Other Contact Number",
           type: "tel",
           placeholder: "Enter other contact number",
-          value: newCustomer.otherContactNo || "",
-          setValue: (val) => setNewCustomer({ ...newCustomer, otherContactNo: val }),
+          value: newDebit.otherContactNo || "",
+          setValue: (val) => setNewDebit({ ...newDebit, otherContactNo: val }),
         },
       ]
     }
@@ -174,8 +177,8 @@ function DebitList() {
         label: 'Barcode',
       },
       {
-        name:'Customer Name',
-        label: 'Customer Name',
+        name:'Debit Name',
+        label: 'Debit Name',
       },
       {
         name:'Grand Total',
@@ -204,7 +207,7 @@ function DebitList() {
                 color: 'primary',
                 size: 'small',
                 onClick: (index) => {
-                  navigate(`/customer/view/${datatableData[index][0]}`)
+                  navigate(`/Debit/view/${datatableData[index][0]}`)
                 },
               },
             ]
@@ -219,14 +222,14 @@ function DebitList() {
     return (
         <Container>
           <Box className="breadcrumb">
-              <Breadcrumb routeSegments={[{ name: "Customer"}, { name: "List" }]} />
+              <Breadcrumb routeSegments={[{ name: "Debit"}, { name: "List" }]} />
           </Box>
 
           <Stack sx={{display: 'flex', justifyContent: 'center', alignItems: 'flex-start', width: '100%'}} spacing={5}>
               <Box gap={'0.5em'} display={'flex'} flexWrap={'wrap'} sx={{width: '100%'}}>
-                <TButton title={'Add new customer'} startIcon={<AddIcon />} variant={'contained'} label={'Customer'} color={'primary'} fun={setAddCustomerOn}></TButton>
+              {role==='BACKOFFICE'?<TButton title={'Add new Debit'} startIcon={<AddIcon />} variant={'contained'} label={'Debit'} color={'primary'} fun={setAddDebitOn}></TButton>:''}
               </Box>
-              <SimpleCard sx={{width: '100%', top: '-3em'}} title={'Search customers'}>
+              <SimpleCard sx={{width: '100%', top: '-3em'}} title={'Search Debits'}>
                 <Box display={'flex'} flexWrap={'wrap'} gap={'0.4em'} sx={{width: '100%'}}>
                   <Select sx={{width: '20%'}} value={selectedAction} size="small" onChange={(event)=>setSelectedAction(event.target.value)}>
                     <MenuItem value={'barcode'}>Search by name</MenuItem>
@@ -234,25 +237,27 @@ function DebitList() {
                     <MenuItem value={'name'}>Search by address</MenuItem>
                     <MenuItem value={'all'}>Search by all</MenuItem>
                   </Select>
-                  <SearchBarDefault sx={{width: '80%'}} value={searchText} setValue={setSearchText} placeholder={'Search customers...'} search={search}></SearchBarDefault>
+                  <SearchBarDefault sx={{width: '80%'}} value={searchText} setValue={setSearchText} placeholder={'Search Debits...'} search={search}></SearchBarDefault>
                 </Box>
                 {searchResult && searchResult.length>0 && <MuiTable search={false} print={false} download={false} columns={columns} dataTableData={searchResult} selectableRows={'none'} filterType={'text'}/>}
               </SimpleCard>
               <SimpleCard sx={{width: '100%'}}>
-                <MuiTable print={true} download={true} title={'Customers'} columns={columns} dataTableData={datatableData} selectableRows={'none'} filterType={'text'}/>
+                <MuiTable print={true} download={true} title={'Debits'} columns={columns} dataTableData={datatableData} selectableRows={'none'} filterType={'text'}/>
               </SimpleCard>
           </Stack>
-
-          <PopupFormDialog
-            open={addCustomerOn}
-            title="Add Customer"
-            submitButton="Add Customer"
-            titleIcon={<AddCustomerIcon />}
-            fields={addCustomerFields}
-            setOpen={setAddCustomerOn}
-            reasonCloseOn={true}
-            setValues={setNewCustomer}
-          />
+          {  
+            role==='BACKOFFICE'?
+            <PopupFormDialog
+              open={addDebitOn}
+              title="Add Debit"
+              submitButton="Add Debit"
+              titleIcon={<AddDebitIcon />}
+              fields={addDebitFields}
+              setOpen={setAddDebitOn}
+              reasonCloseOn={true}
+              setValues={setNewDebit}
+            />:''
+          }
         </Container>
     );
 }

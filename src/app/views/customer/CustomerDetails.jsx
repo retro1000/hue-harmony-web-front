@@ -31,8 +31,11 @@ import { Breadcrumb, SimpleCard, MuiTable } from "app/components";
 
 import { useNotistack } from "app/hooks/useNotistack";
 import { tableCellClasses } from "@mui/material";
+import useAuth from "app/hooks/useAuth";
 
 function CustomerDetails() {
+  const {role} = useAuth()
+
   const { id } = useParams();
   // console.log({ id });
 
@@ -106,7 +109,7 @@ function CustomerDetails() {
       <Box className="breadcrumb">
         <Breadcrumb
           routeSegments={[
-            { name: "Customer", path: "/Customer/user-${id}" },
+            { name: "Customer", path: "/customer/user-${id}" },
             { name: "User- ${id}" },
           ]}
         />
@@ -118,31 +121,33 @@ function CustomerDetails() {
         justifyContent={"center"}
         spacing={3}
       >
-        <SimpleCard
-          sx={{ width: "100%" }}
-          alignItems={"center"}
-          justifyContent={"center"}
-        >
-          <Stack>
-            <Typography variant="h6" gutterBottom>
-              Click below to Update Status
-            </Typography>
-            <Stack
-              direction="row"
-              spacing={2}
-              position="relative"
-              alignItems={"center"}
-              justifyContent={"center"}
-            >
-              <Button variant="contained" color="error">
-                Cancel
-              </Button>
-              <Button variant="contained" color="success">
-                Approve
-              </Button>
+        {role==='SALESMANAGER'?
+          <SimpleCard
+            sx={{ width: "100%" }}
+            alignItems={"center"}
+            justifyContent={"center"}
+          >
+            <Stack>
+              <Typography variant="h6" gutterBottom>
+                Click below to Update Status
+              </Typography>
+              <Stack
+                direction="row"
+                spacing={2}
+                position="relative"
+                alignItems={"center"}
+                justifyContent={"center"}
+              >
+                <Button variant="contained" color="error">
+                  Cancel
+                </Button>
+                <Button variant="contained" color="success">
+                  Approve
+                </Button>
+              </Stack>
             </Stack>
-          </Stack>
-        </SimpleCard>
+          </SimpleCard>:''
+        }
         <Stack>
           <Box
             display="flex"

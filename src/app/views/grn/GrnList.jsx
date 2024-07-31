@@ -12,6 +12,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import ViewIcon from '@mui/icons-material/RemoveRedEye'
 import AddIcon from '@mui/icons-material/AddBox'
 import AddGrnIcon from '@mui/icons-material/NoteAdd'
+import useAuth from "app/hooks/useAuth";
 
 
 // STYLED COMPONENTS
@@ -25,6 +26,9 @@ const Container = styled("div")(({ theme }) => ({
 }));
 
 function GrnList() {
+
+  const {role} = useAuth()
+
 
     const [selectedAction, setSelectedAction] = useState('barcode')
 
@@ -255,14 +259,14 @@ function GrnList() {
 
           <Stack sx={{display: 'flex', justifyContent: 'center', alignItems: 'flex-start', width: '100%'}} spacing={5}>
               <Box gap={'0.5em'} display={'flex'} flexWrap={'wrap'} sx={{width: '100%'}}>
-                <TButton 
+              {role==='BACKOFFICE'?<TButton 
                   startIcon={<AddIcon />} 
                   variant="contained" 
                   color="primary" 
                   label='GRN' 
                   title="Create new GRN"
                   fun={setAddGrnOn}
-                ></TButton>
+                ></TButton>:''}
               </Box>
               <SimpleCard sx={{width: '100%', top: '-3em'}} title={'Search Good recieved notes'}>
                 <Box display={'flex'} flexWrap={'wrap'} gap={'0.4em'} sx={{width: '100%'}}>
@@ -280,7 +284,7 @@ function GrnList() {
               </SimpleCard>
           </Stack>
 
-          <PopupFormDialog
+          {role==='BACKOFFICE'?<PopupFormDialog
                   open={addGrnOn}
                   title="Create GRN"
                   submitButton="Create GRN"
@@ -290,7 +294,7 @@ function GrnList() {
                   reasonCloseOn={true}
                   setValues={setNewGrn}
                   // popupSx="lg"
-                />
+                />:''}
         </Container>
     );
 }
