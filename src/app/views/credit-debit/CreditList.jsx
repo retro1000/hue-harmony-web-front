@@ -207,7 +207,7 @@ function CreditList() {
                 color: 'primary',
                 size: 'small',
                 onClick: (index) => {
-                  navigate(`/Credit/view/${datatableData[index][0]}`)
+                  navigate(`/credit/view/${datatableData[index][0]}`)
                 },
               },
             ]

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import {
   Stack,
@@ -52,6 +53,7 @@ function GrnList() {
 
   const {role} = useAuth()
 
+  const navigate = useNavigate()
 
   const [searchText, setSearchText] = useState(undefined);
 
@@ -400,7 +402,7 @@ function GrnList() {
             color: "primary",
             size: "small",
             onClick: (index) => {
-              console.log("Edit button clicked for row", index);
+              navigate(`/grn/view/${datatableData[index][0]}`)
             },
           },
         ],

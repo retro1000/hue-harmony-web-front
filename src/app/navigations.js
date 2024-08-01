@@ -151,6 +151,13 @@ const officeNav = [
     ],
   },
   {
+    name: "GRN",
+    icon: "shopping_basket",
+    children: [
+      { name: "Summary", iconText: "E", path: "/grn/list" },
+    ],
+  },
+  {
     name: "Credit/Debit",
     icon: "request_quote",
     children: [
@@ -195,6 +202,7 @@ const officeNav = [
     icon: "shopping_cart",
     children: [
       { name: "Puchase Order", iconText: "E", path: "/purchase-order/list" },
+      { name: "Sales Order", iconText: "E", path: "/sales-order/view" },
     ],
   },
 ];

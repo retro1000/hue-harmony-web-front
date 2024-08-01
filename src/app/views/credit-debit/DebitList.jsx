@@ -207,7 +207,7 @@ console.log(role)
                 color: 'primary',
                 size: 'small',
                 onClick: (index) => {
-                  navigate(`/Debit/view/${datatableData[index][0]}`)
+                  navigate(`/debit/view/${datatableData[index][0]}`)
                 },
               },
             ]

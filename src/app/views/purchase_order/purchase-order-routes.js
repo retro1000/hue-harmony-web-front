@@ -29,7 +29,7 @@ const PurchaseOrderRoutes = [
   {
     path: "/sales-order/view",
     element: (
-      <AuthGuard auth={[...authRoles.sales_manager, ...authRoles.inventory_manager]}>
+      <AuthGuard auth={[...authRoles.sales_manager, ...authRoles.inventory_manager,...authRoles.back_office]}>
         <SalesOrderDetails />
       </AuthGuard>
     ),
