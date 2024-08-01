@@ -25,7 +25,7 @@ const PaintStories = () => {
         <Grid item xs={12} md={6}>
           <Box
             component="img"
-            src="https://cdn.builder.io/api/v1/image/assets/TEMP/66da55621e93f2aea7ce5a58cdf4b4d3b9fad00eed33e7a0c01ec6bd5de76c7a?apiKey=6f06a6b4e70e4dde93ec8099db2adb9d&&apiKey=6f06a6b4e70e4dde93ec8099db2adb9d"
+            src="assets/images/home2.jpg"
             alt="Paint Stories"
             sx={{
               width: '100%',

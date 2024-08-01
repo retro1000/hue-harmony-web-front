@@ -8,7 +8,7 @@ import { ProductCard } from "..";
 const products = [
   {
     id: 1,
-    name: "CANON EOS DSLR Camera",
+    name: "Multilac Wall Finish",
     price: "$360",
     rating: 4.5,
     reviews: 95,
@@ -16,7 +16,7 @@ const products = [
   },
   {
     id: 2,
-    name: "ASUS FHD Gaming Laptop",
+    name: "Causeway wall filler",
     price: "$700",
     rating: 4.8,
     reviews: 325,
@@ -25,7 +25,7 @@ const products = [
   },
   {
     id: 3,
-    name: "Curology Product Set",
+    name: "Jat Brilliant White",
     price: "$500",
     rating: 4.2,
     reviews: 145,
@@ -34,7 +34,7 @@ const products = [
   },
   {
     id: 4,
-    name: "Jr. Zoom Soccer Cleats",
+    name: "Nippon Super gloss",
     price: "$1160",
     rating: 4.0,
     reviews: 35,
@@ -42,7 +42,7 @@ const products = [
   },
   {
     id: 5,
-    name: "GP11 Shooter USB Gamepad",
+    name: "Dulux White and Space",
     price: "$660",
     rating: 4.5,
     reviews: 55,
@@ -51,7 +51,7 @@ const products = [
   },
   {
     id: 6,
-    name: "Quilted Satin Jacket",
+    name: "Dulux Wood care",
     price: "$660",
     rating: 4.5,
     reviews: 55,
