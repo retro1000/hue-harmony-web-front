@@ -135,11 +135,11 @@ const Layout1Topbar = () => {
                 >
                 </Box>
                 <Box display='flex' alignItems='center' gap='1.5em' marginLeft='3em'>
-                  <Typography style={{fontWeight: '500', fontSize: '15px', textDecoration: 'underline'}} onClick={()=>navigate("/home")}>Home</Typography>
-                  <Typography style={{fontWeight: '500', fontSize: '15px'}} onClick={()=>navigate("/colors")}>All Colors</Typography>
-                  <Typography style={{fontWeight: '500', fontSize: '15px'}} onClick={()=>navigate("/product/filter-product")}>Products</Typography>
-                  <Typography style={{fontWeight: '500', fontSize: '15px'}} onClick={()=>navigate("/about")}>About</Typography>
-                  <Typography style={{fontWeight: '500', fontSize: '15px'}} onClick={()=>navigate("/contact")}>Contact</Typography>
+                  <Typography style={{fontWeight: '500', fontSize: '15px', textDecoration: 'underline',cursor: 'pointer'}} onClick={()=>navigate("/home")}>Home</Typography>
+                  <Typography style={{fontWeight: '500', fontSize: '15px',cursor: 'pointer'}} onClick={()=>navigate("/colors")}>All Colors</Typography>
+                  <Typography style={{fontWeight: '500', fontSize: '15px', cursor: 'pointer'}} onClick={()=>navigate("/product/filter-product")}>Products</Typography>
+                  <Typography style={{fontWeight: '500', fontSize: '15px', cursor: 'pointer'}} onClick={()=>navigate("/about")}>About</Typography>
+                  <Typography style={{fontWeight: '500', fontSize: '15px', cursor: 'pointer'}} onClick={()=>navigate("/contact")}>Contact</Typography>
                 </Box>
               </React.Fragment> :
               <React.Fragment>
