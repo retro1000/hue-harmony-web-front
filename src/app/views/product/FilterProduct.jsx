@@ -99,12 +99,18 @@ const ProductPage = () => {
                   variant="contained"
                   sx={{
                     borderRadius: 0.5,
-                    backgroundColor: "#ed005d",
+                    
                     mt: 7.5,
-                    color: "#fafafa",
+                    
                     p: "16px 48px",
                     fontWeight: 500,
-                    alignSelf: 'center'
+                    alignSelf: 'center',
+                    backgroundColor: '#ED005D',
+                    color: '#fff',
+                    textTransform: "none",
+                    '&:hover': {
+                            backgroundColor: '#d10454',
+                      }
                   }}
                 >
                   View All Products

@@ -32,18 +32,21 @@ const styles = {
 
 const MainLayout = () => {
   return (
+    <>
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <Hero />
       <Box sx={( styles )}>
-        <PopularProducts />
+        <PopularProducts Title={"Popular Products"}/>
         <Banner />
         <PaintStories/>
         <ColorOfTheYear/>
       </Box>
       <LetsPaintHero/>
-      <Footer />
+      
     </ThemeProvider>
+    <Footer />
+    </>
   );
 };
 
