@@ -6,6 +6,7 @@ import AuthGuard from "app/auth/AuthGuard";
 const CreditList = Loadable(lazy(() => import("./CreditList")));
 const DebitList = Loadable(lazy(() => import("./DebitList")));
 const CreditDebitDetail = Loadable(lazy(() => import("./CreditDebitdetails")));
+const DebitNote = Loadable(lazy(() => import("./Credit-DebitNote")));
 //approve credit debit inventory manager
 const creditDebitRoutes = [
   {
@@ -25,10 +26,18 @@ const creditDebitRoutes = [
     ),
   },
   {
-    path: "/credit-debit/view/:id",
+    path: "/credit/view/:id",
     element: (
       <AuthGuard auth={[...authRoles.back_office, ...authRoles.inventory_manager]}>
-        <CreditDebitDetail />
+        <DebitNote />
+      </AuthGuard>
+    ),
+  },
+  {
+    path: "/debit/view/:id",
+    element: (
+      <AuthGuard auth={[...authRoles.back_office, ...authRoles.inventory_manager]}>
+        <DebitNote />
       </AuthGuard>
     ),
   },
