@@ -1,7 +1,7 @@
 
 import React from "react";
 import { Box } from "@mui/material";
-import LoginForm from "../../../components/login/LoginForm";
+import LoginForm from "../../../components/login/SignupForm";
 import ImageSection from "../../../components/login/ImageSection";
 
 const LoginPage = () => {
