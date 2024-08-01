@@ -31,12 +31,14 @@ const CartPage = () => {
       <Box sx={{pt:2}}>
       <Header title={"Wishlist"}/>
       </Box>
-      </Box>
+      
       <ProductGrid/>
       <Box sx={{pt:2}}>
       <Header title={"Just for you"}/>
       </Box>
+      
       <ProductGrid/>
+      </Box>
     </Container>
     <Footer/>
     </>
