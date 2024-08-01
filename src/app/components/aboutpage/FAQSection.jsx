@@ -48,7 +48,7 @@ const FAQSection = () => {
           <Grid item xs={12} md={6}>
             <Box
               component="img"
-              src="https://cdn.builder.io/api/v1/image/assets/TEMP/3efdd3fdcc1804817ccdac0c071578f2a9501f4df1447629f317c24c7517bd94?apiKey=6f06a6b4e70e4dde93ec8099db2adb9d&&apiKey=6f06a6b4e70e4dde93ec8099db2adb9d"
+              src="assets/images/faq.jpg"
               alt="FAQ"
               sx={{ width: "100%", height: "auto" }}
             />
