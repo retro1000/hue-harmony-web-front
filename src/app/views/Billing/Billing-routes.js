@@ -11,21 +11,33 @@ const Cart = Loadable(lazy(() => import('../Billing/cart/CartPage')))
 
 
 const BillingRoutes = [
-  {
-    path: "/cart",
-    element:
-    <AuthGuard auth={authRoles.user}>
-      <Cart />
-    </AuthGuard>
-,
-  },
+  // {
+  //   path: "/cart",
+  //   element:
+  //   <AuthGuard auth={authRoles.user}>
+  //     <Cart />
+  //   </AuthGuard>
+  // },
+
   {
     path: "/BillingDetails",
     element: 
-      <AuthGuard auth={authRoles.user}>
-        <BillingDetails />
-      </AuthGuard>
+    <BillingDetails />
+
   },
+  {
+    path: "/cart",
+    element: 
+    <Cart />
+
+  },
+  // {
+  //   path: "/BillingDetails",
+  //   element: 
+  //     <AuthGuard auth={authRoles.user}>
+  //       <BillingDetails />
+  //     </AuthGuard>
+  // },
 ];
 
 export default BillingRoutes;

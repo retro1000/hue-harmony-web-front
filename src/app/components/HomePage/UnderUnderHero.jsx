@@ -15,7 +15,7 @@ const ColorOfTheYear = () => {
         <Grid item xs={12} md={6}>
           <Box
             component="img"
-            src="https://cdn.builder.io/api/v1/image/assets/TEMP/0ec6cc2afef7c3192143ee9d04fe6868d8332f74159331c9ce99eaa70b940a4a?apiKey=6f06a6b4e70e4dde93ec8099db2adb9d&&apiKey=6f06a6b4e70e4dde93ec8099db2adb9d"
+            src="assets/images/home1.jpg"
             alt="Dulux Visualizer App"
             sx={{
               width: '100%',

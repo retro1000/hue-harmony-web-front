@@ -10,49 +10,49 @@ import { ProductCard, TButton } from "..";
 const products = [
   {
     id: 1,
-    name: "CANON EOS DSLR Camera",
+    name: "Dummy Paint",
     price: "$360",
     rating: 4.5,
     reviews: 95,
-    image: "https://paints.lk/wp-content/uploads/2022/02/Podium-background-Made-with-PosterMyWall-24.jpg",
+    image: "assets/images/paint1.jpg",
     wishList: true
   },
   {
     id: 2,
-    name: "ASUS FHD Gaming Laptop",
+    name: "Dummy Paint",
     price: "$700",
     rating: 4.8,
     reviews: 325,
-    image: "https://paints.lk/wp-content/uploads/2022/02/Podium-background-Made-with-PosterMyWall-24.jpg",
+    image: "assets/images/paint1.jpg",
     wishList: false
 
   },
   {
     id: 3,
-    name: "Curology Product Set",
+    name: "Dummy Paint",
     price: "$500",
     rating: 4.2,
     reviews: 145,
-    image: "https://paints.lk/wp-content/uploads/2022/02/Podium-background-Made-with-PosterMyWall-24.jpg",
+    image: "assets/images/paint1.jpg",
     wishList: true
 
   },
   {
     id: 4,
-    name: "Jr. Zoom Soccer Cleats",
+    name: "dummy paint",
     price: "$1160",
     rating: 4.0,
     reviews: 35,
-    image: "https://paints.lk/wp-content/uploads/2022/02/Podium-background-Made-with-PosterMyWall-24.jpg",
+    image: "assets/images/paint1.jpg",
     wishList: false
 
   },
 ];
 
-const ProductGrid = () => {
+const ProductGrid = ({Title}) => {
   return (
     <>
-      <Typography variant="h4">Popular now</Typography>
+      <Typography variant="h4">{Title}</Typography>
       <Grid
         container
         spacing={2.5}
@@ -69,16 +69,28 @@ const ProductGrid = () => {
         }
       </Grid>
       <br></br>
-      <Box width={"100%"} sx={{display: "flex", justifyContent: "center", alignItems: "center"}}>
-        <TButton 
-          label={"View All Products"} 
-          variant="contained" 
-          title={"View All Products"}
-          sx={{width: "180px", height: "50px"}}
-          style={{textTransform: "none"}}
+      <Box 
+          width={"100%"} 
+          sx={{display: "flex", justifyContent: "center", alignItems: "center"}}
         >
-        </TButton>
-      </Box>
+          <TButton 
+            label={"View All Products"} 
+            variant="contained" 
+            title={"View All Products"}
+            sx={{
+              width: "180px", 
+              height: "50px",
+              backgroundColor: '#ED005D',
+              color: '#fff',
+              textTransform: "none",
+              '&:hover': {
+                backgroundColor: '#d10454',
+              }
+            }}
+          >
+          </TButton>
+</Box>
+
     </>
   );
 };

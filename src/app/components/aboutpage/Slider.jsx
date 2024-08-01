@@ -4,9 +4,9 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 
 const logos = [
-  '/path/to/logo1.png',
-  '/path/to/logo2.png',
-  '/path/to/logo3.png',
+  'assets/images/paintlogo1.jpg',
+  'assets/images/paintlogo2.jpg',
+  'assets/images/paintlogo3.jpg',
   // Add paths to all your logos here
 ];
 

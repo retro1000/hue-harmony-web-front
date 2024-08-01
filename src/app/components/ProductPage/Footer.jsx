@@ -1,158 +1,149 @@
-
 import React from "react";
-import { Box, Typography, TextField, Grid, IconButton } from "@mui/material";
+import {
+  Box,
+  Typography,
+  TextField,
+  Button,
+  Container,
+  Grid,
+} from "@mui/material";
+import SendIcon from '@mui/icons-material/Send';
+import FacebookIcon from '@mui/icons-material/Facebook';
+import TwitterIcon from '@mui/icons-material/Twitter';
+import LinkedInIcon from '@mui/icons-material/LinkedIn';
+
 
 const Footer = () => {
   return (
     <Box
+      component="footer"
       sx={{
-        backgroundColor: "#000",
-        width: "100%",
-        // mt: 5,
-        p: "80px 0 24px",
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'flex-end',
+        width: '100%',
+        backgroundColor: 'black',
+        color: 'white',
+        pt: 5,
+        pb: 1.5,
+        mt: 7,
       }}
     >
-      <Grid
-        container
-        spacing={2.5}
-        sx={{ maxWidth: 1167, mx: "auto", px: 2.5, display: "flex", flexWrap: "wrap" }}
-      >
+      <Container maxWidth="lg" sx={{ display: 'flex', justifyContent: 'center', gap: 5, flexWrap: 'wrap' }}>
+        <Box sx={{ textAlign: 'left', color: 'neutral.50' }}>
         <Grid item xs={12} sm={6} md={3}>
-          <Typography
-            variant="h6"
-            sx={{ color: "#fafafa", fontWeight: 700, mb: 3.375 }}
-          >
-            Exclusive
-          </Typography>
-          <Typography
-            variant="subtitle1"
-            sx={{ color: "#fafafa", fontWeight: 500, mb: 3 }}
-          >
-            Subscribe
-          </Typography>
-          <Typography variant="body2" sx={{ color: "#fafafa", mb: 2 }}>
-            Get 10% off your first order
-          </Typography>
-          <Box
-            sx={{
-              display: "flex",
-              gap: 2.5,
-              p: 1.5,
-              border: "2px solid #fafafa",
-              borderRadius: 0.5,
-            }}
-          >
-            <TextField
-              variant="standard"
-              placeholder="Enter your email"
-              InputProps={{ disableUnderline: true }}
-              sx={{ flex: 1, color: "#fafafa" }}
-            />
-            <IconButton>
-              <img
-                src="http://b.io/ext_38-"
-                alt="Send"
-                style={{ width: 24, height: 24 }}
+            <Typography variant="h6" gutterBottom>
+              Exclusive
+            </Typography>
+            <Typography variant="subtitle1" gutterBottom>
+              Subscribe
+            </Typography>
+            <Typography variant="body2" gutterBottom>
+              Get 10% off your first order
+            </Typography>
+            <Box sx={{ display: 'flex', mt: 2 }}>
+              <TextField
+                variant="outlined"
+                size="small"
+                placeholder="Enter your email"
+                sx={{ bgcolor: 'white', borderRadius: 1 }}
               />
-            </IconButton>
-          </Box>
-        </Grid>
+              <Button
+                variant="contained"
+                color="primary"
+                sx={{ ml: 1 }}
+                endIcon={<SendIcon />}
+              >
+                Send
+              </Button>
+            </Box>
+          </Grid>
+        </Box>
+
+        <Box sx={{ color: 'neutral.50' }}>
         <Grid item xs={12} sm={6} md={3}>
-          <Typography
-            variant="subtitle1"
-            sx={{ color: "#fafafa", fontWeight: 500, mb: 3 }}
-          >
-            Support
-          </Typography>
-          <Typography variant="body2" sx={{ color: "#fafafa", mb: 2 }}>
-            111 Bijoy sarani, Dhaka, DH 1515, Bangladesh.
-          </Typography>
-          <Typography variant="body2" sx={{ color: "#fafafa", mb: 2 }}>
-            email@gmail.com
-          </Typography>
-          <Typography variant="body2" sx={{ color: "#fafafa", mb: 2 }}>
-            +88015-88888-9999
-          </Typography>
-        </Grid>
+            <Typography variant="h6" gutterBottom>
+              Support
+            </Typography>
+            <Typography variant="body2" gutterBottom>
+              111 Bijoy sarani, Dhaka, DH 1515, Bangladesh.
+            </Typography>
+            <Typography variant="body2" gutterBottom>
+              exclusive@gmail.com
+            </Typography>
+            <Typography variant="body2" gutterBottom>
+              +88015-88888-9999
+            </Typography>
+          </Grid>
+        </Box>
+
+        <Box sx={{ color: 'neutral.50' }}>
         <Grid item xs={12} sm={6} md={3}>
-          <Typography
-            variant="subtitle1"
-            sx={{ color: "#fafafa", fontWeight: 500, mb: 3 }}
-          >
-            Account
-          </Typography>
-          <Typography variant="body2" sx={{ color: "#fafafa", mb: 2 }}>
-            My Account
-          </Typography>
-          <Typography variant="body2" sx={{ color: "#fafafa", mb: 2 }}>
-            Login / Register
-          </Typography>
-          <Typography variant="body2" sx={{ color: "#fafafa", mb: 2 }}>
-            Cart
-          </Typography>
-          <Typography variant="body2" sx={{ color: "#fafafa", mb: 2 }}>
-            Wishlist
-          </Typography>
-          <Typography variant="body2" sx={{ color: "#fafafa", mb: 2 }}>
-            Shop
-          </Typography>
-          
-        </Grid>
+            <Typography variant="h6" gutterBottom>
+              Account
+            </Typography>
+            <Typography variant="body2" gutterBottom>
+              My Account
+            </Typography>
+            <Typography variant="body2" gutterBottom>
+              Login / Register
+            </Typography>
+            <Typography variant="body2" gutterBottom>
+              Cart
+            </Typography>
+            <Typography variant="body2" gutterBottom>
+              Wishlist
+            </Typography>
+            <Typography variant="body2" gutterBottom>
+              Shop
+            </Typography>
+          </Grid>
+        </Box>
+
+        <Box sx={{ color: 'neutral.50' }}>
         <Grid item xs={12} sm={6} md={3}>
-          <Typography
-            variant="subtitle1"
-            sx={{ color: "#fafafa", fontWeight: 500, mb: 3 }}
-          >
-            Quick Link
-          </Typography>
-          <Typography variant="body2" sx={{ color: "#fafafa", mb: 2 }}>
-            Privacy Policy
-          </Typography>
-          <Typography variant="body2" sx={{ color: "#fafafa", mb: 2 }}>
-            Terms Of Use
-          </Typography>
-          <Typography variant="body2" sx={{ color: "#fafafa", mb: 2 }}>
-            FAQ
-          </Typography>
-          <Typography variant="body2" sx={{ color: "#fafafa", mb: 2 }}>
-            Contact
-          </Typography>
-        </Grid>
-        <Grid item xs={12} sm={6} md={3}>
-          <Typography
-            variant="subtitle1"
-            sx={{ color: "#fafafa", fontWeight: 500, mb: 3 }}
-          >
+            <Typography variant="h6" gutterBottom>
+              Quick Link
+            </Typography>
+            <Typography variant="body2" gutterBottom>
+              Privacy Policy
+            </Typography>
+            <Typography variant="body2" gutterBottom>
+              Terms Of Use
+            </Typography>
+            <Typography variant="body2" gutterBottom>
+              FAQ
+            </Typography>
+            <Typography variant="body2" gutterBottom>
+              Contact
+            </Typography>
+          </Grid>
+        </Box>
+
+        <Box sx={{ color: 'neutral.50', textAlign: 'center' }}>
+        <Typography variant="h6" gutterBottom>
             Download App
           </Typography>
-          <Typography variant="body2" sx={{ color: "#fafafa", mb: 2 }}>
-            Privacy Policy
+          <Typography variant="body2" gutterBottom>
+            Save $3 with App New User Only
           </Typography>
-          <Typography variant="body2" sx={{ color: "#fafafa", mb: 2 }}>
-            Terms Of Use
-          </Typography>
-          <Typography variant="body2" sx={{ color: "#fafafa", mb: 2 }}>
-            FAQ
-          </Typography>
-          <Typography variant="body2" sx={{ color: "#fafafa", mb: 2 }}>
-            Contact
-          </Typography>
-        </Grid>
-      </Grid>
-      
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          mt: 4.5,
-          color: "#fff",
-        }}
-      >
-        
-        <Typography variant="body2">
-        &copy; Copyright Paints 2024. All right reserved
-        </Typography>
+          <Box sx={{ display: 'flex', flexDirection:'column', mt: 2 }}>
+            <Box sx={{ display: 'flex', flexDirection:'column' }}>
+              <a href="#"><img src="assets\images\GetItOnGooglePlay.png" alt="App Store" style={{ width: 110, marginBottom: 4 }} /></a>
+            </Box>
+          </Box>
+          <Box sx={{ display: 'flex', mt: 2 }}>
+            <FacebookIcon sx={{ mr: 2 }} />
+            <TwitterIcon sx={{ mr: 2 }} />
+            <LinkedInIcon />
+          </Box>
+        </Box>
+      </Container>
+
+      <Box sx={{ textAlign: 'center', color: 'white', pt: 1, mt: 1.5 }}>
+        <Box sx={{ display: 'flex', justifyContent: 'center', gap: 1 }}>
+          <Typography variant="body2">&copy; Copyright Paints 2024. All right reserved</Typography>
+        </Box>
       </Box>
     </Box>
   );

@@ -19,7 +19,7 @@ const AboutHeader = () => {
         </Typography>
       </Box>
       <Typography variant="h3" component="h1" sx={{ fontWeight: 600 }}>
-        About Dulux
+        About Hue Harmony
       </Typography>
     </Box>
   );
