@@ -47,6 +47,12 @@ const Container = styled("div")(({ theme }) => ({
 
 function PurchaseOrderList() {
   const navigate = useNavigate();
+  
+
+  const handleCreatePurchaseOrder = () => {
+    navigate('/purchase-order/create'); // Replace with the path you want to navigate to
+  };
+
 
   const [selectedAction, setSelectedAction] = useState("barcode");
 
@@ -313,13 +319,13 @@ function PurchaseOrderList() {
           sx={{ width: "100%" }}
         >
           <TButton
-            startIcon={<AddIcon />}
-            variant="contained"
-            color="primary"
-            label="Purchase Order"
-            title="Create new purchase order"
-            fun={setAddPurchaseOrderOn}
-          ></TButton>
+      startIcon={<AddIcon />}
+      variant="contained"
+      color="primary"
+      label="Purchase Order"
+      title="Create new purchase order"
+      onClick={handleCreatePurchaseOrder}
+    ></TButton>
         </Box>
         <SimpleCard
           sx={{ width: "100%", top: "-3em" }}

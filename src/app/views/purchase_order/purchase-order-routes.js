@@ -8,6 +8,7 @@ const PurchaseOrderDetails = Loadable(
   lazy(() => import("./PurchaseOrderDetails"))
 );
 const SalesOrderDetails = Loadable(lazy(() => import("./SalesOrderDetails")));
+const PurchaseOrderCreate = Loadable(lazy(() => import("./create-po")));
 
 const PurchaseOrderRoutes = [
   {
@@ -31,6 +32,14 @@ const PurchaseOrderRoutes = [
     element: (
       <AuthGuard auth={[...authRoles.sales_manager, ...authRoles.inventory_manager]}>
         <SalesOrderDetails />
+      </AuthGuard>
+    ),
+  },
+  {
+    path: "/purchase-order/create",
+    element: (
+      <AuthGuard auth={[...authRoles.inventory_manager,...authRoles.back_office]}>
+        <PurchaseOrderCreate />
       </AuthGuard>
     ),
   },
