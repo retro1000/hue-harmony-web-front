@@ -40,7 +40,7 @@ const AboutPage = () => {
             <br />
             <Box
               component="img"
-              src="https://cdn.builder.io/api/v1/image/assets/TEMP/e1de2200e70480ec0afb979b5c9c1ea7e76bf00d9b4bb1805179d3a6778481c4?apiKey=6f06a6b4e70e4dde93ec8099db2adb9d&&apiKey=6f06a6b4e70e4dde93ec8099db2adb9d"
+              src="assets/images/about1.jpg"
               alt="About Dulux"
               sx={{ width: "100%", height: "auto",borderRadius: '10px' }}
             />

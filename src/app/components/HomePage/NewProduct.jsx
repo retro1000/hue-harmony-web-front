@@ -41,7 +41,13 @@ const Banner = () => {
       <Button
         variant="contained"
         sx={{
-          background: 'linear-gradient(263deg, #ed005d 7.04%, #ed005d 91.87%)',
+          backgroundColor: '#ED005D',
+          color: '#fff',
+          textTransform: "none",
+          '&:hover': {
+                backgroundColor: '#d10454',
+              },
+          
           borderRadius: '5px',
           padding: '14px 25px',
           fontWeight: 600,

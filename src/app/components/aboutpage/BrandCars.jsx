@@ -5,7 +5,7 @@ import LogoSlider from "../../components/aboutpage/Slider";
 
 const BrandCars = () => {
   return (
-    <Container maxWidth="lg" sx={{ my: 8 }}>
+    <Container maxWidth="lg" sx={{ mt: 8 }}>
       <Box
         sx={{
           display: "flex",
@@ -21,7 +21,7 @@ const BrandCars = () => {
           sx={{ flex: 1 }}
         />
         <Typography variant="h6" sx={{ whiteSpace: "nowrap" }}>
-          Brand Cars With Carlio
+          Our Brands
         </Typography>
         <Box
           component="img"
