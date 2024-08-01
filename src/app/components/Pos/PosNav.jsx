@@ -8,8 +8,12 @@ import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import ListAltIcon from '@mui/icons-material/ListAlt';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import AssessmentIcon from '@mui/icons-material/Assessment';
+import useAuth from 'app/hooks/useAuth';
 
 function PosNav() {
+
+    const {logout} = useAuth()
+
     return (
         <AppBar position="static" sx={{ backgroundColor: 'grey.400', boxShadow: 'none' }}>
             <Container maxWidth="xl" sx={{ display: 'flex', justifyContent: 'flex-end', mr: 0 }}>
@@ -48,6 +52,7 @@ function PosNav() {
         variant="contained"
         sx={{ backgroundColor: 'red', color: 'white', boxShadow: 'none' }}
         startIcon={<ExitToAppIcon />}
+        onClick={logout}
       >
         Logout
       </Button>

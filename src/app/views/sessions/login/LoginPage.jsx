@@ -24,7 +24,7 @@ const LoginPage = () => {
     setLoading(true);
     try {
       const role = await login(username, password, remember);
-      navigate(!role || role==='USER' || role==='GUEST'?'/':'/dashboard/default');
+      navigate(!role || role==='USER' || role==='GUEST'?'/':role==='CASHIER'?'/pos-home':'/dashboard/default');
     } catch (e) {
       setLoading(false);
     }
