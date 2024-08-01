@@ -38,7 +38,7 @@ const PurchaseOrderRoutes = [
   {
     path: "/purchase-order/create",
     element: (
-      <AuthGuard auth={[...authRoles.inventory_manager,...authRoles.back_office]}>
+      <AuthGuard auth={[...authRoles.inventory_manager]}>
         <PurchaseOrderCreate />
       </AuthGuard>
     ),

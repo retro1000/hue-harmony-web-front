@@ -12,6 +12,13 @@ const orderDetails = [
   { id: 4, invoice: 'INV-00001004', client: 'Client-004', grandTotal: '60000.00', balanceDue: 15000.0, date: '2024/08/02', status: 'inactive' },
   { id: 5, invoice: 'INV-00001005', client: 'Client-005', grandTotal: '70000.00', balanceDue: 20000.0, date: '2024/08/03', status: 'active' },
   { id: 6, invoice: 'INV-00001006', client: 'Client-006', grandTotal: '80000.00', balanceDue: 25000.0, date: '2024/08/04', status: 'inactive' },
+  { id: 1, invoice: 'INV-00001001', client: 'Client-001', grandTotal: '30000.00', balanceDue: 0.0, date: '2024/07/30', status: 'active' },
+  { id: 2, invoice: 'INV-00001002', client: 'Client-002', grandTotal: '40000.00', balanceDue: 5000.0, date: '2024/07/31', status: 'inactive' },
+  { id: 3, invoice: 'INV-00001003', client: 'Client-003', grandTotal: '50000.00', balanceDue: 10000.0, date: '2024/08/01', status: 'active' },
+  { id: 4, invoice: 'INV-00001004', client: 'Client-004', grandTotal: '60000.00', balanceDue: 15000.0, date: '2024/08/02', status: 'inactive' },
+  { id: 5, invoice: 'INV-00001005', client: 'Client-005', grandTotal: '70000.00', balanceDue: 20000.0, date: '2024/08/03', status: 'active' },
+  { id: 6, invoice: 'INV-00001006', client: 'Client-006', grandTotal: '80000.00', balanceDue: 25000.0, date: '2024/08/04', status: 'inactive' },
+  
 ];
 
 const columns = [
@@ -40,21 +47,23 @@ const columns = [
     field: 'action',
     headerName: 'Action',
     width: 100,
-    RenderCell: (params) => {
-      const navigate = useNavigate();
-
-      const handleViewClick = () => {
-        navigate(`/view-order/${params.row.id}`);
-      };
-
-      return (
-        <IconButton color="primary" aria-label="view" onClick={handleViewClick}>
-          <VisibilityIcon />
-        </IconButton>
-      );
-    },
+    renderCell: (params) => <ActionCell params={params} />,
   },
 ];
+
+const ActionCell = ({ params }) => {
+  const navigate = useNavigate();
+
+  const handleViewClick = () => {
+    navigate(`/view-order/${params.row.id}`);
+  };
+
+  return (
+    <IconButton color="primary" aria-label="view" onClick={handleViewClick}>
+      <VisibilityIcon />
+    </IconButton>
+  );
+};
 
 function OrderList() {
   return (

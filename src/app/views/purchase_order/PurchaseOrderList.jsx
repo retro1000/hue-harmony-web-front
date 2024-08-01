@@ -50,7 +50,7 @@ function PurchaseOrderList() {
   
 
   const handleCreatePurchaseOrder = () => {
-    navigate('/purchase-order/create'); // Replace with the path you want to navigate to
+    navigate('/purchase-order/create'); 
   };
 
 

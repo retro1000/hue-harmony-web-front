@@ -14,7 +14,7 @@ const Container = styled("div")(({ theme }) => ({
 }));
 
 
-const CreateInvoice = () => {
+const CreatePurchaseOrder = () => {
   return (
     <Container>
       <Box className="breadcrumb">
@@ -35,4 +35,4 @@ const CreateInvoice = () => {
   );
 };
 
-export default CreateInvoice;
+export default CreatePurchaseOrder;
