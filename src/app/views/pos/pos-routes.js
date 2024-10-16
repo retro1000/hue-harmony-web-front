@@ -3,7 +3,7 @@ import Loadable from "app/components/Loadable";
 import { authRoles } from "app/auth/authRoles";
 import AuthGuard from "app/auth/AuthGuard";
 
-const PosHomePage = Loadable(lazy(() => import("./Pos-home")));
+const PosHomePage = Loadable(lazy(() => import("./Pos-homeN")));
 const PosOrderList = Loadable(lazy(()=>import("./Order-list")))
 const SalesSummary = Loadable(lazy(()=>import("./Sales-summary")))
 

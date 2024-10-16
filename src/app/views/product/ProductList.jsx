@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useAxios } from "app/hooks/useAxios";
 
 import {
   Stack,
@@ -35,6 +36,7 @@ import AddIcon from "@mui/icons-material/AddBox";
 import BulkAddIcon from "@mui/icons-material/Queue";
 import AddProductIcon from "@mui/icons-material/Inventory";
 import { min } from "lodash";
+import { useEffect } from "react";
 
 // STYLED COMPONENTS
 const Container = styled("div")(({ theme }) => ({
@@ -54,6 +56,8 @@ function ProductList() {
   const [addProdcutOn, setAddProductOn] = useState(false);
 
   const [newProduct, setNewProduct] = useState({});
+
+const {api, apiNonAuth} = useAxios();  
 
   const addProductFields = [
     {
@@ -344,118 +348,20 @@ function ProductList() {
     ],
   ]);
 
-  const [datatableData, setDataTableData] = useState([
-    [
-      "BRL4501",
-      "Ultra White Paint",
-      "Dulux",
-      "Paint",
-      "White",
-      "5 Ltr",
-      "1500.00",
-      "25",
-      "Available",
-    ],
-    [
-      "BRL4502",
-      "Gloss Finish Paint",
-      "Nippon Paints",
-      "Paint",
-      "Blue",
-      "2 Ltr",
-      "1200.00",
-      "18",
-      "Available",
-    ],
-    [
-      "BRL4503",
-      "Matt Black Paint",
-      "Berger",
-      "Paint",
-      "Black",
-      "10 Ltr",
-      "1800.00",
-      "10",
-      "Unavailable",
-    ],
-    [
-      "BRL4504",
-      "Exterior Wall Coating",
-      "Jotun",
-      "Coating",
-      "Yellow",
-      "20 Ltr",
-      "2400.00",
-      "15",
-      "Available",
-    ],
-    [
-      "BRL4505",
-      "High Gloss Varnish",
-      "Asian Paints",
-      "Varnish",
-      "Clear",
-      "1 Ltr",
-      "900.00",
-      "30",
-      "Available",
-    ],
-    [
-      "BRL4506",
-      "Anti-Corrosive Primer",
-      "Nerolac",
-      "Primer",
-      "Gray",
-      "4 Ltr",
-      "2000.00",
-      "20",
-      "Available",
-    ],
-    [
-      "BRL4507",
-      "Weatherproof Finish",
-      "Shalimar",
-      "Finish",
-      "Green",
-      "10 Ltr",
-      "2200.00",
-      "12",
-      "Available",
-    ],
-    [
-      "BRL4508",
-      "Stain Blocker",
-      "PPG",
-      "Stain",
-      "Beige",
-      "5 Ltr",
-      "1600.00",
-      "0",
-      "Unavailable",
-    ],
-    [
-      "BRL4509",
-      "Waterproofing Sealant",
-      "AkzoNobel",
-      "Sealant",
-      "Transparent",
-      "8 Ltr",
-      "2500.00",
-      "5",
-      "Available",
-    ],
-    [
-      "BRL4510",
-      "Quick Dry Enamel",
-      "Kansai",
-      "Enamel",
-      "Red",
-      "3 Ltr",
-      "1700.00",
-      "22",
-      "Available",
-    ],
-  ]);
+  const [datatableData, setDataTableData] = useState([]);
+
+  useEffect(()=>{
+    const fetchProducts = async () =>{
+      try{
+        const response = await apiNonAuth.get('product');
+        setDataTableData(response.data);
+      }catch(err){
+
+      }
+      
+    };
+    fetchProducts();
+  },[])
 
   const [columns, setColumns] = useState([
     {
