@@ -9,8 +9,15 @@ const NavBar = () => {
   const orderNumber = "ORD123456";
 
   return (
-    <AppBar position="static" sx={{ backgroundColor: '#ffffff', boxShadow: 'none' }}>
-      <Toolbar sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+<AppBar
+  position="static"
+  sx={{
+    backgroundColor: '#ffffff', // White background// Strong black shadow with high opacity
+    height: '80px',
+    zIndex: 10, // Ensure it stays above other elements
+  }}
+>
+      <Toolbar sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center',height: '80px',boxShadow: '0px 3px 3px rgba(0, 0, 0, 0.2)' }}>
         
         {/* Left: Logo */}
         <Typography variant="h6" sx={{ color: '#000000', fontWeight: 'bold' }}>
