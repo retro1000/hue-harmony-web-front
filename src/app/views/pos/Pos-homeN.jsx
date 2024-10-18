@@ -8,6 +8,21 @@ import WalletIcon from '@mui/icons-material/Wallet';
 import HistoryIcon from '@mui/icons-material/History';
 import PersonIcon from '@mui/icons-material/Person';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
+import PosProductCard from '../../components/ProductCard/posProductCard';
+
+const products = [
+    { id: 'P3452', name: 'HP LAPTOP', price: 75000, availability: '170,000.667 Nos', imageUrl: '/assets/images/dulux.png' },
+    { id: 'P3453', name: 'RAM 4GB', price: 7000, availability: '58.000 Nos', imageUrl: '/assets/images/dulux.png' },
+    { id: '0013', name: 'test for qu..', price: 0, availability: '7.000 Nos', imageUrl: '/assets/images/sample.jpeg' },
+    { id: '0036', name: 'test for ch..', price: 0, availability: '10.000 Nos', imageUrl: '/assets/images/dulux.png' },
+    { id: '009', name: 'TEST FOR GR..', price: 0, availability: '87.000 Nos', imageUrl: '/assets/images/dulux.png' },
+    { id: '010', name: 'Test For GR..', price: 0, availability: '14.000 Nos', imageUrl: '/assets/images/dulux.png' },
+    { id: '012', name: 'Test for GR..', price: 0, availability: '188.000 Kg', imageUrl: '/assets/images/sample.jpeg' },
+    { id: '012365', name: 'test for ro..', price: 0, availability: '99.000 Nos', imageUrl: '/assets/images/dulux.png' },
+    { id: '013', name: 'test for cr..', price: 0, availability: '80.000 Nos', imageUrl: '/assets/images/sample.jpeg' },
+    { id: '013', name: 'test for cr..', price: 0, availability: '80.000 Nos', imageUrl: '/assets/images/dulux.png' },
+    { id: '013', name: 'test for cr..', price: 0, availability: '80.000 Nos', imageUrl: '/assets/images/sample.jpeg' },
+];
 
 function PosHomeN() {
   return (
@@ -35,7 +50,7 @@ function PosHomeN() {
               borderRadius: '5%',
               boxShadow: '0px 10px 20px rgba(0, 0, 0, 0.5)',
             }}>
-              <img src="https://via.placeholder.com/120" alt="Employee" style={{ width: '100%', height: '100%' }} />
+              <img src="assets/images/dulux.png" alt="Employee" style={{ width: '100%', height: '100%' }} />
             </Box>
             <Typography variant="h7" sx={{ marginTop: '80px', fontWeight: 'bold', color: '#000' }}>
               John Doe
@@ -131,7 +146,7 @@ function PosHomeN() {
               boxShadow: '0px 10px 20px rgba(0, 0, 0, 0.5)',
               zIndex: 5,
             }}>
-              <img src="https://via.placeholder.com/120" alt="Employee" style={{ width: '100%', height: '100%' }} />
+              <img src="assets/images/cashier.jpg" alt="Employee" style={{ width: '100%', height: '100%' }} />
             </Box>
             <Box sx={{ marginTop:'80px' }}>
       <IconButton
@@ -154,11 +169,30 @@ function PosHomeN() {
     </Box>
           </Box>
         </Grid>
-        <Grid item xs={6.3} sx={{ backgroundColor: '#ffffff' }}>
-          <Box sx={{ height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-            Middle Section
-          </Box>
-        </Grid>
+        <Grid item xs={6.3} sx={{ backgroundColor: '#ffffff', height: '100%' }}>
+  <Box sx={{ 
+      height: '100%', 
+      display: 'flex', 
+      justifyContent: 'center', 
+      alignItems: 'center' 
+    }}>
+    <Box sx={{
+        display: 'grid',
+        gridTemplateColumns: 'repeat(3, 1fr)',
+        gap: '10px',
+        justifyItems: 'center',
+        width: '95%',
+        height: 'calc(100vh - 100px)', // This makes sure it fits within the height of the page minus some padding/margin
+        overflowY: 'auto', // Enable scrolling only for the product section
+        padding: '16px' // Optional: add some padding to the content
+      }}>
+        {products.map((product) => (
+          <PosProductCard key={product.id} product={product} />
+        ))}
+    </Box>
+  </Box>
+</Grid>
+
         <Grid item xs={3.5} sx={{ backgroundColor: '#ffffff' }}>
           <Box sx={{ height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
             Right Section

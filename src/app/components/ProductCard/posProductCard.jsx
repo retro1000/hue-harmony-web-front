@@ -3,32 +3,53 @@ import { Card, CardContent, Typography, Box, CardMedia } from '@mui/material';
 
 const PosProductCard = ({ product }) => {
     return (
-        <Card elevation={8} sx={{ maxWidth: 345, height: 250, marginTop: 0, marginRight: 0, backgroundColor: 'grey.200', padding: 0.5, display: 'flex', flexDirection: 'column', boxShadow: '10px 10px 10px rgba(0, 0, 0, 1)' }}>
-      <CardMedia
-        component="img"
-        image={product.imageUrl} // Add the image URL here
-        alt={product.name}
-        sx={{ 
-          flex: '0 0 70%', 
-          height: '70%', 
-          objectFit: 'contain', // Ensure the full image is visible
-          objectPosition: 'center'
-        }}
-      />
-      <CardContent sx={{ flex: '1', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
-        <Typography variant="h8" color="primary" fontWeight={600}>
-          {product.id} - {product.name}
-        </Typography>
-        <Typography variant="body2" color="error" fontWeight={500}>
-          LKR {product.price.toFixed(2)}
-        </Typography>
-        <Typography variant="body2" color="green" fontWeight={500}>
-          Available: {product.availability}
-        </Typography>
-      </CardContent>
-    </Card>
+      <Card sx={{ 
+        maxWidth: 400,  // Larger width
+        width: '100%',  // Full width of its container
+        height: 180,    // Height increased for content space
+        backgroundColor: 'white', 
+        padding: 0.5, 
+        display: 'flex',
+        flexDirection: 'column',   // Layout horizontally for readability // Ensure box shadow shows up
+        margin: '5px',
+        alignItems: 'center',
+    }}>
+        {/* Product Image */}
+        <CardMedia
+          component="img"
+          image={product.imageUrl} 
+          alt={product.name}
+          sx={{ 
+            width: 100,   // Fixed width for image
+            height: '90%', 
+            objectFit: 'contain', 
+            objectPosition: 'center'
+          }}
+        />
+        
+        {/* Product Details */}
+        <CardContent sx={{ 
+          flex: '1', 
+          display: 'flex', 
+          flexDirection: 'column',  
+          alignItems:'center',
+          paddingLeft: '16px',  // Spacing between image and content
+          paddingBottom: '0 !important' // Remove bottom padding
+        }}>
+          <Typography variant="h6" color="grey.800" fontWeight={600} fontFamily={`'lato', sans-serif`}>
+            {product.name}
+          </Typography>
+          <Typography 
+            variant="body1" 
+            color="error" 
+            fontWeight={500} 
+            sx={{ marginTop: '1px' }} // Adjust the gap between text and price
+          >
+            LKR {product.price.toFixed(2)}
+          </Typography>
+        </CardContent>
+      </Card>
     );
 };
 
 export default PosProductCard;
-
