@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import NavBar from "app/components/Pos/PosNavNew";
-import { AppBar, Toolbar, Typography, Grid, Box, IconButton } from '@mui/material';  // Add IconButton here
+import { AppBar, Toolbar, Typography, Grid, Box, IconButton,Button } from '@mui/material';  // Add IconButton here
 import HomeIcon from '@mui/icons-material/Home';
 import OrderIcon from '@mui/icons-material/Receipt';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -9,6 +9,14 @@ import HistoryIcon from '@mui/icons-material/History';
 import PersonIcon from '@mui/icons-material/Person';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import PosProductCard from '../../components/ProductCard/posProductCard';
+import PaintIcon from '@mui/icons-material/Brush'; // Example icon for "Paint" category
+import ColorLensIcon from '@mui/icons-material/ColorLens'; // Example icon for "Color" category
+import PaletteIcon from '@mui/icons-material/Palette'; // Example icon for "Palette" category
+import FilterHdrIcon from '@mui/icons-material/FilterHdr'; // Example icon for "Finish" category
+import FormatPaintIcon from '@mui/icons-material/FormatPaint'; 
+import RemoveIcon from '@mui/icons-material/Remove';
+import AddIcon from '@mui/icons-material/Add';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 const products = [
     { id: 'P3452', name: 'HP LAPTOP', price: 75000, availability: '170,000.667 Nos', imageUrl: '/assets/images/dulux.png' },
@@ -24,7 +32,43 @@ const products = [
     { id: '013', name: 'test for cr..', price: 0, availability: '80.000 Nos', imageUrl: '/assets/images/sample.jpeg' },
 ];
 
+
 function PosHomeN() {
+    const [currentDate, setCurrentDate] = useState('');
+
+  useEffect(() => {
+    const now = new Date();
+    const formattedDate = now.toLocaleDateString(); // Format the date (MM/DD/YYYY or based on locale)
+    const formattedTime = now.toLocaleTimeString(); // Format the time (HH:MM AM/PM)
+    setCurrentDate(`${formattedDate}, ${formattedTime}`);
+  }, []);
+
+  const [cartItems, setCartItems] = useState([
+    { id: 1, name: 'Product 1', quantity: 1 },
+    { id: 2, name: 'Product 2', quantity: 2 },
+    { id: 3, name: 'Product 3', quantity: 1 },
+  ]);
+
+  // Increase item quantity
+  const increaseQuantity = (itemId) => {
+    setCartItems(cartItems.map(item =>
+      item.id === itemId ? { ...item, quantity: item.quantity + 1 } : item
+    ));
+  };
+
+  // Decrease item quantity
+  const decreaseQuantity = (itemId) => {
+    setCartItems(cartItems.map(item =>
+      item.id === itemId && item.quantity > 1
+        ? { ...item, quantity: item.quantity - 1 }
+        : item
+    ));
+  };
+
+  // Remove item from cart
+  const removeItem = (itemId) => {
+    setCartItems(cartItems.filter(item => item.id !== itemId));
+  };
   return (
     <>
       <NavBar />
@@ -151,7 +195,7 @@ function PosHomeN() {
   <img
     src="assets/images/cashier4.png"
     alt="Employee"
-    style={{ width: '100%', height: '100%', backgroundColor: 'transparent' }} // Ensure image has no background color
+    style={{ width: '100%', height: '100%', backgroundColor: 'transparent', boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.5)', }} // Ensure image has no background color
   />
 </Box>
 
@@ -178,12 +222,125 @@ function PosHomeN() {
           </Box>
         </Grid>
         <Grid item xs={6.3} sx={{ backgroundColor: '#ffffff', height: '100%' }}>
+            
   <Box sx={{ 
       height: '100%', 
-      display: 'flex', 
+      display: 'flex',
+      flexDirection:'column' ,
       justifyContent: 'center', 
-      alignItems: 'center' 
+      alignItems: 'center' ,
+      marginTop:'10px',
+       borderLeft: '4px solid #e0e0e0'
+      
     }}>
+        <Box sx={{ 
+    padding: '14px',
+    borderRadius: '8px',
+    backgroundColor: '#fff',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    boxShadow: 2, // Adding elevation for shadow effect
+    marginTop: '20px',
+    width:'90%',
+     // Optional: Adjust top margin if needed
+  }}>
+  <Typography variant="h6" sx={{ fontWeight: 'bold', color: '#333', marginBottom: '16px' }}>
+    Choose Category
+  </Typography>
+
+  <Box sx={{
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: '7px',
+    width: '100%'
+  }}>
+    <Button
+  variant="contained"
+  color="primary"
+  sx={{
+    width: '100%',
+    borderRadius: '20px',
+    boxShadow: 3, // Simulating elevation (elevation 3)
+    '&:hover': {
+      boxShadow: 6, // Elevation on hover
+    },
+    border: 'none' // Remove the blue border
+  }}
+  startIcon={<PaintIcon />}
+>
+  Paint
+</Button>
+<Button
+  variant="contained"
+  color="primary"
+  sx={{
+    width: '100%',
+    borderRadius: '20px',
+    boxShadow: 3,
+    '&:hover': {
+      boxShadow: 6,
+    },
+    border: 'none'
+  }}
+  startIcon={<ColorLensIcon />}
+>
+  Color
+</Button>
+<Button
+  variant="contained"
+  color="primary"
+  sx={{
+    width: '100%',
+    borderRadius: '20px',
+    boxShadow: 3,
+    '&:hover': {
+      boxShadow: 6,
+    },
+    border: 'none'
+  }}
+  startIcon={<PaletteIcon />}
+>
+  Palette
+</Button>
+<Button
+  variant="contained"
+  color="primary"
+  sx={{
+    width: '100%',
+    borderRadius: '20px',
+    boxShadow: 3,
+    '&:hover': {
+      boxShadow: 6,
+    },
+    border: 'none'
+  }}
+  startIcon={<FilterHdrIcon />}
+>
+  Finish
+</Button>
+<Button
+  variant="contained"
+  color="primary"
+  sx={{
+    width: '100%',
+    borderRadius: '20px',
+    boxShadow: 3,
+    '&:hover': {
+      boxShadow: 6,
+    },
+    border: 'none'
+  }}
+  startIcon={<FormatPaintIcon />}
+>
+  Wall Paint
+</Button>
+  </Box>
+</Box>
+
     <Box sx={{
         display: 'grid',
         gridTemplateColumns: 'repeat(3, 1fr)',
@@ -192,7 +349,9 @@ function PosHomeN() {
         width: '95%',
         height: 'calc(100vh - 100px)', // This makes sure it fits within the height of the page minus some padding/margin
         overflowY: 'auto', // Enable scrolling only for the product section
-        padding: '16px' // Optional: add some padding to the content
+        padding: '16px',
+        marginTop:'20px',
+        // Optional: add some padding to the content
       }}>
         {products.map((product) => (
           <PosProductCard key={product.id} product={product} />
@@ -202,8 +361,67 @@ function PosHomeN() {
 </Grid>
 
         <Grid item xs={3.5} sx={{ backgroundColor: '#ffffff' }}>
-          <Box sx={{ height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-            Right Section
+        
+          <Box sx={{ 
+      height: '100%', 
+      display: 'flex',
+      flexDirection:'column' ,
+      alignItems: 'center' ,
+      marginTop:'10px',
+       borderLeft: '4px solid #e0e0e0'
+      
+    }}>
+        <Box sx={{ 
+    borderRadius: '8px',
+    padding:'10px',
+    backgroundColor: '#fff',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'start',
+    boxShadow: 2, // Adding elevation for shadow effect
+    width:'90%',
+    marginTop:'15px'
+     // Optional: Adjust top margin if needed
+  }}>
+   <Typography variant="h6" sx={{ fontWeight: 'bold', color: '#333' }}>
+        New Order Bill 
+      </Typography>
+      <Typography variant="h6" sx={{ fontWeight: 'bold', color: 'grey',marginLeft:'10px' }}>
+        {currentDate} {/* Display current date and time */}
+      </Typography>
+  </Box>
+  <Box sx={{ height: '300px', overflowY: 'auto', padding: '16px', backgroundColor: '#fff', borderRadius: '8px',width:'95%',marginTop:'20px',boxShadow: 1, }}>
+      {cartItems.map((item) => (
+        <Box key={item.id} sx={{
+          padding: '10px', 
+          backgroundColor: 'grey.400', 
+          marginBottom: '10px', 
+          borderRadius: '8px',
+          boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+        }}>
+          <Grid container alignItems="center" justifyContent="space-between">
+            <Grid item xs={6}>
+              <Typography variant="body1">{item.name}</Typography>
+            </Grid>
+            <Grid item xs={6} sx={{ textAlign: 'right' }}>
+              <IconButton onClick={() => decreaseQuantity(item.id)}>
+                <RemoveIcon />
+              </IconButton>
+              <Typography component="span" sx={{ fontWeight: 'bold', margin: '0 10px' }}>
+                {item.quantity}
+              </Typography>
+              <IconButton onClick={() => increaseQuantity(item.id)}>
+                <AddIcon />
+              </IconButton>
+              <IconButton onClick={() => removeItem(item.id)} color="error">
+                <DeleteIcon />
+              </IconButton>
+            </Grid>
+          </Grid>
+        </Box>
+      ))}
+    </Box>
+
           </Box>
         </Grid>
       </Grid>

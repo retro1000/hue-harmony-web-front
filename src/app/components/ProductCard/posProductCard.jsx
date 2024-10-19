@@ -13,6 +13,7 @@ const PosProductCard = ({ product }) => {
         flexDirection: 'column',   // Layout horizontally for readability // Ensure box shadow shows up
         margin: '5px',
         alignItems: 'center',
+        boxShadow:4
     }}>
         {/* Product Image */}
         <CardMedia
