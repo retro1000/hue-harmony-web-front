@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import NavBar from "app/components/Pos/PosNavNew";
-import { AppBar, Toolbar, Typography, Grid, Box, IconButton,Button } from '@mui/material';  // Add IconButton here
+import { Typography, Grid, Box, IconButton,Button } from '@mui/material';  // Add IconButton here
 import HomeIcon from '@mui/icons-material/Home';
 import OrderIcon from '@mui/icons-material/Receipt';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -47,6 +47,7 @@ function PosHomeN() {
     { id: 1, name: 'Product 1', quantity: 1 },
     { id: 2, name: 'Product 2', quantity: 2 },
     { id: 3, name: 'Product 3', quantity: 1 },
+    { id: 4, name: 'Product 3', quantity: 1 },
   ]);
 
   // Increase item quantity
@@ -72,7 +73,7 @@ function PosHomeN() {
   return (
     <>
       <NavBar />
-      <Grid container sx={{ height: `calc(100vh - 80px)` }}>
+      <Grid container sx={{ height: `calc(100vh - 90px)` }}>
         <Grid item xs={2.2} sx={{ backgroundColor: '#ffffff' }}>
           <Box sx={{
             height: '100%',
@@ -86,8 +87,7 @@ function PosHomeN() {
           }}>
             
             <Box sx={{
-  position: 'absolute',
-  top: '45px',
+  position: 'relative',
   width: '150px',
   height: '150px',
   overflow: 'hidden',
@@ -96,14 +96,14 @@ function PosHomeN() {
 }}>
   <img src="assets/images/cashier5.png" alt="Employee" style={{ width: '100%', height: '100%', backgroundColor: 'transparent' }} />
 </Box>
-            <Typography variant="h7" sx={{ marginTop: '80px', fontWeight: 'bold', color: '#000' }}>
+            <Typography variant="h7" sx={{ fontWeight: 'bold', color: '#000' }}>
               John Doe
             </Typography>
             <Box sx={{
               display: 'grid',
               gridTemplateColumns: 'repeat(2, 1fr)',
               gap: '16px',
-              marginTop: '40px',
+              marginTop: '20px',
               justifyItems: 'center',
               width: '70%',
             }}>
@@ -183,9 +183,9 @@ function PosHomeN() {
             <Box
   sx={{
     position: 'relative',
-    top: '10px',
-    width: '230px',
-    height: '200px',
+    top: '6px',
+    width: '210px',
+    height: '190px',
     overflow: 'hidden',
     borderRadius: '5%',
     zIndex: 5,
@@ -200,7 +200,7 @@ function PosHomeN() {
 </Box>
 
 
-            <Box sx={{ marginTop:'50px' }}>
+            <Box sx={{ marginTop:'17px' }}>
       <IconButton
         sx={{
           backgroundColor: '#D32F2F',
@@ -347,7 +347,7 @@ function PosHomeN() {
         gap: '10px',
         justifyItems: 'center',
         width: '95%',
-        height: 'calc(100vh - 100px)', // This makes sure it fits within the height of the page minus some padding/margin
+        height: 'calc(100vh - 180px)', // This makes sure it fits within the height of the page minus some padding/margin
         overflowY: 'auto', // Enable scrolling only for the product section
         padding: '16px',
         marginTop:'20px',
@@ -390,36 +390,74 @@ function PosHomeN() {
         {currentDate} {/* Display current date and time */}
       </Typography>
   </Box>
-  <Box sx={{ height: '300px', overflowY: 'auto', padding: '16px', backgroundColor: '#fff', borderRadius: '8px',width:'95%',marginTop:'20px',boxShadow: 1, }}>
+  <Box sx={{height:'55vh',width:"97%",boxShadow: 1,justifyContent:'center',display:'flex',marginTop:'10px',borderRadius:'10px'}}>
+  <Box sx={{ height: '300px', overflowY: 'auto', padding: '16px',width:'95%',marginTop:'1px' }}>
       {cartItems.map((item) => (
         <Box key={item.id} sx={{
-          padding: '10px', 
+          padding: '6px 16px 6px 10px', 
           backgroundColor: 'grey.400', 
           marginBottom: '10px', 
           borderRadius: '8px',
           boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
         }}>
-          <Grid container alignItems="center" justifyContent="space-between">
-            <Grid item xs={6}>
+          <Grid container alignItems="center" justifyContent="space-around">
+            <Grid item xs={6} sx={{paddingLeft:'30px'}}>
+              <Typography variant="body1">{item.name}</Typography>
               <Typography variant="body1">{item.name}</Typography>
             </Grid>
             <Grid item xs={6} sx={{ textAlign: 'right' }}>
-              <IconButton onClick={() => decreaseQuantity(item.id)}>
-                <RemoveIcon />
-              </IconButton>
-              <Typography component="span" sx={{ fontWeight: 'bold', margin: '0 10px' }}>
-                {item.quantity}
-              </Typography>
-              <IconButton onClick={() => increaseQuantity(item.id)}>
-                <AddIcon />
-              </IconButton>
-              <IconButton onClick={() => removeItem(item.id)} color="error">
-                <DeleteIcon />
-              </IconButton>
-            </Grid>
+  <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end' }}>
+    <Box sx={{ 
+      display: 'flex', 
+      alignItems: 'center', 
+      border: '2px solid #e0e0e0', 
+      borderRadius: '50px', // Makes the border elliptical
+      padding: '5px 10px', 
+    }}>
+      <IconButton 
+        onClick={() => decreaseQuantity(item.id)} 
+        sx={{ 
+          backgroundColor: 'yellow', 
+          borderRadius: '50%', // Round background
+          padding: '5px',
+          '&:hover': { backgroundColor: '#e0e0e0' } 
+        }}>
+        <RemoveIcon />
+      </IconButton>
+      <Typography 
+        component="span" 
+        sx={{ 
+          fontWeight: 'bold', 
+          margin: '0 10px', 
+          minWidth: '40px', 
+          textAlign: 'center' // Align text in center
+        }}>
+        {item.quantity}
+      </Typography>
+      <IconButton 
+        onClick={() => increaseQuantity(item.id)} 
+        sx={{ 
+          backgroundColor: 'yellow', 
+          borderRadius: '50%', // Round background
+          padding: '5px',
+          '&:hover': { backgroundColor: '#e0e0e0' }
+        }}>
+        <AddIcon />
+      </IconButton>
+    </Box>
+    <IconButton onClick={() => removeItem(item.id)} color="error" sx={{ marginLeft: '10px',backgroundColor: '#fff', 
+          borderRadius: '50%', // Round background
+          padding: '5px',
+          '&:hover': { backgroundColor: '#e0e0e0' }  }}>
+      <DeleteIcon />
+    </IconButton>
+  </Box>
+</Grid>
+
           </Grid>
         </Box>
       ))}
+    </Box>
     </Box>
 
           </Box>
