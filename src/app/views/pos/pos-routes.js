@@ -12,9 +12,9 @@ const PosRoutes = [
     {
         path: "/pos-home",
         element: (
-            <AuthGuard auth={[...authRoles.cachier]}>
+            
                 <PosHomePage />
-            </AuthGuard>
+            
         ),
     },
     {

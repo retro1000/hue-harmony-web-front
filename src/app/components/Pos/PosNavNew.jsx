@@ -21,7 +21,7 @@ const NavBar = () => {
         
         {/* Left: Logo */}
         <Typography variant="h6" sx={{ color: '#000000', fontWeight: 'bold' }}>
-          <img src="../../public/assets/images/logos/HH01.png" alt="Logo" style={{ height: '40px' }} />
+          <img src="/assets/images/logos/HH01.png" alt="Logo" style={{ height: '40px' }} />
         </Typography>
 
         {/* Center: Search Bar and QR Code Button */}

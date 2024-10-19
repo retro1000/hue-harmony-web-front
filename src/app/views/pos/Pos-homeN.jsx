@@ -42,16 +42,16 @@ function PosHomeN() {
           }}>
             
             <Box sx={{
-              position: 'absolute',
-              top: '65px',
-              width: '90px',
-              height: '90px',
-              overflow: 'hidden',
-              borderRadius: '5%',
-              boxShadow: '0px 10px 20px rgba(0, 0, 0, 0.5)',
-            }}>
-              <img src="assets/images/dulux.png" alt="Employee" style={{ width: '100%', height: '100%' }} />
-            </Box>
+  position: 'absolute',
+  top: '45px',
+  width: '150px',
+  height: '150px',
+  overflow: 'hidden',
+  borderRadius: '5%',
+  backgroundColor: 'transparent', // Corrected backgroundColor
+}}>
+  <img src="assets/images/cashier5.png" alt="Employee" style={{ width: '100%', height: '100%', backgroundColor: 'transparent' }} />
+</Box>
             <Typography variant="h7" sx={{ marginTop: '80px', fontWeight: 'bold', color: '#000' }}>
               John Doe
             </Typography>
@@ -136,19 +136,27 @@ function PosHomeN() {
                 <PersonIcon sx={{ color: '#fff' }} />
               </IconButton>
             </Box>
-            <Box sx={{
-              position: 'relative',
-              top: '30px',
-              width: '160px',
-              height: '160px',
-              overflow: 'hidden',
-              borderRadius: '5%',
-              boxShadow: '0px 10px 20px rgba(0, 0, 0, 0.5)',
-              zIndex: 5,
-            }}>
-              <img src="assets/images/cashier.jpg" alt="Employee" style={{ width: '100%', height: '100%' }} />
-            </Box>
-            <Box sx={{ marginTop:'80px' }}>
+            <Box
+  sx={{
+    position: 'relative',
+    top: '10px',
+    width: '230px',
+    height: '200px',
+    overflow: 'hidden',
+    borderRadius: '5%',
+    zIndex: 5,
+    backgroundColor: 'trasparent', // Ensure container has no background color
+  }}
+>
+  <img
+    src="assets/images/cashier4.png"
+    alt="Employee"
+    style={{ width: '100%', height: '100%', backgroundColor: 'transparent' }} // Ensure image has no background color
+  />
+</Box>
+
+
+            <Box sx={{ marginTop:'50px' }}>
       <IconButton
         sx={{
           backgroundColor: '#D32F2F',
