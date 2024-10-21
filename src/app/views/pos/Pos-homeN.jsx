@@ -506,18 +506,19 @@ function PosHomeN() {
             </Box>
             <Box
               sx={{
-                height: "55vh",
+                height: "60vh",
                 width: "97%",
                 boxShadow: 1,
                 justifyContent: "center",
                 display: "flex",
+                flexDirection:"column",
                 marginTop: "10px",
                 borderRadius: "10px",
               }}
             >
               <Box
                 sx={{
-                  height: "300px",
+                  height: "50vh",
                   overflowY: "auto",
                   padding: "16px",
                   width: "95%",
@@ -614,8 +615,49 @@ function PosHomeN() {
                   </Box>
                 ))}
               </Box>
-              <Box>
-                
+              <Box
+                sx={{
+                  padding: 2,
+                  borderRadius: 2,
+                  maxWidth: 800,
+                  marginTop:'30px'
+                }}
+              >
+                <Grid
+                  container
+                  justifyContent="space-between"
+                  sx={{ marginBottom: 1 }}
+                >
+                  <Typography variant="subtitle1">Sub Total</Typography>
+                  <Typography variant="body1">Rs 00.00</Typography>
+                </Grid>
+                <Grid
+                  container
+                  justifyContent="space-between"
+                  sx={{ marginBottom: 1 }}
+                >
+                  <Typography variant="subtitle1">Discount</Typography>
+                  <Typography variant="body1">Rs 00.00</Typography>
+                </Grid>
+                <Grid
+                  container
+                  justifyContent="space-between"
+                  sx={{ marginBottom: 1 }}
+                >
+                  <Typography variant="subtitle1">VAT</Typography>
+                  <Typography variant="body1">Rs 00.00</Typography>
+                </Grid>
+                <Typography
+                  sx={{ borderBottom: "1px dashed #ddd", marginBottom: 1 }}
+                />
+                <Grid container justifyContent="space-between">
+                  <Typography variant="h6" fontWeight="bold">
+                    Total
+                  </Typography>
+                  <Typography variant="h6" fontWeight="bold">
+                    Rs 00.00
+                  </Typography>
+                </Grid>
               </Box>
             </Box>
           </Box>
