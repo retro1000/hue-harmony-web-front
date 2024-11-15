@@ -2,6 +2,7 @@ import { lazy } from "react";
 import Loadable from "app/components/Loadable";
 import { authRoles } from "app/auth/authRoles";
 import AuthGuard from "app/auth/AuthGuard";
+import PurchaseOrderUpsert from "./PurchaseOrderUpsert";
 
 const PurchaseOrderList = Loadable(lazy(() => import("./PurchaseOrderList")));
 const PurchaseOrderDetails = Loadable(
@@ -38,8 +39,16 @@ const PurchaseOrderRoutes = [
   {
     path: "/purchase-order/create",
     element: (
+      // <AuthGuard auth={[...authRoles.inventory_manager]}>
+        <PurchaseOrderUpsert type={"create"}/>
+      // </AuthGuard>
+    ),
+  },
+  {
+    path: "/purchase-order/update/:id",
+    element: (
       <AuthGuard auth={[...authRoles.inventory_manager]}>
-        <PurchaseOrderCreate />
+        <PurchaseOrderUpsert type={"update"}/>
       </AuthGuard>
     ),
   },

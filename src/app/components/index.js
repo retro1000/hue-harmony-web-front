@@ -36,4 +36,10 @@ export { default as TIconButton } from "./Button/TIconButton";
 export { default as NumSliderFilter } from "./SliderFilter/NumSliderFilter";
 export { default as ProductCard } from "./Card/ProductCard";
 export { default as Header } from "./Header";
+export { default as FilterPane } from "./FilterPane";
 export { default as ProductGrid } from "./wishlist/WishProducts";
+export { default as SimpleCard2 } from "./SimpleCard2";
+export { default as SearchSelectAdd } from "./InputField/SearchSelectAdd";
+export { default as SearchPane } from "./SearchPane";
+export { default as InputField } from "./InputField/InputField";
+
