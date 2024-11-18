@@ -1,9 +1,9 @@
 
 import React from "react";
 import { Box, Typography, Grid, Container } from "@mui/material";
-import BrandCars from "../../components/aboutpage/BrandCars";
-import PartnerLogos from "../../components/aboutpage/PartnerLogos";
-import FAQSection from "../../components/aboutpage/FAQSection";
+// import BrandCars from "../../components/aboutpage/BrandCars";
+// import PartnerLogos from "../../components/aboutpage/PartnerLogos";
+// import FAQSection from "../../components/aboutpage/FAQSection";
 import { Header } from "../../components";
 import Footer from "app/components/ProductPage/Footer";
 
@@ -47,9 +47,9 @@ const AboutPage = () => {
           </Grid>
         </Grid>
       </Container>
-      <BrandCars />
-      <PartnerLogos />
-      <FAQSection />
+      {/* <BrandCars />
+      <PartnerLogos /> */}
+      {/* <FAQSection /> */}
       <Footer />
     </Box>
   );

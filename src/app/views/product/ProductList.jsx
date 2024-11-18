@@ -24,6 +24,8 @@ import {
   SimpleCard,
   MuiTable,
   TButton,
+  CheckboxGroup,
+  CheckBoxGroup,
 } from "app/components";
 
 import { useNotistack } from "app/hooks/useNotistack";
@@ -297,52 +299,52 @@ function ProductList() {
     },
   ];
 
-  const [searchResult, setSearchResult] = useState([
-    [
-      "BRL4501",
-      "Ultra White Paint",
-      "Dulux",
-      "Paint",
-      "White",
-      "5 Ltr",
-      "1500.00",
-      "25",
-      "Available",
-    ],
-    [
-      "BRL4502",
-      "Gloss Finish Paint",
-      "Nippon Paints",
-      "Paint",
-      "Blue",
-      "2 Ltr",
-      "1200.00",
-      "18",
-      "Available",
-    ],
-    [
-      "BRL4503",
-      "Matt Black Paint",
-      "Berger",
-      "Paint",
-      "Black",
-      "10 Ltr",
-      "1800.00",
-      "10",
-      "Unavailable",
-    ],
-    [
-      "BRL4504",
-      "Exterior Wall Coating",
-      "Jotun",
-      "Coating",
-      "Yellow",
-      "20 Ltr",
-      "2400.00",
-      "15",
-      "Available",
-    ],
-  ]);
+  // const [searchResult, setSearchResult] = useState([
+  //   [
+  //     "BRL4501",
+  //     "Ultra White Paint",
+  //     "Dulux",
+  //     "Paint",
+  //     "White",
+  //     "5 Ltr",
+  //     "1500.00",
+  //     "25",
+  //     "Available",
+  //   ],
+  //   [
+  //     "BRL4502",
+  //     "Gloss Finish Paint",
+  //     "Nippon Paints",
+  //     "Paint",
+  //     "Blue",
+  //     "2 Ltr",
+  //     "1200.00",
+  //     "18",
+  //     "Available",
+  //   ],
+  //   [
+  //     "BRL4503",
+  //     "Matt Black Paint",
+  //     "Berger",
+  //     "Paint",
+  //     "Black",
+  //     "10 Ltr",
+  //     "1800.00",
+  //     "10",
+  //     "Unavailable",
+  //   ],
+  //   [
+  //     "BRL4504",
+  //     "Exterior Wall Coating",
+  //     "Jotun",
+  //     "Coating",
+  //     "Yellow",
+  //     "20 Ltr",
+  //     "2400.00",
+  //     "15",
+  //     "Available",
+  //   ],
+  // ]);
 
   const [datatableData, setDataTableData] = useState([
     [
@@ -461,6 +463,9 @@ function ProductList() {
     {
       name: "Barcode",
       label: "Barcode",
+      options: {
+        filter: false
+      }
     },
     {
       name: "Product Name",
@@ -469,6 +474,35 @@ function ProductList() {
     {
       name: "Brand",
       label: "Brand",
+      options: {
+        filter: true,
+        filterType: "custom",
+        filterOptions: {
+          logic: (value, filters) => {
+            // Custom logic to determine if a row is displayed
+            return filters.length > 0 && !filters.includes(value);
+          },
+          display: (filterList, onChange, index, column) => (
+            <div style={{ padding: '16px' }}>
+              <CheckBoxGroup
+                options={["Active", "Inactive", "Pending", "Canceled"]}
+                selectedOptions={filterList[index] || []}
+                onChange={(selected) => {
+                  filterList[index] = selected;
+                  onChange(filterList[index], index, column);
+                }}
+              />
+            </div>
+          ),
+        },
+        customFilterListRender: (value) => {
+          // Render custom filter values in the filter chip
+          if (value.length) {
+            return `Status: ${value.join(", ")}`;
+          }
+          return false;
+        },
+      },
     },
     {
       name: "Product Type",
@@ -573,7 +607,7 @@ function ProductList() {
           {/* <Tooltip title={'Add new product'}><Button startIcon={<AddIcon />} variant="contained" color="primary" fun={setAddProductOn}>Product</Button></Tooltip>
                 <Tooltip title={'Add new bulk products'}><Button startIcon={<BulkAddIcon />} variant="contained" color="primary" fun={setAddProductOn}>Bulk products</Button></Tooltip> */}
         </Box>
-        <SimpleCard
+        {/* <SimpleCard
           sx={{ width: "100%", top: "-3em" }}
           title={"Search Products"}
         >
@@ -619,7 +653,7 @@ function ProductList() {
               filterType={"text"}
             />
           )}
-        </SimpleCard>
+        </SimpleCard> */}
         <SimpleCard sx={{ width: "100%" }}>
           <MuiTable
             print={true}
@@ -629,6 +663,9 @@ function ProductList() {
             dataTableData={datatableData}
             selectableRows={"none"}
             filterType={"text"}
+            rowsPerPage={true}
+            serverSide={true}
+            path={'product'}
           />
         </SimpleCard>
       </Stack>

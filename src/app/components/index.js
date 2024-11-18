@@ -42,4 +42,6 @@ export { default as SimpleCard2 } from "./SimpleCard2";
 export { default as SearchSelectAdd } from "./InputField/SearchSelectAdd";
 export { default as SearchPane } from "./SearchPane";
 export { default as InputField } from "./InputField/InputField";
+export { default as CheckBoxGroup } from "./InputField/CheckBoxGroup";
+export { default as RadioButtonGroup } from "./InputField/RadioButtonGroup";
 

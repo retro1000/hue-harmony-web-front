@@ -14,6 +14,16 @@ const MatxTheme = ({ children }) => {
           size: 'small'
         }
       },
+      // MuiSvgIcon: {
+      //   styleOverrides: {
+      //     root: {
+      //       fontSize: '0.15rem', // Adjust this size as needed (e.g., small size)
+      //     },
+      //   },
+      //   defaultProps: {
+      //     fontSize: 'small', // Sets the default fontSize prop to "small"
+      //   },
+      // },
       MuiButton: {
         styleOverrides: {
           root: {

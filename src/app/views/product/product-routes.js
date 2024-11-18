@@ -21,9 +21,9 @@ const productRoutes = [
   {
     path: "/product/store/list",
     element: (
-      <AuthGuard auth={authRoles.admin}>
+      // <AuthGuard auth={authRoles.admin}>
         <StoreProductList />
-      </AuthGuard>
+      // </AuthGuard>
     ),
   },
   {
