@@ -17,6 +17,10 @@ import FormatPaintIcon from "@mui/icons-material/FormatPaint";
 import RemoveIcon from "@mui/icons-material/Remove";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
+import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
+import CreditCardIcon from "@mui/icons-material/CreditCard";
+import "@fontsource/roboto"; 
+import "@fontsource/roboto/700.css";
 
 const products = [
   {
@@ -139,6 +143,16 @@ function PosHomeN() {
   const removeItem = (itemId) => {
     setCartItems(cartItems.filter((item) => item.id !== itemId));
   };
+
+  const [openCashDialog, setOpenCashDialog] = useState(false);
+  const [openCardDialog, setOpenCardDialog] = useState(false);
+
+  const handleOpenCashDialog = () => setOpenCashDialog(true);
+  const handleCloseCashDialog = () => setOpenCashDialog(false);
+
+  const handleOpenCardDialog = () => setOpenCardDialog(true);
+  const handleCloseCardDialog = () => setOpenCardDialog(false);
+  
   return (
     <>
       <NavBar />
@@ -175,7 +189,7 @@ function PosHomeN() {
                 }}
               />
             </Box>
-            <Typography variant="h7" sx={{ fontWeight: "bold", color: "#000" }}>
+            <Typography variant="h7" sx={{ fontWeight: "bold", color: "#000",font: "Roboto, Arial, sans-serif" }}>
               John Doe
             </Typography>
             <Box
@@ -347,7 +361,7 @@ function PosHomeN() {
             >
               <Typography
                 variant="h6"
-                sx={{ fontWeight: "bold", color: "#333", marginBottom: "16px" }}
+                sx={{ fontWeight: "bold", color: "#333", marginBottom: "16px",fontFamily:"Roboto, Arial, sans-serif"  }}
               >
                 Choose Category
               </Typography>
@@ -485,7 +499,7 @@ function PosHomeN() {
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "start",
-                boxShadow: 2, // Adding elevation for shadow effect
+                boxShadow: 1, // Adding elevation for shadow effect
                 width: "90%",
                 marginTop: "15px",
                 // Optional: Adjust top margin if needed
@@ -508,7 +522,6 @@ function PosHomeN() {
               sx={{
                 height: "60vh",
                 width: "97%",
-                boxShadow: 1,
                 justifyContent: "center",
                 display: "flex",
                 flexDirection:"column",
@@ -529,11 +542,11 @@ function PosHomeN() {
                   <Box
                     key={item.id}
                     sx={{
-                      padding: "6px 16px 6px 10px",
+                      padding: "3px 10px 3px 13px",
                       backgroundColor: "grey.400",
                       marginBottom: "10px",
                       borderRadius: "8px",
-                      boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+                      boxShadow: "0 3px 5px rgba(0, 0, 0, 0.1)",
                     }}
                   >
                     <Grid
@@ -557,9 +570,9 @@ function PosHomeN() {
                             sx={{
                               display: "flex",
                               alignItems: "center",
-                              border: "2px solid #e0e0e0",
-                              borderRadius: "50px", // Makes the border elliptical
-                              padding: "5px 10px",
+                              border: "1px solid #e0e0e0",
+                              borderRadius: "20px", // Makes the border elliptical
+                              padding: "3px 6px",
                             }}
                           >
                             <IconButton
@@ -567,7 +580,7 @@ function PosHomeN() {
                               sx={{
                                 backgroundColor: "yellow",
                                 borderRadius: "50%", // Round background
-                                padding: "5px",
+                                padding: "2px",
                                 "&:hover": { backgroundColor: "#e0e0e0" },
                               }}
                             >
@@ -620,13 +633,13 @@ function PosHomeN() {
                   padding: 2,
                   borderRadius: 2,
                   maxWidth: 800,
-                  marginTop:'30px'
+                  marginTop:'15px'
                 }}
               >
                 <Grid
                   container
                   justifyContent="space-between"
-                  sx={{ marginBottom: 1 }}
+                  sx={{ marginBottom: 0.5 }}
                 >
                   <Typography variant="subtitle1">Sub Total</Typography>
                   <Typography variant="body1">Rs 00.00</Typography>
@@ -657,6 +670,16 @@ function PosHomeN() {
                   <Typography variant="h6" fontWeight="bold">
                     Rs 00.00
                   </Typography>
+                </Grid>
+              </Box>
+              <Box>
+              <Grid
+                  container
+                  justifyContent="space-between"
+                  sx={{ marginBottom: 1 }}
+                >
+                  <Typography variant="subtitle1">Discount</Typography>
+                  <Typography variant="body1">Rs 00.00</Typography>
                 </Grid>
               </Box>
             </Box>
