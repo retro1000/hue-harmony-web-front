@@ -3,7 +3,7 @@ import Loadable from "app/components/Loadable";
 import { authRoles } from "app/auth/authRoles";
 import AuthGuard from "app/auth/AuthGuard";
 
-const UpserProduct = Loadable(lazy(() => import("./UpserProduct")));
+const UpserProduct = Loadable(lazy(() => import("./AddProduct")));
 const ProductList = Loadable(lazy(() => import("./ProductList")));
 const StoreProductList = Loadable(lazy(() => import("./StoreProductList")));
 const ProductView = Loadable(lazy(() => import("./ProductView")));
