@@ -58,6 +58,11 @@ const AddProduct = () => {
     });
   };
 
+  async function base64ConversionForImages(e) {
+    if (e.target.files[0]) {
+      getBase64(e.target.files[0]);
+    }
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -99,6 +104,16 @@ const AddProduct = () => {
     }
   };
 
+  function getBase64(file) {
+    let reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = function () {
+      setSelectedImage(reader.result);
+    };
+    reader.onerror = function (error) {
+      console.log("Error in image processing", error);
+    };
+  }
 
   return (
     <div className="add-product-container">
