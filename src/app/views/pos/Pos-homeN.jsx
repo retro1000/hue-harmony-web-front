@@ -19,7 +19,8 @@ import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
 import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import CreditCardIcon from "@mui/icons-material/CreditCard";
-import "@fontsource/roboto"; 
+import { Save, Payment, Cancel } from "@mui/icons-material";
+import "@fontsource/roboto";
 import "@fontsource/roboto/700.css";
 
 const products = [
@@ -152,7 +153,7 @@ function PosHomeN() {
 
   const handleOpenCardDialog = () => setOpenCardDialog(true);
   const handleCloseCardDialog = () => setOpenCardDialog(false);
-  
+
   return (
     <>
       <NavBar />
@@ -189,7 +190,14 @@ function PosHomeN() {
                 }}
               />
             </Box>
-            <Typography variant="h7" sx={{ fontWeight: "bold", color: "#000",font: "Roboto, Arial, sans-serif" }}>
+            <Typography
+              variant="h7"
+              sx={{
+                fontWeight: "bold",
+                color: "#000",
+                font: "Roboto, Arial, sans-serif",
+              }}
+            >
               John Doe
             </Typography>
             <Box
@@ -361,7 +369,12 @@ function PosHomeN() {
             >
               <Typography
                 variant="h6"
-                sx={{ fontWeight: "bold", color: "#333", marginBottom: "16px",fontFamily:"Roboto, Arial, sans-serif"  }}
+                sx={{
+                  fontWeight: "bold",
+                  color: "#333",
+                  marginBottom: "16px",
+                  fontFamily: "Roboto, Arial, sans-serif",
+                }}
               >
                 Choose Category
               </Typography>
@@ -466,10 +479,13 @@ function PosHomeN() {
                 gap: "10px",
                 justifyItems: "center",
                 width: "95%",
-                height: "calc(100vh - 180px)", // This makes sure it fits within the height of the page minus some padding/margin
+                height: "calc(100vh - 170px)", // This makes sure it fits within the height of the page minus some padding/margin
                 overflowY: "auto", // Enable scrolling only for the product section
                 padding: "16px",
                 marginTop: "20px",
+                marginBottom: "10px",
+                backgroundColor: "#f5f5f5",
+                borderRadius: '10px'
                 // Optional: add some padding to the content
               }}
             >
@@ -494,13 +510,13 @@ function PosHomeN() {
             <Box
               sx={{
                 borderRadius: "8px",
-                padding: "10px",
+                padding: "5px",
                 backgroundColor: "#fff",
                 display: "flex",
                 alignItems: "center",
-                justifyContent: "start",
+                justifyContent: "space-between",
                 boxShadow: 1, // Adding elevation for shadow effect
-                width: "90%",
+                width: "95%",
                 marginTop: "15px",
                 // Optional: Adjust top margin if needed
               }}
@@ -520,11 +536,11 @@ function PosHomeN() {
             </Box>
             <Box
               sx={{
-                height: "60vh",
+                height: "65vh",
                 width: "97%",
                 justifyContent: "center",
                 display: "flex",
-                flexDirection:"column",
+                flexDirection: "column",
                 marginTop: "10px",
                 borderRadius: "10px",
               }}
@@ -536,6 +552,8 @@ function PosHomeN() {
                   padding: "16px",
                   width: "95%",
                   marginTop: "1px",
+                  backgroundColor: "#f5f5f5",
+                  borderRadius:'7px'
                 }}
               >
                 {cartItems.map((item) => (
@@ -633,7 +651,7 @@ function PosHomeN() {
                   padding: 2,
                   borderRadius: 2,
                   maxWidth: 800,
-                  marginTop:'15px'
+                  marginTop: "1px",
                 }}
               >
                 <Grid
@@ -671,16 +689,90 @@ function PosHomeN() {
                     Rs 00.00
                   </Typography>
                 </Grid>
+                <Typography
+                  sx={{ borderBottom: "2px dashed #ddd", marginTop: 0.5 }}
+                />
               </Box>
-              <Box>
-              <Grid
-                  container
-                  justifyContent="space-between"
-                  sx={{ marginBottom: 1 }}
+              <Box sx={{ height: "10vh",marginTop:'3px' }}>
+                <Box
+                  display={"flex"}
+                  flexDirection={"row"}
+                  justifyContent="center"
                 >
-                  <Typography variant="subtitle1">Discount</Typography>
-                  <Typography variant="body1">Rs 00.00</Typography>
-                </Grid>
+                  <Box
+                    display={"flex"}
+                    flexDirection={"row"}
+                    justifyContent="space-between"
+                    width={"60%"}
+                  >
+                    <Button
+                      variant="outlined"
+                      sx={{
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        padding: "16px",
+                        minWidth: "100px", // Set a minimum width for uniform size
+                        border: "2px solid", // Add border
+                        borderRadius: "12px", // Rounded corners
+                      }}
+                    >
+                      <CreditCardIcon
+                        sx={{ fontSize: "40px", marginBottom: "8px" }}
+                      />{" "}
+                      {/* Large Icon */}
+                      Debit Card
+                    </Button>
+                    <Button
+                      variant="outlined"
+                      color="error"
+                      sx={{
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        padding: "16px",
+                        minWidth: "100px", // Set a minimum width for uniform size
+                        border: "2px solid", // Add border
+                        borderRadius: "12px", // Rounded corners
+                      }}
+                    >
+                      <AttachMoneyIcon
+                        sx={{ fontSize: "40px", marginBottom: "8px" }}
+                      />{" "}
+                      {/* Large Icon */}
+                      Cash
+                    </Button>
+                  </Box>
+                </Box>
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    margin: "20px",
+                  }}
+                >
+                  <Button
+                    variant="contained"
+                    sx={{
+                      backgroundColor: "#4caf50", // Green color
+                      color: "#fff",
+                      fontWeight: "bold",
+                      fontSize: "16px",
+                      padding: "10px 20px",
+                      borderRadius: "8px",
+                      "&:hover": {
+                        backgroundColor: "#43a047", // Slightly darker green for hover
+                      },
+                      boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
+                      width:'90%' // Highlight effect
+                    }}
+                  >
+                    Complete Order
+                  </Button>
+                </Box>
               </Box>
             </Box>
           </Box>

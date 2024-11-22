@@ -4,6 +4,7 @@ import { DataGrid } from '@mui/x-data-grid';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import { useNavigate } from 'react-router-dom';
 import PosNav from 'app/components/Pos/PosNav';
+import NavBar from "app/components/Pos/PosNavNew";
 
 const orderDetails = [
   { id: 1, invoice: 'INV-00001001', client: 'Client-001', grandTotal: '30000.00', balanceDue: 0.0, date: '2024/07/30', status: 'active' },
@@ -68,7 +69,7 @@ const ActionCell = ({ params }) => {
 function OrderList() {
   return (
     <Box>
-      <PosNav />
+      <NavBar />
       <Paper elevation={0} style={{ padding: 5, marginTop: 30, borderRadius: 20 }}>
         <Box pl={3} mb={2}>
           <Typography variant="h5" fontWeight={600} gutterBottom>
