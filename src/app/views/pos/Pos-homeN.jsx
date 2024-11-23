@@ -20,29 +20,49 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import CreditCardIcon from "@mui/icons-material/CreditCard";
 import { Save, Payment, Cancel } from "@mui/icons-material";
+import {Dialog, DialogActions, DialogContent, DialogTitle } from "@mui/material";
 import "@fontsource/roboto";
 import "@fontsource/roboto/700.css";
-
-const products = [
-  {
-    id: "P3452",
-    name: "HP LAPTOP",
-    price: 75000,
-    availability: "170,000.667 Nos",
-    imageUrl: "/assets/images/dulux.png",
-    discount: 10,
-  },
-  {
-    id: "P3454",
-    name: "HP LAPTOP",
-    price: 65000,
-    availability: "170,000.667 Nos",
-    imageUrl: "/assets/images/dulux.png",
-    discount: 0,
-  },
-];
+import { useAxios } from "../../hooks/useAxios";
+import '@fontsource/poppins'; 
 
 function PosHomeN() {
+
+  const { api, apiNonAuth } = useAxios();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        // Send a GET request using the authenticated API
+        const response = await api.get('/some-endpoint');
+        // Store response data
+        setProducts(response.data);
+      } catch (err) {
+        // Handle error if any
+      }
+    };
+
+    fetchData();
+  }, [api]);
+
+
+const [products,setProducts] = useState([ {
+  id: "P3452",
+  name: "HP LAPTOP",
+  price: 75000,
+  availability: "170,000.667 Nos",
+  imageUrl: "/assets/images/dulux.png",
+  discount: 10,
+},
+{
+  id: "P3454",
+  name: "HP LAPTOP",
+  price: 65000,
+  availability: "170,000.667 Nos",
+  imageUrl: "/assets/images/dulux.png",
+  discount: 0,
+}])
+
   const [currentDate, setCurrentDate] = useState("");
 
   useEffect(() => {
@@ -100,8 +120,9 @@ function PosHomeN() {
       )
     );
   };
+  const [openDialog, setOpenDialog] = useState(false);
 
-  const handleCheckout = async () => {
+  const handleConfirmCheckout = async () => {
     const checkoutData = {
       cartItems: cartItems.map((item) => ({
         productId: item.id,
@@ -112,6 +133,10 @@ function PosHomeN() {
       total: getTotal(),
       paymentMethod: selectedPaymentMethod,
     };
+    setCartItems([]);
+
+    // Close the dialog
+    setOpenDialog(false);
 
     // try {
     //   const response = await axios.post("/api/checkout", checkoutData);
@@ -120,7 +145,9 @@ function PosHomeN() {
     //   console.error("Checkout failed:", error.response?.data || error.message);
     // }
   };
-
+  const handleCancelCheckout = () => {
+    setOpenDialog(false); // Close the dialog without resetting the cart
+  };
 
   // Remove item from cart
   const removeItem = (itemId) => {
@@ -155,6 +182,9 @@ function PosHomeN() {
         0
       )
       .toFixed(2);
+  };
+  const handleCheckout = () => {
+    setOpenDialog(true); // Open the confirmation dialog
   };
 
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(null);
@@ -344,7 +374,7 @@ function PosHomeN() {
                 onClick={() => console.log("Logout clicked")}
               >
                 <ExitToAppIcon sx={{ marginRight: "10px" }} />
-                <Typography sx={{ fontWeight: "bold" }}>Logout</Typography>
+                <Typography sx={{ fontWeight: "bold",fontFamily: 'Poppins, Arial, sans-serif !important'}}>Logout</Typography>
               </IconButton>
             </Box>
           </Box>
@@ -382,7 +412,6 @@ function PosHomeN() {
                   fontWeight: "bold",
                   color: "#333",
                   marginBottom: "16px",
-                  fontFamily: "Roboto, Arial, sans-serif",
                 }}
               >
                 Choose Category
@@ -473,10 +502,11 @@ function PosHomeN() {
                       boxShadow: 6,
                     },
                     border: "none",
+                    
                   }}
                   startIcon={<FormatPaintIcon />}
                 >
-                  Wall Paint
+                  Wall
                 </Button>
               </Box>
             </Box>
@@ -694,7 +724,7 @@ function PosHomeN() {
                   sx={{ marginBottom: 0.5 }}
                 >
                   <Typography variant="subtitle1">Total</Typography>
-                  <Typography variant="body1">Rs{getTotal()}</Typography>
+                  <Typography variant="body1">Rs {getTotal()}</Typography>
                 </Grid>
                 <Grid
                   container
@@ -703,7 +733,7 @@ function PosHomeN() {
                 >
                   <Typography variant="subtitle1">Discount</Typography>
                   <Typography variant="body1">
-                    Rs{calculateTotalDiscount()}
+                    Rs {calculateTotalDiscount()}
                   </Typography>
                 </Grid>
                 <Grid
@@ -722,7 +752,7 @@ function PosHomeN() {
                     Sub Total
                   </Typography>
                   <Typography variant="h6" fontWeight="bold">
-                    Rs{calculateSubtotal()}
+                    Rs {calculateSubtotal()}
                   </Typography>
                 </Grid>
                 <Typography
@@ -817,7 +847,7 @@ function PosHomeN() {
                     justifyContent: "center",
                     alignItems: "center",
                     margin: "20px",
-                    width:'90%',
+                    width: "90%",
                   }}
                 >
                   <Button
@@ -832,13 +862,28 @@ function PosHomeN() {
                       "&:hover": {
                         backgroundColor: "#43a047",
                       },
-                      width:'90%',
+                      width: "90%",
                     }}
                     onClick={handleCheckout}
                     disabled={!selectedPaymentMethod}
                   >
                     Place Order
                   </Button>
+                  <Dialog open={openDialog} onClose={handleCancelCheckout}>
+                    <DialogTitle>Confirm Checkout</DialogTitle>
+                    <DialogContent>
+                      Are you sure you want to proceed with the checkout? Your
+                      cart will be reset.
+                    </DialogContent>
+                    <DialogActions>
+                      <Button onClick={handleCancelCheckout} color="primary">
+                        Cancel
+                      </Button>
+                      <Button onClick={handleConfirmCheckout} color="secondary">
+                        Confirm
+                      </Button>
+                    </DialogActions>
+                  </Dialog>
                 </Box>
               </Box>
             </Box>

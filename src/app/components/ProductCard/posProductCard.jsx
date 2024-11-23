@@ -41,7 +41,7 @@ const PosProductCard = ({ product, addToCart }) => {
         paddingLeft: '16px',  
         paddingBottom: '0 !important' 
       }}>
-        <Typography variant="h6" color="grey.800" fontWeight={600} fontFamily={`'lato', sans-serif`}>
+        <Typography variant="h6" color="grey.800" fontWeight={600}>
           {product.name}
         </Typography>
         <Typography 
