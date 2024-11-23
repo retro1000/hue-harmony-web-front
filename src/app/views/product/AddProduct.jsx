@@ -15,15 +15,13 @@ const AddProduct = () => {
     brand: "DULUX",
     roomType: "BEDROOM",
     finish: "GLOSS",
-    productTypes: "",
+    productTypes: [],
     surfaces: [],
     positions: [],
     productFeatures: [],
   });
 
-  const [selectedImage, setSelectedImage] = useState(null);
-
-
+  const [selectedImages, setSelectedImages] = useState([]);
 
   const brands = ["DULUX", "ROBBIALAC", "NIPPON_PAINT", "ASIAN_PAINTS", "KANSAI_PAINT"];
   const finishes = [
@@ -46,23 +44,30 @@ const AddProduct = () => {
     "DINING_ROOM",
   ];
 
-
-
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({
       ...formData,
-      [name]: name === "surfaces" || name === "positions" || name === "productFeatures"
-        ? value.split(",") // Handle comma-separated inputs
-        : value,
+      [name]:
+        name === "surfaces" || name === "positions" || name === "productFeatures" || name === "productTypes"
+          ? value.split(",").map((item) => item.trim())
+          : value,
     });
   };
+  
 
-  async function base64ConversionForImages(e) {
-    if (e.target.files[0]) {
-      getBase64(e.target.files[0]);
+  async function base64ConversionForImages(files) {
+    const base64Strings = [];
+    for (const file of files) {
+      base64Strings.push(await getBase64(file));
     }
+    setSelectedImages(base64Strings);
   }
+
+  const handleFileChange = (e) => {
+    const files = Array.from(e.target.files);
+    base64ConversionForImages(files);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -83,13 +88,13 @@ const AddProduct = () => {
       formData.roomType,
       formData.surfaces,
       formData.productFeatures,
-      selectedImage
+      selectedImages // Array of image Base64 strings
     );
 
     try {
-      console.log("Payload being sent:", productRequest);
+      console.log("Payload being sent:", JSON.stringify(productRequest));
       const response = await axios.post(
-        "http://localhost:3000/product/create",
+        "http://localhost:8080/product/create",
         JSON.stringify(productRequest),
         {
           headers: {
@@ -105,14 +110,12 @@ const AddProduct = () => {
   };
 
   function getBase64(file) {
-    let reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = function () {
-      setSelectedImage(reader.result);
-    };
-    reader.onerror = function (error) {
-      console.log("Error in image processing", error);
-    };
+    return new Promise((resolve, reject) => {
+      let reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = (error) => reject(error);
+    });
   }
 
   return (
@@ -242,13 +245,12 @@ const AddProduct = () => {
           </select>
         </div>
         <div>
-          <label>Product Type ID:</label>
+          <label>Product Types(Comma-separated):</label>
           <input
             type="text"
             name="productTypes"
-            value={formData.productTypes}
+            value={formData.productTypes.join(",")}
             onChange={handleChange}
-            required
           />
         </div>
         <div>
@@ -279,11 +281,12 @@ const AddProduct = () => {
           />
         </div>
         <div>
-          <label>Product Image:</label>
+          <label>Product Images:</label>
           <input
             type="file"
-            name="productImage"
-            onChange={(e) => base64ConversionForImages(e)}
+            name="productImages"
+            multiple
+            onChange={handleFileChange}
           />
         </div>
         <button type="submit">Add Product</button>
