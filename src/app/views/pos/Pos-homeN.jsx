@@ -20,23 +20,38 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import CreditCardIcon from "@mui/icons-material/CreditCard";
 import { Save, Payment, Cancel } from "@mui/icons-material";
-import {Dialog, DialogActions, DialogContent, DialogTitle } from "@mui/material";
+import {
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+} from "@mui/material";
 import "@fontsource/roboto";
 import "@fontsource/roboto/700.css";
 import { useAxios } from "../../hooks/useAxios";
-import '@fontsource/poppins'; 
+import "@fontsource/poppins";
 
 function PosHomeN() {
-
   const { api, apiNonAuth } = useAxios();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         // Send a GET request using the authenticated API
-        const response = await api.get('/some-endpoint');
+        const response = await apiNonAuth.get("http://localhost:8080/pos/get-products");
         // Store response data
-        setProducts(response.data);
+        console.log(response.data);
+        const transformedProducts = response.data.map((product) => ({
+          id: product.productId,
+          name: product.productName,
+          price: product.productPrice,
+          availability: "In Stock", // Default value since the response doesn't include it
+          imageUrl: "/assets/images/default.png", // Default image URL
+          discount: product.productDiscount,
+        }));
+        setProducts(transformedProducts);
+
+         
       } catch (err) {
         // Handle error if any
       }
@@ -45,23 +60,7 @@ function PosHomeN() {
     fetchData();
   }, [api]);
 
-
-const [products,setProducts] = useState([ {
-  id: "P3452",
-  name: "HP LAPTOP",
-  price: 75000,
-  availability: "170,000.667 Nos",
-  imageUrl: "/assets/images/dulux.png",
-  discount: 10,
-},
-{
-  id: "P3454",
-  name: "HP LAPTOP",
-  price: 65000,
-  availability: "170,000.667 Nos",
-  imageUrl: "/assets/images/dulux.png",
-  discount: 0,
-}])
+  const [products, setProducts] = useState([]);
 
   const [currentDate, setCurrentDate] = useState("");
 
@@ -374,7 +373,14 @@ const [products,setProducts] = useState([ {
                 onClick={() => console.log("Logout clicked")}
               >
                 <ExitToAppIcon sx={{ marginRight: "10px" }} />
-                <Typography sx={{ fontWeight: "bold",fontFamily: 'Poppins, Arial, sans-serif !important'}}>Logout</Typography>
+                <Typography
+                  sx={{
+                    fontWeight: "bold",
+                    fontFamily: "Poppins, Arial, sans-serif !important",
+                  }}
+                >
+                  Logout
+                </Typography>
               </IconButton>
             </Box>
           </Box>
@@ -502,7 +508,6 @@ const [products,setProducts] = useState([ {
                       boxShadow: 6,
                     },
                     border: "none",
-                    
                   }}
                   startIcon={<FormatPaintIcon />}
                 >
@@ -579,7 +584,7 @@ const [products,setProducts] = useState([ {
             </Box>
             <Box
               sx={{
-                height: "65vh",
+                height: "63vh",
                 width: "97%",
                 justifyContent: "center",
                 display: "flex",
