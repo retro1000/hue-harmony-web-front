@@ -30,9 +30,16 @@ const products = [
     price: 75000,
     availability: "170,000.667 Nos",
     imageUrl: "/assets/images/dulux.png",
+    discount: 10,
   },
- 
- 
+  {
+    id: "P3454",
+    name: "HP LAPTOP",
+    price: 65000,
+    availability: "170,000.667 Nos",
+    imageUrl: "/assets/images/dulux.png",
+    discount: 0,
+  },
 ];
 
 function PosHomeN() {
@@ -45,22 +52,33 @@ function PosHomeN() {
     setCurrentDate(`${formattedDate}, ${formattedTime}`);
   }, []);
 
-  const [cartItems, setCartItems] = useState([
-  ]);
+  const [cartItems, setCartItems] = useState([]);
 
   const addToCart = (product) => {
-    const newCart = [...cartItems];
-    const index = newCart.findIndex(item => item.id === product.id);
-
-    if (index === -1) {
-      // If the product is not already in the cart, add it with quantity 1
-      newCart.push({ ...product, quantity: 1 });
-    } else {
-      // If the product is already in the cart, increase its quantity by 1
-      newCart[index].quantity += 1;
-    }
-
-    setCartItems(newCart);
+    setCartItems((prevCart) => {
+      const existingProduct = prevCart.find((item) => item.id === product.id);
+      if (existingProduct) {
+        // If product already exists in the cart, update quantity
+        return prevCart.map((item) =>
+          item.id === product.id
+            ? { ...item, quantity: item.quantity + 1 }
+            : item
+        );
+      } else {
+        // If it's a new product, add it to the cart
+        const discountAmount = product.discount
+          ? (product.price * product.discount) / 100
+          : 0;
+        return [
+          ...prevCart,
+          {
+            ...product,
+            quantity: 1,
+            discountAmount,
+          },
+        ];
+      }
+    });
   };
 
   // Increase item quantity
@@ -83,6 +101,27 @@ function PosHomeN() {
     );
   };
 
+  const handleCheckout = async () => {
+    const checkoutData = {
+      cartItems: cartItems.map((item) => ({
+        productId: item.id,
+        quantity: item.quantity,
+      })),
+      subtotal: calculateSubtotal(),
+      totalDiscount: calculateTotalDiscount(),
+      total: getTotal(),
+      paymentMethod: selectedPaymentMethod,
+    };
+
+    // try {
+    //   const response = await axios.post("/api/checkout", checkoutData);
+    //   console.log("Checkout successful:", response.data);
+    // } catch (error) {
+    //   console.error("Checkout failed:", error.response?.data || error.message);
+    // }
+  };
+
+
   // Remove item from cart
   const removeItem = (itemId) => {
     setCartItems(cartItems.filter((item) => item.id !== itemId));
@@ -97,8 +136,31 @@ function PosHomeN() {
   const handleOpenCardDialog = () => setOpenCardDialog(true);
   const handleCloseCardDialog = () => setOpenCardDialog(false);
 
-   const getTotal = () => {
-    return cartItems.reduce((total, item) => total + item.price * item.quantity, 0).toFixed(2);
+  const getTotal = () => {
+    return cartItems
+      .reduce((total, item) => total + item.price * item.quantity, 0)
+      .toFixed(2);
+  };
+
+  const calculateSubtotal = () =>
+    cartItems.reduce(
+      (acc, item) => acc + item.quantity * (item.price - item.discountAmount),
+      0
+    );
+
+  const calculateTotalDiscount = () => {
+    return cartItems
+      .reduce(
+        (acc, item) => acc + item.quantity * (item.discountAmount || 0),
+        0
+      )
+      .toFixed(2);
+  };
+
+  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(null);
+
+  const handlePaymentMethodSelect = (method) => {
+    setSelectedPaymentMethod(method);
   };
 
   return (
@@ -432,12 +494,16 @@ function PosHomeN() {
                 marginTop: "20px",
                 marginBottom: "10px",
                 backgroundColor: "#f5f5f5",
-                borderRadius: '10px'
+                borderRadius: "10px",
                 // Optional: add some padding to the content
               }}
             >
               {products.map((product) => (
-                <PosProductCard key={product.id} product={product} addToCart={addToCart} />
+                <PosProductCard
+                  key={product.id}
+                  product={product}
+                  addToCart={addToCart}
+                />
               ))}
             </Box>
           </Box>
@@ -493,124 +559,127 @@ function PosHomeN() {
               }}
             >
               {cartItems.length === 0 ? (
-                 <Box
-                 sx={{
-                   height: "50vh",
-                   overflowY: "auto",
-                   padding: "16px",
-                   width: "95%",
-                   marginTop: "1px",
-                   backgroundColor: "#f5f5f5",
-                   borderRadius:'7px',
-                   display:'flex',
-                   alignItems:'center',
-                   justifyContent:'center'
-                 }}
-               >
-          <Typography variant="h4" color="textSecondary">Add items to cart</Typography>
-          </Box>
-        ) : (
-              <Box
-                sx={{
-                  height: "50vh",
-                  overflowY: "auto",
-                  padding: "16px",
-                  width: "95%",
-                  marginTop: "1px",
-                  backgroundColor: "#f5f5f5",
-                  borderRadius:'7px'
-                }}
-              >
-                {cartItems.map((item) => (
-                  <Box
-                    key={item.id}
-                    sx={{
-                      padding: "3px 10px 3px 13px",
-                      backgroundColor: "grey.400",
-                      marginBottom: "10px",
-                      borderRadius: "8px",
-                      boxShadow: "0 3px 5px rgba(0, 0, 0, 0.1)",
-                    }}
-                  >
-                    <Grid
-                      container
-                      alignItems="center"
-                      justifyContent="space-around"
+                <Box
+                  sx={{
+                    height: "50vh",
+                    overflowY: "auto",
+                    padding: "16px",
+                    width: "95%",
+                    marginTop: "1px",
+                    backgroundColor: "#f5f5f5",
+                    borderRadius: "7px",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  <Typography variant="h4" color="textSecondary">
+                    Add items to cart
+                  </Typography>
+                </Box>
+              ) : (
+                <Box
+                  sx={{
+                    height: "50vh",
+                    overflowY: "auto",
+                    padding: "16px",
+                    width: "95%",
+                    marginTop: "1px",
+                    backgroundColor: "#f5f5f5",
+                    borderRadius: "7px",
+                  }}
+                >
+                  {cartItems.map((item) => (
+                    <Box
+                      key={item.id}
+                      sx={{
+                        padding: "3px 10px 3px 13px",
+                        backgroundColor: "grey.400",
+                        marginBottom: "10px",
+                        borderRadius: "8px",
+                        boxShadow: "0 3px 5px rgba(0, 0, 0, 0.1)",
+                      }}
                     >
-                      <Grid item xs={6} sx={{ paddingLeft: "30px" }}>
-                        <Typography variant="body1">{item.name}</Typography>
-                        <Typography variant="body1">{item.name}</Typography>
-                      </Grid>
-                      <Grid item xs={6} sx={{ textAlign: "right" }}>
-                        <Box
-                          sx={{
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "flex-end",
-                          }}
-                        >
+                      <Grid
+                        container
+                        alignItems="center"
+                        justifyContent="space-around"
+                      >
+                        <Grid item xs={6} sx={{ paddingLeft: "30px" }}>
+                          <Typography variant="body1">{item.name}</Typography>
+                          <Typography variant="body1">{item.name}</Typography>
+                        </Grid>
+                        <Grid item xs={6} sx={{ textAlign: "right" }}>
                           <Box
                             sx={{
                               display: "flex",
                               alignItems: "center",
-                              border: "1px solid #e0e0e0",
-                              borderRadius: "20px", // Makes the border elliptical
-                              padding: "3px 6px",
+                              justifyContent: "flex-end",
                             }}
                           >
-                            <IconButton
-                              onClick={() => decreaseQuantity(item.id)}
+                            <Box
                               sx={{
-                                backgroundColor: "white",
-                                borderRadius: "50%", // Round background
-                                padding: "2px",
-                                "&:hover": { backgroundColor: "#e0e0e0" },
+                                display: "flex",
+                                alignItems: "center",
+                                border: "1px solid #e0e0e0",
+                                borderRadius: "20px", // Makes the border elliptical
+                                padding: "3px 6px",
                               }}
                             >
-                              <RemoveIcon />
-                            </IconButton>
-                            <Typography
-                              component="span"
-                              sx={{
-                                fontWeight: "bold",
-                                margin: "0 10px",
-                                minWidth: "40px",
-                                textAlign: "center", // Align text in center
-                              }}
-                            >
-                              {item.quantity}
-                            </Typography>
+                              <IconButton
+                                onClick={() => decreaseQuantity(item.id)}
+                                sx={{
+                                  backgroundColor: "white",
+                                  borderRadius: "50%", // Round background
+                                  padding: "2px",
+                                  "&:hover": { backgroundColor: "#e0e0e0" },
+                                }}
+                              >
+                                <RemoveIcon />
+                              </IconButton>
+                              <Typography
+                                component="span"
+                                sx={{
+                                  fontWeight: "bold",
+                                  margin: "0 10px",
+                                  minWidth: "40px",
+                                  textAlign: "center", // Align text in center
+                                }}
+                              >
+                                {item.quantity}
+                              </Typography>
+                              <IconButton
+                                onClick={() => increaseQuantity(item.id)}
+                                sx={{
+                                  backgroundColor: "white",
+                                  borderRadius: "50%", // Round background
+                                  padding: "5px",
+                                  "&:hover": { backgroundColor: "#e0e0e0" },
+                                }}
+                              >
+                                <AddIcon />
+                              </IconButton>
+                            </Box>
                             <IconButton
-                              onClick={() => increaseQuantity(item.id)}
+                              onClick={() => removeItem(item.id)}
+                              color="error"
                               sx={{
-                                backgroundColor: "white",
+                                marginLeft: "10px",
+                                backgroundColor: "#fff",
                                 borderRadius: "50%", // Round background
                                 padding: "5px",
                                 "&:hover": { backgroundColor: "#e0e0e0" },
                               }}
                             >
-                              <AddIcon />
+                              <DeleteIcon />
                             </IconButton>
                           </Box>
-                          <IconButton
-                            onClick={() => removeItem(item.id)}
-                            color="error"
-                            sx={{
-                              marginLeft: "10px",
-                              backgroundColor: "#fff",
-                              borderRadius: "50%", // Round background
-                              padding: "5px",
-                              "&:hover": { backgroundColor: "#e0e0e0" },
-                            }}
-                          >
-                            <DeleteIcon />
-                          </IconButton>
-                        </Box>
+                        </Grid>
                       </Grid>
-                    </Grid>
-                  </Box>
-                ))}
-              </Box>)}
+                    </Box>
+                  ))}
+                </Box>
+              )}
               <Box
                 sx={{
                   padding: 2,
@@ -624,8 +693,8 @@ function PosHomeN() {
                   justifyContent="space-between"
                   sx={{ marginBottom: 0.5 }}
                 >
-                  <Typography variant="subtitle1">Sub Total</Typography>
-                  <Typography variant="body1">${getTotal()}</Typography>
+                  <Typography variant="subtitle1">Total</Typography>
+                  <Typography variant="body1">Rs{getTotal()}</Typography>
                 </Grid>
                 <Grid
                   container
@@ -633,7 +702,9 @@ function PosHomeN() {
                   sx={{ marginBottom: 1 }}
                 >
                   <Typography variant="subtitle1">Discount</Typography>
-                  <Typography variant="body1">Rs 00.00</Typography>
+                  <Typography variant="body1">
+                    Rs{calculateTotalDiscount()}
+                  </Typography>
                 </Grid>
                 <Grid
                   container
@@ -648,17 +719,17 @@ function PosHomeN() {
                 />
                 <Grid container justifyContent="space-between">
                   <Typography variant="h6" fontWeight="bold">
-                    Total
+                    Sub Total
                   </Typography>
                   <Typography variant="h6" fontWeight="bold">
-                    Rs 00.00
+                    Rs{calculateSubtotal()}
                   </Typography>
                 </Grid>
                 <Typography
                   sx={{ borderBottom: "2px dashed #ddd", marginTop: 0.5 }}
                 />
               </Box>
-              <Box sx={{ height: "10vh",marginTop:'3px' }}>
+              <Box sx={{ height: "10vh", marginTop: "3px" }}>
                 <Box
                   display={"flex"}
                   flexDirection={"row"}
@@ -670,43 +741,72 @@ function PosHomeN() {
                     justifyContent="space-between"
                     width={"60%"}
                   >
+                    {/* Debit Card Button */}
                     <Button
-                      variant="outlined"
+                      variant={
+                        selectedPaymentMethod === "Debit Card"
+                          ? "contained"
+                          : "outlined"
+                      }
+                      onClick={() => handlePaymentMethodSelect("Debit Card")}
                       sx={{
                         display: "flex",
                         flexDirection: "column",
                         alignItems: "center",
                         justifyContent: "center",
                         padding: "16px",
-                        minWidth: "100px", // Set a minimum width for uniform size
-                        border: "2px solid", // Add border
-                        borderRadius: "12px", // Rounded corners
+                        minWidth: "100px",
+                        borderRadius: "12px",
+                        boxShadow:
+                          selectedPaymentMethod === "Debit Card" ? 4 : 0,
                       }}
                     >
                       <CreditCardIcon
                         sx={{ fontSize: "40px", marginBottom: "8px" }}
-                      />{" "}
-                      {/* Large Icon */}
+                      />
                       Debit Card
                     </Button>
+
+                    {/* Cash Button */}
                     <Button
-                      variant="outlined"
-                      color="error"
+                      variant={
+                        selectedPaymentMethod === "Cash"
+                          ? "contained"
+                          : "outlined"
+                      }
+                      onClick={() => handlePaymentMethodSelect("Cash")}
                       sx={{
                         display: "flex",
                         flexDirection: "column",
                         alignItems: "center",
                         justifyContent: "center",
                         padding: "16px",
-                        minWidth: "100px", // Set a minimum width for uniform size
-                        border: "2px solid", // Add border
-                        borderRadius: "12px", // Rounded corners
+                        minWidth: "100px",
+                        borderRadius: "12px",
+
+                        boxShadow: selectedPaymentMethod === "Cash" ? 4 : 0, // Highlight selected button
+                        backgroundColor:
+                          selectedPaymentMethod === "Cash"
+                            ? "#d32f2f"
+                            : "transparent", // Red for selected Cash
+                        color:
+                          selectedPaymentMethod === "Cash"
+                            ? "#ffffff"
+                            : "#d32f2f", // Text color
+                        borderColor:
+                          selectedPaymentMethod === "Cash"
+                            ? "#d32f2f"
+                            : "#d32f2f",
+                        "&:hover": {
+                          backgroundColor: "#d32f2f", // Blue on hover
+                          color: "#ffffff", // White text on hover
+                          borderColor: "#1976d2", // Blue border on hover
+                        },
                       }}
                     >
                       <AttachMoneyIcon
                         sx={{ fontSize: "40px", marginBottom: "8px" }}
-                      />{" "}
-                      {/* Large Icon */}
+                      />
                       Cash
                     </Button>
                   </Box>
@@ -717,25 +817,27 @@ function PosHomeN() {
                     justifyContent: "center",
                     alignItems: "center",
                     margin: "20px",
+                    width:'90%',
                   }}
                 >
                   <Button
                     variant="contained"
                     sx={{
-                      backgroundColor: "#4caf50", // Green color
+                      backgroundColor: "#4caf50",
                       color: "#fff",
                       fontWeight: "bold",
                       fontSize: "16px",
                       padding: "10px 20px",
                       borderRadius: "8px",
                       "&:hover": {
-                        backgroundColor: "#43a047", // Slightly darker green for hover
+                        backgroundColor: "#43a047",
                       },
-                      boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
-                      width:'90%' // Highlight effect
+                      width:'90%',
                     }}
+                    onClick={handleCheckout}
+                    disabled={!selectedPaymentMethod}
                   >
-                    Complete Order
+                    Place Order
                   </Button>
                 </Box>
               </Box>
