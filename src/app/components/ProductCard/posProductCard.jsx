@@ -7,12 +7,11 @@ const PosProductCard = ({ product, addToCart }) => {
       sx={{
         maxWidth: 400, 
         width: '100%', 
-        height: 180,
+        height: 210,
         backgroundColor: 'white', 
         padding: 0.5, 
         display: 'flex',
         flexDirection: 'column',   
-        margin: '5px',
         alignItems: 'center',
         boxShadow: 4,
         cursor: 'pointer',  // Change cursor to pointer to indicate it's clickable
