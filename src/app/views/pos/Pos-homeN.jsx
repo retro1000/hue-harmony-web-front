@@ -31,76 +31,8 @@ const products = [
     availability: "170,000.667 Nos",
     imageUrl: "/assets/images/dulux.png",
   },
-  {
-    id: "P3453",
-    name: "RAM 4GB",
-    price: 7000,
-    availability: "58.000 Nos",
-    imageUrl: "/assets/images/dulux.png",
-  },
-  {
-    id: "0013",
-    name: "test for qu..",
-    price: 0,
-    availability: "7.000 Nos",
-    imageUrl: "/assets/images/sample.jpeg",
-  },
-  {
-    id: "0036",
-    name: "test for ch..",
-    price: 0,
-    availability: "10.000 Nos",
-    imageUrl: "/assets/images/dulux.png",
-  },
-  {
-    id: "009",
-    name: "TEST FOR GR..",
-    price: 0,
-    availability: "87.000 Nos",
-    imageUrl: "/assets/images/dulux.png",
-  },
-  {
-    id: "010",
-    name: "Test For GR..",
-    price: 0,
-    availability: "14.000 Nos",
-    imageUrl: "/assets/images/dulux.png",
-  },
-  {
-    id: "012",
-    name: "Test for GR..",
-    price: 0,
-    availability: "188.000 Kg",
-    imageUrl: "/assets/images/sample.jpeg",
-  },
-  {
-    id: "012365",
-    name: "test for ro..",
-    price: 0,
-    availability: "99.000 Nos",
-    imageUrl: "/assets/images/dulux.png",
-  },
-  {
-    id: "013",
-    name: "test for cr..",
-    price: 0,
-    availability: "80.000 Nos",
-    imageUrl: "/assets/images/sample.jpeg",
-  },
-  {
-    id: "013",
-    name: "test for cr..",
-    price: 0,
-    availability: "80.000 Nos",
-    imageUrl: "/assets/images/dulux.png",
-  },
-  {
-    id: "013",
-    name: "test for cr..",
-    price: 0,
-    availability: "80.000 Nos",
-    imageUrl: "/assets/images/sample.jpeg",
-  },
+ 
+ 
 ];
 
 function PosHomeN() {
@@ -114,11 +46,22 @@ function PosHomeN() {
   }, []);
 
   const [cartItems, setCartItems] = useState([
-    { id: 1, name: "Product 1", quantity: 1 },
-    { id: 2, name: "Product 2", quantity: 2 },
-    { id: 3, name: "Product 3", quantity: 1 },
-    { id: 4, name: "Product 3", quantity: 1 },
   ]);
+
+  const addToCart = (product) => {
+    const newCart = [...cartItems];
+    const index = newCart.findIndex(item => item.id === product.id);
+
+    if (index === -1) {
+      // If the product is not already in the cart, add it with quantity 1
+      newCart.push({ ...product, quantity: 1 });
+    } else {
+      // If the product is already in the cart, increase its quantity by 1
+      newCart[index].quantity += 1;
+    }
+
+    setCartItems(newCart);
+  };
 
   // Increase item quantity
   const increaseQuantity = (itemId) => {
@@ -153,6 +96,10 @@ function PosHomeN() {
 
   const handleOpenCardDialog = () => setOpenCardDialog(true);
   const handleCloseCardDialog = () => setOpenCardDialog(false);
+
+   const getTotal = () => {
+    return cartItems.reduce((total, item) => total + item.price * item.quantity, 0).toFixed(2);
+  };
 
   return (
     <>
@@ -545,6 +492,24 @@ function PosHomeN() {
                 borderRadius: "10px",
               }}
             >
+              {cartItems.length === 0 ? (
+                 <Box
+                 sx={{
+                   height: "50vh",
+                   overflowY: "auto",
+                   padding: "16px",
+                   width: "95%",
+                   marginTop: "1px",
+                   backgroundColor: "#f5f5f5",
+                   borderRadius:'7px',
+                   display:'flex',
+                   alignItems:'center',
+                   justifyContent:'center'
+                 }}
+               >
+          <Typography variant="h4" color="textSecondary">Add items to cart</Typography>
+          </Box>
+        ) : (
               <Box
                 sx={{
                   height: "50vh",
@@ -596,7 +561,7 @@ function PosHomeN() {
                             <IconButton
                               onClick={() => decreaseQuantity(item.id)}
                               sx={{
-                                backgroundColor: "yellow",
+                                backgroundColor: "white",
                                 borderRadius: "50%", // Round background
                                 padding: "2px",
                                 "&:hover": { backgroundColor: "#e0e0e0" },
@@ -618,7 +583,7 @@ function PosHomeN() {
                             <IconButton
                               onClick={() => increaseQuantity(item.id)}
                               sx={{
-                                backgroundColor: "yellow",
+                                backgroundColor: "white",
                                 borderRadius: "50%", // Round background
                                 padding: "5px",
                                 "&:hover": { backgroundColor: "#e0e0e0" },
@@ -645,7 +610,7 @@ function PosHomeN() {
                     </Grid>
                   </Box>
                 ))}
-              </Box>
+              </Box>)}
               <Box
                 sx={{
                   padding: 2,
@@ -660,7 +625,7 @@ function PosHomeN() {
                   sx={{ marginBottom: 0.5 }}
                 >
                   <Typography variant="subtitle1">Sub Total</Typography>
-                  <Typography variant="body1">Rs 00.00</Typography>
+                  <Typography variant="body1">${getTotal()}</Typography>
                 </Grid>
                 <Grid
                   container
