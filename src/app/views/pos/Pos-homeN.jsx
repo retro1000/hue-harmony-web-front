@@ -437,7 +437,7 @@ function PosHomeN() {
               }}
             >
               {products.map((product) => (
-                <PosProductCard key={product.id} product={product} />
+                <PosProductCard key={product.id} product={product} addToCart={addToCart} />
               ))}
             </Box>
           </Box>
