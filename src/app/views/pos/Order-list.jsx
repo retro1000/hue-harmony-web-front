@@ -1,9 +1,16 @@
-import React from 'react';
-import { Box, Paper, Typography, IconButton, Button,Grid } from '@mui/material';
-import { DataGrid } from '@mui/x-data-grid';
-import VisibilityIcon from '@mui/icons-material/Visibility';
-import { useNavigate } from 'react-router-dom';
-import PosNav from 'app/components/Pos/PosNav';
+import React from "react";
+import {
+  Box,
+  Paper,
+  Typography,
+  IconButton,
+  Button,
+  Grid,
+} from "@mui/material";
+import { DataGrid } from "@mui/x-data-grid";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import { useNavigate } from "react-router-dom";
+import PosNav from "app/components/Pos/PosNav";
 import NavBar from "app/components/Pos/PosNavNew";
 import HomeIcon from "@mui/icons-material/Home";
 import OrderIcon from "@mui/icons-material/Receipt";
@@ -14,37 +21,87 @@ import PersonIcon from "@mui/icons-material/Person";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 
 const orderDetails = [
-  { id: 1, invoice: 'INV-00001001', client: 'Client-001', grandTotal: '30000.00', balanceDue: 0.0, date: '2024/07/30', status: 'active' },
-  { id: 2, invoice: 'INV-00001002', client: 'Client-002', grandTotal: '40000.00', balanceDue: 5000.0, date: '2024/07/31', status: 'inactive' },
-  { id: 3, invoice: 'INV-00001003', client: 'Client-003', grandTotal: '50000.00', balanceDue: 10000.0, date: '2024/08/01', status: 'active' },
-  { id: 4, invoice: 'INV-00001004', client: 'Client-004', grandTotal: '60000.00', balanceDue: 15000.0, date: '2024/08/02', status: 'inactive' },
-  { id: 5, invoice: 'INV-00001005', client: 'Client-005', grandTotal: '70000.00', balanceDue: 20000.0, date: '2024/08/03', status: 'active' },
-  { id: 6, invoice: 'INV-00001006', client: 'Client-006', grandTotal: '80000.00', balanceDue: 25000.0, date: '2024/08/04', status: 'inactive' },
-  { id: 1, invoice: 'INV-00001001', client: 'Client-001', grandTotal: '30000.00', balanceDue: 0.0, date: '2024/07/30', status: 'active' },
-  { id: 2, invoice: 'INV-00001002', client: 'Client-002', grandTotal: '40000.00', balanceDue: 5000.0, date: '2024/07/31', status: 'inactive' },
-  { id: 3, invoice: 'INV-00001003', client: 'Client-003', grandTotal: '50000.00', balanceDue: 10000.0, date: '2024/08/01', status: 'active' },
-  { id: 4, invoice: 'INV-00001004', client: 'Client-004', grandTotal: '60000.00', balanceDue: 15000.0, date: '2024/08/02', status: 'inactive' },
-  { id: 5, invoice: 'INV-00001005', client: 'Client-005', grandTotal: '70000.00', balanceDue: 20000.0, date: '2024/08/03', status: 'active' },
-  { id: 6, invoice: 'INV-00001006', client: 'Client-006', grandTotal: '80000.00', balanceDue: 25000.0, date: '2024/08/04', status: 'inactive' },
-  
+  {
+    id: 1,
+    invoice: "INV-00001001",
+    client: "Client-001",
+    grandTotal: "30000.00",
+    balanceDue: 0.0,
+    date: "2024/07/30",
+    status: "active",
+  },
+  {
+    id: 2,
+    invoice: "INV-00001002",
+    client: "Client-002",
+    grandTotal: "40000.00",
+    balanceDue: 5000.0,
+    date: "2024/07/31",
+    status: "inactive",
+  },
+  {
+    id: 3,
+    invoice: "INV-00001003",
+    client: "Client-003",
+    grandTotal: "50000.00",
+    balanceDue: 10000.0,
+    date: "2024/08/01",
+    status: "active",
+  },
+  {
+    id: 4,
+    invoice: "INV-00001004",
+    client: "Client-004",
+    grandTotal: "60000.00",
+    balanceDue: 15000.0,
+    date: "2024/08/02",
+    status: "inactive",
+  },
+  {
+    id: 5,
+    invoice: "INV-00001005",
+    client: "Client-005",
+    grandTotal: "70000.00",
+    balanceDue: 20000.0,
+    date: "2024/08/03",
+    status: "active",
+  },
+  {
+    id: 6,
+    invoice: "INV-00001006",
+    client: "Client-006",
+    grandTotal: "80000.00",
+    balanceDue: 25000.0,
+    date: "2024/08/04",
+    status: "inactive",
+  },
+  {
+    id: 1,
+    invoice: "INV-00001001",
+    client: "Client-001",
+    grandTotal: "30000.00",
+    balanceDue: 0.0,
+    date: "2024/07/30",
+    status: "active",
+  },
 ];
 
 const columns = [
-  { field: 'invoice', headerName: 'Invoice', width: 200 },
-  { field: 'client', headerName: 'Client', width: 200 },
-  { field: 'grandTotal', headerName: 'Grand Total', width: 200 },
-  { field: 'balanceDue', headerName: 'Balance Due', width: 200 },
-  { field: 'date', headerName: 'Date', width: 200 },
+  { field: "invoice", headerName: "Invoice", width: 200 },
+  { field: "client", headerName: "Client", width: 200 },
+  { field: "grandTotal", headerName: "Grand Total", width: 200 },
+  { field: "balanceDue", headerName: "Balance Due", width: 200 },
+  { field: "date", headerName: "Date", width: 200 },
   {
-    field: 'status',
-    headerName: 'Status',
+    field: "status",
+    headerName: "Status",
     width: 200,
     renderCell: (params) => (
       <Button
         variant="contained"
         style={{
-          backgroundColor: params.value === 'active' ? 'green' : 'grey',
-          color: 'white',
+          backgroundColor: params.value === "active" ? "green" : "grey",
+          color: "white",
         }}
       >
         {params.value}
@@ -52,8 +109,8 @@ const columns = [
     ),
   },
   {
-    field: 'action',
-    headerName: 'Action',
+    field: "action",
+    headerName: "Action",
     width: 100,
     renderCell: (params) => <ActionCell params={params} />,
   },
@@ -77,8 +134,8 @@ function OrderList() {
   return (
     <Box>
       <NavBar />
-      <Grid container sx={{ height: `calc(100vh - 90px)`,overflow: "hidden", }}>
-      <Grid item xs={2.2} sx={{ backgroundColor: "#ffffff" }}>
+      <Grid container sx={{ height: `calc(100vh - 90px)`, overflow: "hidden" }}>
+        <Grid item xs={2.2} sx={{ backgroundColor: "#ffffff" }}>
           <Box
             sx={{
               height: "100%",
@@ -268,20 +325,45 @@ function OrderList() {
           </Box>
         </Grid>
         <Grid item xs={9.8} sx={{ backgroundColor: "#ffffff" }}>
-      <Paper elevation={0} style={{ padding: 5, marginTop: 30, borderRadius: 20 }}>
-        <Box pl={3} mb={2}>
-          <Typography variant="h5" fontWeight={600} gutterBottom>
-            ORDER DETAILS
-          </Typography>
-        </Box>
-        <div style={{ width: '100%' }}>
-          <DataGrid rows={orderDetails} columns={columns} pageSize={4} autoHeight />
-        </div>
-      </Paper>
-      </Grid>
+          <Box sx={{ height: "100%", borderLeft: "4px solid #e0e0e0" }}>
+            <Paper
+              elevation={0}
+              style={{
+                padding: 5,
+                marginTop: 30,
+                borderRadius: 20,
+                alignItems: "center",
+                justifyContent: "center",
+                display: "flex",
+                flexDirection: "column",
+              }}
+            >
+              <Box pl={3} mb={0}>
+                <Typography variant="h5" fontWeight={600} gutterBottom>
+                  ORDER DETAILS
+                </Typography>
+              </Box>
+              <div
+                style={{
+                  width: "95%",
+                  height: "400px", // Set height for scrolling
+
+                  overflow: "auto",
+                }}
+              >
+                <DataGrid
+                  rows={orderDetails}
+                  columns={columns}
+                  pageSize={4}
+                  height={"80%"}
+                  rowsPerPageOptions={[4]}
+                />
+              </div>
+            </Paper>
+          </Box>
+        </Grid>
       </Grid>
     </Box>
-    
   );
 }
 
