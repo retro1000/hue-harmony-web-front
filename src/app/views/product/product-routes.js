@@ -3,11 +3,12 @@ import Loadable from "app/components/Loadable";
 import { authRoles } from "app/auth/authRoles";
 import AuthGuard from "app/auth/AuthGuard";
 
-const UpserProduct = Loadable(lazy(() => import("./AddProduct")));
+const AddProduct = Loadable(lazy(() => import("./AddProduct")));
 const ProductList = Loadable(lazy(() => import("./ProductList")));
 const StoreProductList = Loadable(lazy(() => import("./StoreProductList")));
 const ProductView = Loadable(lazy(() => import("./ProductView")));
 const FilterProduct = Loadable(lazy(() => import('./FilterProduct.jsx')))
+const UpdateProduct = Loadable(lazy(() => import('./UpdateProduct.jsx')))
 //inventory variation view
 const productRoutes = [
   {
@@ -27,21 +28,22 @@ const productRoutes = [
     ),
   },
   {
-    path: "/product/create",
+    path: "/product/update",
     element: (
-      <AuthGuard auth={authRoles.admin}>
-        <UpserProduct />
-      </AuthGuard>
+      // <AuthGuard auth={authRoles.admin}>
+        <UpdateProduct />
+      // </AuthGuard>
     ),
   },
   {
-    path: "/product/update/:id",
+    path: "/product/create",
     element: (
       <AuthGuard auth={authRoles.admin}>
-        <UpserProduct />
+        <AddProduct />
       </AuthGuard>
     ),
   },
+ 
   //ProductDetails link to /product/details/view/:id
   //single variation view
   {
