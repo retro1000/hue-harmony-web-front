@@ -195,7 +195,7 @@ function PosHomeN() {
   return (
     <>
       <NavBar />
-      <Grid container sx={{ height: `calc(100vh - 90px)` }}>
+      <Grid container sx={{ height: `calc(100vh - 90px)`,overflow:'hidden' }}>
         <Grid item xs={2.2} sx={{ backgroundColor: "#ffffff" }}>
           <Box
             sx={{
