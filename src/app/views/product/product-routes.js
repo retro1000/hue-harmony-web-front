@@ -30,9 +30,9 @@ const productRoutes = [
   {
     path: "/product/update",
     element: (
-      // <AuthGuard auth={authRoles.admin}>
+      <AuthGuard auth={authRoles.admin}>
         <UpdateProduct />
-      // </AuthGuard>
+       </AuthGuard>
     ),
   },
   {
