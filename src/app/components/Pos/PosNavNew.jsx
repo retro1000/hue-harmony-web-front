@@ -71,9 +71,7 @@ const NavBar = () => {
         </div>
 
         {/* Right: Order Number */}
-        <Typography variant="subtitle1" sx={{ color: '#000000',fontFamily: `'lato', sans-serif`, fontWeight:700}}>
-          {orderNumber}
-        </Typography>
+       
       </Toolbar>
     </AppBar>
   );
