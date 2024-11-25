@@ -124,7 +124,7 @@ const UpdateProduct = ({ productId }) => {
 
     try {
       console.log("Payload being sent:", JSON.stringify(updatedProduct));
-      await axios.put(`http://localhost:8080/product/${productId}/update`, updatedProduct, {
+      await axios.put(`http://localhost:8080/product/update/${productId}`, updatedProduct, {
         headers: {
           "Content-Type": "application/json",
         },
