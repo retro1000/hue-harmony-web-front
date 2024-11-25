@@ -376,7 +376,7 @@ function PaymentList() {
         reasonCloseOn={true}
         setValues={setNewPayment}
       />
-    </Container>
+    </Container> 
   );
 }
 
