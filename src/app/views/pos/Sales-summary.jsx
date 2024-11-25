@@ -1,4 +1,4 @@
-import React from "react";
+import React,{ useEffect, useState }  from "react";
 import PosNav from "app/components/Pos/PosNav";
 import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
@@ -27,6 +27,37 @@ import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import CreditCardIcon from "@mui/icons-material/CreditCard";
 
 function SalesSummary() {
+
+  const [salesData, setSalesData] = useState({
+    totalSales: "0.00",
+    cashSales: "0.00",
+    cardPayments: "0.00",
+    discounts: "0.00",
+  });
+
+  useEffect(() => {
+    // Fetch data from the backend
+    const fetchData = async () => {
+      try {
+        const response = await fetch("/api/sales-summary"); // Update with your API endpoint
+        const data = await response.json();
+        setSalesData({
+          totalSales: data.totalSales || "0.00",
+          cashSales: data.cashSales || "0.00",
+          cardPayments: data.cardPayments || "0.00",
+          discounts: data.discounts || "0.00",
+        });
+      } catch (error) {
+        console.error("Error fetching sales summary:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+
+
+
   const DataBox = styled(Box)(({ bgcolor }) => ({
     backgroundColor: bgcolor,
     color: "#fff",
@@ -40,28 +71,28 @@ function SalesSummary() {
 
   const data = [
     {
-      value: "0.00",
+      value: salesData.totalSales,
       label: "TOTAL SALES (TODAY)",
       icon: "💰",
       bgcolor: "#28A745",
       gridProps: { xs: 12 },
     },
     {
-      value: "0.00",
+      value: salesData.cashSales,
       label: "CASH SALES (TODAY)",
       icon: "💵",
       bgcolor: "#66BB6A",
       gridProps: { xs: 12, sm: 6 },
     },
     {
-      value: "0.00",
+      value: salesData.cardPayments,
       label: "CARD PAYMENTS (TODAY)",
       icon: "💳",
       bgcolor: "#4CAF50",
       gridProps: { xs: 12, sm: 6 },
     },
     {
-      value: "0.00",
+      value: salesData.discounts,
       label: "LOYALTY/DISCOUNTS (TODAY)",
       icon: "➖",
       bgcolor: "#DC3545",
