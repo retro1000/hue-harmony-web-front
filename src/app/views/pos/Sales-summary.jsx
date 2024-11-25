@@ -1,4 +1,4 @@
-import React,{ useEffect, useState }  from "react";
+import React, { useEffect, useState } from "react";
 import PosNav from "app/components/Pos/PosNav";
 import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
@@ -27,7 +27,6 @@ import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import CreditCardIcon from "@mui/icons-material/CreditCard";
 
 function SalesSummary() {
-
   const [salesData, setSalesData] = useState({
     totalSales: "0.00",
     cashSales: "0.00",
@@ -54,9 +53,6 @@ function SalesSummary() {
 
     fetchData();
   }, []);
-
-
-
 
   const DataBox = styled(Box)(({ bgcolor }) => ({
     backgroundColor: bgcolor,
@@ -103,7 +99,7 @@ function SalesSummary() {
   return (
     <>
       <NavBar />
-      <Grid container sx={{ height: `calc(100vh - 90px)`,overflow: "hidden", }}>
+      <Grid container sx={{ height: `calc(100vh - 90px)`, overflow: "hidden" }}>
         <Grid item xs={2.2} sx={{ backgroundColor: "#ffffff" }}>
           <Box
             sx={{
@@ -294,33 +290,76 @@ function SalesSummary() {
           </Box>
         </Grid>
         <Grid item xs={9.8} sx={{ backgroundColor: "#ffffff" }}>
-        <Box sx={{ p: 12,height:"100%",borderLeft: "4px solid #e0e0e0", }}>
-          <Grid container spacing={2}>
-            {data.map((item, index) => (
-              <Grid item {...item.gridProps} key={index}>
-                <DataBox bgcolor={item.bgcolor}>
-                  <Typography
-                    variant="h2"
-                    component="div"
-                    sx={{ marginRight: 2 }}
+          <Box
+            sx={{
+              p: { xs: 4, sm: 8, md: 12 }, // Responsive padding
+              height: "100%",
+              borderLeft: "4px solid #e0e0e0",
+              bgcolor: "#f9f9f9",
+              display:'flex' // Subtle background color
+            }}
+          >
+            <Grid container spacing={6}>
+              {" "}
+              {/* Increased spacing between items */}
+              {data.map((item, index) => (
+                <Grid
+                  item
+                  xs={12}
+                  sm={6} // Two boxes per row
+                  key={index}
+                  sx={{ display: "flex", justifyContent: "center" }}
+                >
+                  <Box
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                      p: 4, // Increased padding for larger size
+                      borderRadius: 3,
+                      boxShadow: "0 6px 16px rgba(0, 0, 0, 0.1)", // Soft shadow
+                      bgcolor: item.bgcolor || "white", // Dynamic background color
+                      width: "100%",
+                      maxWidth: 600, // Larger maximum width
+                      transition: "transform 0.3s, box-shadow 0.3s",
+                      "&:hover": {
+                        transform: "translateY(-8px)", // Bigger hover effect
+                        boxShadow: "0 8px 24px rgba(0, 0, 0, 0.15)", // Enhanced shadow on hover
+                      },
+                    }}
                   >
-                    {item.icon}
-                  </Typography>
-                  <Box>
-                    <Typography variant="h2" component="div">
-                      {item.value}
+                    <Typography
+                      variant="h2"
+                      component="div"
+                      sx={{
+                        color: "primary.main",
+                        marginRight: 4,
+                        fontSize: { xs: "2.5rem", sm: "3.5rem" }, // Larger font size
+                      }}
+                    >
+                      {item.icon}
                     </Typography>
-                    <Typography variant="h6" component="div">
-                      {item.label}
-                    </Typography>
+                    <Box>
+                      <Typography
+                        variant="h4" // Larger value text
+                        component="div"
+                        sx={{ fontWeight: "bold", mb: 2 }}
+                      >
+                        {item.value}
+                      </Typography>
+                      <Typography
+                        variant="h6"
+                        component="div"
+                        sx={{ color: "text.secondary" }}
+                      >
+                        {item.label}
+                      </Typography>
+                    </Box>
                   </Box>
-                </DataBox>
-              </Grid>
-            ))}
-          </Grid>
-        </Box>
+                </Grid>
+              ))}
+            </Grid>
+          </Box>
         </Grid>
-       
       </Grid>
     </>
   );
