@@ -43,7 +43,7 @@ function SalesSummary() {
       value: "0.00",
       label: "TOTAL SALES (TODAY)",
       icon: "💰",
-      bgcolor: "#4CAF50",
+      bgcolor: "#28A745",
       gridProps: { xs: 12 },
     },
     {
@@ -64,7 +64,7 @@ function SalesSummary() {
       value: "0.00",
       label: "LOYALTY/DISCOUNTS (TODAY)",
       icon: "➖",
-      bgcolor: "#E57373",
+      bgcolor: "#DC3545",
       gridProps: { xs: 12 },
     },
   ];
@@ -72,7 +72,7 @@ function SalesSummary() {
   return (
     <>
       <NavBar />
-      <Grid container sx={{ height: `calc(100vh - 90px)` }}>
+      <Grid container sx={{ height: `calc(100vh - 90px)`,overflow: "hidden", }}>
         <Grid item xs={2.2} sx={{ backgroundColor: "#ffffff" }}>
           <Box
             sx={{
@@ -263,7 +263,7 @@ function SalesSummary() {
           </Box>
         </Grid>
         <Grid item xs={9.8} sx={{ backgroundColor: "#ffffff" }}>
-        <Box sx={{ p: 15,height:"100%" }}>
+        <Box sx={{ p: 12,height:"100%",borderLeft: "4px solid #e0e0e0", }}>
           <Grid container spacing={2}>
             {data.map((item, index) => (
               <Grid item {...item.gridProps} key={index}>
