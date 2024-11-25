@@ -76,6 +76,42 @@ const orderDetails = [
     status: "inactive",
   },
   {
+    id: 6,
+    invoice: "INV-00001006",
+    client: "Client-006",
+    grandTotal: "80000.00",
+    balanceDue: 25000.0,
+    date: "2024/08/04",
+    status: "inactive",
+  },
+  {
+    id: 6,
+    invoice: "INV-00001006",
+    client: "Client-006",
+    grandTotal: "80000.00",
+    balanceDue: 25000.0,
+    date: "2024/08/04",
+    status: "inactive",
+  },
+  {
+    id: 6,
+    invoice: "INV-00001006",
+    client: "Client-006",
+    grandTotal: "80000.00",
+    balanceDue: 25000.0,
+    date: "2024/08/04",
+    status: "inactive",
+  },
+  {
+    id: 6,
+    invoice: "INV-00001006",
+    client: "Client-006",
+    grandTotal: "80000.00",
+    balanceDue: 25000.0,
+    date: "2024/08/04",
+    status: "inactive",
+  },
+  {
     id: 1,
     invoice: "INV-00001001",
     client: "Client-001",
@@ -346,17 +382,12 @@ function OrderList() {
               <div
                 style={{
                   width: "95%",
-                  height: "400px", // Set height for scrolling
-
-                  overflow: "auto",
+                  height: "75vh", // Set height for scrollin
                 }}
               >
                 <DataGrid
                   rows={orderDetails}
                   columns={columns}
-                  pageSize={4}
-                  height={"80%"}
-                  rowsPerPageOptions={[4]}
                 />
               </div>
             </Paper>
