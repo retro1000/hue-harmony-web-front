@@ -1,5 +1,19 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import {
+  Box,
+  Button,
+  Container,
+  Grid,
+  Paper,
+  TextField,
+  Typography,
+  Select,
+  MenuItem,
+  InputAdornment,
+  CircularProgress,
+} from "@mui/material";
+import { styled } from "@mui/system";
 
 const UpdateProduct = ({ productId }) => {
   const [formData, setFormData] = useState({
@@ -136,201 +150,224 @@ const UpdateProduct = ({ productId }) => {
     }
   };
 
+
+    const StyledPaper = styled(Paper)(({ theme }) => ({
+      padding: "2rem",
+      borderRadius: "16px",
+      boxShadow: "0 4px 20px rgba(0, 0, 0, 0.1)",
+      transition: "transform 0.2s ease-in-out",
+      "&:hover": {
+        transform: "translateY(-4px)",
+      },
+    }));
+
+    const StyledTextField = styled(TextField)(({ theme }) => ({
+      "& .MuiOutlinedInput-root": {
+        borderRadius: "8px",
+        transition: "all 0.2s",
+        "&:hover": {
+          transform: "translateY(-2px)",
+        },
+      },
+    }));
+
+    const StyledSelect = styled(Select)(({ theme }) => ({
+      "& .MuiOutlinedInput-root": {
+        borderRadius: "8px",
+        transition: "all 0.2s",
+        "&:hover": {
+          transform: "translateY(-2px)",
+        },
+      },
+    }));
+
   return (
-    <div className="update-product-container">
-      <h2>Update Product</h2>
-      <form onSubmit={handleSubmit}>
-        {/* Form fields similar to AddProduct */}
-        <div>
-          <label>Product Name:</label>
-          <input
-            type="text"
-            name="productName"
-            value={formData.productName}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div>
-          <label>Product Description:</label>
-          <textarea
-            name="productDescription"
-            value={formData.productDescription}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div>
-          <label>Product Price:</label>
-          <input
-            type="number"
-            name="productPrice"
-            value={formData.productPrice}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div>
-          <label>Product Discount:</label>
-          <input
-            type="number"
-            name="productDiscount"
-            value={formData.productDiscount}
-            onChange={handleChange}
-          />
-        </div>
-        <div>
-          <label>Coat:</label>
-          <input
-            type="number"
-            name="coat"
-            value={formData.coat}
-            onChange={handleChange}
-          />
-        </div>
-        <div>
-          <label>Drying Time:</label>
-          <input
-            type="text"
-            name="dryingTime"
-            value={formData.dryingTime}
-            onChange={handleChange}
-          />
-        </div>
-        <div>
-          <label>Coverage:</label>
-          <input
-            type="number"
-            name="coverage"
-            value={formData.coverage}
-            onChange={handleChange}
-          />
-        </div>
-        <div>
-          <label>Quantity:</label>
-          <input
-            type="number"
-            name="productQuantity"
-            value={formData.productQuantity}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div>
-          <label>Online Order Limit:</label>
-          <input
-            type="number"
-            name="onlineLimit"
-            value={formData.onlineLimit}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div>
-          <label>Product Status:</label>
-          <select
-            name="productStatus"
-            value={formData.productStatus}
-            onChange={handleChange}
-            required
-          >
-            <option value="AVAILABLE">Available</option>
-            <option value="UNAVAILABLE">Unavailable</option>
-          </select>
-        </div>
-        <div>
-          <label>Brand:</label>
-          <select
-            name="brand"
-            value={formData.brand}
-            onChange={handleChange}
-            required
-          >
-            {brands.map((brand) => (
-              <option key={brand} value={brand}>
-                {brand}
-              </option>
-            ))}
-          </select>
-        </div>
-        <div>
-          <label>Room Type:</label>
-          <select
-            name="roomType"
-            value={formData.roomType}
-            onChange={handleChange}
-            required
-          >
-            {roomTypes.map((roomType) => (
-              <option key={roomType} value={roomType}>
-                {roomType}
-              </option>
-            ))}
-          </select>
-        </div>
-        <div>
-          <label>Finish:</label>
-          <select
-            name="finish"
-            value={formData.finish}
-            onChange={handleChange}
-            required
-          >
-            {finishes.map((finish) => (
-              <option key={finish} value={finish}>
-                {finish}
-              </option>
-            ))}
-          </select>
-        </div>
-        <div>
-          <label>Product Types(Comma-separated):</label>
-          <input
-            type="text"
-            name="productTypes"
-            value={formData.productTypes.join(",")}
-            onChange={handleChange}
-          />
-        </div>
-        <div>
-          <label>Surfaces (Comma-separated):</label>
-          <input
-            type="text"
-            name="surfaces"
-            value={formData.surfaces.join(",")}
-            onChange={handleChange}
-          />
-        </div>
-        <div>
-          <label>Positions (Comma-separated):</label>
-          <input
-            type="text"
-            name="positions"
-            value={formData.positions.join(",")}
-            onChange={handleChange}
-          />
-        </div>
-        <div>
-          <label>Product Features (Comma-separated):</label>
-          <input
-            type="text"
-            name="productFeatures"
-            value={formData.productFeatures.join(",")}
-            onChange={handleChange}
-          />
-        </div>
-        <div>
-          <label>Product Images:</label>
-          <input
-            type="file"
-            name="productImages"
-            multiple
-            onChange={handleFileChange}
-          />
-        </div>
-        <button type="submit">Update Product</button>
-      </form>
-    </div>
+    <Container maxWidth="md" sx={{ py: 4 }}>
+      <StyledPaper elevation={3}>
+        <Typography variant="h4" gutterBottom align="center" sx={{ mb: 4 }}>
+          Update Product
+        </Typography>
+
+        <form onSubmit={handleSubmit}>
+          <Grid container spacing={3}>
+            <Grid item xs={12}>
+              <StyledTextField
+                fullWidth
+                label="Product Name"
+                name="productName"
+                value={formData.productName}
+                onChange={handleChange}
+                required
+              />
+            </Grid>
+
+            <Grid item xs={12}>
+              <StyledTextField
+                fullWidth
+                multiline
+                rows={4}
+                label="Product Description"
+                name="productDescription"
+                value={formData.productDescription}
+                onChange={handleChange}
+                required
+              />
+            </Grid>
+
+            <Grid item xs={12} md={6}>
+              <StyledTextField
+                fullWidth
+                label="Product Price"
+                name="productPrice"
+                type="number"
+                value={formData.productPrice}
+                onChange={handleChange}
+                InputProps={{
+                  startAdornment: <InputAdornment position="start">$</InputAdornment>,
+                }}
+                required
+              />
+            </Grid>
+
+            <Grid item xs={12} md={6}>
+              <StyledTextField
+                fullWidth
+                label="Product Discount"
+                name="productDiscount"
+                type="number"
+                value={formData.productDiscount}
+                onChange={handleChange}
+              />
+            </Grid>
+
+            <Grid item xs={12} md={6}>
+              <StyledTextField
+                fullWidth
+                label="Coat"
+                name="coat"
+                type="number"
+                value={formData.coat}
+                onChange={handleChange}
+              />
+            </Grid>
+
+            <Grid item xs={12} md={6}>
+              <StyledTextField
+                fullWidth
+                label="Drying Time"
+                name="dryingTime"
+                value={formData.dryingTime}
+                onChange={handleChange}
+              />
+            </Grid>
+
+            <Grid item xs={12} md={6}>
+              <StyledTextField
+                fullWidth
+                label="Coverage"
+                name="coverage"
+                type="number"
+                value={formData.coverage}
+                onChange={handleChange}
+              />
+            </Grid>
+
+            <Grid item xs={12} md={6}>
+              <StyledTextField
+                fullWidth
+                label="Quantity"
+                name="productQuantity"
+                type="number"
+                value={formData.productQuantity}
+                onChange={handleChange}
+                required
+              />
+            </Grid>
+
+            <Grid item xs={12}>
+              <StyledSelect
+                fullWidth
+                value={formData.productStatus}
+                onChange={handleChange}
+                name="productStatus"
+                required
+              >
+                <MenuItem value="AVAILABLE">Available</MenuItem>
+                <MenuItem value="UNAVAILABLE">Unavailable</MenuItem>
+              </StyledSelect>
+            </Grid>
+
+            <Grid item xs={12}>
+              <StyledSelect
+                fullWidth
+                value={formData.brand}
+                onChange={handleChange}
+                name="brand"
+                required
+              >
+                {brands.map((brand) => (
+                  <MenuItem key={brand} value={brand}>
+                    {brand}
+                  </MenuItem>
+                ))}
+              </StyledSelect>
+            </Grid>
+
+            <Grid item xs={12}>
+              <StyledSelect
+                fullWidth
+                value={formData.roomType}
+                onChange={handleChange}
+                name="roomType"
+                required
+              >
+                {roomTypes.map((roomType) => (
+                  <MenuItem key={roomType} value={roomType}>
+                    {roomType}
+                  </MenuItem>
+                ))}
+              </StyledSelect>
+            </Grid>
+
+            <Grid item xs={12}>
+              <StyledSelect
+                fullWidth
+                value={formData.finish}
+                onChange={handleChange}
+                name="finish"
+                required
+              >
+                {finishes.map((finish) => (
+                  <MenuItem key={finish} value={finish}>
+                    {finish}
+                  </MenuItem>
+                ))}
+              </StyledSelect>
+            </Grid>
+
+            <Grid item xs={12}>
+              <Box sx={{ position: "relative" }}>
+                <Button
+                  fullWidth
+                  variant="contained"
+                  type="submit"
+                  sx={{
+                    py: 1.5,
+                    borderRadius: "8px",
+                    backgroundColor: "#1976d2",
+                    "&:hover": {
+                      backgroundColor: "#1565c0",
+                    },
+                  }}
+                >
+                  Update Product
+                </Button>
+              </Box>
+            </Grid>
+          </Grid>
+        </form>
+      </StyledPaper>
+    </Container>
   );
 };
 
