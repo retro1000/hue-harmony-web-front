@@ -9,6 +9,8 @@ const AddProduct = () => {
     productPrice: 0,
     productDiscount: 0,
     coat: 0,
+    productQuantity: 0,
+    onlineLimit: 0,
     dryingTime: "",
     coverage: 0,
     productStatus: "AVAILABLE",
@@ -185,6 +187,26 @@ const AddProduct = () => {
             name="coverage"
             value={formData.coverage}
             onChange={handleChange}
+          />
+        </div>
+        <div>
+          <label>Quantity:</label>
+          <input
+            type="number"
+            name="productQuantity"
+            value={formData.productQuantity}
+            onChange={handleChange}
+            required
+          />
+        </div>
+        <div>
+          <label>Online Order Limit:</label>
+          <input
+            type="number"
+            name="onlineLimit"
+            value={formData.onlineLimit}
+            onChange={handleChange}
+            required
           />
         </div>
         <div>
