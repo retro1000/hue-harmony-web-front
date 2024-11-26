@@ -1,5 +1,6 @@
 import { CssBaseline, ThemeProvider, createTheme } from "@mui/material";
 import useSettings from "app/hooks/useSettings";
+import '@fontsource/poppins'; 
 
 const MatxTheme = ({ children }) => {
   const { settings } = useSettings();
@@ -7,22 +8,12 @@ const MatxTheme = ({ children }) => {
 
   const customTheme = createTheme({
     ...activeTheme,
-    // palette: {
-    //   primary: {
-    //     main: '#1976d2', // Default primary color
-    //   },
-    //   secondary: {
-    //     main: '#dc004e', // Default secondary color
-    //   },
-    //   green: {
-    //     main: '#4caf50',
-    //     contrastText: '#fff',
-    //   },
-    //   red: {
-    //     main: '#f44336',
-    //     contrastText: '#fff',
-    //   },
-    // },
+    typography: {
+      fontFamily: 'Poppins, Arial, sans-serif', // Apply the font globally
+      h1: { fontFamily: 'Poppins, Arial, sans-serif' }, // Customize specific heading styles (optional)
+      h2: { fontFamily: 'Poppins, Arial, sans-serif' },
+      body1: { fontFamily: 'Poppins, Arial, sans-serif' },
+    },
     components: {
       ...activeTheme.components,
       MuiTextField: {
@@ -30,6 +21,16 @@ const MatxTheme = ({ children }) => {
           size: 'small'
         }
       },
+      // MuiSvgIcon: {
+      //   styleOverrides: {
+      //     root: {
+      //       fontSize: '0.15rem', // Adjust this size as needed (e.g., small size)
+      //     },
+      //   },
+      //   defaultProps: {
+      //     fontSize: 'small', // Sets the default fontSize prop to "small"
+      //   },
+      // },
       MuiButton: {
         styleOverrides: {
           root: {
@@ -38,7 +39,7 @@ const MatxTheme = ({ children }) => {
         },
         variants: [
           {
-            props: { variant: 'green' },
+            props: { variant: 'rose' },
             style: {
               backgroundColor: '#4caf50',
               color: '#fff',

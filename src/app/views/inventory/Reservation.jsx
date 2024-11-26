@@ -33,6 +33,7 @@ const ReleaseButton = styled(Button)({
   backgroundColor: "#28a745",
   color: "#fff",
   borderRadius: "20px",
+  minWidth: "85px",
   padding: "8px 16px",
   textTransform: "none",
   "&:hover": {
@@ -65,6 +66,19 @@ function Reservation() {
     "Remarks",
     "Changed By",
   ]);
+
+  const buttonStyle = {
+    borderRadius: "50%",
+    width: "40px",
+    height: "40px",
+    minWidth: "unset",
+    padding: 0,
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    lineHeight: "1",
+    fontSize: "18px",
+  };
 
   return (
     <Container>
@@ -175,50 +189,30 @@ function Reservation() {
                       <CenteredTableCell>{row.grnCode}</CenteredTableCell>
                       <CenteredTableCell>{row.store}</CenteredTableCell>
                       <CenteredTableCell style={{ maxWidth: "20px" }}>
-                        <Stack
-                          direction="row"
-                          spacing={1}
-                          justifyContent="center"
-                        >
+                        <Stack direction="row" spacing={1}>
                           <Button
                             variant="contained"
                             color="warning"
                             size="small"
-                            startIcon={<Edit />}
-                            style={{
-                              borderRadius: "50%",
-                              width: "40px",
-                              height: "40px",
-                              minWidth: "unset",
-                              padding: 0,
-                              display: "flex",
-                              justifyContent: "center",
-                              alignItems: "center",
-                            }}
-                          />
+                            style={buttonStyle}
+                          >
+                            <Edit />
+                          </Button>
                           <Button
                             variant="contained"
                             color="error"
                             size="small"
-                            startIcon={<Delete />}
-                            style={{
-                              borderRadius: "50%",
-                              width: "40px",
-                              height: "40px",
-                              minWidth: "unset",
-                              padding: 0,
-                              display: "flex",
-                              justifyContent: "center",
-                              alignItems: "center",
-                            }}
-                          />
+                            style={buttonStyle}
+                          >
+                            <Delete />
+                          </Button>
+
                           <ReleaseButton variant="contained">
                             Release
                           </ReleaseButton>
                           <Button
                             variant="contained"
                             size="small"
-                            startIcon={<Description />}
                             sx={{
                               backgroundColor: "#03DAC6",
                               color: "#fff",
@@ -234,7 +228,9 @@ function Reservation() {
                                 backgroundColor: "#018786",
                               },
                             }}
-                          />
+                          >
+                            <Description />
+                          </Button>
                         </Stack>
                       </CenteredTableCell>
                     </TableRow>

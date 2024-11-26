@@ -22,6 +22,18 @@ const errorColor = {
   main: '#FF3D57',
 };
 
+const roseColor = {
+  main: '#e91e63', // Custom color main
+  light: '#ff6090', // Custom color light
+  dark: '#b0003a', // Custom color dark
+  contrastText: '#fff', // Custom color text contrast
+};
+
+const whiteColor = {
+  main: '#ffffff',
+  contrastText: textLight.primary,
+};
+
 export const themeColors = {
   blue: {
     palette: {
@@ -34,14 +46,12 @@ export const themeColors = {
         main: '#FFAF38',
         contrastText: textLight.primary,
       },
-      rose: {
-        main: '#ED005D',
-        contrastText: 'white',
-      },
-      rose_secondary: {
-        main: '#000000',
-        contrastText: 'black',
-      },
+      rose: roseColor,
+      // white: whiteColor,
+      // rose_secondary: {
+      //   main: '#000000',
+      //   contrastText: 'black',
+      // },
       error: errorColor,
       background: {
         paper: '#fff',

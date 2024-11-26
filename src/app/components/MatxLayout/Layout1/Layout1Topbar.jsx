@@ -1,5 +1,5 @@
 import { memo } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import {
   Box,
   styled,
@@ -38,6 +38,7 @@ import React from "react";
 
 import WishListIcon from '@mui/icons-material/Favorite'
 import { Typography } from "antd";
+import { color } from "echarts";
 
 // STYLED COMPONENTS
 const StyledIconButton = styled(IconButton)(({ theme }) => ({
@@ -45,9 +46,9 @@ const StyledIconButton = styled(IconButton)(({ theme }) => ({
 }));
 
 const TopbarContainer = styled(Box)(({ theme }) => ({
-  padding: "8px",
-  paddingLeft: 18,
-  paddingRight: 20,
+  padding: "6px",
+  paddingLeft: 12,
+  paddingRight: 12,
   height: "100%",
   display: "flex",
   alignItems: "center",
@@ -109,12 +110,13 @@ const Layout1Topbar = () => {
 
   const TopbarRoot = styled("div")({
     top: 0,
-    padding: !user || role==='USER' ? '0 6em' : '0',
+    padding: !user || role==='USER' ? '0 3%' : '0',
     zIndex: 96,
-    borderBottom: '0.1em solid gray',
+    // borderBottom: '0.1em solid gray',
     height: !user || role==='USER' ? 80 : topBarHeight,
     // boxShadow: themeShadows[8],
-    transition: "all 0.3s ease"
+    transition: "all 0.3s ease",
+    background: 'white'
   });
 
   return (
@@ -122,15 +124,22 @@ const Layout1Topbar = () => {
       <TopbarContainer>
         <Box display="flex">
           {
-            !user || role==='USER' ?
+            !user || role==='USER' ?  
               <React.Fragment>
-                <Avatar />
-                <Box display='flex' alignItems='center' gap='1.5em' marginLeft='2em'>
-                  <a href='/home'><Typography style={{fontWeight: '500', fontSize: '15px', textDecoration: 'underline'}}>Home</Typography></a>
-                  <a href='/colors'><Typography style={{fontWeight: '500', fontSize: '15px'}}>All Colors</Typography></a>
-                  <a href='/product/filter-product'><Typography style={{fontWeight: '500', fontSize: '15px'}}>Products</Typography></a>
-                  <a href='/about'><Typography style={{fontWeight: '500', fontSize: '15px'}}>About</Typography></a>
-                  <a href='/contact'><Typography style={{fontWeight: '500', fontSize: '15px'}}>Contact</Typography></a>
+                <Box
+                  onClick={()=>navigate("/")}
+                  component="img"
+                  src="/assets/images/logos/HH01.png"
+                  alt="Logo"
+                  sx={{ width: '180px', height: 'auto', borderRadius: 1, cursor:"pointer" }}
+                >
+                </Box>
+                <Box display='flex' alignItems='center' gap='1.5em' marginLeft='3em'>
+                  <Typography style={{fontWeight: '500', fontSize: '15px', textDecoration: 'underline',cursor: 'pointer'}} onClick={()=>navigate("/home")}>Home</Typography>
+                  <Typography style={{fontWeight: '500', fontSize: '15px',cursor: 'pointer'}} onClick={()=>navigate("/colors")}>All Colors</Typography>
+                  <Typography style={{fontWeight: '500', fontSize: '15px', cursor: 'pointer'}} onClick={()=>navigate("/product/filter-product")}>Products</Typography>
+                  <Typography style={{fontWeight: '500', fontSize: '15px', cursor: 'pointer'}} onClick={()=>navigate("/about")}>About</Typography>
+                  <Typography style={{fontWeight: '500', fontSize: '15px', cursor: 'pointer'}} onClick={()=>navigate("/contact")}>Contact</Typography>
                 </Box>
               </React.Fragment> :
               <React.Fragment>
@@ -165,14 +174,15 @@ const Layout1Topbar = () => {
                     title='Login'
                     label='Log in'
                     variant="outlined"
-                    color='error'
-                    fun={() => navigate('/session/signin')}
+                    sx={{bordder: '#000000', color: 'black'}}
+                    fun={() => navigate('/login')}
                   ></TButton>
                   <TButton
                     title='Signup'
                     label='Sign up'
                     variant="contained"
-                    color='error'
+                    sx={{background: '#ED005D', color: 'white'}}
+                    fun={() => navigate('/signup')}
                   ></TButton>
                 </Box>
               </React.Fragment> :

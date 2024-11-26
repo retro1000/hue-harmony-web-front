@@ -4,7 +4,7 @@ import Scrollbar from "react-perfect-scrollbar";
 
 import { MatxVerticalNav } from "app/components";
 import useSettings from "app/hooks/useSettings";
-import { navigations } from "app/navigations";
+import { useNavigation  } from "app/navigations";
 
 // STYLED COMPONENTS
 const StyledScrollBar = styled(Scrollbar)(() => ({
@@ -26,6 +26,8 @@ const SideNavMobile = styled("div")(({ theme }) => ({
 }));
 
 export default function Sidenav({ children }) {
+  const navigations = useNavigation()
+
   const { settings, updateSettings } = useSettings();
 
   const updateSidebarMode = (sidebarSettings) => {

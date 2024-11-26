@@ -10,7 +10,7 @@ const supplierRoutes = [
   {
     path: "/supplier/list",
     element: (
-      <AuthGuard auth={authRoles.manager}>
+      <AuthGuard auth={[...authRoles.back_office]}>
         <SupplierList />
       </AuthGuard>
     ),
@@ -18,9 +18,9 @@ const supplierRoutes = [
   {
     path: "/supplier/view/:id",
     element: (
-      // <AuthGuard auth={authRoles.manager}>
-      <SupplierDetail />
-      // </AuthGuard>
+      <AuthGuard auth={[...authRoles.back_office, ...authRoles.inventory_manager]}>
+        <SupplierDetail />
+      </AuthGuard>
     ),
   },
 ];

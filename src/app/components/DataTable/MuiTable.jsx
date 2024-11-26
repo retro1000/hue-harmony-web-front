@@ -1,11 +1,13 @@
 import React from 'react'
 import { useState, useEffect } from 'react';
 
-import { Tooltip, Chip, Grid, Button, IconButton } from '@mui/material'
+import { Chip, Grid } from '@mui/material'
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { TButton, TIconButton } from '..';
 
 import MUIDataTable from 'mui-datatables'
+import { useAxios } from 'app/hooks/useAxios';
+import { useFormatter } from 'app/hooks/useFormatter';
 // import { makeStyles } from '@mui/styles';
 
 // const CustomMuiTable = styled(MUIDataTable)({
@@ -37,10 +39,32 @@ import MUIDataTable from 'mui-datatables'
 
 const theme = () => createTheme({
   components: {
+    MuiPaper: {
+      styleOverrides: {
+        root: {
+          '& .MuiTableFilter-root': {
+            display: 'grid', // Set grid display
+            gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', // Define grid columns
+            gap: '16px', // Set gap between grid items
+            padding: '16px', // Add padding for better spacing
+          },
+        },
+      },
+    },
     MuiGrid: {
       styleOverrides:{
         root: {
-          paddingLeft: '0'
+          paddingLeft: '0',
+          display: 'flex',
+          alignItems: 'flex-start',
+          justifyContent: 'flex-start'
+        },
+        item: {
+          paddingTop: '1px !important',
+        },
+        container: {
+          display: 'flex !important',
+          alignItems: 'flex-start !important',
         }
       }
     },
@@ -142,11 +166,79 @@ const renderUserRoleChip = (role) => {
   return <Chip label={role} sx={{background: color, color: 'white', height: '2em', border: 'none'}} variant="outlined" />;
 };
 
-export default function MuiTable({ search, download, print, dataTableData, columns, filterType, selectableRows, title }){
+export default function MuiTable({ path, serverSide=true, rowsPerPage=true, pagination=true, filter, cols, search, download, print, columns, filterType, selectableRows, title }){
 
   // const classes = useStyles();
 
   const [updatedCols, setUpdatedCols] = useState([])
+
+  const [loading, setLoading] = useState(false)
+
+  const [dataTableData, setDataTableData] = useState([
+    ['D#45er', 'Wall paint', 'Dulux', 'Paint', 'Red', '4 Ltr', '11000.00', '13', 'Available'],
+      ['D#45er', 'Wall paint', 'Dulux', 'Paint', 'Red', '4 Ltr', '11000.00', '13', 'Inactive'],
+      ['D#45er', 'Wall paint', 'Dulux', 'Paint', 'Red', '4 Ltr', '11000.00', '13', 'Pending'],
+      ['D#45er', 'Wall paint', 'Dulux', 'Paint', 'Red', '4 Ltr', '11000.00', '13', 'Blocked'],
+      ['D#45er', 'Wall paint', 'Dulux', 'Paint', 'Red', '4 Ltr', '11000.00', '13', 'Sold'],
+      ['Kaui Ignace', 'Example Inc.', 'Yonkers', 'NY'],
+      ['Esperanza Susanne', 'Example Inc.', 'Hartford', 'CT'],
+      ['Christian Birgitte', 'Example Inc.', 'Tampa', 'FL'],
+      ['Meral Elias', 'Example Inc.', 'Hartford', 'CT'],
+      ['Deep Pau', 'Example Inc.', 'Yonkers', 'NY'],
+      ['Sebastiana Hani', 'Example Inc.', 'Dallas', 'TX'],
+      ['Marciano Oihana', 'Example Inc.', 'Yonkers', 'NY'],
+      ['Brigid Ankur', 'Example Inc.', 'Dallas', 'TX'],
+      ['Anna Siranush', 'Example Inc.', 'Yonkers', 'NY'],
+      ['Avram Sylva', 'Example Inc.', 'Hartford', 'CT'],
+      ['Serafima Babatunde', 'Example Inc.', 'Tampa', 'FL'],
+      ['Gaston Festus', 'Example Inc.', 'Tampa', 'FL'],
+  ])
+
+  const [totalCount, setTotalCount] = useState(dataTableData.length)
+
+  const [tableOptions, setTableOptions] = useState({
+    page: 0,
+    rowsPerPage: 10,
+    search: '',
+    filter: {},
+    sort: {}
+  });
+
+  const { api } = useAxios()
+
+  const { CamelCaseWordFormat2 } = useFormatter() 
+
+  useEffect(() => {
+
+    const fetchData = async () => {
+      const { page, rowsPerPage, search, filter, sort } = tableOptions;
+      setLoading(true)
+      // Example API call
+      await api.get(
+        `/${path}/filter?page=${page}&limit=${rowsPerPage}${search && search!=='' && '&search='+search}${
+        filter && Object.keys(filter).length>0 ? '&'+Object.keys(filter).map(key => key+'='+(Array.isArray(filter[key]) ? filter[key].join(',') : filter[key])).join('&') : ''}${
+        sort && Object.keys(sort).length>0 ? '&sortCol='+CamelCaseWordFormat2(sort.name)+'&sortOrder='+sort.direction.toUpperCase() : ''}`
+      )
+        .then(response => {
+          if(response.status===200){
+            setDataTableData(response.data.content);
+            setTotalCount(response.data.totalElements);
+          }
+          if(response.status===204){
+            setDataTableData([]);
+            setTotalCount(0);   
+          }
+        })
+        .catch(error => {})
+        .finally(() => {setTimeout(() => {setLoading(false)}, 1000)})
+  
+      // Update your data table with the fetched data
+       // For pagination
+    };
+  
+    fetchData();
+  }, [tableOptions]);
+  
 
   useEffect(() => {
     const newCols = columns.filter(val=>val.name!=='Actions'&&val.name!=='Status'&&val.name!=='Role')
@@ -179,7 +271,8 @@ export default function MuiTable({ search, download, print, dataTableData, colum
           customBodyRender: (value, tableMeta) => {
             const rowIndex = tableMeta.rowIndex;
             return <Grid sx={{display: 'flex', gap: '0.3em'}}>{renderButtons(option.options.buttonsConfig, rowIndex)}</Grid>;
-          }
+          },
+          filter: false
         }
       })
     }
@@ -195,7 +288,41 @@ export default function MuiTable({ search, download, print, dataTableData, colum
                     data={dataTableData}
                     columns={updatedCols}
                     options={{
+                      loading,
                       selectableRows: selectableRows,
+                      onTableChange: (action, tableState) => {
+                        switch (action) {
+                          case 'changePage':
+                            setTableOptions((prev) => ({ ...prev, page: tableState.page }));
+                            break;
+                          case 'changeRowsPerPage':
+                            setTableOptions((prev) => ({
+                              ...prev,
+                              rowsPerPage: tableState.rowsPerPage,
+                              page: 0, // Reset to the first page
+                            }));
+                            break;
+                          case 'search':
+                            setTableOptions((prev) => ({ ...prev, search: tableState.searchText || '' }));
+                            break;
+                          case 'filterChange':
+                            const newFilter = {};
+                            tableState.filterList.forEach((value, index) => {
+                              if (value.length > 0) newFilter[CamelCaseWordFormat2(tableState.columns[index].name)] = value;
+                            });
+                            setTableOptions((prev) => ({ ...prev, filter: newFilter }));
+                            break;
+                          case 'sort':
+                            setTableOptions((prev) => ({ ...prev, sort: tableState.sortOrder }))
+                            break;
+                          default:
+                            break;
+                        }
+                      },
+                      page: tableOptions.page,
+                      rowsPerPage: tableOptions.rowsPerPage,
+                      searchText: tableOptions.search,
+                      count: totalCount, // Set the total number of records for pagination
                       // customRowRender: (data, dataIndex, rowIndex) => {
                       //   const rowColor = rowIndex % 2 === 0 ? '#f0f0f0' : '#ffffff'; // Alternating colors
                       //   return (
@@ -215,8 +342,13 @@ export default function MuiTable({ search, download, print, dataTableData, colum
                       print: print,
                       download: download,
                       search: search,
+                      filter: filter,
+                      viewColumns: cols,
                       filterType: filterType,
-                      responsive: 'simple'
+                      pagination: pagination,
+                      // rowsPerPage: rowsPerPage,
+                      responsive: 'simple',
+                      serverSide: serverSide
                     }}
                     // classes={{
                     //   row: classes.tableRow,

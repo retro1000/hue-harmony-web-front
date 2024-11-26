@@ -241,7 +241,7 @@ function StockAdjustment() {
                             variant="contained"
                             color="warning"
                             size="small"
-                            startIcon={<Edit />}
+                            // startIcon={<Edit />}
                             style={{
                               borderRadius: "50%",
                               width: "40px",
@@ -253,12 +253,14 @@ function StockAdjustment() {
                               alignItems: "center",
                               alignContent: "center",
                             }}
-                          ></Button>
+                          >
+                            <Edit />
+                          </Button>
                           <Button
                             variant="contained"
                             color="error"
                             size="small"
-                            startIcon={<Delete />}
+                            // startIcon={<Delete />}
                             style={{
                               borderRadius: "50%",
                               width: "40px",
@@ -268,9 +270,11 @@ function StockAdjustment() {
                               display: "flex",
                               justifyContent: "center",
                               alignItems: "center",
-                              // alignContent: "center",
+                              alignContent: "center",
                             }}
-                          ></Button>
+                          >
+                            <Delete />
+                          </Button>
                         </Stack>
                       </TableCell>
                     </TableRow>

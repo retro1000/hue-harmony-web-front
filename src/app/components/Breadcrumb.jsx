@@ -1,6 +1,7 @@
 import { NavLink } from "react-router-dom";
 import { Breadcrumbs, styled } from "@mui/material";
 import { Home, NavigateNext } from "@mui/icons-material";
+import useAuth from "app/hooks/useAuth";
 
 // STYLED COMPONENTS
 const BreadcrumbRoot = styled("div")({
@@ -38,19 +39,22 @@ const StyledIcon = styled(Home)({
 });
 
 export default function Breadcrumb({ routeSegments }) {
+
+  const user = useAuth()
+  
   return (
     <BreadcrumbRoot>
-      {routeSegments ? (
+      {/* {routeSegments ? (
         <>
           <BreadcrumbName>{routeSegments[routeSegments.length - 1]["name"]}</BreadcrumbName>
           <Separator>|</Separator>
         </>
-      ) : null}
+      ) : null} */}
 
       <Breadcrumbs
         separator={<NavigateNext sx={{ color: "text.hint" }} />}
         sx={{ display: "flex", alignItems: "center", position: "relative" }}>
-        <NavLink to="/">
+        <NavLink to={!user || !user.role || user.role==="GUEST" || user.role==="USER"?"/home":"/dashboard/default"}>
           <StyledIcon color="primary" />
         </NavLink>
 
