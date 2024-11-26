@@ -18,6 +18,7 @@ import InventoryRoutes from "./views/inventory/inventory-routes";
 import PaymentRoutes from "./views/payment/payment-routes";
 import PurchaseOrderRoutes from "./views/purchase_order/purchase-order-routes";
 import PosRoutes from "./views/pos/pos-routes";
+import WishlistPage from "components/WishlistPage";
 import loginRoutes from "./views/sessions/login/login-routes";
 import signupRoutes from "./views/sessions/register/signup-routes";
 import BillingRoutes from "./views/Billing/Billing-routes";
