@@ -47,7 +47,7 @@ const ColorSelector = () => {
       {selectedColor && (
         <Card sx={{ backgroundColor: selectedColor, color: "#fff" }}>
           <CardContent>
-            <Typography variant="body1">Text 1 Text 2</Typography>
+            <Typography variant="body1">#a0bfe0</Typography>
           </CardContent>
           <CardActions>
             <Button size="small" sx={{ color: "#fff" }}>Bot</Button>
