@@ -1,0 +1,141 @@
+import React, { useState } from "react";
+import { Container, Row, Col, Card, Button, Form, Table } from "react-bootstrap";
+import 'bootstrap/dist/css/bootstrap.min.css';
+
+const PaintOrderingPage = () => {
+  const [cart, setCart] = useState([]);
+  const [paintEstimation, setPaintEstimation] = useState(0);
+  const [roomDimensions, setRoomDimensions] = useState({ length: 0, width: 0, height: 0 });
+
+  const products = [
+    { id: 1, name: "Classic White Paint", price: 25, image: "classic-white.jpg" },
+    { id: 2, name: "Ocean Blue Paint", price: 30, image: "ocean-blue.jpg" },
+    { id: 3, name: "Sunset Yellow Paint", price: 28, image: "sunset-yellow.jpg" },
+  ];
+
+  const addToCart = (product) => {
+    setCart([...cart, product]);
+  };
+
+  const handleRoomDimensionChange = (e) => {
+    const { name, value } = e.target;
+    setRoomDimensions({ ...roomDimensions, [name]: value });
+  };
+
+  const calculatePaint = () => {
+    const { length, width, height } = roomDimensions;
+    const area = 2 * height * (length + width);
+    setPaintEstimation(Math.ceil(area / 350)); // Assuming 1 gallon covers 350 sq ft.
+  };
+
+  const renderARVisualization = () => {
+    alert("AR Visualization Coming Soon!"); // Placeholder for AR feature.
+  };
+
+  return (
+    <Container fluid className="p-4">
+      <h1 className="text-center mb-4">HueHarmony Paint Store</h1>
+
+      {/* Product Listing */}
+      <h2>Available Paints</h2>
+      <Row>
+        {products.map((product) => (
+          <Col md={4} className="mb-3" key={product.id}>
+            <Card>
+              <Card.Img variant="top" src={product.image} alt={product.name} />
+              <Card.Body>
+                <Card.Title>{product.name}</Card.Title>
+                <Card.Text>Price: ${product.price}</Card.Text>
+                <Button variant="primary" onClick={() => addToCart(product)}>
+                  Add to Cart
+                </Button>
+              </Card.Body>
+            </Card>
+          </Col>
+        ))}
+      </Row>
+
+      {/* Cart Section */}
+      <h2>Cart</h2>
+      {cart.length > 0 ? (
+        <Table striped bordered hover>
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Product</th>
+              <th>Price</th>
+            </tr>
+          </thead>
+          <tbody>
+            {cart.map((item, index) => (
+              <tr key={index}>
+                <td>{index + 1}</td>
+                <td>{item.name}</td>
+                <td>${item.price}</td>
+              </tr>
+            ))}
+          </tbody>
+        </Table>
+      ) : (
+        <p>Your cart is empty.</p>
+      )}
+
+      {/* Paint Estimation Tool */}
+      <h2>Paint Estimation</h2>
+      <Form>
+        <Row>
+          <Col md={4}>
+            <Form.Group>
+              <Form.Label>Room Length (ft)</Form.Label>
+              <Form.Control
+                type="number"
+                name="length"
+                value={roomDimensions.length}
+                onChange={handleRoomDimensionChange}
+              />
+            </Form.Group>
+          </Col>
+          <Col md={4}>
+            <Form.Group>
+              <Form.Label>Room Width (ft)</Form.Label>
+              <Form.Control
+                type="number"
+                name="width"
+                value={roomDimensions.width}
+                onChange={handleRoomDimensionChange}
+              />
+            </Form.Group>
+          </Col>
+          <Col md={4}>
+            <Form.Group>
+              <Form.Label>Room Height (ft)</Form.Label>
+              <Form.Control
+                type="number"
+                name="height"
+                value={roomDimensions.height}
+                onChange={handleRoomDimensionChange}
+              />
+            </Form.Group>
+          </Col>
+        </Row>
+        <Button className="mt-3" onClick={calculatePaint}>
+          Calculate Paint
+        </Button>
+      </Form>
+      {paintEstimation > 0 && (
+        <p className="mt-3">
+          You need approximately <strong>{paintEstimation}</strong> gallons of paint.
+        </p>
+      )}
+
+      {/* AR Visualization */}
+      <h2>AR Visualization</h2>
+      <Button variant="secondary" onClick={renderARVisualization}>
+        Try AR Visualization
+      </Button>
+    </Container>
+  );
+};
+
+
+export default PaintOrderingPage;
