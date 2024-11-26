@@ -48,24 +48,24 @@ export const AuthProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
   const navigate = useNavigate()
 
-  // const login = async (username, password, rememberMe) => {
-  //   const response = await axios.post(`${backendApi}/login/validate`, { username:username, password:password, rememberMe:rememberMe });
-  //   const { user, token, role } = response.data;
-
-  //   localStorage.setItem('token', token)
-
-  //   dispatch({ type: "LOGIN", payload: { user, role } });
-  // };
-
-  const login = async (email, password, rememberMe) => {
-    const response = await axios.post("/api/auth/login", { email, password });
+  const login = async (username, password, rememberMe) => {
+    const response = await axios.post(`${backendApi}/login/validate`, { username:username, password:password, rememberMe:rememberMe });
     const { user, token, role } = response.data;
 
-    localStorage.setItem("token", token);
+    localStorage.setItem('token', token)
 
-    dispatch({ type: "LOGIN", payload: { user, token, role } });
-    return role;
+    dispatch({ type: "LOGIN", payload: { user, role } });
   };
+
+  // const login = async (email, password, rememberMe) => {
+  //   const response = await axios.post("/api/auth/login", { email, password });
+  //   const { user, token, role } = response.data;
+
+  //   localStorage.setItem("token", token);
+
+  //   dispatch({ type: "LOGIN", payload: { user, token, role } });
+  //   return role;
+  // };
 
   const getRole = async () => {
     return initialState.role;
@@ -91,39 +91,39 @@ export const AuthProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    (async () => {
-      try {
-        const { data } = await axios.get("/api/auth/profile");
-        dispatch({
-          type: "INIT",
-          payload: { isAuthenticated: true, user: data.user, role: "ADMIN" },
-        });
-      } catch (err) {
-        console.error(err);
-        dispatch({
-          type: "INIT",
-          payload: { isAuthenticated: false, user: null, role: "GUEST" },
-        });
-      }
-    })();
     // (async () => {
-    //     const token = localStorage.getItem('token');
-    //     if(token){
-    //       await axios.get(`${backendApi}/login/profile/view`, {headers: {'Authorization':`Bearer ${token}`}})
-    //         .then((res) => {
-    //           if(res.status===200){
-    //             const { user, role } = res.data
-    //             dispatch({ type: "INIT", payload: { isAuthenticated: true, user: user, role: role } });
-    //           }
-    //         })
-    //         .catch((err) => {
-    //           dispatch({ type: "INIT", payload: { isAuthenticated: false, user: null, role: "GUEST" } });
-    //         });
-    //     }else{
-    //       dispatch({ type: "INIT", payload: { isAuthenticated: false, user: null, role: "GUEST" } });
-    //       localStorage.removeItem('token')
-    //     }
+    //   try {
+    //     const { data } = await axios.get("/api/auth/profile");
+    //     dispatch({
+    //       type: "INIT",
+    //       payload: { isAuthenticated: true, user: data.user, role: "ADMIN" },
+    //     });
+    //   } catch (err) {
+    //     console.error(err);
+    //     dispatch({
+    //       type: "INIT",
+    //       payload: { isAuthenticated: false, user: null, role: "GUEST" },
+    //     });
+    //   }
     // })();
+    (async () => {
+        const token = localStorage.getItem('token');
+        if(token){
+          await axios.get(`${backendApi}/login/profile/view`, {headers: {'Authorization':`Bearer ${token}`}})
+            .then((res) => {
+              if(res.status===200){
+                const { user, role } = res.data
+                dispatch({ type: "INIT", payload: { isAuthenticated: true, user: user, role: role } });
+              }
+            })
+            .catch((err) => {
+              dispatch({ type: "INIT", payload: { isAuthenticated: false, user: null, role: "GUEST" } });
+            });
+        }else{
+          dispatch({ type: "INIT", payload: { isAuthenticated: false, user: null, role: "GUEST" } });
+          localStorage.removeItem('token')
+        }
+    })();
   }, []);
 
   // SHOW LOADER
