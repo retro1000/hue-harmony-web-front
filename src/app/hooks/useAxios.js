@@ -7,6 +7,7 @@ const useAxios = () => {
     const api = axios.create({baseURL: backendApi})
     const apiNonAuth = axios.create({baseURL: backendApi})
 
+
     api.interceptors.request.use(
         config => {
           const token = localStorage.getItem('token');
@@ -46,6 +47,7 @@ const useAxios = () => {
       // };
 
       // return {api, login, logout, getCurrentUser}
+      // new
       return {api, apiNonAuth}
 
 }
