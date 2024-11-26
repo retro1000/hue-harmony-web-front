@@ -1,5 +1,6 @@
 import { CssBaseline, ThemeProvider, createTheme } from "@mui/material";
 import useSettings from "app/hooks/useSettings";
+import '@fontsource/poppins'; 
 
 const MatxTheme = ({ children }) => {
   const { settings } = useSettings();
@@ -7,6 +8,12 @@ const MatxTheme = ({ children }) => {
 
   const customTheme = createTheme({
     ...activeTheme,
+    typography: {
+      fontFamily: 'Poppins, Arial, sans-serif', // Apply the font globally
+      h1: { fontFamily: 'Poppins, Arial, sans-serif' }, // Customize specific heading styles (optional)
+      h2: { fontFamily: 'Poppins, Arial, sans-serif' },
+      body1: { fontFamily: 'Poppins, Arial, sans-serif' },
+    },
     components: {
       ...activeTheme.components,
       MuiTextField: {

@@ -12,6 +12,8 @@ import routes from "./routes";
 // FAKE SERVER
 import "../fake-db";
 
+import "@fontsource/roboto";
+
 import {loadStripe} from '@stripe/stripe-js';
 
 const stripePromise = loadStripe('pk_test_51PRMeRH2QbTEXrdk32yYITCtMpdg9kPum4oFoZKnTn2oO9NW7xin0xdB3HHhMpCMqutF2dXWpAHBqjCE9EDjRkH100Qnx435JO');
