@@ -1,6 +1,15 @@
 import React, { useState, useEffect } from "react";
 import NavBar from "app/components/Pos/PosNavNew";
-import { Typography, Grid, Box, IconButton, Button } from "@mui/material"; // Add IconButton here
+import {
+  Typography,
+  Grid,
+  Box,
+  IconButton,
+  Button,
+  TextField,
+  Checkbox,
+  FormControlLabel,
+} from "@mui/material"; // Add IconButton here
 import HomeIcon from "@mui/icons-material/Home";
 import OrderIcon from "@mui/icons-material/Receipt";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -20,11 +29,16 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import CreditCardIcon from "@mui/icons-material/CreditCard";
 import { Save, Payment, Cancel } from "@mui/icons-material";
+import useAuth from "app/hooks/useAuth";
 import {
   Dialog,
   DialogActions,
   DialogContent,
   DialogTitle,
+  MenuItem,
+  Select,
+  InputLabel,
+  FormControl,
 } from "@mui/material";
 import "@fontsource/roboto";
 import "@fontsource/roboto/700.css";
@@ -32,13 +46,108 @@ import { useAxios } from "../../hooks/useAxios";
 import "@fontsource/poppins";
 
 function PosHomeN() {
+  const filterOptions = {
+    Color: [
+      { label: "Red", value: "red" },
+      { label: "Blue", value: "blue" },
+      { label: "Green", value: "green" },
+    ],
+    Finish: [
+      { label: "Matte", value: "matte" },
+      { label: "Glossy", value: "glossy" },
+    ],
+    Surface: [
+      { label: "Wood", value: "wood" },
+      { label: "Metal", value: "metal" },
+    ],
+    Brand: [
+      { label: "Wood", value: "wood" },
+      { label: "Metal", value: "metal" },
+    ],
+    Positon: [
+      { label: "Wood", value: "wood" },
+      { label: "Metal", value: "metal" },
+    ],
+    RoomType: [
+      { label: "Wood", value: "wood" },
+      { label: "Metal", value: "metal" },
+    ],
+    ProductType: [
+      { label: "Wood", value: "wood" },
+      { label: "Metal", value: "metal" },
+    ],
+  };
+
+  // State to hold selected filters by category
+  const [selectedFilters, setSelectedFilters] = useState({
+    Color: [],
+    Finish: [],
+    Surface: [],
+    Brand: [],
+    Positon: [],
+    RoomType:[],
+    ProductType:[]
+
+  });
+
+  // Handle filter selection toggle
+  const handleFilterChange = (category, value) => {
+    setSelectedFilters((prev) => {
+      const updatedCategoryFilters = prev[category].includes(value)
+        ? prev[category].filter((filter) => filter !== value) // Remove filter if already selected
+        : [...prev[category], value]; // Add filter if not selected
+
+      return { ...prev, [category]: updatedCategoryFilters };
+    });
+  };
+
+  // Send filters to backend
+  const sendFilters = () => {
+    console.log("Filters sent to backend:", selectedFilters);
+    // Use fetch/axios to send `selectedFilters` to your API endpoint.
+  };
+
+  const [isClaiming, setIsClaiming] = useState(false);
+
+  const handleLoyaltyClaim = async () => {
+    try {
+      const response = await fetch("", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ phoneNumber }),
+      });
+
+      if (!response.ok) {
+        // Handle success
+        setIsClaiming(true);
+        // alert("Loyalty claimed successfully!");
+      } else {
+        // Handle error
+        alert("Failed to claim loyalty. Please try again.");
+      }
+    } catch (error) {
+      console.error("Error claiming loyalty:", error);
+      alert("An error occurred while claiming loyalty.");
+    } finally {
+      setLoyaltyDialogOpen(false); // Close the dialog
+      setPhoneNumber("");
+      setIsClaiming(true); // Reset phone number
+    }
+  };
+
   const { api, apiNonAuth } = useAxios();
+
+  const { user, role } = useAuth();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         // Send a GET request using the authenticated API
-        const response = await apiNonAuth.get("http://localhost:8080/pos/get-products");
+        const response = await apiNonAuth.get(
+          "http://localhost:8080/pos/get-products"
+        );
         // Store response data
         console.log(response.data);
         const transformedProducts = response.data.map((product) => ({
@@ -50,8 +159,6 @@ function PosHomeN() {
           discount: product.productDiscount,
         }));
         setProducts(transformedProducts);
-
-         
       } catch (err) {
         // Handle error if any
       }
@@ -59,6 +166,9 @@ function PosHomeN() {
 
     fetchData();
   }, [api]);
+
+  const [isLoyaltyDialogOpen, setLoyaltyDialogOpen] = useState(false);
+  const [phoneNumber, setPhoneNumber] = useState("");
 
   const [products, setProducts] = useState([]);
 
@@ -195,7 +305,7 @@ function PosHomeN() {
   return (
     <>
       <NavBar />
-      <Grid container sx={{ height: `calc(100vh - 90px)`,overflow:'hidden' }}>
+      <Grid container sx={{ height: `calc(100vh - 90px)`, overflow: "hidden" }}>
         <Grid item xs={2.2} sx={{ backgroundColor: "#ffffff" }}>
           <Box
             sx={{
@@ -236,7 +346,8 @@ function PosHomeN() {
                 font: "Roboto, Arial, sans-serif",
               }}
             >
-              John Doe
+              {/* {user.UserName} */}
+              Jhon doe
             </Typography>
             <Box
               sx={{
@@ -399,17 +510,18 @@ function PosHomeN() {
           >
             <Box
               sx={{
-                padding: "14px",
+                padding: "5px", // Reduced padding to fit everything
                 borderRadius: "8px",
                 backgroundColor: "#fff",
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "center",
                 justifyContent: "center",
-                boxShadow: 2, // Adding elevation for shadow effect
-                marginTop: "20px",
-                width: "90%",
-                // Optional: Adjust top margin if needed
+                boxShadow: 2,
+                marginTop: "16px",
+                height: "20vh", // Set height to 20vh
+                overflowY: "hidden",
+                width:'95%' // No overflow, everything should fit
               }}
             >
               <Typography
@@ -417,10 +529,11 @@ function PosHomeN() {
                 sx={{
                   fontWeight: "bold",
                   color: "#333",
-                  marginBottom: "16px",
+                  marginBottom: "4px", // Reduced margin
+                  fontSize: "0.9rem", // Reduced font size
                 }}
               >
-                Choose Category
+                Choose Filters
               </Typography>
 
               <Box
@@ -428,94 +541,85 @@ function PosHomeN() {
                   display: "flex",
                   flexDirection: "row",
                   alignItems: "center",
-                  justifyContent: "center",
-                  gap: "7px",
+                  justifyContent: "space-between",
                   width: "100%",
+                  gap: "8px", // Reduced gap between dropdowns
+                  flexWrap: "wrap",
                 }}
               >
-                <Button
-                  variant="contained"
-                  color="primary"
-                  sx={{
-                    width: "100%",
-                    borderRadius: "20px",
-                    boxShadow: 3, // Simulating elevation (elevation 3)
-                    "&:hover": {
-                      boxShadow: 6, // Elevation on hover
-                    },
-                    border: "none", // Remove the blue border
-                  }}
-                  startIcon={<PaintIcon />}
-                >
-                  Paint
-                </Button>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  sx={{
-                    width: "100%",
-                    borderRadius: "20px",
-                    boxShadow: 3,
-                    "&:hover": {
-                      boxShadow: 6,
-                    },
-                    border: "none",
-                  }}
-                  startIcon={<ColorLensIcon />}
-                >
-                  Color
-                </Button>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  sx={{
-                    width: "100%",
-                    borderRadius: "20px",
-                    boxShadow: 3,
-                    "&:hover": {
-                      boxShadow: 6,
-                    },
-                    border: "none",
-                  }}
-                  startIcon={<PaletteIcon />}
-                >
-                  Palette
-                </Button>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  sx={{
-                    width: "100%",
-                    borderRadius: "20px",
-                    boxShadow: 3,
-                    "&:hover": {
-                      boxShadow: 6,
-                    },
-                    border: "none",
-                  }}
-                  startIcon={<FilterHdrIcon />}
-                >
-                  Finish
-                </Button>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  sx={{
-                    width: "100%",
-                    borderRadius: "20px",
-                    boxShadow: 3,
-                    "&:hover": {
-                      boxShadow: 6,
-                    },
-                    border: "none",
-                  }}
-                  startIcon={<FormatPaintIcon />}
-                >
-                  Wall
-                </Button>
+                {Object.keys(filterOptions).map((category) => (
+                  <FormControl key={category} sx={{ minWidth: 80 }}>
+                    <InputLabel sx={{ fontSize: "0.8rem" }}>
+                      {category}
+                    </InputLabel>{" "}
+                    {/* Reduced label font size */}
+                    <Select
+                      multiple
+                      value={selectedFilters[category]}
+                      onChange={(event) => {
+                        setSelectedFilters((prev) => ({
+                          ...prev,
+                          [category]: event.target.value,
+                        }));
+                      }}
+                      renderValue={(selected) => selected.join(", ")}
+                      sx={{
+                        fontSize: "0.75rem", // Reduced font size of the select
+                        height: "2.7rem", // Reduced height of select box
+                      }}
+                      MenuProps={{
+                        PaperProps: {
+                          style: {
+                            maxHeight: "20vh", // Limit the dropdown height
+                          },
+                        },
+                      }}
+                    >
+                      {filterOptions[category].map((filter) => (
+                        <MenuItem
+                          key={filter.value}
+                          value={filter.value}
+                          sx={{ fontSize: "0.1rem" }}
+                        >
+                          <FormControlLabel
+                            control={
+                              <Checkbox
+                                size="small" // Make checkbox smaller
+                                checked={selectedFilters[category]?.includes(
+                                  filter.value
+                                )}
+                                onChange={() =>
+                                  handleFilterChange(category, filter.value)
+                                }
+                              />
+                            }
+                            label={filter.label}
+                            sx={{
+                              fontSize: "0.1rem", // Reduced font size of checkbox label inside dropdown
+                              marginRight: "3px", // Reduced margin for tighter spacing
+                              marginLeft: "0px", // Reduced left margin
+                            }}
+                          />
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                ))}
               </Box>
-            </Box>
 
+              <Button
+                variant="contained"
+                color="primary"
+                sx={{
+                  marginTop: "4px", // Reduced margin top
+                  fontSize: "0.8rem", // Reduced font size of button
+                  height: "2rem", // Reduced button height
+                }}
+                onClick={sendFilters}
+              >
+                Apply Filters
+              </Button>
+            </Box>
             <Box
               sx={{
                 display: "grid",
@@ -760,11 +864,64 @@ function PosHomeN() {
                     Rs {calculateSubtotal()}
                   </Typography>
                 </Grid>
+                <Box
+                  sx={{
+                    width: "100%",
+                    display: "flex",
+                    alignItems: "flex-end",
+                    justifyContent: "flex-end",
+                  }}
+                >
+                  <Box sx={{ textAlign: "center", marginTop: 2 }}>
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      onClick={() => setLoyaltyDialogOpen(true)}
+                      disabled={isClaiming}
+                    >
+                      Claim Loyalty
+                    </Button>
+                  </Box>
+                </Box>
+
+                <Dialog
+                  open={isLoyaltyDialogOpen}
+                  onClose={() => setLoyaltyDialogOpen(false)}
+                >
+                  <DialogTitle>Claim Loyalty</DialogTitle>
+                  <DialogContent>
+                    <TextField
+                      label="Phone Number"
+                      type="tel"
+                      fullWidth
+                      value={phoneNumber}
+                      onChange={(e) => setPhoneNumber(e.target.value)}
+                      sx={{ marginTop: 2 }}
+                    />
+                  </DialogContent>
+                  <DialogActions>
+                    <Button
+                      onClick={() => setLoyaltyDialogOpen(false)}
+                      color="secondary"
+                      disabled={isClaiming}
+                    >
+                      Cancel
+                    </Button>
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      onClick={handleLoyaltyClaim}
+                    >
+                      Claim
+                    </Button>
+                  </DialogActions>
+                </Dialog>
+
                 <Typography
                   sx={{ borderBottom: "2px dashed #ddd", marginTop: 0.5 }}
                 />
               </Box>
-              <Box sx={{ height: "10vh", marginTop: "3px" }}>
+              <Box sx={{ height: "8.5vh", marginTop: "3px" }}>
                 <Box
                   display={"flex"}
                   flexDirection={"row"}
