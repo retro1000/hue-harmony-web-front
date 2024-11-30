@@ -25,3 +25,4 @@ yarn-debug.log*
 yarn-error.log*
 src/app/views/product/Addproduct.txt
 src/app/views/product/StoreProduct.txt
+.vscode/launch.json
