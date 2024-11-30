@@ -206,7 +206,7 @@ export default function MuiTable({ path, serverSide=true, rowsPerPage=true, pagi
 
   const { api } = useAxios()
 
-  const { CamelCaseWordFormat2 } = useFormatter() 
+  const { CamelCaseWordFormat2 } = useFormatter()
 
   useEffect(() => {
 
