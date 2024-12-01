@@ -15,49 +15,46 @@ import StripePaymentForm from "../../../components/StripeGatewayForm/StripePayme
 
 const cards = [
     {
-        brand: "Visa",
+        cardType: "VISA",
         brandImage: "https://via.placeholder.com/100x40?text=Visa",
-        last4: "1060",
-        expiry: "01/25",
-        name: "Kumar",
+        offset: "1060",
+        token: "",
+        expiryDate: "01/25",
+        chooseType: 'DEFAULT'
     },
     {
-        brand: "MasterCard",
+        cardType: "MASTER",
         brandImage: "https://via.placeholder.com/100x40?text=MasterCard",
-        last4: "5678",
-        expiry: "12/24",
-        name: "Kumar",
+        offset: "5678",
+        token: "",
+        expiryDate: "12/24"
     },
     {
-        brand: "Discover",
+        cardType: "MASTER",
         brandImage: "https://via.placeholder.com/100x40?text=Discover",
-        last4: "1234",
-        expiry: "11/23",
-        name: "Kumar",
+        offset: "1234",
+        token: "",
+        expiryDate: "11/23",
     },
 ];
 
 export default function PaymentMethod({
                                           paymentType,
                                           setPaymentType,
-                                          onAddNewCard,
                                           savedCards = cards,
                                           setCardDetails
                                       }) {
-    const [selectedCard, setSelectedCard] = useState("");
-
-    const handleNewCard = () => {
-        if (paymentType === "card") {
-            onAddNewCard(true);
-        }
-    };
+    const [selectedCard, setSelectedCard] = useState(savedCards?.find(card => card.isDefault));
 
     const handlePaymentChange = (event) => {
         setPaymentType(event.target.value);
+        setCardDetails({})
     };
 
     const handleCardSelection = (event) => {
+        const {offset, expiryDate, cardType, token, chooseType} = event.target.value;
         setSelectedCard(event.target.value);
+        setCardDetails({cardType: cardType, token: token, offset: offset, expiryDate: expiryDate, chooseType: chooseType || 'MENTIONED'})
     };
 
     const isCreditDebitSelected = paymentType === "card";
@@ -91,7 +88,7 @@ export default function PaymentMethod({
                             {savedCards.map((card, index) => (
                                 <Grid item key={index} xs={12} sm={6} md={4} lg={3}>
                                     <FormControlLabel
-                                        value={card.last4}
+                                        value={card}
                                         control={<Radio size="small" />}
                                         label={
                                             <Card
@@ -100,7 +97,7 @@ export default function PaymentMethod({
                                                     width: "max-content", // Make card fill the grid item width
                                                     maxWidth: "max-content", // Cap width to avoid overflow
                                                     border:
-                                                        selectedCard === card.last4
+                                                        selectedCard === card.offset
                                                             ? "2px solid #3f51b5"
                                                             : "1px solid #ccc",
                                                     borderRadius: "8px",
@@ -120,20 +117,17 @@ export default function PaymentMethod({
                                                         component="img"
                                                         height="40"
                                                         image={card.brandImage}
-                                                        alt={card.brand}
+                                                        alt={card.cardType}
                                                         style={{
                                                             objectFit: "contain",
                                                             marginBottom: "8px",
                                                         }}
                                                     />
                                                     <Typography variant="body1" noWrap>
-                                                        •••• •••• •••• {card.last4}
+                                                        •••• •••• •••• {card.offset}
                                                     </Typography>
                                                     <Typography variant="body2" color="textSecondary">
-                                                        Expiry date: {card.expiry}
-                                                    </Typography>
-                                                    <Typography variant="body2" color="textSecondary">
-                                                        Name: {card.name}
+                                                        Expiry date: {card.expiryDate}
                                                     </Typography>
                                                 </CardContent>
                                             </Card>

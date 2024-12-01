@@ -1,26 +1,13 @@
 
 import React, {useState} from "react";
 import {
-    Typography, Grid, Divider, Button, TextField, FormControlLabel,
-    Radio,
-    RadioGroup, Dialog,
+    Typography, Grid, Divider, Button, TextField
 } from "@mui/material";
 import PaymentMethod from "../../views/Billing/component/PaymentMethod";
-import DialogTitle from "@mui/material/DialogTitle";
-import DialogContent from "@mui/material/DialogContent";
-import StripePaymentForm from "../StripeGatewayForm/StripePaymentForm";
 
-const OrderSummary = () => {
+const OrderSummary = ({cardDetails, products, setProducts, placeOrder, setCardDetails}) => {
 
     const [paymentType, setPaymentType] = useState('CARD')
-
-    const [addNewCard, setAddNewCard] = useState(false)
-
-    const [cardDetails, setCardDetails] = useState({})
-
-    const onAddNewCardClose = () => {
-        setAddNewCard(false)
-    }
 
   return (
       <>
@@ -83,31 +70,16 @@ const OrderSummary = () => {
             </Typography>
           </Grid>
           <Grid item xs={12}>
-              <PaymentMethod paymentType={paymentType} setPaymentType={setPaymentType} onAddNewCard={(val) => setAddNewCard((val))} setCardDetails={setCardDetails}/>
-            {/*<RadioGroup defaultValue="card" name="payment-method">*/}
-            {/*  <FormControlLabel value="card" control={<Radio />} label="Credit or Debit Card" />*/}
-            {/*  <FormControlLabel*/}
-            {/*    value="cod"*/}
-            {/*    control={<Radio />}*/}
-            {/*    label="Cash on delivery"*/}
-            {/*  />*/}
-            {/*</RadioGroup>*/}
+              <PaymentMethod paymentType={paymentType} setPaymentType={setPaymentType} setCardDetails={setCardDetails}/>
+
           </Grid>
 
           <Grid item xs={12}>
-            <Button variant="contained" sx={{ backgroundColor: '#ED005D', color: '#fff' }} fullWidth>
+            <Button variant="contained" sx={{ backgroundColor: '#ED005D', color: '#fff' }} fullWidth onClick={placeOrder}>
               Place Order
             </Button>
           </Grid>
         </Grid>
-
-          <Dialog open={addNewCard} onClose={onAddNewCardClose} aria-labelledby="form-dialog-title">
-              <DialogTitle id="form-dialog-title">Add new card</DialogTitle>
-
-              <DialogContent>
-                  <StripePaymentForm setCardDetails={setCardDetails}/>
-              </DialogContent>
-          </Dialog>
       </>
   );
 };

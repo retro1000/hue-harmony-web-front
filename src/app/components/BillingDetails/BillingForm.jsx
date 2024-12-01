@@ -6,7 +6,7 @@ import {
   Grid,
 } from "@mui/material";
 
-const BillingForm = () => {
+const BillingForm = ({orderDetails, setOrderDetails}) => {
   return (
     <Grid container spacing={3}>
       <Grid item xs={12} sm={6}>
