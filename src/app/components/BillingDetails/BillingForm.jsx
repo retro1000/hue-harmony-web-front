@@ -35,6 +35,32 @@ const BillingForm = () => {
           }}
         />
       </Grid>
+      <Grid item xs={12} sm={6}>
+        <TextField
+            required
+            id="lastName"
+            name="lastName"
+            label="Last Name"
+            fullWidth
+            autoComplete="given-name"
+            variant="outlined"
+            sx={{
+                    "& .MuiOutlinedInput-root": {
+                        borderRadius: 2,
+                        backgroundColor: '#f5f5f5',
+                        "& fieldset": {
+                            borderColor: 'transparent',
+                        },
+                        "&:hover fieldset": {
+                            borderColor: 'transparent',
+                        },
+                        "&.Mui-focused fieldset": {
+                            borderColor: 'transparent',
+                        },
+                    },
+            }}
+        />
+      </Grid>
       <Grid item xs={12}>
         <TextField
           id="company"
