@@ -8,8 +8,6 @@ const BillingDetails = Loadable(lazy(() => import('../Billing/BillingDetails')))
 const Cart = Loadable(lazy(() => import('../Billing/cart/CartPage')))
 
 
-
-
 const BillingRoutes = [
   // {
   //   path: "/cart",
@@ -20,7 +18,7 @@ const BillingRoutes = [
   // },
 
   {
-    path: "/BillingDetails",
+    path: "/billing-details",
     element: 
     <BillingDetails />
 

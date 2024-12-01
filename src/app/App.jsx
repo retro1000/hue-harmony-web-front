@@ -9,28 +9,31 @@ import { AuthProvider } from "./contexts/JWTAuthContext";
 import SettingsProvider from "./contexts/SettingsContext";
 // ROUTES
 import routes from "./routes";
+
 // FAKE SERVER
 import "../fake-db";
 
 import "@fontsource/roboto";
 
 import {loadStripe} from '@stripe/stripe-js';
+import {Elements} from "@stripe/react-stripe-js";
+import {STRIPE_PUBLISHABLE_KEY} from "../config";
 
-const stripePromise = loadStripe('pk_test_51PRMeRH2QbTEXrdk32yYITCtMpdg9kPum4oFoZKnTn2oO9NW7xin0xdB3HHhMpCMqutF2dXWpAHBqjCE9EDjRkH100Qnx435JO');
-
-export {stripePromise};
+const stripePromise = loadStripe(STRIPE_PUBLISHABLE_KEY);
 
 export default function App() {
   const content = useRoutes(routes);
 
   return (
     <SettingsProvider>
-      <AuthProvider>
-        <MatxTheme>
-          <CssBaseline />
-          {content}
-        </MatxTheme>
-      </AuthProvider>
+        <AuthProvider>
+            <MatxTheme>
+                <Elements stripe={stripePromise}>
+                    <CssBaseline />
+                   {content}
+                </Elements>
+            </MatxTheme>
+        </AuthProvider>
     </SettingsProvider>
   );
 }

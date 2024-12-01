@@ -1,10 +1,9 @@
 import React, { useState } from "react";
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements, CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
-import { STRIPE_PUBLISHABLE_KEY } from "../../../config";
 
 // Load Stripe instance
-const stripePromise = loadStripe(STRIPE_PUBLISHABLE_KEY);
+
 
 const StripePaymentForm = ({ setCardDetails }) => {
     const stripe = useStripe();
@@ -35,10 +34,10 @@ const StripePaymentForm = ({ setCardDetails }) => {
         }
 
         setCardDetails({
-            cardBrand: paymentMethod.card.brand,
-            last4: paymentMethod.card.last4,
-            expMonth: paymentMethod.card.exp_month,
-            expYear: paymentMethod.card.exp_year,
+            cardType: paymentMethod.card.brand.toUpperCase(),
+            offset: paymentMethod.card.last4,
+            expireDate: `${paymentMethod.card.exp_month}/${paymentMethod.card.exp_year}`,
+            token: paymentMethod.id
         })
 
         // Send paymentMethod.id to your backend to save or process the payment
@@ -49,15 +48,34 @@ const StripePaymentForm = ({ setCardDetails }) => {
     };
 
     return (
-        <Elements stripe={stripePromise}>
+        // <Elements stripe={stripePromise}>
             <form onSubmit={handleSubmit}>
-                <CardElement options={{ hidePostalCode: true }} />
+                <CardElement
+                    options={{
+                        hidePostalCode: true,
+                        style: {
+                            base: {
+                                color: "#32325d",
+                                fontFamily: "Arial, sans-serif",
+                                fontSmoothing: "antialiased",
+                                fontSize: "16px",
+                                "::placeholder": {
+                                    color: "#aab7c4",
+                                },
+                            },
+                            invalid: {
+                                color: "#fa755a",
+                                iconColor: "#fa755a",
+                            },
+                        },
+                    }}
+                />
                 {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
                 <button type="submit" disabled={!stripe || isLoading}>
                     {isLoading ? "Saving..." : "Add Card"}
                 </button>
             </form>
-        </Elements>
+        // </Elements>
     );
 };
 
