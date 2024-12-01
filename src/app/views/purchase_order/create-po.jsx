@@ -12,6 +12,7 @@ import {
   TableRow,
   Button,
   IconButton,
+  Paper,
 } from "@mui/material";
 import { AddCircle, RemoveCircle, Delete } from "@mui/icons-material";
 
@@ -94,105 +95,127 @@ function PurchaseOrderForm() {
   };
 
   return (
-    <Container>
-      <Typography variant="h4" gutterBottom>
-        Purchase Order Form
-      </Typography>
-      <Box mb={3}>
-        <TextField
-          fullWidth
-          label="Description"
-          variant="outlined"
-          margin="normal"
-        />
-        <Autocomplete
-          options={suppliers}
-          getOptionLabel={(option) =>
-            `${option.id} - ${option.name} (${option.products.length} products)`
-          }
-          onChange={(e, value) => setSelectedSupplier(value)}
-          renderInput={(params) => (
-            <TextField {...params} label="Supplier" variant="outlined" />
-          )}
-        />
-      </Box>
+    <Container maxWidth="md" sx={{ mt: 5, mb: 5 }}>
+      <Paper elevation={3} sx={{ p: 4 }}>
+        <Typography
+          variant="h4"
+          gutterBottom
+          sx={{ fontWeight: "bold", color: "#1976d2" }}
+        >
+          Purchase Order Form
+        </Typography>
+        <Box mb={3}>
+          <TextField
+            fullWidth
+            label="Description"
+            variant="outlined"
+            margin="normal"
+            sx={{ mb: 2 }}
+          />
+          <Autocomplete
+            options={suppliers}
+            getOptionLabel={(option) =>
+              `${option.id} - ${option.name} (${option.products.length} products)`
+            }
+            onChange={(e, value) => setSelectedSupplier(value)}
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                label="Select Supplier"
+                variant="outlined"
+              />
+            )}
+            sx={{ mb: 3 }}
+          />
+        </Box>
 
-      {selectedSupplier && (
-        <Box>
-          <Typography variant="h6">
-            Products from {selectedSupplier.name}
-          </Typography>
-          <Box display="flex" gap={2} flexWrap="wrap" mt={2}>
-            {selectedSupplier.products.map((product) => (
-              <Box
-                key={product.id}
-                p={2}
-                border="1px solid #ccc"
-                borderRadius="4px"
-                textAlign="center"
-                width="150px"
-              >
-                <img src={product.image} alt={product.name} width="50" />
-                <Typography variant="body1">{product.name}</Typography>
-                <Button
-                  size="small"
-                  variant="contained"
-                  onClick={() => handleAddProduct(product)}
+        {selectedSupplier && (
+          <Box>
+            <Typography variant="h6" gutterBottom sx={{ color: "#1976d2" }}>
+              Products from {selectedSupplier.name}
+            </Typography>
+            <Box display="flex" gap={2} flexWrap="wrap" mt={2}>
+              {selectedSupplier.products.map((product) => (
+                <Box
+                  key={product.id}
+                  p={2}
+                  border="1px solid #ccc"
+                  borderRadius="4px"
+                  textAlign="center"
+                  width="150px"
+                  sx={{
+                    boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+                    transition: "transform 0.2s",
+                    "&:hover": { transform: "scale(1.05)" },
+                  }}
                 >
-                  Add
-                </Button>
-              </Box>
-            ))}
-          </Box>
-        </Box>
-      )}
-
-      {cart.length > 0 && (
-        <Box mt={4}>
-          <Typography variant="h6">Selected Products</Typography>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell>Image</TableCell>
-                <TableCell>Name</TableCell>
-                <TableCell>Quantity</TableCell>
-                <TableCell>Actions</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {cart.map((item) => (
-                <TableRow key={item.id}>
-                  <TableCell>
-                    <img src={item.image} alt={item.name} width="50" />
-                  </TableCell>
-                  <TableCell>{item.name}</TableCell>
-                  <TableCell>{item.quantity}</TableCell>
-                  <TableCell>
-                    <IconButton
-                      color="primary"
-                      onClick={() => handleIncreaseQuantity(item.id)}
-                    >
-                      <AddCircle />
-                    </IconButton>
-                    <IconButton
-                      color="secondary"
-                      onClick={() => handleDecreaseQuantity(item.id)}
-                    >
-                      <RemoveCircle />
-                    </IconButton>
-                    <IconButton
-                      color="error"
-                      onClick={() => handleRemoveProduct(item.id)}
-                    >
-                      <Delete />
-                    </IconButton>
-                  </TableCell>
-                </TableRow>
+                  <img src={product.image} alt={product.name} width="50" />
+                  <Typography variant="body1" sx={{ fontWeight: "bold" }}>
+                    {product.name}
+                  </Typography>
+                  <Button
+                    size="small"
+                    variant="contained"
+                    onClick={() => handleAddProduct(product)}
+                    sx={{ mt: 1 }}
+                  >
+                    Add
+                  </Button>
+                </Box>
               ))}
-            </TableBody>
-          </Table>
-        </Box>
-      )}
+            </Box>
+          </Box>
+        )}
+
+        {cart.length > 0 && (
+          <Box mt={4}>
+            <Typography variant="h6" gutterBottom sx={{ color: "#1976d2" }}>
+              Selected Products
+            </Typography>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell sx={{ fontWeight: "bold" }}>Image</TableCell>
+                  <TableCell sx={{ fontWeight: "bold" }}>Name</TableCell>
+                  <TableCell sx={{ fontWeight: "bold" }}>Quantity</TableCell>
+                  <TableCell sx={{ fontWeight: "bold" }}>Actions</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {cart.map((item) => (
+                  <TableRow key={item.id}>
+                    <TableCell>
+                      <img src={item.image} alt={item.name} width="50" />
+                    </TableCell>
+                    <TableCell>{item.name}</TableCell>
+                    <TableCell>{item.quantity}</TableCell>
+                    <TableCell>
+                      <IconButton
+                        color="primary"
+                        onClick={() => handleIncreaseQuantity(item.id)}
+                      >
+                        <AddCircle />
+                      </IconButton>
+                      <IconButton
+                        color="secondary"
+                        onClick={() => handleDecreaseQuantity(item.id)}
+                      >
+                        <RemoveCircle />
+                      </IconButton>
+                      <IconButton
+                        color="error"
+                        onClick={() => handleRemoveProduct(item.id)}
+                      >
+                        <Delete />
+                      </IconButton>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </Box>
+        )}
+      </Paper>
     </Container>
   );
 }
