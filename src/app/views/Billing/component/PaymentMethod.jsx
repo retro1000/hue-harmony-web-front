@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import {
     RadioGroup,
     FormControlLabel,
@@ -12,11 +12,12 @@ import {
     Box,
 } from "@mui/material";
 import StripePaymentForm from "../../../components/StripeGatewayForm/StripePaymentForm";
+import {useAxios} from "../../../hooks/useAxios";
+import useAuth from "../../../hooks/useAuth";
 
 const cards = [
     {
         cardType: "VISA",
-        brandImage: "https://via.placeholder.com/100x40?text=Visa",
         offset: "1060",
         token: "",
         expiryDate: "01/25",
@@ -24,31 +25,75 @@ const cards = [
     },
     {
         cardType: "MASTER",
-        brandImage: "https://via.placeholder.com/100x40?text=MasterCard",
         offset: "5678",
         token: "",
         expiryDate: "12/24"
     },
     {
         cardType: "MASTER",
-        brandImage: "https://via.placeholder.com/100x40?text=Discover",
         offset: "1234",
         token: "",
         expiryDate: "11/23",
     },
 ];
 
+const getBrandImage = (brand) => {
+    switch (brand) {
+        case 'VISA':
+            return 'https://via.placeholder.com/100x40?text=Visa';
+        case 'MASTER':
+            return 'https://via.placeholder.com/100x40?text=MasterCard';
+        default:
+            return '';
+    }
+}
+
 export default function PaymentMethod({
                                           paymentType,
                                           setPaymentType,
-                                          savedCards = cards,
-                                          setCardDetails
+                                          setCardDetails,
+                                          setOrderDetails,
+                                          orderDetails
                                       }) {
-    const [selectedCard, setSelectedCard] = useState(savedCards?.find(card => card.isDefault));
+    const { api } = useAxios()
+
+    const { user, role } = useAuth()
+
+    const [savedCards, setSavedCards] = useState(cards)
+
+    const [selectedCard, setSelectedCard] = useState(savedCards?.find(card => card.chooseType === 'DEFAULT'));
+
+    useEffect(() => {
+        role === 'USER' && user && user?.userId > 0 &&
+            api.get(`users/linked-cards/${user.userId}`)
+               .then(res => {
+                   if(res.status === 200 && res.data && res.data.length > 0) setSavedCards(res.data)
+                })
+               .catch(err => {
+                    console.error(err)
+                })
+               .finally(() => {setSavedCards(cards)})
+    }, []);
 
     const handlePaymentChange = (event) => {
-        setPaymentType(event.target.value);
-        setCardDetails({})
+        const selectedPaymentType = event.target.value;
+        setPaymentType(selectedPaymentType);
+
+        // Update order details
+        setOrderDetails({
+            ...orderDetails,
+            paymentMethod: selectedPaymentType.toUpperCase(),
+        });
+
+        // Determine default card details if paymentType is 'card'
+        if (selectedPaymentType === 'card') {
+            const defaultCard =
+                savedCards?.find((card) => card.chooseType === 'DEFAULT') ||
+                (savedCards.length > 0 ? savedCards[0] : {});
+            setCardDetails(defaultCard);
+        } else {
+            setCardDetails({});
+        }
     };
 
     const handleCardSelection = (event) => {
@@ -56,6 +101,10 @@ export default function PaymentMethod({
         setSelectedCard(event.target.value);
         setCardDetails({cardType: cardType, token: token, offset: offset, expiryDate: expiryDate, chooseType: chooseType || 'MENTIONED'})
     };
+
+    const addSavedCards = (card) => {
+        setSavedCards([...savedCards, card])
+    }
 
     const isCreditDebitSelected = paymentType === "card";
 
@@ -73,6 +122,7 @@ export default function PaymentMethod({
             {isCreditDebitSelected && (
                 <Box mt={2} ml={3} width={"100%"}>
                     <Box
+                        mb={2}
                         sx={{
                             display: "flex",
                             gap: 2,
@@ -83,13 +133,13 @@ export default function PaymentMethod({
                             value={selectedCard}
                             onChange={handleCardSelection}
                             name="saved-cards"
-                            sx={{ width: "100%" }}
+                            sx={{width: "100%"}}
                         >
                             {savedCards.map((card, index) => (
                                 <Grid item key={index} xs={12} sm={6} md={4} lg={3}>
                                     <FormControlLabel
                                         value={card}
-                                        control={<Radio size="small" />}
+                                        control={<Radio size="small"/>}
                                         label={
                                             <Card
                                                 variant="outlined"
@@ -116,7 +166,7 @@ export default function PaymentMethod({
                                                     <CardMedia
                                                         component="img"
                                                         height="40"
-                                                        image={card.brandImage}
+                                                        image={getBrandImage(card.cardType)}
                                                         alt={card.cardType}
                                                         style={{
                                                             objectFit: "contain",
@@ -137,8 +187,8 @@ export default function PaymentMethod({
                             ))}
                         </RadioGroup>
                     </Box>
-                    <br></br>
-                    <StripePaymentForm setCardDetails={setCardDetails}/>
+                    <StripePaymentForm setCardDetails={setCardDetails} setSelectedCard={setSelectedCard}
+                                       addSavedCards={addSavedCards}/>
                     {/*<Button*/}
                     {/*    variant="outlined"*/}
                     {/*    size="small"*/}
@@ -149,7 +199,7 @@ export default function PaymentMethod({
                     {/*    Add New Card*/}
                     {/*</Button>*/}
                 </Box>
-            )}
+                )}
             {/*<br />*/}
             <FormControlLabel value="cod" control={<Radio size="small"/>} label="Cash on Delivery" />
         </RadioGroup>
