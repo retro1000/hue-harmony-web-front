@@ -48,24 +48,24 @@ export const AuthProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
   const navigate = useNavigate()
 
-  const login = async (username, password, rememberMe) => {
-    const response = await axios.post(`${backendApi}/login/validate`, { username:username, password:password, rememberMe:rememberMe });
-    const { user, token, role } = response.data;
-
-    localStorage.setItem('token', token)
-
-    dispatch({ type: "LOGIN", payload: { user, role } });
-  };
-
-  // const login = async (email, password, rememberMe) => {
-  //   const response = await axios.post("/api/auth/login", { email, password });
+  // const login = async (username, password, rememberMe) => {
+  //   const response = await axios.post(`${backendApi}/login/validate`, { username:username, password:password, rememberMe:rememberMe });
   //   const { user, token, role } = response.data;
-
-  //   localStorage.setItem("token", token);
-
-  //   dispatch({ type: "LOGIN", payload: { user, token, role } });
-  //   return role;
+  //
+  //   localStorage.setItem('token', token)
+  //
+  //   dispatch({ type: "LOGIN", payload: { user, role } });
   // };
+
+  const login = async (email, password, rememberMe) => {
+    const response = await axios.post("/api/auth/login", { email, password });
+    const { user, role } = response.data;
+    const token = "token"
+    localStorage.setItem("token", token);
+
+    dispatch({ type: "LOGIN", payload: { user, token, role } });
+    return role;
+  };
 
   const getRole = async () => {
     return initialState.role;
