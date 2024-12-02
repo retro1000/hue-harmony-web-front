@@ -300,7 +300,7 @@ const AddProduct = () => {
         <FormControl fullWidth margin="normal">
           <InputLabel>Finish</InputLabel>
           <Select
-            name="roomType"
+            name="finish"
             value={formData.finish}
             onChange={handleChange}
           >
