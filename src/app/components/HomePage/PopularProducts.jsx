@@ -1,55 +1,60 @@
-import React from "react";
-import {
-  Grid,
-  Typography,
-  Box,
-} from "@mui/material";
+import React, { useState, useEffect } from "react";
+import { Grid, Typography, Box } from "@mui/material";
+import { ProductCard, TButton } from "..";
 
-import { ProductCard, TButton } from ".."; 
+const ProductGrid = ({ Title }) => {
+  const [mapData, setMapData] = useState([]);
+  const [products, setProducts] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [httpError, setHttpError] = useState(null);
 
-const products = [
-  {
-    id: 1,
-    name: "Dummy Paint",
-    price: "$360",
-    rating: 4.5,
-    reviews: 95,
-    image: "assets/images/paint1.jpg",
-    wishList: true
-  },
-  {
-    id: 2,
-    name: "Dummy Paint",
-    price: "$700",
-    rating: 4.8,
-    reviews: 325,
-    image: "assets/images/paint1.jpg",
-    wishList: false
+  useEffect(() => {
+    const fetchProducts = async () => {
+      const baseUrl = `http://localhost:8080/product/read/popular`;
 
-  },
-  {
-    id: 3,
-    name: "Dummy Paint",
-    price: "$500",
-    rating: 4.2,
-    reviews: 145,
-    image: "assets/images/paint1.jpg",
-    wishList: true
+      try {
+        const response = await fetch(baseUrl);
 
-  },
-  {
-    id: 4,
-    name: "dummy paint",
-    price: "$1160",
-    rating: 4.0,
-    reviews: 35,
-    image: "assets/images/paint1.jpg",
-    wishList: false
+        if (!response.ok) {
+          throw new Error("Something went wrong in products fetching");
+        }
 
-  },
-];
+        const responseJson = await response.json();
+        const responseData = responseJson.content;
 
-const ProductGrid = ({Title}) => {
+        console.log("responseData", responseData);
+
+        setMapData(responseData);
+        setIsLoading(false);
+      } catch (error) {
+        setIsLoading(false);
+        setHttpError(error.message);
+      }
+    };
+
+    fetchProducts();
+  }, []);
+
+  // Transform `mapData` to `products` when `mapData` changes
+  useEffect(() => {
+    const data = mapData.map((product) => ({
+      name: product.productName, // Product Name
+      productDescription: product.productDescription, // Product Description
+      productPrice: product.productPrice, // Product Price
+      productDiscount: product.productDiscount, // Product Discount
+      image: product.imageIds[1], // Product Image
+    }));
+    setProducts(data);
+  }, [mapData]);
+
+  if (httpError) {
+    return (
+      <div className="container m-5">
+        <p>{httpError}</p>
+      </div>
+    );
+  }
+
   return (
     <>
       <Typography variant="h4">{Title}</Typography>
@@ -58,39 +63,33 @@ const ProductGrid = ({Title}) => {
         spacing={2.5}
         sx={{ width: "100%", maxWidth: 1500, mt: 3 }}
       >
-        {
-          products.map((product) => (
-            <Grid item xs={12} sm={6} md={3} key={product.id}>
-              <ProductCard
-                product={product}
-              ></ProductCard>
-            </Grid>
-          ))
-        }
+        {products.map((product, index) => (
+          <Grid item xs={12} sm={6} md={3} key={index}>
+            <ProductCard product={product} />
+          </Grid>
+        ))}
       </Grid>
-      <br></br>
-      <Box 
-          width={"100%"} 
-          sx={{display: "flex", justifyContent: "center", alignItems: "center"}}
-        >
-          <TButton 
-            label={"View All Products"} 
-            variant="contained" 
-            title={"View All Products"}
-            sx={{
-              width: "180px", 
-              height: "50px",
-              backgroundColor: '#ED005D',
-              color: '#fff',
-              textTransform: "none",
-              '&:hover': {
-                backgroundColor: '#d10454',
-              }
-            }}
-          >
-          </TButton>
-</Box>
-
+      <br />
+      <Box
+        width={"100%"}
+        sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}
+      >
+        <TButton
+          label={"View All Products"}
+          variant="contained"
+          title={"View All Products"}
+          sx={{
+            width: "180px",
+            height: "50px",
+            backgroundColor: "#ED005D",
+            color: "#fff",
+            textTransform: "none",
+            "&:hover": {
+              backgroundColor: "#d10454",
+            },
+          }}
+        />
+      </Box>
     </>
   );
 };
