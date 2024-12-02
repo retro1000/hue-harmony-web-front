@@ -10,13 +10,15 @@ import {
   InputLabel,
   Select,
   Container,
+  Grid,
 } from "@mui/material";
 import AddBookRequest from "../../models/AddProductRequest";
-import MultipleSelectChip from "./Components/MultipleSelection";
+import MultiSelectChip from "./Components/MultipleSelection";
 
 const AddProduct = () => {
   const [formData, setFormData] = useState({
     productName: "",
+    productSize: 0,
     productDescription: "",
     productPrice: 0,
     productDiscount: 0,
@@ -27,7 +29,7 @@ const AddProduct = () => {
     coverage: 0,
     productStatus: "AVAILABLE",
     brand: "DULUX",
-    roomType: "BEDROOM",
+    roomType: [],
     finish: "GLOSS",
     productTypes: [],
     surfaces: [],
@@ -36,6 +38,25 @@ const AddProduct = () => {
   });
 
   const [selectedImages, setSelectedImages] = useState([]);
+
+  const positions = ["EXTERIOR",
+    "INTERIOR",
+    "EXTERIOR_AND_INTERIOR"];
+
+  const surfaces = ["BLUESTONE",
+    "DOORS",
+    "FURNITURE",
+    "METAL",
+    "WALLS",
+    "WINDOWS",
+    "WOOD"];
+
+  const productType = ["CLEANER",
+    "PAINT",
+    "UNDERCOAT",
+    "VARNISH",
+    "WATERPROOFING"]
+  
 
   const brands = ["DULUX", "ROBBIALAC", "NIPPON_PAINT", "ASIAN_PAINTS", "KANSAI_PAINT"];
   const finishes = [
@@ -58,12 +79,22 @@ const AddProduct = () => {
     "DINING_ROOM",
   ];
 
+  const handleFieldChange = (field) => (event) => {
+    const {
+      target: { value },
+    } = event;
+    setFormData((prevData) => ({
+      ...prevData,
+      [field]: typeof value === "string" ? value.split(",") : value,
+    }));
+  };
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({
       ...formData,
       [name]:
-        name === "surfaces" || name === "positions" || name === "productFeatures" || name === "productTypes"
+        name === "productFeatures" 
           ? value.split(",").map((item) => item.trim())
           : value,
     });
@@ -97,6 +128,7 @@ const AddProduct = () => {
       formData.productDescription,
       formData.productDiscount,
       formData.productName,
+      formData.productSize,
       formData.productPrice,
       formData.productStatus,
       formData.productTypes,
@@ -150,6 +182,16 @@ const AddProduct = () => {
         />
         <TextField
           fullWidth
+          label="Product Size (L)"
+          name="productSize"
+          type="number"
+          value={formData.productSize}
+          onChange={handleChange}
+          required
+          margin="normal"
+        />
+        <TextField
+          fullWidth
           label="Product Description"
           name="productDescription"
           value={formData.productDescription}
@@ -159,6 +201,8 @@ const AddProduct = () => {
           rows={4}
           margin="normal"
         />
+        <Grid container spacing={2}>
+        <Grid item xs={12} sm={6}>
         <TextField
           fullWidth
           label="Product Price"
@@ -169,6 +213,8 @@ const AddProduct = () => {
           required
           margin="normal"
         />
+        </Grid>
+        <Grid item xs={12} sm={6}>
         <TextField
           fullWidth
           label="Product Discount"
@@ -178,6 +224,8 @@ const AddProduct = () => {
           onChange={handleChange}
           margin="normal"
         />
+        </Grid>
+        </Grid>
         <TextField
           fullWidth
           label="Coat"
@@ -250,23 +298,9 @@ const AddProduct = () => {
           </Select>
         </FormControl>
         <FormControl fullWidth margin="normal">
-          <InputLabel>Room Type</InputLabel>
-          <Select
-            name="roomType"
-            value={formData.roomType}
-            onChange={handleChange}
-          >
-            {roomTypes.map((roomType) => (
-              <MenuItem key={roomType} value={roomType}>
-                {roomType}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-        <FormControl fullWidth margin="normal">
           <InputLabel>Finish</InputLabel>
           <Select
-            name="finish"
+            name="roomType"
             value={formData.finish}
             onChange={handleChange}
           >
@@ -277,30 +311,35 @@ const AddProduct = () => {
             ))}
           </Select>
         </FormControl>
-        <TextField
-          fullWidth
-          label="Product Types (Comma-separated)"
-          name="productTypes"
-          value={formData.productTypes.join(",")}
-          onChange={handleChange}
-          margin="normal"
+
+          <MultiSelectChip
+          label="Room Type"
+          value={formData.roomType}
+          onChange={handleFieldChange("roomType")}
+          options={roomTypes}
         />
-        <TextField
-          fullWidth
-          label="Surfaces (Comma-separated)"
-          name="surfaces"
-          value={formData.surfaces.join(",")}
-          onChange={handleChange}
-          margin="normal"
+
+        <MultiSelectChip
+          label="Product Types"
+          value={formData.productTypes}
+          onChange={handleFieldChange("productTypes")}
+          options={productType}
         />
-        <TextField
-          fullWidth
-          label="Positions (Comma-separated)"
-          name="positions"
-          value={formData.positions.join(",")}
-          onChange={handleChange}
-          margin="normal"
+
+        <MultiSelectChip
+          label="Surfaces"
+          value={formData.surfaces}
+          onChange={handleFieldChange("surfaces")}
+          options={surfaces}
         />
+
+        <MultiSelectChip
+          label="Positions"
+          value={formData.positions}
+          onChange={handleFieldChange("positions")}
+          options={positions}
+        />
+
         <TextField
           fullWidth
           label="Product Features (Comma-separated)"
@@ -326,7 +365,6 @@ const AddProduct = () => {
         <Button type="submit" variant="contained" color="primary" fullWidth>
           Add Product
         </Button>
-        <MultipleSelectChip/>
       </Box>
     </Container>
   );
