@@ -54,7 +54,7 @@ const StripePaymentForm = ({ setCardDetails, setSelectedCard, addSavedCards }) =
 
         setIsLoading(false);
 
-        triggerNotifications([{message: "Card saved successfully.", variants: "success"}])
+        triggerNotifications([{text: "Card saved successfully.", variant: "success"}])
     };
 
     return (
