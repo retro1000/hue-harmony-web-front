@@ -90,6 +90,7 @@ const BillingDetails = () => {
 
 
   const isPlaceOrderValid = () => {
+    console.log(isObjectFull(orderDetails, ['orderNote']), (orderDetails.paymentMethod === 'COD' || isObjectFull(cardDetails)), products.length > 0)
     return (
         isObjectFull(orderDetails, ['orderNote']) &&
         (orderDetails.paymentMethod === 'COD' || isObjectFull(cardDetails)) &&
