@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import PosNav from "app/components/Pos/PosNav";
+import ProfileSidebar from "app/components/Pos/PosSide";
 import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
 import { Card, CardContent, Grid, Typography } from "@mui/material";
@@ -25,6 +26,8 @@ import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
 import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import CreditCardIcon from "@mui/icons-material/CreditCard";
+import { useAxios } from "../../hooks/useAxios";
+import useAuth from "app/hooks/useAuth";
 
 function SalesSummary() {
   const [salesData, setSalesData] = useState({
@@ -33,18 +36,22 @@ function SalesSummary() {
     cardPayments: "0.00",
     discounts: "0.00",
   });
+  const { api, apiNonAuth } = useAxios();
+
+  const { user, role } = useAuth();
 
   useEffect(() => {
-    // Fetch data from the backend
     const fetchData = async () => {
       try {
-        const response = await fetch("/api/sales-summary"); // Update with your API endpoint
-        const data = await response.json();
+        const response = await apiNonAuth.get(
+          "http://localhost:8080/pos/get-sales-summary/123"
+        );
+        const data = response.data;
         setSalesData({
-          totalSales: data.totalSales || "0.00",
-          cashSales: data.cashSales || "0.00",
-          cardPayments: data.cardPayments || "0.00",
-          discounts: data.discounts || "0.00",
+          totalSales: data.total+".0" || "0.00",
+          cashSales: data.cash+".0"  || "0.00",
+          cardPayments: data.debit+".0" || "0.00",
+          discounts: data.discount || "0.00",
         });
       } catch (error) {
         console.error("Error fetching sales summary:", error);
@@ -70,28 +77,28 @@ function SalesSummary() {
       value: salesData.totalSales,
       label: "TOTAL SALES (TODAY)",
       icon: "💰",
-      bgcolor: "#28A745",
+      bgcolor: "#D1E7DD",
       gridProps: { xs: 12 },
     },
     {
       value: salesData.cashSales,
       label: "CASH SALES (TODAY)",
       icon: "💵",
-      bgcolor: "#66BB6A",
+      bgcolor: "#FFC0CB",
       gridProps: { xs: 12, sm: 6 },
     },
     {
       value: salesData.cardPayments,
       label: "CARD PAYMENTS (TODAY)",
       icon: "💳",
-      bgcolor: "#4CAF50",
+      bgcolor: "#FBEAEF",
       gridProps: { xs: 12, sm: 6 },
     },
     {
       value: salesData.discounts,
       label: "LOYALTY/DISCOUNTS (TODAY)",
       icon: "➖",
-      bgcolor: "#DC3545",
+      bgcolor: "#D6E9F3",
       gridProps: { xs: 12 },
     },
   ];
@@ -99,206 +106,36 @@ function SalesSummary() {
   return (
     <>
       <NavBar />
-      <Grid container sx={{ height: `calc(100vh - 90px)`, overflow: "hidden" }}>
-        <Grid item xs={2.2} sx={{ backgroundColor: "#ffffff" }}>
-          <Box
-            sx={{
-              height: "100%",
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              justifyContent: "start",
-              backgroundColor: "#fff",
-              padding: "20px",
-            }}
-          >
-            <Box
-              sx={{
-                position: "relative",
-                width: "150px",
-                height: "150px",
-                overflow: "hidden",
-                borderRadius: "5%",
-                backgroundColor: "transparent", // Corrected backgroundColor
-              }}
-            >
-              <img
-                src="assets/images/cashier5.png"
-                alt="Employee"
-                style={{
-                  width: "100%",
-                  height: "100%",
-                  backgroundColor: "transparent",
-                }}
-              />
-            </Box>
-            <Typography
-              variant="h7"
-              sx={{
-                fontWeight: "bold",
-                color: "#000",
-                font: "Roboto, Arial, sans-serif",
-              }}
-            >
-              John Doe
-            </Typography>
-            <Box
-              sx={{
-                display: "grid",
-                gridTemplateColumns: "repeat(2, 1fr)",
-                gap: "16px",
-                marginTop: "20px",
-                justifyItems: "center",
-                width: "70%",
-              }}
-            >
-              <IconButton
-                sx={{
-                  width: "50px",
-                  height: "50px",
-                  backgroundColor: "#FF1493",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  borderRadius: "10px",
-                  boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.2)",
-                }}
-              >
-                <HomeIcon sx={{ color: "#fff" }} />
-              </IconButton>
-              <IconButton
-                sx={{
-                  width: "50px",
-                  height: "50px",
-                  backgroundColor: "#FF1493",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  borderRadius: "10px",
-                  boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.2)",
-                }}
-              >
-                <OrderIcon sx={{ color: "#fff" }} />
-              </IconButton>
-              <IconButton
-                sx={{
-                  width: "50px",
-                  height: "50px",
-                  backgroundColor: "#FF1493",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  borderRadius: "10px",
-                  boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.2)",
-                }}
-              >
-                <MenuIcon sx={{ color: "#fff" }} />
-              </IconButton>
-              <IconButton
-                sx={{
-                  width: "50px",
-                  height: "50px",
-                  backgroundColor: "#FF1493",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  borderRadius: "10px",
-                  boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.2)",
-                }}
-              >
-                <WalletIcon sx={{ color: "#fff" }} />
-              </IconButton>
-              <IconButton
-                sx={{
-                  width: "50px",
-                  height: "50px",
-                  backgroundColor: "#FF1493",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  borderRadius: "10px",
-                  boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.2)",
-                }}
-              >
-                <HistoryIcon sx={{ color: "#fff" }} />
-              </IconButton>
-              <IconButton
-                sx={{
-                  width: "50px",
-                  height: "50px",
-                  backgroundColor: "#FF1493",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  borderRadius: "10px",
-                  boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.2)",
-                }}
-              >
-                <PersonIcon sx={{ color: "#fff" }} />
-              </IconButton>
-            </Box>
-            <Box
-              sx={{
-                position: "relative",
-                top: "6px",
-                width: "210px",
-                height: "190px",
-                overflow: "hidden",
-                borderRadius: "5%",
-                zIndex: 5,
-                backgroundColor: "trasparent", // Ensure container has no background color
-              }}
-            >
-              <img
-                src="assets/images/cashier4.png"
-                alt="Employee"
-                style={{
-                  width: "100%",
-                  height: "100%",
-                  backgroundColor: "transparent",
-                  boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.5)",
-                }} // Ensure image has no background color
-              />
-            </Box>
-
-            <Box sx={{ marginTop: "17px" }}>
-              <IconButton
-                sx={{
-                  backgroundColor: "#D32F2F",
-                  color: "#fff",
-                  width: "150px", // Long button width
-                  padding: "10px 20px",
-                  borderRadius: "10px",
-                  boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.2)",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-                onClick={() => console.log("Logout clicked")}
-              >
-                <ExitToAppIcon sx={{ marginRight: "10px" }} />
-                <Typography
-                  sx={{
-                    fontWeight: "bold",
-                    fontFamily: "Poppins, Arial, sans-serif !important",
-                  }}
-                >
-                  Logout
-                </Typography>
-              </IconButton>
-            </Box>
-          </Box>
-        </Grid>
-        <Grid item xs={9.8} sx={{ backgroundColor: "#ffffff" }}>
+      <Grid container sx={{ height: `calc(100vh - 80px)`, overflow: "hidden" }}>
+       <ProfileSidebar/>
+        <Grid item xs={9.8} sx={{ backgroundColor: "#ffffff",height:"100%" }}>
           <Box
             sx={{
               p: { xs: 4, sm: 8, md: 12 }, // Responsive padding
               height: "100%",
               borderLeft: "4px solid #e0e0e0",
               bgcolor: "#f9f9f9",
-              display:'flex' // Subtle background color
+              display:'flex',
+              justifyContent:'flex-start',
+              flexDirection:'column' // Subtle background color
             }}
           >
+            <Box>
+            {/* Title Section */}
+            <Typography 
+              variant="h3" 
+              sx={{
+                fontWeight: 'bold', 
+                mb: 4, 
+                color: 'primary.main', 
+                textAlign: 'center',
+                width: '100%',
+              }}
+            >
+              Sales Summary
+            </Typography>
+            </Box>
+
             <Grid container spacing={6}>
               {" "}
               {/* Increased spacing between items */}

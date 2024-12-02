@@ -45,17 +45,17 @@ const PosRoutes = [
   {
     path: "/pos/order-list",
     element: (
-      <AuthGuard auth={[...authRoles.cachier]}>
+      // <AuthGuard auth={[...authRoles.cachier]}>
         <PosOrderList />
-      </AuthGuard>
+      // </AuthGuard>
     ),
   },
   {
     path: "/pos/sales-summary",
     element: (
-      <AuthGuard auth={[...authRoles.cachier]}>
+      // <AuthGuard auth={[...authRoles.cachier]}>
         <SalesSummary />
-      </AuthGuard>
+      // </AuthGuard>
     ),
   },
 ];

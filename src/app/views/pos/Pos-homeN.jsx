@@ -1,6 +1,16 @@
 import React, { useState, useEffect } from "react";
 import NavBar from "app/components/Pos/PosNavNew";
-import { Typography, Grid, Box, IconButton, Button } from "@mui/material"; // Add IconButton here
+import ProfileSidebar from "app/components/Pos/PosSide";
+import {
+  Typography,
+  Grid,
+  Box,
+  IconButton,
+  Button,
+  TextField,
+  Checkbox,
+  FormControlLabel,
+} from "@mui/material"; // Add IconButton here
 import HomeIcon from "@mui/icons-material/Home";
 import OrderIcon from "@mui/icons-material/Receipt";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -20,11 +30,16 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import CreditCardIcon from "@mui/icons-material/CreditCard";
 import { Save, Payment, Cancel } from "@mui/icons-material";
+import useAuth from "app/hooks/useAuth";
 import {
   Dialog,
   DialogActions,
   DialogContent,
   DialogTitle,
+  MenuItem,
+  Select,
+  InputLabel,
+  FormControl,
 } from "@mui/material";
 import "@fontsource/roboto";
 import "@fontsource/roboto/700.css";
@@ -32,33 +47,138 @@ import { useAxios } from "../../hooks/useAxios";
 import "@fontsource/poppins";
 
 function PosHomeN() {
+  const [loyaltyDiscount, setLoyaltyDiscount] = React.useState(0); 
+  const [loyaltyStatus, setLoyaltyStatus] = useState(null);
+  const [loyaltyNumber, setLoyaltyNumber] = useState("");
+  const [isLoyaltyClaimed,setIsLoyaltyClaimed] = useState(false);
+
+  const filterOptions = {
+    Color: [
+      { label: "Red", value: "red" },
+      { label: "Blue", value: "blue" },
+      { label: "Green", value: "green" },
+    ],
+    Finish: [
+      { label: "Matte", value: "matte" },
+      { label: "Glossy", value: "glossy" },
+    ],
+    Surface: [
+      { label: "Wood", value: "wood" },
+      { label: "Metal", value: "metal" },
+    ],
+    Brand: [
+      { label: "Wood", value: "wood" },
+      { label: "Metal", value: "metal" },
+    ],
+    Positon: [
+      { label: "Wood", value: "wood" },
+      { label: "Metal", value: "metal" },
+    ],
+    RoomType: [
+      { label: "Wood", value: "wood" },
+      { label: "Metal", value: "metal" },
+    ],
+    ProductType: [
+      { label: "Wood", value: "wood" },
+      { label: "Metal", value: "metal" },
+    ],
+  };
+
+  // State to hold selected filters by category
+  const [selectedFilters, setSelectedFilters] = useState({
+    Color: [],
+    Finish: [],
+    Surface: [],
+    Brand: [],
+    Positon: [],
+    RoomType: [],
+    ProductType: [],
+  });
+
+  // Handle filter selection toggle
+  const handleFilterChange = (category, value) => {
+    setSelectedFilters((prev) => {
+      const updatedCategoryFilters = prev[category].includes(value)
+        ? prev[category].filter((filter) => filter !== value) // Remove filter if already selected
+        : [...prev[category], value]; // Add filter if not selected
+
+      return { ...prev, [category]: updatedCategoryFilters };
+    });
+  };
+
+  // Send filters to backend
+  const sendFilters = () => {
+    console.log("Filters sent to backend:", selectedFilters);
+    // Use fetch/axios to send `selectedFilters` to your API endpoint.
+  };
+
+  const [isClaiming, setIsClaiming] = useState(false);
+
+  const handleLoyaltyClaim = async () => {
+    try {
+      // Make API call
+      const response = await apiNonAuth.get(
+        `http://localhost:8080/loyalty/${phoneNumber}`
+      );
+
+      if (response.status === 200) {
+        const loyaltyData = response.data; // Assuming the API returns loyalty info
+
+        if (loyaltyData.discount) {
+          setLoyaltyStatus({
+            isDiscount: true,
+            discountAmount: loyaltyData.discountAmount,
+          });
+          //alert("Loyalty claimed successfully!");
+        } else {
+          setLoyaltyStatus({
+            isDiscount: false,
+            discountAmount: null,
+          });
+          //alert("No loyalty discount available.");
+        }
+      } else {
+        // Handle non-200 status codes
+        // alert("Failed to claim loyalty. Please try again.");
+      }
+    } catch (error) {
+      console.error("Error claiming loyalty:", error);
+      alert("An error occurred while claiming loyalty.");
+    } finally {
+      // Reset claim button state
+      setIsClaiming(false);
+    }
+  };
+
   const { api, apiNonAuth } = useAxios();
+
+  const { user, role } = useAuth();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Send a GET request using the authenticated API
-        const response = await apiNonAuth.get("http://localhost:8080/pos/get-products");
-        // Store response data
-        console.log(response.data);
+        const response = await apiNonAuth.get(
+          "http://localhost:8080/pos/get-products"
+        );
         const transformedProducts = response.data.map((product) => ({
           id: product.productId,
           name: product.productName,
           price: product.productPrice,
-          availability: "In Stock", // Default value since the response doesn't include it
-          imageUrl: "/assets/images/default.png", // Default image URL
+          availability: "In Stock",
+          imageUrl: "/assets/images/default.png",
           discount: product.productDiscount,
         }));
         setProducts(transformedProducts);
-
-         
       } catch (err) {
-        // Handle error if any
+        console.error(err);
       }
     };
 
     fetchData();
-  }, [api]);
+  }, []); // Empty dependency array to run only once
+
+  const [isLoyaltyDialogOpen, setLoyaltyDialogOpen] = useState(false);
+  const [phoneNumber, setPhoneNumber] = useState("");
 
   const [products, setProducts] = useState([]);
 
@@ -122,28 +242,55 @@ function PosHomeN() {
   const [openDialog, setOpenDialog] = useState(false);
 
   const handleConfirmCheckout = async () => {
+    console.log("hre");
+
+    // Prepare the order items array
+    const orderItems = cartItems.map((item) => ({
+      productId: item.id,
+      quantity: item.quantity,
+      price: item.price, // Assuming `price` is available in each cart item
+    }));
+
+    // Prepare the full checkout data structure
     const checkoutData = {
-      cartItems: cartItems.map((item) => ({
-        productId: item.id,
-        quantity: item.quantity,
-      })),
-      subtotal: calculateSubtotal(),
-      totalDiscount: calculateTotalDiscount(),
-      total: getTotal(),
-      paymentMethod: selectedPaymentMethod,
+      phoneNumber: phoneNumber, // Customer's phone number
+      orderDate: new Date().toLocaleDateString("en-CA"), // Current date and time in ISO format
+      items: orderItems,
+      subTotal: calculateSubtotal(), // Function to calculate subtotal
+      discount: calculateTotalDiscount(), // Function to calculate total discount
+      total: getTotal(), // Function to calculate final total
+      paymentMethod: selectedPaymentMethod, // Selected payment method (e.g., CASH, CARD)
+      orderStatus: "COMPLETED", // Default status for a new order
+      cashierId: 123,
+      //loyaltyClaimStatus:isLoyaltyClaimed // Replace with actual cashier ID
     };
-    setCartItems([]);
+    console.log(checkoutData);
 
-    // Close the dialog
-    setOpenDialog(false);
+    try {
+      // Send the request to the backend
+      const response = await apiNonAuth.post(
+        "http://localhost:8080/pos/create-order",
+        checkoutData
+      );
 
-    // try {
-    //   const response = await axios.post("/api/checkout", checkoutData);
-    //   console.log("Checkout successful:", response.data);
-    // } catch (error) {
-    //   console.error("Checkout failed:", error.response?.data || error.message);
-    // }
+      // Log success
+      console.log("Checkout successful:", response.data);
+
+      // Clear cart items and close the dialog
+      setCartItems([]);
+      setPhoneNumber(null);
+      setSelectedPaymentMethod(null);
+      setOpenDialog(false);
+      setIsLoyaltyClaimed(false);
+      setIsClaiming(false); 
+      setLoyaltyStatus(null);
+      
+    } catch (error) {
+      // Log any errors
+      console.error("Checkout failed:", error.response?.data || error.message);
+    }
   };
+
   const handleCancelCheckout = () => {
     setOpenDialog(false); // Close the dialog without resetting the cart
   };
@@ -172,16 +319,48 @@ function PosHomeN() {
     cartItems.reduce(
       (acc, item) => acc + item.quantity * (item.price - item.discountAmount),
       0
-    );
+    ) - loyaltyDiscount; 
 
-  const calculateTotalDiscount = () => {
-    return cartItems
-      .reduce(
-        (acc, item) => acc + item.quantity * (item.discountAmount || 0),
-        0
-      )
-      .toFixed(2);
-  };
+    const calculateTotalDiscount = () => {
+      return (
+        cartItems.reduce(
+          (acc, item) => acc + item.quantity * (item.discountAmount || 0),
+          0
+        ) + loyaltyDiscount // Include loyalty discount
+      ).toFixed(2);
+    };
+
+    const handleClaimLoyalty = async () => {
+      // Assuming `loyaltyStatus.discountAmount` contains the discount value
+      const discountAmount = loyaltyStatus?.discountAmount || 0;
+    
+      // Update local state
+      setLoyaltyDiscount(discountAmount);
+      setIsClaiming(true);
+      setIsLoyaltyClaimed(true);
+      setLoyaltyDialogOpen(false);
+      setIsClaiming(true); // Close the dialog
+    
+      // try {
+      //   // Assuming there's an API endpoint to update the loyalty discount
+      //   const response = await apiNonAuth.get(
+      //     `http://localhost:8080/loyalty/claim/${phoneNumber}` // Adjust the URL to your endpoint
+      //      // Pass necessary parameters like phone number
+      //   );
+    
+      //   if (response.ok) {
+      //     alert(`A loyalty discount of ${discountAmount} has been applied!`);
+      //   } else {
+      //     alert('Failed to claim loyalty discount. Please try again.');
+      //   }
+      // } catch (error) {
+      //   console.error('Error claiming loyalty:', error);
+      //   alert('An error occurred while claiming loyalty discount.');
+      // } finally {
+      //   setIsClaiming(false); // Reset claiming state
+      // }
+    };
+    
   const handleCheckout = () => {
     setOpenDialog(true); // Open the confirmation dialog
   };
@@ -195,196 +374,8 @@ function PosHomeN() {
   return (
     <>
       <NavBar />
-      <Grid container sx={{ height: `calc(100vh - 90px)`,overflow:'hidden' }}>
-        <Grid item xs={2.2} sx={{ backgroundColor: "#ffffff" }}>
-          <Box
-            sx={{
-              height: "100%",
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              justifyContent: "start",
-              backgroundColor: "#fff",
-              padding: "20px",
-            }}
-          >
-            <Box
-              sx={{
-                position: "relative",
-                width: "150px",
-                height: "150px",
-                overflow: "hidden",
-                borderRadius: "5%",
-                backgroundColor: "transparent", // Corrected backgroundColor
-              }}
-            >
-              <img
-                src="assets/images/cashier5.png"
-                alt="Employee"
-                style={{
-                  width: "100%",
-                  height: "100%",
-                  backgroundColor: "transparent",
-                }}
-              />
-            </Box>
-            <Typography
-              variant="h7"
-              sx={{
-                fontWeight: "bold",
-                color: "#000",
-                font: "Roboto, Arial, sans-serif",
-              }}
-            >
-              John Doe
-            </Typography>
-            <Box
-              sx={{
-                display: "grid",
-                gridTemplateColumns: "repeat(2, 1fr)",
-                gap: "16px",
-                marginTop: "20px",
-                justifyItems: "center",
-                width: "70%",
-              }}
-            >
-              <IconButton
-                sx={{
-                  width: "50px",
-                  height: "50px",
-                  backgroundColor: "#FF1493",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  borderRadius: "10px",
-                  boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.2)",
-                }}
-              >
-                <HomeIcon sx={{ color: "#fff" }} />
-              </IconButton>
-              <IconButton
-                sx={{
-                  width: "50px",
-                  height: "50px",
-                  backgroundColor: "#FF1493",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  borderRadius: "10px",
-                  boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.2)",
-                }}
-              >
-                <OrderIcon sx={{ color: "#fff" }} />
-              </IconButton>
-              <IconButton
-                sx={{
-                  width: "50px",
-                  height: "50px",
-                  backgroundColor: "#FF1493",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  borderRadius: "10px",
-                  boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.2)",
-                }}
-              >
-                <MenuIcon sx={{ color: "#fff" }} />
-              </IconButton>
-              <IconButton
-                sx={{
-                  width: "50px",
-                  height: "50px",
-                  backgroundColor: "#FF1493",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  borderRadius: "10px",
-                  boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.2)",
-                }}
-              >
-                <WalletIcon sx={{ color: "#fff" }} />
-              </IconButton>
-              <IconButton
-                sx={{
-                  width: "50px",
-                  height: "50px",
-                  backgroundColor: "#FF1493",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  borderRadius: "10px",
-                  boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.2)",
-                }}
-              >
-                <HistoryIcon sx={{ color: "#fff" }} />
-              </IconButton>
-              <IconButton
-                sx={{
-                  width: "50px",
-                  height: "50px",
-                  backgroundColor: "#FF1493",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  borderRadius: "10px",
-                  boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.2)",
-                }}
-              >
-                <PersonIcon sx={{ color: "#fff" }} />
-              </IconButton>
-            </Box>
-            <Box
-              sx={{
-                position: "relative",
-                top: "6px",
-                width: "210px",
-                height: "190px",
-                overflow: "hidden",
-                borderRadius: "5%",
-                zIndex: 5,
-                backgroundColor: "trasparent", // Ensure container has no background color
-              }}
-            >
-              <img
-                src="assets/images/cashier4.png"
-                alt="Employee"
-                style={{
-                  width: "100%",
-                  height: "100%",
-                  backgroundColor: "transparent",
-                  boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.5)",
-                }} // Ensure image has no background color
-              />
-            </Box>
-
-            <Box sx={{ marginTop: "17px" }}>
-              <IconButton
-                sx={{
-                  backgroundColor: "#D32F2F",
-                  color: "#fff",
-                  width: "150px", // Long button width
-                  padding: "10px 20px",
-                  borderRadius: "10px",
-                  boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.2)",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-                onClick={() => console.log("Logout clicked")}
-              >
-                <ExitToAppIcon sx={{ marginRight: "10px" }} />
-                <Typography
-                  sx={{
-                    fontWeight: "bold",
-                    fontFamily: "Poppins, Arial, sans-serif !important",
-                  }}
-                >
-                  Logout
-                </Typography>
-              </IconButton>
-            </Box>
-          </Box>
-        </Grid>
+      <Grid container sx={{ height: `calc(100vh - 90px)`, overflow: "hidden" }}>
+      <ProfileSidebar/>
         <Grid item xs={6.3} sx={{ backgroundColor: "#ffffff", height: "100%" }}>
           <Box
             sx={{
@@ -399,17 +390,18 @@ function PosHomeN() {
           >
             <Box
               sx={{
-                padding: "14px",
+                padding: "5px", // Reduced padding to fit everything
                 borderRadius: "8px",
                 backgroundColor: "#fff",
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "center",
                 justifyContent: "center",
-                boxShadow: 2, // Adding elevation for shadow effect
-                marginTop: "20px",
-                width: "90%",
-                // Optional: Adjust top margin if needed
+                boxShadow: 2,
+                marginTop: "16px",
+                height: "20vh", // Set height to 20vh
+                overflowY: "hidden",
+                width: "95%", // No overflow, everything should fit
               }}
             >
               <Typography
@@ -417,10 +409,11 @@ function PosHomeN() {
                 sx={{
                   fontWeight: "bold",
                   color: "#333",
-                  marginBottom: "16px",
+                  marginBottom: "4px", // Reduced margin
+                  fontSize: "0.9rem", // Reduced font size
                 }}
               >
-                Choose Category
+                Choose Filters
               </Typography>
 
               <Box
@@ -428,94 +421,85 @@ function PosHomeN() {
                   display: "flex",
                   flexDirection: "row",
                   alignItems: "center",
-                  justifyContent: "center",
-                  gap: "7px",
+                  justifyContent: "space-between",
                   width: "100%",
+                  gap: "8px", // Reduced gap between dropdowns
+                  flexWrap: "wrap",
                 }}
               >
-                <Button
-                  variant="contained"
-                  color="primary"
-                  sx={{
-                    width: "100%",
-                    borderRadius: "20px",
-                    boxShadow: 3, // Simulating elevation (elevation 3)
-                    "&:hover": {
-                      boxShadow: 6, // Elevation on hover
-                    },
-                    border: "none", // Remove the blue border
-                  }}
-                  startIcon={<PaintIcon />}
-                >
-                  Paint
-                </Button>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  sx={{
-                    width: "100%",
-                    borderRadius: "20px",
-                    boxShadow: 3,
-                    "&:hover": {
-                      boxShadow: 6,
-                    },
-                    border: "none",
-                  }}
-                  startIcon={<ColorLensIcon />}
-                >
-                  Color
-                </Button>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  sx={{
-                    width: "100%",
-                    borderRadius: "20px",
-                    boxShadow: 3,
-                    "&:hover": {
-                      boxShadow: 6,
-                    },
-                    border: "none",
-                  }}
-                  startIcon={<PaletteIcon />}
-                >
-                  Palette
-                </Button>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  sx={{
-                    width: "100%",
-                    borderRadius: "20px",
-                    boxShadow: 3,
-                    "&:hover": {
-                      boxShadow: 6,
-                    },
-                    border: "none",
-                  }}
-                  startIcon={<FilterHdrIcon />}
-                >
-                  Finish
-                </Button>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  sx={{
-                    width: "100%",
-                    borderRadius: "20px",
-                    boxShadow: 3,
-                    "&:hover": {
-                      boxShadow: 6,
-                    },
-                    border: "none",
-                  }}
-                  startIcon={<FormatPaintIcon />}
-                >
-                  Wall
-                </Button>
+                {Object.keys(filterOptions).map((category) => (
+                  <FormControl key={category} sx={{ minWidth: 80 }}>
+                    <InputLabel sx={{ fontSize: "0.8rem" }}>
+                      {category}
+                    </InputLabel>{" "}
+                    {/* Reduced label font size */}
+                    <Select
+                      multiple
+                      value={selectedFilters[category]}
+                      onChange={(event) => {
+                        setSelectedFilters((prev) => ({
+                          ...prev,
+                          [category]: event.target.value,
+                        }));
+                      }}
+                      renderValue={(selected) => selected.join(", ")}
+                      sx={{
+                        fontSize: "0.75rem", // Reduced font size of the select
+                        height: "2.7rem", // Reduced height of select box
+                      }}
+                      MenuProps={{
+                        PaperProps: {
+                          style: {
+                            maxHeight: "20vh", // Limit the dropdown height
+                          },
+                        },
+                      }}
+                    >
+                      {filterOptions[category].map((filter) => (
+                        <MenuItem
+                          key={filter.value}
+                          value={filter.value}
+                          sx={{ fontSize: "0.1rem" }}
+                        >
+                          <FormControlLabel
+                            control={
+                              <Checkbox
+                                size="small" // Make checkbox smaller
+                                checked={selectedFilters[category]?.includes(
+                                  filter.value
+                                )}
+                                onChange={() =>
+                                  handleFilterChange(category, filter.value)
+                                }
+                              />
+                            }
+                            label={filter.label}
+                            sx={{
+                              fontSize: "0.1rem", // Reduced font size of checkbox label inside dropdown
+                              marginRight: "3px", // Reduced margin for tighter spacing
+                              marginLeft: "0px", // Reduced left margin
+                            }}
+                          />
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                ))}
               </Box>
-            </Box>
 
+              <Button
+                variant="contained"
+                color="primary"
+                sx={{
+                  marginTop: "4px", // Reduced margin top
+                  fontSize: "0.8rem", // Reduced font size of button
+                  height: "2rem", // Reduced button height
+                }}
+                onClick={sendFilters}
+              >
+                Apply Filters
+              </Button>
+            </Box>
             <Box
               sx={{
                 display: "grid",
@@ -760,11 +744,103 @@ function PosHomeN() {
                     Rs {calculateSubtotal()}
                   </Typography>
                 </Grid>
+                <Box
+                  sx={{
+                    width: "100%",
+                    display: "flex",
+                    alignItems: "flex-end",
+                    justifyContent: "flex-end",
+                  }}
+                >
+                  <Box sx={{ textAlign: "center", marginTop: 2 }}>
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      onClick={() => setLoyaltyDialogOpen(true)}
+                      disabled={isClaiming}
+                      sx={{
+                        backgroundColor: "#FFC107", // Gold
+                        color: "black",
+                        "&:hover": {
+                          backgroundColor: "#FFA000", // Darker gold
+                        },
+                      }}
+                    >
+                      Claim Loyalty
+                    </Button>
+                  </Box>
+                </Box>
+
+                <Dialog
+                  open={isLoyaltyDialogOpen}
+                  onClose={() => setLoyaltyDialogOpen(false)}
+                >
+                  <DialogTitle>Claim Loyalty</DialogTitle>
+                  <DialogContent>
+                    <TextField
+                      label="Phone Number"
+                      type="tel"
+                      fullWidth
+                      value={phoneNumber}
+                      onChange={(e) => setPhoneNumber(e.target.value)}
+                      sx={{ marginTop: 2 }}
+                      disabled={!!loyaltyStatus} // Disable input once checked
+                    />
+                    {loyaltyStatus && (
+                      <Typography
+                        sx={{
+                          marginTop: 2,
+                          color: loyaltyStatus.isDiscount ? "green" : "red",
+                        }}
+                      >
+                        {loyaltyStatus.isDiscount
+                          ? `Congratulations! You received a loyalty discount of ${loyaltyStatus.discountAmount}.`
+                          : "Sorry, you do not have a loyalty discount at the moment."}
+                      </Typography>
+                    )}
+                  </DialogContent>
+                  <DialogActions>
+                    {!loyaltyStatus ? (
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={handleLoyaltyClaim}
+                        disabled={isClaiming}
+                      >
+                        Check
+                      </Button>
+                    ) : loyaltyStatus.isDiscount ? (
+                      <>
+                        <Button
+                          variant="contained"
+                          color="primary"
+                          onClick={handleClaimLoyalty} // Function to claim loyalty
+                        >
+                          Claim
+                        </Button>
+                        <Button
+                          onClick={() => setLoyaltyDialogOpen(false)}
+                          color="secondary"
+                        >
+                          Cancel
+                        </Button>
+                      </>
+                    ) : (
+                      <Button
+                        onClick={() => setLoyaltyDialogOpen(false)}
+                        color="secondary"
+                      >
+                        Cancel
+                      </Button>
+                    )}
+                  </DialogActions>
+                </Dialog>
+
                 <Typography
                   sx={{ borderBottom: "2px dashed #ddd", marginTop: 0.5 }}
                 />
               </Box>
-              <Box sx={{ height: "10vh", marginTop: "3px" }}>
+              <Box sx={{ height: "8.5vh", marginTop: "3px" }}>
                 <Box
                   display={"flex"}
                   flexDirection={"row"}
@@ -877,8 +953,21 @@ function PosHomeN() {
                   <Dialog open={openDialog} onClose={handleCancelCheckout}>
                     <DialogTitle>Confirm Checkout</DialogTitle>
                     <DialogContent>
-                      Are you sure you want to proceed with the checkout? Your
-                      cart will be reset.
+                      <div>
+                        <p>
+                          Are you sure you want to proceed with the checkout?
+                          Your cart will be reset.
+                        </p>
+                        {/* Input field for loyalty number */}
+                        <TextField
+                          label="Loyalty Number (Optional)"
+                          variant="outlined"
+                          fullWidth
+                          margin="normal"
+                          value={phoneNumber} // Bind the state for the input field
+                          onChange={(e) => setPhoneNumber(e.target.value)} // Update state on change
+                        />
+                      </div>
                     </DialogContent>
                     <DialogActions>
                       <Button onClick={handleCancelCheckout} color="primary">
