@@ -57,9 +57,9 @@ const productRoutes = [
   {
     path: "/product/view/:id",
     element: (
-      <AuthGuard auth={authRoles.userOrGuest}>
+//      <AuthGuard auth={authRoles.userOrGuest}>
         <ProductView />
-      </AuthGuard>
+//      </AuthGuard>
     ),
   },
   {
