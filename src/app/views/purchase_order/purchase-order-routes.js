@@ -15,41 +15,49 @@ const PurchaseOrderRoutes = [
   {
     path: "/purchase-order/list",
     element: (
-      <AuthGuard auth={[...authRoles.back_office, ...authRoles.inventory_manager]}>
-        <PurchaseOrderList />
-      </AuthGuard>
+      // <AuthGuard auth={[...authRoles.back_office, ...authRoles.inventory_manager]}>
+      <PurchaseOrderList />
+      // </AuthGuard>
     ),
   },
   {
     path: "/purchase-order/view/:id",
     element: (
-      <AuthGuard auth={[...authRoles.back_office, ...authRoles.inventory_manager]}>
-        <PurchaseOrderDetails />
-      </AuthGuard>
+      // <AuthGuard
+      //   auth={[...authRoles.back_office, ...authRoles.inventory_manager]}
+      // >
+      <PurchaseOrderDetails />
+      // </AuthGuard>
     ),
   },
   {
     path: "/sales-order/view",
     element: (
-      <AuthGuard auth={[...authRoles.sales_manager, ...authRoles.inventory_manager,...authRoles.back_office]}>
-        <SalesOrderDetails />
-      </AuthGuard>
+      // <AuthGuard
+      //   auth={[
+      //     ...authRoles.sales_manager,
+      //     ...authRoles.inventory_manager,
+      //     ...authRoles.back_office,
+      //   ]}
+      // >
+      <SalesOrderDetails />
+      // </AuthGuard>
     ),
   },
   {
     path: "/purchase-order/create",
     element: (
       // <AuthGuard auth={[...authRoles.inventory_manager]}>
-        <PurchaseOrderUpsert type={"create"}/>
+      <PurchaseOrderUpsert type={"create"} />
       // </AuthGuard>
     ),
   },
   {
     path: "/purchase-order/update/:id",
     element: (
-      <AuthGuard auth={[...authRoles.inventory_manager]}>
-        <PurchaseOrderUpsert type={"update"}/>
-      </AuthGuard>
+      // <AuthGuard auth={[...authRoles.inventory_manager]}>
+      <PurchaseOrderUpsert type={"update"} />
+      // </AuthGuard>
     ),
   },
 ];
