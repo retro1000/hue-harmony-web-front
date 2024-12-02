@@ -112,7 +112,7 @@ const BillingDetails = () => {
                 }
               })
               .catch(error => {
-
+                console.log(error)
               })
               .finally(() => {})
   }

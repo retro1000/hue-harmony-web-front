@@ -11,8 +11,6 @@ import {
 } from "@mui/material";
 
 const BillingForm = ({ orderDetails, setOrderDetails }) => {
-    const [district, setDistrict] = useState(orderDetails?.district || "");
-    const [city, setCity] = useState(orderDetails?.city || "");
 
     const districts = [
         { id: "COLOMBO", name: "Colombo" },
@@ -39,14 +37,11 @@ const BillingForm = ({ orderDetails, setOrderDetails }) => {
     };
 
     const handleDistrictChange = (event) => {
-        setDistrict(event.target.value);
-        setCity(""); // Reset city when district changes
-        setOrderDetails({...orderDetails, district: district, city: "" }); // Reset city in order details
+        setOrderDetails({...orderDetails, district: event.target.value, city: "" }); // Reset city in order details
     };
 
     const handleCityChange = (event) => {
-        setCity(event.target.value);
-        setOrderDetails({...orderDetails, city: city }); // Update city in order details
+        setOrderDetails({...orderDetails, city: event.target.value }); // Update city in order details
     };
 
     const handleTextFieldChange = (event) => {
@@ -133,7 +128,7 @@ const BillingForm = ({ orderDetails, setOrderDetails }) => {
                     <Select
                         labelId="district-label"
                         id="district"
-                        value={district}
+                        value={orderDetails?.district}
                         onChange={handleDistrictChange}
                         label="District"
                         size="small"
@@ -152,19 +147,19 @@ const BillingForm = ({ orderDetails, setOrderDetails }) => {
                     fullWidth
                     variant="outlined"
                     sx={fieldStyles}
-                    disabled={!district}
+                    disabled={!orderDetails?.district}
                 >
                     <InputLabel id="city-label">City</InputLabel>
                     <Select
                         labelId="city-label"
                         id="city"
-                        value={city}
+                        value={orderDetails?.city}
                         onChange={handleCityChange}
                         label="City"
                         size="small"
                         variant="outlined"
                     >
-                        {(citiesByDistrict[district] || []).map((c, index) => (
+                        {(citiesByDistrict[orderDetails?.district] || []).map((c, index) => (
                             <MenuItem key={index} value={c.id}>
                                 {c.name}
                             </MenuItem>

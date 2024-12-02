@@ -30,8 +30,11 @@ const useAxios = () => {
     const { logout } = useAuth()
 
     const handleError = (error) => {
+        console.log(error)
         if (error.config && error.config.customData) {
-            const { retry=false, silentError, errorCallback } = error.config.customData;
+            const customData = error.config?.customData || {};
+            const { retry = false, silentError = false, errorCallback = null } = customData;
+
 
             // Handle custom retry logic for 401 status
             if (retry && error.response && error.response.status === 401) {
@@ -53,6 +56,7 @@ const useAxios = () => {
 
         // Default error handling
         if (error.response) {
+            console.log(error)
             // Handle HTTP status-specific errors
             switch (error.response.status) {
                 case 400:
