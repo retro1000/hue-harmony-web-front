@@ -14,6 +14,7 @@ import {
 import StripePaymentForm from "../../../components/StripeGatewayForm/StripePaymentForm";
 import {useAxios} from "../../../hooks/useAxios";
 import useAuth from "../../../hooks/useAuth";
+import {useNotistack} from "../../../hooks/useNotistack";
 
 const cards = [
     {
@@ -57,6 +58,8 @@ export default function PaymentMethod({
                                       }) {
     const { api } = useAxios()
 
+    const {triggerNotification} = useNotistack()
+
     const { user, role } = useAuth()
 
     const [savedCards, setSavedCards] = useState(cards)
@@ -98,12 +101,23 @@ export default function PaymentMethod({
 
     const handleCardSelection = (event) => {
         const {offset, expiryDate, cardType, token, chooseType} = event.target.value;
+        console.log(event.target.value, selectedCard)
         setSelectedCard(event.target.value);
         setCardDetails({cardType: cardType, token: token, offset: offset, expiryDate: expiryDate, chooseType: chooseType || 'MENTIONED'})
     };
 
     const addSavedCards = (card) => {
-        setSavedCards([...savedCards, card])
+        if(!card) {
+            triggerNotification([{text: 'No card found.', variant: 'error'}])
+            return
+        }
+        if(savedCards.length === 0) {
+            setSavedCards([...card])
+            return;
+        }
+
+        savedCards.find((c) => c.offset === card.offset && c.expiryDate === card.expiryDate && c.cardType === card.cardType)
+            && setSavedCards([...savedCards, card])
     }
 
     const isCreditDebitSelected = paymentType === "card";

@@ -66,7 +66,7 @@ const BillingDetails = () => {
     billingAddress: '',
     emailAddress: '',
     contactNos: [],
-    paymentMethod: '',
+    paymentMethod: 'CARD',
     district: '',
     city: ''
   })
@@ -108,7 +108,7 @@ const BillingDetails = () => {
             })
               .then(response => {
                 if(response.status===200){
-                  triggerNotifications([{message: 'Order successfully placed.', variant: 'success'}])
+                  triggerNotifications([{text: 'Order successfully placed.', variant: 'success'}])
                 }
               })
               .catch(error => {
