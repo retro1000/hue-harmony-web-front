@@ -1,4 +1,8 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import useAuth from "app/hooks/useAuth";
+import { useAxios } from "app/hooks/useAxios";
+import { Navigate, useParams } from "react-router-dom";
+
 import { Typography, Box, Rating, Button, TextField, Grid } from "@mui/material";
 import ColorSelector from "../../components/ProductDetails/ColorSelector";
 import SizeSelector from "../../components/ProductDetails/SizeSelector";
@@ -7,15 +11,167 @@ import DeliveryInfo from "../../components/ProductDetails/DeliveryInfo";
 import ProductImages from "../../components/ProductDetails/ImageGrid";
 import ProductGrid from "../../components/HomePage/PopularProducts";
 import Footer from "../../components/ProductPage/Footer";
+import NotFound from "../sessions/NotFound";
+import { MatxLoading } from "app/components";
 
 
 const ProductDetails = () => {
+  const { id } = useParams()
+
+  const { api } = useAxios()
+
+  const { apiNonAuth } = useAxios()
+
+  const {user, role} = useAuth()
+
+  const [value, setValue] = useState(0);
+
+  const [on, setOn] = useState(false)
+
+  const [productDescription, setProductDescription] = useState('')
+
+  const [pageLoading, setPageLoading] = useState(true)
+
+  const [productImages, setProductImages] = useState([])
+  
+  const [reviews, setReviews] = useState(undefined)
+  
+  const [attributes, setAttributes] = useState([])
+  
+  const [variations, setVariations] = useState([])
+
+  const [orders, setOrders] = useState([])
+
+  const [swipTo, setSwipTo] = useState(undefined)
+
+  const [notFount, setNotFound] = useState(false)
+
+  const [brand, setBrand] = useState('');
+  const [coat, setCoat] = useState('');
+  const [coverage, setCoverage] = useState('');
+  const [dryingTime, setDryingTime] = useState('');
+  const [finish, setFinish] = useState('');
+  const [productQuantity, setProductQuantity] = useState(0);
+  const [onlineLimit, setOnlineLimit] = useState(0);
+  const [positions, setPositions] = useState([]);
+  const [productDiscount, setProductDiscount] = useState(0);
+  const [productName, setProductName] = useState('');
+  const [productPrice, setProductPrice] = useState(0);
+  const [productStatus, setProductStatus] = useState('');
+  const [productTypes, setProductTypes] = useState([]);
+  const [roomType, setRoomType] = useState('');
+  const [surfaces, setSurfaces] = useState([]);
+  const [productFeatures, setProductFeatures] = useState([]);
+  const [selectedImages, setSelectedImages] = useState([]);
+
+
+  useEffect(() => {
+    const fetchProduct = async () => {
+        try {
+            const [productRes, reviewRes] = await Promise.allSettled([
+              apiNonAuth.get(`/product/read/2`),
+              apiNonAuth.get(`/product/review/get/${id}`)
+            ]);
+
+            console.log("response Product" , productRes);
+
+            if (productRes.value.status === 200) {
+                setNotFound(false)
+                const product = productRes.value.data;
+                setBrand(product.brand);
+                setCoat(product.coat);
+                setCoverage(product.coverage);
+                setDryingTime(product.dryingTime);
+                setFinish(product.finish);
+                setProductQuantity(product.productQuantity);
+                setOnlineLimit(product.onlineLimit);
+                setPositions(product.positions);
+                setProductDescription(product.productDescription);
+                setProductDiscount(product.productDiscount);
+                setProductName(product.productName);
+                setProductPrice(product.productPrice);
+                setProductStatus(product.productStatus);
+                setProductTypes(product.productTypes);
+                setRoomType(product.roomType);
+                setSurfaces(product.surfaces);
+                setProductFeatures(product.productFeatures);
+                setSelectedImages(product.imageIds);
+
+            }
+
+            if(productRes.value.status === 204){
+                setNotFound(true)
+            }
+    
+            if (reviewRes.value.status === 200) {
+              setReviews(reviewRes.value.data);
+            }
+        } catch (err) {
+            console.error('Error fetching product or reviews:', err);
+        } finally {
+            setPageLoading(false);
+        }
+    }
+
+    setPageLoading(true)
+    fetchProduct()
+    
+}, []);
+
+const formatToLKR = (number) => {
+  return new Intl.NumberFormat('en-LK', {
+      style: 'currency',
+      currency: 'LKR',
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2
+  }).format(number);
+}
+
+const a11yProps = (index) => {
+  return {
+    id: `simple-tab-${index}`,
+    'aria-controls': `simple-tabpanel-${index}`,
+  };
+}
+
+const handleChange = (event, newValue) => {
+  if(newValue===2 && !on) setOn(true)
+  setValue(newValue);
+};
+
+const addToCart = async () => {
+  if(orders && orders.length>0){
+      await api.post('/order/order-variation/create', orders)
+          .then((res) => {
+              if(res.status===200){
+
+              }
+          })
+          .catch((err) => {
+
+          })
+          .finally(() => {
+
+          })
+  }
+}
+
+const buyNow = () => {
+  console.log(orders)
+}
+
+if(notFount) return <NotFound />
+
+if(pageLoading) return <MatxLoading />
+
+
+
   return (
     <>
     <Grid container spacing={2} sx={{ padding: "0 20px" }}>
       <Grid item xs={12} md={6}>
         <Box sx={{ maxWidth: 501, ml:20 , maxHeight: 9 }}>
-          <ProductImages />
+          <ProductImages images={selectedImages}/>
         </Box>
       </Grid>
       <Grid item xs={12} md={6}>
@@ -24,7 +180,7 @@ const ProductDetails = () => {
             variant="h4"
             sx={{ fontWeight: 600, letterSpacing: "0.72px", mb: 2 }}
           >
-            Dulux Weather Guard
+            {productName}
           </Typography>
           <Box display="flex" alignItems="center" gap={2} mb={2}>
             <Rating value={4.5} readOnly precision={0.5} />
@@ -37,12 +193,10 @@ const ProductDetails = () => {
             variant="h5"
             sx={{ fontWeight: 400, letterSpacing: "0.72px", mb: 3 }}
           >
-            $192.00
+            LKR {productPrice}
           </Typography>
           <Typography variant="body2" mb={3}>
-            PlayStation 5 Controller Skin High quality vinyl with air channel
-            adhesive for easy bubble free install & mess free removal Pressure
-            sensitive.
+            {productDescription}
           </Typography>
           <Box sx={{ borderTop: "1px solid black", my: 3 }} />
           <ColorSelector />

@@ -1,7 +1,9 @@
 class AddBookRequest {
-    constructor(brand, coat, coverage, dryingTime, finish, positions, productDescription, 
-        productDiscount, productName, productPrice, productStatus,productTypes,roomType,surfaces, productFeatures,productImage,
-        productQuantity,onlineLimit
+    constructor(brand, coat, coverage, dryingTime, finish,
+        productQuantity,onlineLimit, positions, productDescription, 
+        productDiscount, productName,productSize, productPrice, 
+        productStatus,productTypes,roomType,surfaces, productFeatures,productImage
+        
     ) {
         this.brand = brand;
         this.coat = coat;
@@ -14,6 +16,7 @@ class AddBookRequest {
         this.productDescription = productDescription;
         this.productDiscount = productDiscount;
         this.productName = productName;
+        this.productSize = productSize;
         this.productPrice = productPrice;
         this.productStatus = productStatus;
         this.productTypes = productTypes;

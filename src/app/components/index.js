@@ -20,7 +20,7 @@ export { default as CustomVariationExpansionPanel } from "./ExpansionPanel/Custo
 export { default as SearchableSelectMultiple } from "./SearchableSelectMultiple";
 export { default as FileUpload } from "./FileUploads/FileUpload";
 export { default as MultiFileUpload } from "./FileUploads/MultiFileUpload";
-export { default as MuiTable } from "./DataTable/MuiTable";
+export { default as MuiTable } from "./DataTable/MuiTable1";
 export { default as FormDialog } from "./Dialog/FormDialog";
 export { default as PopupFormDialog } from "./Dialog/PopupFormDialog";
 export { default as NumberFormatField } from "./InputField/NumberFormatField";

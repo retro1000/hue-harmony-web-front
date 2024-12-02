@@ -27,3 +27,4 @@ src/app/views/product/Addproduct.txt
 src/app/views/product/StoreProduct.txt
 
 ./package-lock.json
+.vscode/launch.json

@@ -30,17 +30,17 @@ const productRoutes = [
   {
     path: "/product/update",
     element: (
-      <AuthGuard auth={authRoles.admin}>
+
         <UpdateProduct />
-       </AuthGuard>
+
     ),
   },
   {
     path: "/product/create",
     element: (
-      <AuthGuard auth={authRoles.admin}>
+      // <AuthGuard auth={authRoles.admin}>
         <AddProduct />
-      </AuthGuard>
+      // </AuthGuard>
     ),
   },
  
@@ -57,9 +57,9 @@ const productRoutes = [
   {
     path: "/product/view/:id",
     element: (
-      <AuthGuard auth={authRoles.userOrGuest}>
+//      <AuthGuard auth={authRoles.userOrGuest}>
         <ProductView />
-      </AuthGuard>
+//      </AuthGuard>
     ),
   },
   {
