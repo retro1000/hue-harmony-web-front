@@ -14,4 +14,6 @@ export const auth0Config = {
   domain: process.env.REACT_APP_AUTH0_DOMAIN
 };
 
+export const STRIPE_PUBLISHABLE_KEY = 'pk_test_51QPrbREUxK0KeTaf1Idf2eUpC02wN0ZhdgByEQgQQRT1j3NwCZnBRNKCrFHk6rPZMFnEPYwPMjuH9gSi0Hl1oFRa00CYE99SaR'
+
 export const backendApi = 'http://localhost:8080'
