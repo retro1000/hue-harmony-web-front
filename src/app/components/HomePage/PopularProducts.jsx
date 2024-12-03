@@ -79,21 +79,6 @@ const ProductGrid = ({ Title }) => {
         width={"100%"}
         sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}
       >
-        <TButton
-          label={"View All Products"}
-          variant="contained"
-          title={"View All Products"}
-          sx={{
-            width: "180px",
-            height: "50px",
-            backgroundColor: "#ED005D",
-            color: "#fff",
-            textTransform: "none",
-            "&:hover": {
-              backgroundColor: "#d10454",
-            },
-          }}
-        />
       </Box>
     </>
   );
