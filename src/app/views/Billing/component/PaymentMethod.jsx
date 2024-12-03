@@ -14,26 +14,27 @@ import {
 import StripePaymentForm from "../../../components/StripeGatewayForm/StripePaymentForm";
 import {useAxios} from "../../../hooks/useAxios";
 import useAuth from "../../../hooks/useAuth";
+import {useNotistack} from "../../../hooks/useNotistack";
 
 const cards = [
     {
         cardType: "VISA",
         offset: "1060",
-        token: "",
-        expiryDate: "01/25",
+        token: "s",
+        expireDate: "01/25",
         chooseType: 'DEFAULT'
     },
     {
         cardType: "MASTER",
         offset: "5678",
-        token: "",
-        expiryDate: "12/24"
+        token: "4",
+        expireDate: "12/24"
     },
     {
         cardType: "MASTER",
         offset: "1234",
-        token: "",
-        expiryDate: "11/23",
+        token: "q",
+        expireDate: "11/23",
     },
 ];
 
@@ -56,6 +57,8 @@ export default function PaymentMethod({
                                           orderDetails
                                       }) {
     const { api } = useAxios()
+
+    const {triggerNotification} = useNotistack()
 
     const { user, role } = useAuth()
 
@@ -97,13 +100,26 @@ export default function PaymentMethod({
     };
 
     const handleCardSelection = (event) => {
-        const {offset, expiryDate, cardType, token, chooseType} = event.target.value;
-        setSelectedCard(event.target.value);
-        setCardDetails({cardType: cardType, token: token, offset: offset, expiryDate: expiryDate, chooseType: chooseType || 'MENTIONED'})
+        const {offset, expireDate, cardType, token, chooseType} = JSON.parse(event.target.value);
+        setSelectedCard(JSON.parse(event.target.value));
+        const card = {cardType: cardType, token: token, offset: offset, expireDate: expireDate, chooseType: chooseType || 'MENTIONED'}
+        console.log(card)
+        setCardDetails(card)
     };
 
     const addSavedCards = (card) => {
-        setSavedCards([...savedCards, card])
+        if(!card) {
+            triggerNotification([{text: 'No card found.', variant: 'error'}])
+            return
+        }
+        if(savedCards.length === 0) {
+            setSavedCards([...card])
+            return;
+        }
+
+        if(!savedCards.find((c) => c.offset === card.offset && c.expireDate === card.expireDate && c.cardType === card.cardType))
+            setSavedCards([...savedCards, card])
+
     }
 
     const isCreditDebitSelected = paymentType === "card";
@@ -130,22 +146,22 @@ export default function PaymentMethod({
                         }}
                     >
                         <RadioGroup
-                            value={selectedCard}
+                            value={JSON.stringify(selectedCard)}
                             onChange={handleCardSelection}
                             name="saved-cards"
-                            sx={{width: "100%"}}
+                            sx={{width: "100%", display: "flex", gap: "0.5em"}}
                         >
                             {savedCards.map((card, index) => (
                                 <Grid item key={index} xs={12} sm={6} md={4} lg={3}>
                                     <FormControlLabel
-                                        value={card}
+                                        value={JSON.stringify(card)}
                                         control={<Radio size="small"/>}
                                         label={
                                             <Card
                                                 variant="outlined"
                                                 sx={{
-                                                    width: "max-content", // Make card fill the grid item width
-                                                    maxWidth: "max-content", // Cap width to avoid overflow
+                                                    width: "140px", // Make card fill the grid item width
+                                                    // maxWidth: "max-content", // Cap width to avoid overflow
                                                     border:
                                                         selectedCard === card.offset
                                                             ? "2px solid #3f51b5"
@@ -162,7 +178,7 @@ export default function PaymentMethod({
                                                     },
                                                 }}
                                             >
-                                                <CardContent>
+                                                <CardContent sx={{padding: "!important 5px", mb: 1}}>
                                                     <CardMedia
                                                         component="img"
                                                         height="40"
@@ -170,14 +186,14 @@ export default function PaymentMethod({
                                                         alt={card.cardType}
                                                         style={{
                                                             objectFit: "contain",
-                                                            marginBottom: "8px",
+                                                            marginBottom: "2px",
                                                         }}
                                                     />
-                                                    <Typography variant="body1" noWrap>
+                                                    <Typography variant="body1" noWrap fontSize={"13px"}>
                                                         •••• •••• •••• {card.offset}
                                                     </Typography>
-                                                    <Typography variant="body2" color="textSecondary">
-                                                        Expiry date: {card.expiryDate}
+                                                    <Typography variant="body2" color="textSecondary" fontSize={"12px"}>
+                                                        Expiry date: {card.expireDate}
                                                     </Typography>
                                                 </CardContent>
                                             </Card>

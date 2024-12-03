@@ -40,7 +40,7 @@ const isObjectFull = (obj, nonRequire = []) => {
     if (Array.isArray(obj[key])) {
       return obj[key].length > 0; // Ensure arrays are not empty
     }
-    return obj[key] !== '' && obj[key] !== null && obj[key] !== undefined && (!Array.isArray(obj[key]) || obj[key].length > 0);
+    return obj[key] !== '' && obj[key] !== null && obj[key] !== undefined;
   });
 };
 
@@ -66,7 +66,7 @@ const BillingDetails = () => {
     billingAddress: '',
     emailAddress: '',
     contactNos: [],
-    paymentMethod: '',
+    paymentMethod: 'CARD',
     district: '',
     city: ''
   })
@@ -98,6 +98,7 @@ const BillingDetails = () => {
   }
 
   const placeOrder = () => {
+
     isPlaceOrderValid() &&
         api.post(
             '/place-order/online',
@@ -108,7 +109,7 @@ const BillingDetails = () => {
             })
               .then(response => {
                 if(response.status===200){
-                  triggerNotifications([{message: 'Order successfully placed.', variant: 'success'}])
+                  triggerNotifications([{text: 'Order successfully placed.', variant: 'success'}])
                 }
               })
               .catch(error => {
