@@ -75,7 +75,7 @@ const BillingDetails = () => {
   const { triggerNotifications } = useNotistack()
   // const { state } = location || {};
 
-  const { api } = useAxios()
+  const { api, apiNonAuth } = useAxios()
 
   useEffect(() => {
     console.log(state)
@@ -100,7 +100,7 @@ const BillingDetails = () => {
   const placeOrder = () => {
 
     isPlaceOrderValid() &&
-        api.post(
+      apiNonAuth.post(
             '/place-order/online',
             {
               ...orderDetails,

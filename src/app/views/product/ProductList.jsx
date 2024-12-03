@@ -62,6 +62,10 @@ function ProductList() {
 
   const {api, apiNonAuth} = useAxios();
 
+  const navigate = useNavigate()
+
+  const {triggerNotification} = useNotistack()
+
   const addProductFields = [
     {
       title: "Product Details",
@@ -306,26 +310,28 @@ function ProductList() {
 
   const [datatableData, setDataTableData] = useState([]);
 
-  useEffect(()=>{
-    const fetchProducts = async () =>{
-      try{
-        const response = await apiNonAuth.get('product');
-        setDataTableData(response.data);
-      }catch(err){
+  // useEffect(()=>{
+  //   const fetchProducts = async () =>{
+  //     try{
+  //       const response = await apiNonAuth.get('product');
+  //       setDataTableData(response.data);
+  //     }catch(err){
 
-      }
+  //     }
       
-    };
-    fetchProducts();
-  },[])
+  //   };
+  //   fetchProducts();
+  // },[])
 
   const [columns, setColumns] = useState([
     {
-      name: "Barcode",
-      label: "Barcode",
+      name: "Product Id",
+      label: "Product Id",
       options: {
-        filter: false
+        filter: false,
+        // display: false
       }
+
     },
     {
       name: "Product Name",
@@ -335,8 +341,8 @@ function ProductList() {
       }
     },
     {
-      name: "Brand",
-      label: "Brand",
+      name: "Brands",
+      label: "Brands",
       options: {
         filter: true,
         filterType: "custom",
@@ -349,7 +355,7 @@ function ProductList() {
             <div style={{ padding: '16px' }}>
               <CheckBoxGroup
                   label="Brand"
-                options={["Dulux", "Robbialac", "Nippon paint", "Asian paint", "Kansai paint"]}
+                options={["Dulux", "Robbialac", "Nippon Paint", "Asian Paint", "Kansai Paint"]}
                 selectedOptions={filterList[index] || []}
                 onChange={(selected) => {
                   filterList[index] = selected;
@@ -362,15 +368,49 @@ function ProductList() {
         customFilterListRender: (value) => {
           // Render custom filter values in the filter chip
           if (value.length) {
-            return `Brand: ${value.join(", ")}`;
+            return `Brands: ${value.join(", ")}`;
           }
           return false;
         },
       },
     },
+    // {
+    //   name: "Room Type",
+    //   label: "Room Type",
+    //   options: {
+    //     filter: true,
+    //     filterType: "custom",
+    //     filterOptions: {
+    //       logic: (value, filters) => {
+    //         // Custom logic to determine if a row is displayed
+    //         return filters.length > 0 && !filters.includes(value);
+    //       },
+    //       display: (filterList, onChange, index, column) => (
+    //           <div style={{ padding: '16px' }}>
+    //             <CheckBoxGroup
+    //                 label="Room type"
+    //                 options={["Bathroom", "Bedroom", "Childrens Room", "Kitchen", "Living Room", "Home Office", "Hallway", "Dining Room"]}
+    //                 selectedOptions={filterList[index] || []}
+    //                 onChange={(selected) => {
+    //                   filterList[index] = selected;
+    //                   onChange(filterList[index], index, column);
+    //                 }}
+    //             />
+    //           </div>
+    //       ),
+    //     },
+    //     customFilterListRender: (value) => {
+    //       // Render custom filter values in the filter chip
+    //       if (value.length) {
+    //         return `Room type: ${value.join(", ")}`;
+    //       }
+    //       return false;
+    //     },
+    //   },
+    // },
     {
-      name: "Product Type",
-      label: "Product Type",
+      name: "Finish",
+      label: "Finish",
       options: {
         filter: true,
         filterType: "custom",
@@ -382,8 +422,8 @@ function ProductList() {
           display: (filterList, onChange, index, column) => (
               <div style={{ padding: '16px' }}>
                 <CheckBoxGroup
-                    label="Product type"
-                    options={["Cleaner", "Paint", "Undercoat", "Varnish", "Waterproofing"]}
+                    label="Finish"
+                    options={["Gloss", "Gloss Semi Gloss Matte", "High Gloss", "Low Sheen", "Matt", "Mid Sheen", "Semi Gloss"]}
                     selectedOptions={filterList[index] || []}
                     onChange={(selected) => {
                       filterList[index] = selected;
@@ -396,80 +436,46 @@ function ProductList() {
         customFilterListRender: (value) => {
           // Render custom filter values in the filter chip
           if (value.length) {
-            return `Product type: ${value.join(", ")}`;
+            return `Finish: ${value.join(", ")}`;
           }
           return false;
         },
       },
     },
-    {
-      name: "Color",
-      label: "Color",
-      options: {
-        filter: true,
-        filterType: "custom",
-        filterOptions: {
-          logic: (value, filters) => {
-            // Custom logic to determine if a row is displayed
-            return filters.length > 0 && !filters.includes(value);
-          },
-          display: (filterList, onChange, index, column) => (
-              <div style={{ padding: '16px' }}>
-                <CheckBoxGroup
-                    label="Color"
-                    options={["Cleaner", "Paint", "Undercoat", "Varnish", "Waterproofing"]}
-                    selectedOptions={filterList[index] || []}
-                    onChange={(selected) => {
-                      filterList[index] = selected;
-                      onChange(filterList[index], index, column);
-                    }}
-                />
-              </div>
-          ),
-        },
-        customFilterListRender: (value) => {
-          // Render custom filter values in the filter chip
-          if (value.length) {
-            return `Product type: ${value.join(", ")}`;
-          }
-          return false;
-        },
-      },
-    },
-    {
-      name: "Size",
-      label: "Size (LTR)",
-      options: {
-        filter: true,
-        filterType: "custom",
-        filterOptions: {
-          logic: (value, filters) => {
-            // Custom logic to determine if a row is displayed
-            return filters.length > 0 && !filters.includes(value);
-          },
-          display: (filterList, onChange, index, column) => (
-              <div style={{ padding: '16px' }}>
-                <CheckBoxGroup
-                    label="Size"
-                    options={["L 1", "L 5", "L 10", "L 20", "L 50"]}
-                    selectedOptions={filterList[index] || []}
-                    onChange={(selected) => {
-                      filterList[index] = selected;
-                      onChange(filterList[index], index, column);
-                    }}
-                />
-              </div>
-          ),
-        },
-        customFilterListRender: (value) => {
-          // Render custom filter values in the filter chip
-          if (value.length) {
-            return `Size: ${value.join(", ")}`;
-          }
-          return false;
-        },
-      },
-    },
+    // {
+    //   name: "Size",
+    //   label: "Size (LTR)",
+    //   options: {
+    //     filter: true,
+    //     filterType: "custom",
+    //     filterOptions: {
+    //       logic: (value, filters) => {
+    //         // Custom logic to determine if a row is displayed
+    //         return filters.length > 0 && !filters.includes(value);
+    //       },
+    //       display: (filterList, onChange, index, column) => (
+    //           <div style={{ padding: '16px' }}>
+    //             <CheckBoxGroup
+    //                 label="Size"
+    //                 options={["L 1", "L 5", "L 10", "L 20", "L 50"]}
+    //                 selectedOptions={filterList[index] || []}
+    //                 onChange={(selected) => {
+    //                   filterList[index] = selected;
+    //                   onChange(filterList[index], index, column);
+    //                 }}
+    //             />
+    //           </div>
+    //       ),
+    //     },
+    //     customFilterListRender: (value) => {
+    //       // Render custom filter values in the filter chip
+    //       if (value.length) {
+    //         return `Size: ${value.join(", ")}`;
+    //       }
+    //       return false;
+    //     },
+    //   },
+    // },
     {
       name: "Selling Price",
       label: "Selling Price (LKR)",
@@ -529,8 +535,8 @@ function ProductList() {
             icon: ViewIcon,
             color: "primary",
             size: "small",
-            onClick: (index) => {
-              navigate('/product/view/'+datatableData[index][0])
+            onClick: (id, upadteDataTable) => {
+              navigate('productDetails/'+id)
             },
           },
           {
@@ -539,8 +545,8 @@ function ProductList() {
             icon: EditIcon,
             color: "primary",
             size: "small",
-            onClick: (index) => {
-              console.log("Edit icon button clicked for row", index);
+            onClick: (id, upadteDataTable) => {
+              navigate('product/update/'+id)
             },
           },
           {
@@ -549,8 +555,18 @@ function ProductList() {
             icon: DeleteIcon,
             color: "error",
             size: "small",
-            onClick: (index) => {
-              console.log("Delete icon button clicked for row", index);
+            onClick: (id, upadteDataTable) => {
+              // console.log(data)
+              apiNonAuth.delete("product/delete/"+id)
+                .then(response => {
+                  if(response.status===200){
+                    triggerNotification([{text: "Product deleted successfully.", variant: 'success'}])
+                    upadteDataTable(id);
+                  }
+                })
+                .catch(error => {
+
+                })
             },
           },
         ],
@@ -656,6 +672,7 @@ function ProductList() {
             rowsPerPage={true}
             serverSide={true}
             path={'product'}
+            columnOrder={["productId", "productName", "brand", "finish", "productPrice", "productQuantity", "productStatus"]}
           />
         </SimpleCard>
       </Stack>

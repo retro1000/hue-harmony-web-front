@@ -84,40 +84,6 @@ const theme = () => createTheme({
   }
 })
 
-
-const renderButtons = (buttonsConfig, rowIndex) => {
-  return buttonsConfig.map((buttonConfig, index) => {
-    const { title, type, label, color, size, icon, onClick } = buttonConfig;
-    
-    if (type === 'icon') {
-      return (
-        <TIconButton
-          key={index}
-          title={title}
-          color={color}
-          size={size}
-          fun={() => onClick(rowIndex)}
-          icon={icon}
-        ></TIconButton>
-      );
-    } else {
-      return (
-        <TButton
-          title={title}
-          sx={{textTransform: 'none'}}
-          key={index}
-          variant="outlined"
-          color={color}
-          size={size}
-          onClick={() => onClick(rowIndex)}
-          style={{ marginLeft: 8 }}
-          label={label}
-        ></TButton>
-      );
-    }
-  });
-};
-
 const renderStatusChip = (status) => {
   let color;
   switch (status) {
@@ -166,7 +132,41 @@ const renderUserRoleChip = (role) => {
   return <Chip label={role} sx={{background: color, color: 'white', height: '2em', border: 'none'}} variant="outlined" />;
 };
 
-export default function MuiTable({ path, serverSide=true, rowsPerPage=true, pagination=true, filter, cols, search, download, print, columns, filterType, selectableRows, title }){
+const renderButtons = (buttonsConfig, rowData, upadteDataTable) => {
+  // console.log(rowIndex, dataTableData)
+  return buttonsConfig.map((buttonConfig, index) => {
+    const { title, type, label, color, size, icon, onClick } = buttonConfig;
+    
+    if (type === 'icon') {
+      return (
+        <TIconButton
+          key={index}
+          title={title}
+          color={color}
+          size={size}
+          fun={() => onClick(rowData[0], upadteDataTable)}
+          icon={icon}
+        ></TIconButton>
+      );
+    } else {
+      return (
+        <TButton
+          title={title}
+          sx={{textTransform: 'none'}}
+          key={index}
+          variant="outlined"
+          color={color}
+          size={size}
+          onClick={() => onClick(rowData[0], upadteDataTable)}
+          style={{ marginLeft: 8 }}
+          label={label}
+        ></TButton>
+      );
+    }
+  });
+};
+
+export default function MuiTable({ columnOrder, path, serverSide=true, rowsPerPage=true, pagination=true, filter, cols, search, download, print, columns, filterType, selectableRows, title }){
 
   // const classes = useStyles();
 
@@ -175,23 +175,23 @@ export default function MuiTable({ path, serverSide=true, rowsPerPage=true, pagi
   const [loading, setLoading] = useState(false)
 
   const [dataTableData, setDataTableData] = useState([
-    ['D#45er', 'Wall paint', 'Dulux', 'Paint', 'Red', '4 Ltr', '11000.00', '13', 'Available'],
-      ['D#45er', 'Wall paint', 'Dulux', 'Paint', 'Red', '4 Ltr', '11000.00', '13', 'Inactive'],
-      ['D#45er', 'Wall paint', 'Dulux', 'Paint', 'Red', '4 Ltr', '11000.00', '13', 'Pending'],
-      ['D#45er', 'Wall paint', 'Dulux', 'Paint', 'Red', '4 Ltr', '11000.00', '13', 'Blocked'],
-      ['D#45er', 'Wall paint', 'Dulux', 'Paint', 'Red', '4 Ltr', '11000.00', '13', 'Sold'],
-      ['Kaui Ignace', 'Example Inc.', 'Yonkers', 'NY'],
-      ['Esperanza Susanne', 'Example Inc.', 'Hartford', 'CT'],
-      ['Christian Birgitte', 'Example Inc.', 'Tampa', 'FL'],
-      ['Meral Elias', 'Example Inc.', 'Hartford', 'CT'],
-      ['Deep Pau', 'Example Inc.', 'Yonkers', 'NY'],
-      ['Sebastiana Hani', 'Example Inc.', 'Dallas', 'TX'],
-      ['Marciano Oihana', 'Example Inc.', 'Yonkers', 'NY'],
-      ['Brigid Ankur', 'Example Inc.', 'Dallas', 'TX'],
-      ['Anna Siranush', 'Example Inc.', 'Yonkers', 'NY'],
-      ['Avram Sylva', 'Example Inc.', 'Hartford', 'CT'],
-      ['Serafima Babatunde', 'Example Inc.', 'Tampa', 'FL'],
-      ['Gaston Festus', 'Example Inc.', 'Tampa', 'FL'],
+    // ['111', 'Wall paint', 'Dulux', 'Paint', 'Red', '4 Ltr', '11000.00', '13', 'Available'],
+    //   ['2', 'Wall paint', 'Dulux', 'Paint', 'Red', '4 Ltr', '11000.00', '13', 'Inactive'],
+    //   ['3', 'Wall paint', 'Dulux', 'Paint', 'Red', '4 Ltr', '11000.00', '13', 'Pending'],
+    //   ['D#45er', 'Wall paint', 'Dulux', 'Paint', 'Red', '4 Ltr', '11000.00', '13', 'Blocked'],
+    //   ['D#45er', 'Wall paint', 'Dulux', 'Paint', 'Red', '4 Ltr', '11000.00', '13', 'Sold'],
+    //   ['Kaui Ignace', 'Example Inc.', 'Yonkers', 'NY'],
+    //   ['Esperanza Susanne', 'Example Inc.', 'Hartford', 'CT'],
+    //   ['Christian Birgitte', 'Example Inc.', 'Tampa', 'FL'],
+    //   ['Meral Elias', 'Example Inc.', 'Hartford', 'CT'],
+    //   ['Deep Pau', 'Example Inc.', 'Yonkers', 'NY'],
+    //   ['Sebastiana Hani', 'Example Inc.', 'Dallas', 'TX'],
+    //   ['Marciano Oihana', 'Example Inc.', 'Yonkers', 'NY'],
+    //   ['Brigid Ankur', 'Example Inc.', 'Dallas', 'TX'],
+    //   ['Anna Siranush', 'Example Inc.', 'Yonkers', 'NY'],
+    //   ['Avram Sylva', 'Example Inc.', 'Hartford', 'CT'],
+    //   ['Serafima Babatunde', 'Example Inc.', 'Tampa', 'FL'],
+    //   ['Gaston Festus', 'Example Inc.', 'Tampa', 'FL'],
   ])
 
   const [totalCount, setTotalCount] = useState(dataTableData.length)
@@ -204,9 +204,14 @@ export default function MuiTable({ path, serverSide=true, rowsPerPage=true, pagi
     sort: {}
   });
 
-  const { api } = useAxios()
+  const { api, apiNonAuth } = useAxios()
 
   const { CamelCaseWordFormat2 } = useFormatter()
+
+  const upadteDataTable = (id) => {
+    setDataTableData(dataTableData.filter(p => p[0]!==id))
+  }
+
 
   useEffect(() => {
 
@@ -214,14 +219,14 @@ export default function MuiTable({ path, serverSide=true, rowsPerPage=true, pagi
       const { page, rowsPerPage, search, filter, sort } = tableOptions;
       setLoading(true)
       // Example API call
-      await api.get(
+      await apiNonAuth.get(
         `/${path}/filter?page=${page}&limit=${rowsPerPage}${search && search!=='' && '&search='+search}${
         filter && Object.keys(filter).length>0 ? '&'+Object.keys(filter).map(key => key+'='+(Array.isArray(filter[key]) ? filter[key].join(',') : filter[key])).join('&') : ''}${
         sort && Object.keys(sort).length>0 ? '&sortCol='+CamelCaseWordFormat2(sort.name)+'&sortOrder='+sort.direction.toUpperCase() : ''}`
       )
         .then(response => {
           if(response.status===200){
-            setDataTableData(response.data.content);
+            setDataTableData(response.data.content.map(i => columnOrder.map(key => i[key])));
             setTotalCount(response.data.totalElements);
           }
           if(response.status===204){
@@ -230,7 +235,7 @@ export default function MuiTable({ path, serverSide=true, rowsPerPage=true, pagi
           }
         })
         .catch(error => {})
-        .finally(() => {setTimeout(() => {setLoading(false)}, 1000)})
+        .finally(() => {})
   
       // Update your data table with the fetched data
        // For pagination
@@ -270,7 +275,8 @@ export default function MuiTable({ path, serverSide=true, rowsPerPage=true, pagi
         options: {
           customBodyRender: (value, tableMeta) => {
             const rowIndex = tableMeta.rowIndex;
-            return <Grid sx={{display: 'flex', gap: '0.3em'}}>{renderButtons(option.options.buttonsConfig, rowIndex)}</Grid>;
+            const rowData = tableMeta.rowData;
+            return <Grid sx={{display: 'flex', gap: '0.3em'}}>{renderButtons(option.options.buttonsConfig, rowData, upadteDataTable)}</Grid>;
           },
           filter: false,
           sort: false

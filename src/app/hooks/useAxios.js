@@ -2,6 +2,7 @@ import axios from 'axios'
 import { backendApi } from 'config'
 import { useNotistack } from './useNotistack';
 import useAuth from './useAuth';
+import { request } from 'axios';
 
 const useAxios = () => {
 
@@ -28,6 +29,58 @@ const useAxios = () => {
 
     const { triggerNotifications } = useNotistack()
     const { logout } = useAuth()
+
+    // const handleResponse = (response) => {
+    //     // if (error.config && error.config.customData) {
+
+    //         // Handle custom retry logic for 401 status
+    //         // if (retry && error.response && error.response.status === 401) {
+    //         //     console.log("Retrying request due to 401 status...");
+    //         //     return api.request(error.config);  // Retry the original request
+    //         // }
+
+    //         // Silent error handling if specified
+    //         // if (silentError) {
+    //         //     console.warn("Error silenced:", error.message);
+    //         //     return Promise.resolve(null);  // Return null to prevent further handling
+    //         // }
+
+    //         // If an error callback is provided, execute it
+    //         // if (errorCallback && typeof errorCallback === 'function') {
+    //         //     errorCallback(error);  // Pass the error to the callback
+    //         // }
+    //     // }
+
+    //     // Default error handling
+    //     if (response) {
+    //         // console.log(error)
+    //         // Handle HTTP status-specific errors
+    //         switch (response.response.status) {
+    //             case 200:
+    //                 // console.error(response.data || "Successfully executed.");
+    //                 // triggerNotifications([{ text: response.data || "Successfully executed.", variant: 'success' }]);
+    //                 break;
+    //             case 201:
+    //                 console.error(response.data || "Successfully created.");
+    //                 triggerNotifications([{ text: response.data || "Successfully created.", variant: 'success' }]);
+    //                 break;
+    //             default:
+    //                 // console.error(`Error ${error.response.status}:`, error.response.data.message || "An unknown error occurred.");
+    //                 // triggerNotifications([{ text: `Error ${error.response.status}:` + error.response.data.message || "An unknown error occurred.", variant: 'error' }]);
+    //         }
+    //     } 
+    //     // else if (error.request) {
+    //     //     // Network error or no response received from the server
+    //     //     console.error("Network error:", "No response received from the server.");
+    //     //     triggerNotifications([{ text: "Network error: Please check your internet connection.", variant: 'warning' }]);
+    //     // } 
+    //     else {
+    //         // Error setting up the request
+    //         console.error("Request setup error:", request.message);
+    //     }
+
+    //     return Promise.resolve(response)
+    // }
 
     const handleError = (error) => {
         console.log(error)
@@ -120,11 +173,13 @@ const useAxios = () => {
 
     // Response interceptor to handle errors
     api.interceptors.response.use(
+        // response => handleResponse(response),  // Pass through successful responses
         response => response,  // Pass through successful responses
         error => handleError(error)
     );
 
     apiNonAuth.interceptors.response.use(
+        // response => handleResponse(response),  // Pass through successful responses
         response => response,  // Pass through successful responses
         error => handleError(error)
     );
