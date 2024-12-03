@@ -1,65 +1,57 @@
-
-import React from "react";
-import {
-  Grid
-} from "@mui/material";
+import React, { useEffect, useState } from "react";
+import { Grid, CircularProgress, Alert } from "@mui/material";
 import { ProductCard } from "..";
 
-const products = [
-  {
-    id: 1,
-    name: "Multilac Wall Finish",
-    price: "$360",
-    rating: 4.5,
-    reviews: 95,
-    image: "https://paints.lk/wp-content/uploads/2022/02/Podium-background-Made-with-PosterMyWall-24.jpg",
-  },
-  {
-    id: 2,
-    name: "Causeway wall filler",
-    price: "$700",
-    rating: 4.8,
-    reviews: 325,
-    image: "https://paints.lk/wp-content/uploads/2022/02/Podium-background-Made-with-PosterMyWall-24.jpg",
-
-  },
-  {
-    id: 3,
-    name: "Jat Brilliant White",
-    price: "$500",
-    rating: 4.2,
-    reviews: 145,
-    image: "https://paints.lk/wp-content/uploads/2022/02/Podium-background-Made-with-PosterMyWall-24.jpg",
-
-  },
-  {
-    id: 4,
-    name: "Nippon Super gloss",
-    price: "$1160",
-    rating: 4.0,
-    reviews: 35,
-    image: "https://paints.lk/wp-content/uploads/2022/02/Podium-background-Made-with-PosterMyWall-24.jpg",
-  },
-  {
-    id: 5,
-    name: "Dulux White and Space",
-    price: "$660",
-    rating: 4.5,
-    reviews: 55,
-    image: "https://paints.lk/wp-content/uploads/2022/02/Podium-background-Made-with-PosterMyWall-24.jpg",
-    isNew: true,
-  },
-  {
-    id: 6,
-    name: "Dulux Wood care",
-    price: "$660",
-    rating: 4.5,
-    reviews: 55,
-    image: "https://paints.lk/wp-content/uploads/2022/02/Podium-background-Made-with-PosterMyWall-24.jpg",
-  },
-];
-
 const ProductGrid = () => {
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [mapData, setMapData] = useState([]);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const response = await fetch("http://localhost:8080/product/read/all");
+        if (!response.ok) {
+          throw new Error("Failed to fetch products");
+        }
+        const data1 = await response.json();
+        const data = data1;
+        setMapData(data);
+        console.log("prodaaaaaaaaaaaaaaaaaaaaaaa", mapData);
+      } catch (error) {
+        setError(error.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProducts();
+  }, []);
+
+  useEffect(() => {
+    const data = mapData.map((product) => ({
+      id: product.productId,
+      name: product.productName, // Product Name
+      productDescription: product.productDescription, // Product Description
+      productPrice: product.productPrice, // Product Price
+      productDiscount: product.productDiscount, // Product Discount
+      image: product.imageIds[1], // Product Image
+    }));
+
+    setProducts(data);
+  }, [mapData]);
+
+  if (loading) {
+    return <CircularProgress sx={{ mt: 4 }} />;
+  }
+
+  if (error) {
+    return <Alert severity="error">{error}</Alert>;
+  }
+
+  
+
   return (
     <Grid
       container
