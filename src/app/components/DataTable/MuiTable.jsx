@@ -272,7 +272,8 @@ export default function MuiTable({ path, serverSide=true, rowsPerPage=true, pagi
             const rowIndex = tableMeta.rowIndex;
             return <Grid sx={{display: 'flex', gap: '0.3em'}}>{renderButtons(option.options.buttonsConfig, rowIndex)}</Grid>;
           },
-          filter: false
+          filter: false,
+          sort: false
         }
       })
     }
