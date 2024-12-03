@@ -11,18 +11,12 @@ const ProductImages = ({ images }) => {
       <Box sx={{ margin: 3 }}>
         <Breadcrumbs aria-label="breadcrumb">
           <Link color="inherit" href="/">
-            Account
+            Home
           </Link>
           <Link color="inherit" href="/my-account">
-            My Account
-          </Link>
-          <Link color="inherit" href="/product">
             Product
           </Link>
-          <Link color="inherit" href="/view-cart">
-            View Cart
-          </Link>
-          <Typography color="textPrimary">CheckOut</Typography>
+          <Typography color="textPrimary">Product Details</Typography>
         </Breadcrumbs>
       </Box>
       <Grid container spacing={2.5}>
