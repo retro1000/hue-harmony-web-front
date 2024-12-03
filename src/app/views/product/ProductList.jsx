@@ -536,7 +536,7 @@ function ProductList() {
             color: "primary",
             size: "small",
             onClick: (id, upadteDataTable) => {
-              navigate('productDetails/'+id)
+              navigate('/productDetails/'+id)
             },
           },
           {
@@ -546,7 +546,7 @@ function ProductList() {
             color: "primary",
             size: "small",
             onClick: (id, upadteDataTable) => {
-              navigate('product/update/'+id)
+              navigate('/product/update/'+id)
             },
           },
           {
