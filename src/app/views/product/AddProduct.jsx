@@ -39,6 +39,41 @@ const AddProduct = () => {
 
   const [selectedImages, setSelectedImages] = useState([]);
 
+  const colorList = [
+    "Brown",
+    "Peach Puff",
+    "Pink",
+    "Beige",
+    "Cornsilk",
+    "Deep Pink",
+    "Hot Pink",
+    "Antique White",
+    "Dark Salmon",
+    "Ghost White",
+    "Papaya Whip",
+    "Tan",
+    "Light Pink",
+    "Old Lace",
+    "Orange Red",
+    "Wheat",
+    "Black",
+    "White",
+    "Red",
+    "Green",
+    "Blue",
+    "Cyan",
+    "Magenta",
+    "Yellow",
+    "Orange",
+    "Purple",
+    "Gray",
+    "Silver",
+    "Gold",
+    "Navy",
+    "Teal",
+    "Maroon"
+];
+
   const positions = ["EXTERIOR",
     "INTERIOR",
     "EXTERIOR_AND_INTERIOR"];
@@ -181,15 +216,20 @@ const AddProduct = () => {
           required
           margin="normal"
         />
-        <TextField
-          fullWidth
-          label="Color"
-          name="productColor"
-          value={formData.productColor}
-          onChange={handleChange}
-          required
-          margin="normal"
-        />
+        <FormControl fullWidth margin="normal">
+          <InputLabel>Color</InputLabel>
+          <Select
+            name="productColor"
+            value={formData.productColor}
+            onChange={handleChange}
+          >
+            {colorList.map((color) => (
+              <MenuItem key={color} value={color}>
+                {color}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
         <TextField
           fullWidth
           label="Product Size (L)"
