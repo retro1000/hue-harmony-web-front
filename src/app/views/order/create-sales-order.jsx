@@ -1,7 +1,6 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { styled, Box, Typography, Paper } from "@mui/material";
 import { Breadcrumb } from "app/components";
-import { useState, useEffect } from "react";
 import {
   Button,
   Table,
@@ -19,7 +18,7 @@ import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import CloseIcon from "@mui/icons-material/Close";
-import axios from "axios";
+import { useAxios } from "../../hooks/useAxios";
 
 const Container = styled("div")(({ theme }) => ({
   margin: "30px",
@@ -31,83 +30,72 @@ const Container = styled("div")(({ theme }) => ({
 }));
 
 const CreateOrder = () => {
+  const { apiNonAuth } = useAxios();
+
   const [customers, setCustomers] = useState([]);
   const [selectedCustomer, setSelectedCustomer] = useState(null);
-
-  // Fetch customer data from backend using Axios
-  useEffect(() => {
-    const fetchCustomers = async () => {
-      try {
-        const response = await axios.get("/api/customers"); // Replace with your actual endpoint
-        setCustomers(response.data); // Assuming the response contains an array of customers
-      } catch (error) {
-        console.error("Error fetching customers:", error);
-      }
-    };
-
-    fetchCustomers();
-  }, []);
-
-  // Handle customer selection
-  const handleSelectCustomer = (customer) => {
-    setSelectedCustomer(customer);
-  };
-
-  // Handle closing the selected customer
-  const handleCloseCustomer = () => {
-    setSelectedCustomer(null);
-  };
-
   const [formData, setFormData] = useState({
     orderDate: "",
     orderNotes: "",
     discountAmount: 0,
     billingAddress: "",
-    shipmentVariationStatus: "PENDING", // Default value
+    shipmentVariationStatus: "PENDING",
     shipmentDate: "",
   });
+  const [rows, setRows] = useState([]);
+  const [total, setTotal] = useState(0);
 
-  // Handle form submission
-  const handleSubmit = (e) => {
-    // e.preventDefault();
+  
 
-    // Create JSON object from form data
-    const jsonData = {
-      customer: selectedCustomer.id,
-      orderDate: formData.orderDate,
-      orderNotes: formData.orderNotes,
-      discountAmount: formData.discountAmount,
-      billingAddress: formData.billingAddress,
-      totalAmount: formData.total,
-      shipmentVariationStatus: formData.shipmentVariationStatus,
-      shipmentDate: formData.shipmentDate,
-      orderItems: rows,
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await apiNonAuth.get("wholesalecustomer/get-all");
+        setCustomers(response.data);
+      } catch (err) {
+        console.error(err);
+      }
     };
 
-    console.log(jsonData); // Log the JSON data or submit it to your backend
+    fetchData();
+  }, []);
+
+  const [productList, setProductList] = useState([]); // Manage state
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await apiNonAuth.get("wholesalecustomer/get-products");
+        const products = response.data.map((item) => ({
+          value: item.product,       // Use product ID directly as value
+          unitPrice: item.fullPrice, // Use fullPrice for the unit price
+        }));
+        setProductList(products); // Update state with fetched products
+      } catch (err) {
+        console.error("Error fetching products:", err);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    const newTotal = rows.reduce((sum, row) => sum + row.netTotal, 0);
+    setTotal(newTotal);
+  }, [rows]);
+
+  const handleSelectCustomer = (e) => {
+    const selected = customers.find(
+      (customer) => customer.customerId === e.target.value
+    );
+    setSelectedCustomer(selected || null);
   };
 
-  // Handle input changes
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
+    setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
 
-  const [rows, setRows] = useState([]);
-
-  const [total, setTotal] = useState(27960.0); // Initialize total sum of net totals
-
-  // Product list (you can update this list based on your requirements)
-  const productList = [
-    { value: "DIS 001: Demo Product (11534.102)", unitPrice: 27960.0 },
-    { value: "DIS 002: Another Product (11534.103)", unitPrice: 15000.0 },
-    { value: "DIS 003: Sample Product (11534.104)", unitPrice: 20000.0 },
-  ];
-
-  // Add new row
   const handleAddItem = () => {
     const newRow = {
       id: rows.length + 1,
@@ -119,21 +107,17 @@ const CreateOrder = () => {
     setRows([...rows, newRow]);
   };
 
-  // Update product, unit price, quantity, and calculate net total
   const handleInputChanges = (e, id, field) => {
     const updatedRows = rows.map((row) => {
       if (row.id === id) {
         const updatedRow = { ...row, [field]: e.target.value };
-        // If product is selected, update unit price and recalculate net total
         if (field === "product") {
           const selectedProduct = productList.find(
             (p) => p.value === e.target.value
           );
-          updatedRow.unitPrice = selectedProduct
-            ? selectedProduct.unitPrice
-            : 0;
+          updatedRow.unitPrice = selectedProduct?.unitPrice || 0;
           updatedRow.netTotal = updatedRow.unitPrice * updatedRow.quantity;
-        } else if (field === "unitPrice" || field === "quantity") {
+        } else if (field === "quantity") {
           updatedRow.netTotal = updatedRow.unitPrice * updatedRow.quantity;
         }
         return updatedRow;
@@ -143,252 +127,150 @@ const CreateOrder = () => {
     setRows(updatedRows);
   };
 
-  // Update total sum whenever rows are updated
-  useEffect(() => {
-    const newTotal = rows.reduce((sum, row) => sum + row.netTotal, 0);
-    setTotal(newTotal);
-  }, [rows]); // This
+  const handleSubmit = () => {
+    if (!selectedCustomer) {
+      alert("Please select a customer before submitting the order.");
+      return;
+    }
+
+    const jsonData = {
+      customer: selectedCustomer.id,
+      ...formData,
+      totalAmount: total,
+      orderItems: rows,
+    };
+
+    console.log(jsonData);
+  };
 
   return (
     <Container>
       <Box className="breadcrumb">
         <Breadcrumb routeSegments={[{ name: "Invoice" }, { name: "Create" }]} />
       </Box>
-
       <Box sx={{ marginBottom: 6, mt: 4 }}>
-        <Box sx={{ mb: 3 }}>
-          <Typography
-            variant="h5"
-            sx={{
-              fontFamily: "Poppins, sans-serif",
-              fontWeight: 600,
-              color: "grey.00",
-            }}
-          >
-            {" "}
-            Create Sales Order
+        <Typography variant="h5" sx={{ fontWeight: 600, mb: 3 }}>
+          Create Sales Order
+        </Typography>
+        <Paper elevation={1} sx={{ mb: 4, p: 2, borderRadius: 4 }}>
+          <Typography variant="h6" gutterBottom>
+            Please Select a Customer
           </Typography>
-        </Box>
-        <Paper elevation={0} sx={{ mb: 4, p: 1, borderRadius: 4 }}>
-          <Box sx={{ p: 2, borderRadius: 2 }}>
-            <Typography variant="h6" gutterBottom>
-              Please Select a Customer
-              <IconButton color="primary">
-                <AddIcon />
-              </IconButton>
-            </Typography>
-
-            {/* Customer selection dropdown or list */}
-            <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
-              <TextField
-                select
-                //label="Customer"
-                value={selectedCustomer ? selectedCustomer.id : ""}
-                variant="outlined"
-                size="small"
-                sx={{ mr: 2, flex: 1 }}
-                onChange={(e) => {
-                  const selected = customers.find(
-                    (customer) => customer.id === e.target.value
-                  );
-                  handleSelectCustomer(selected);
-                }}
-                SelectProps={{
-                  native: true,
-                }}
-              >
-                <option value="">Select a customer</option>
-                {customers.map((customer) => (
-                  <option key={customer.id} value={customer.id}>
-                    {customer.name} | {customer.email}
-                  </option>
-                ))}
-              </TextField>
-              <IconButton onClick={handleCloseCustomer}>
-                <CloseIcon />
-              </IconButton>
-            </Box>
-
-            {/* Display selected customer information */}
-            {selectedCustomer && (
-              <Box sx={{ mt: 2 }}>
-                <Grid container spacing={0} sx={{ mt: 1 }}>
-                  <Grid item xs={12}>
-                    <Box
-                      sx={{ display: "flex", border: "1px solid #ccc", p: 1 }}
-                    >
-                      <Box
-                        sx={{
-                          borderRight: "2px solid #ccc",
-                          width: "10%",
-                          display: "flex",
-                          justifyContent: "center",
-                        }}
-                      >
-                        <Typography variant="body1" style={{ fontWeight: 500 }}>
-                          Field
-                        </Typography>
-                      </Box>
-                      <Box
-                        sx={{
-                          display: "flex",
-                          justifyContent: "center",
-                          width: "90%",
-                        }}
-                      >
-                        <Typography variant="body1" style={{ fontWeight: 800 }}>
-                          Information
-                        </Typography>
-                      </Box>
-                    </Box>
-                  </Grid>
-                  <Grid item xs={12}>
-                    <Box
-                      sx={{ display: "flex", border: "1px solid #ccc", p: 1 }}
-                    >
-                      <Box
-                        sx={{
-                          borderRight: "2px solid #ccc",
-                          width: "10%",
-                          display: "flex",
-                          justifyContent: "center",
-                        }}
-                      >
-                        <Typography variant="body1">Name</Typography>
-                      </Box>
-                      <Typography variant="body1">
-                        {selectedCustomer.name}
-                      </Typography>
-                    </Box>
-                  </Grid>
-                  <Grid item xs={12}>
-                    <Box
-                      sx={{ display: "flex", border: "1px solid #ccc", p: 1 }}
-                    >
-                      <Box
-                        sx={{
-                          borderRight: "2px solid #ccc",
-                          width: "10%",
-                          display: "flex",
-                          justifyContent: "center",
-                        }}
-                      >
-                        <Typography variant="body1">Address</Typography>
-                      </Box>
-                      <Typography variant="body1">
-                        {selectedCustomer.address}
-                      </Typography>
-                    </Box>
-                  </Grid>
-                </Grid>
-              </Box>
-            )}
-          </Box>
-        </Paper>
-        <Paper elevation={0} sx={{ mb: 4, p: 1, borderRadius: 4 }}>
-          <Box sx={{ p: 2, borderRadius: 2 }}>
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: "center",
-                paddingBottom: 2,
-              }}
+          <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
+            <TextField
+              select
+              value={selectedCustomer?.customerId || ""}
+              variant="outlined"
+              size="small"
+              sx={{ mr: 2, flex: 1 }}
+              onChange={handleSelectCustomer}
             >
-              <Typography variant="h5" fontWeight={600} gutterBottom>
-                Please Fill Data
+              <MenuItem value="">Select a customer</MenuItem>
+              {customers.map((customer) => (
+                <MenuItem key={customer.customerId} value={customer.customerId}>
+                  {customer.customerId} | {customer.firstName}
+                </MenuItem>
+              ))}
+            </TextField>
+            <IconButton onClick={() => setSelectedCustomer(null)}>
+              <CloseIcon />
+            </IconButton>
+          </Box>
+          {selectedCustomer && (
+            <Box>
+              <Typography variant="body1">
+                <strong>Name:</strong> {selectedCustomer.firstName}
+              </Typography>
+              <Typography variant="body1">
+                <strong>Address:</strong> {selectedCustomer.shippingAddress}
               </Typography>
             </Box>
-
-            <form>
-              <Grid container spacing={2}>
-                {/* Order Date */}
-                <Grid item xs={4}>
-                  <TextField
-                    label="Order Date" // Uncomment this if you want the label to show
-                    fullWidth
-                    required
-                    name="orderDate"
-                    value={formData.orderDate}
-                    onChange={handleInputChange}
-                    type="date"
-                    InputLabelProps={{
-                      shrink: true, // Ensures the label stays above the input even when the input is not focused
-                    }}
-                  />
-                </Grid>
-
-                {/* Order Notes */}
-                <Grid item xs={4}>
-                  <TextField
-                    label="Order Notes"
-                    fullWidth
-                    name="orderNotes"
-                    value={formData.orderNotes}
-                    onChange={handleInputChange}
-                  />
-                </Grid>
-
-                {/* Discount Amount */}
-                <Grid item xs={4}>
-                  <TextField
-                    label="Discount Amount"
-                    fullWidth
-                    name="discountAmount"
-                    value={formData.discountAmount}
-                    onChange={handleInputChange}
-                    type="number"
-                  />
-                </Grid>
-
-                {/* Billing Address */}
-                <Grid item xs={4}>
-                  <TextField
-                    label="Billing Address"
-                    fullWidth
-                    name="billingAddress"
-                    value={formData.billingAddress}
-                    onChange={handleInputChange}
-                  />
-                </Grid>
-
-                {/* Total Amount */}
-                <Grid item xs={4}>
-                  <TextField
-                    label="Total Amount"
-                    fullWidth
-                    name="totalAmount"
-                    value={total}
-                    // onChange={handleInputChange}
-                    type="number"
-                  />
-                </Grid>
-
-                {/* Shipment Date */}
-                <Grid item xs={4}>
-                  <TextField
-                    label="Shipment Date" // Uncomment this if you want the label to show
-                    fullWidth
-                    required
-                    name="shipmentDate"
-                    value={formData.shipmentDate}
-                    onChange={handleInputChange}
-                    type="date"
-                    InputLabelProps={{
-                      shrink: true, // Ensures the label stays above the input even when the input is not focused
-                    }}
-                  />
-                </Grid>
-              </Grid>
-            </form>
-          </Box>
+          )}
         </Paper>
-        <Box sx={{ p: 2, border: "1px solid #ccc", borderRadius: 2 }}>
+        <Paper elevation={1} sx={{ mb: 4, p: 2, borderRadius: 4 }}>
+          <Typography variant="h6" gutterBottom>
+            Order Details
+          </Typography>
+          <Grid container spacing={2}>
+            <Grid item xs={6}>
+              <TextField
+                label="Order Date"
+                type="date"
+                name="orderDate"
+                value={formData.orderDate}
+                onChange={handleInputChange}
+                InputLabelProps={{ shrink: true }}
+                fullWidth
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <TextField
+                label="Shipment Date"
+                type="date"
+                name="shipmentDate"
+                value={formData.shipmentDate}
+                onChange={handleInputChange}
+                InputLabelProps={{ shrink: true }}
+                fullWidth
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                label="Billing Address"
+                name="billingAddress"
+                value={formData.billingAddress}
+                onChange={handleInputChange}
+                fullWidth
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <TextField
+                label="Discount Amount"
+                type="number"
+                name="discountAmount"
+                value={formData.discountAmount}
+                onChange={handleInputChange}
+                fullWidth
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <TextField
+                label="Shipment Variation Status"
+                select
+                name="shipmentVariationStatus"
+                value={formData.shipmentVariationStatus}
+                onChange={handleInputChange}
+                fullWidth
+              >
+                <MenuItem value="PENDING">Pending</MenuItem>
+                <MenuItem value="SHIPPED">Shipped</MenuItem>
+                <MenuItem value="DELIVERED">Delivered</MenuItem>
+              </TextField>
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                label="Order Notes"
+                name="orderNotes"
+                value={formData.orderNotes}
+                onChange={handleInputChange}
+                multiline
+                rows={3}
+                fullWidth
+              />
+            </Grid>
+          </Grid>
+        </Paper>
+        <Paper elevation={1} sx={{ mb: 4, p: 2, borderRadius: 4 }}>
           <Typography variant="h6" gutterBottom>
             Product Details
           </Typography>
-          <Typography variant="subtitle2" sx={{ mt: 1 }}>
-            Note: Please add all the items and Click Finish to Proceed.
-          </Typography>
+          <Button
+            variant="contained"
+            startIcon={<AddIcon />}
+            onClick={handleAddItem}
+          >
+            Add Item
+          </Button>
           <TableContainer sx={{ mt: 2 }}>
             <Table>
               <TableHead>
@@ -398,7 +280,6 @@ const CreateOrder = () => {
                   <TableCell>Unit Price</TableCell>
                   <TableCell>Quantity</TableCell>
                   <TableCell>Net Total</TableCell>
-                  <TableCell>Actions</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -408,15 +289,9 @@ const CreateOrder = () => {
                     <TableCell>
                       <TextField
                         select
-                        fullWidth
                         value={row.product}
-                        onChange={(e) =>
-                          handleInputChanges(e, row.id, "product")
-                        }
+                        onChange={(e) => handleInputChanges(e, row.id, "product")}
                       >
-                        <MenuItem value="">
-                          <em>Choose a product</em>
-                        </MenuItem>
                         {productList.map((product) => (
                           <MenuItem key={product.value} value={product.value}>
                             {product.value}
@@ -424,70 +299,24 @@ const CreateOrder = () => {
                         ))}
                       </TextField>
                     </TableCell>
+                    <TableCell>{row.unitPrice}</TableCell>
                     <TableCell>
                       <TextField
-                        fullWidth
-                        value={row.unitPrice}
-                        onChange={(e) =>
-                          handleInputChanges(e, row.id, "unitPrice")
-                        }
                         type="number"
-                        disabled // Unit price is set automatically when product is selected
-                      />
-                    </TableCell>
-                    <TableCell>
-                      <TextField
-                        fullWidth
                         value={row.quantity}
-                        onChange={(e) =>
-                          handleInputChanges(e, row.id, "quantity")
-                        }
-                        type="number"
+                        onChange={(e) => handleInputChanges(e, row.id, "quantity")}
                       />
                     </TableCell>
                     <TableCell>{row.netTotal}</TableCell>
-                    <TableCell>
-                      <IconButton color="primary">
-                        <CheckCircleIcon />
-                      </IconButton>
-                      <IconButton color="secondary">
-                        <DeleteIcon />
-                      </IconButton>
-                    </TableCell>
                   </TableRow>
                 ))}
               </TableBody>
             </Table>
           </TableContainer>
-
-          {/* Display total */}
-          <Box sx={{ display: "flex", justifyContent: "space-between", mt: 2 }}>
-            {/* <Typography variant="h6">Total: {total.toFixed(2)}</Typography> */}
-            <Button
-              variant="contained"
-              startIcon={<AddIcon />}
-              sx={{ bgcolor: "#9e9e9e" }} // Grey color with hover effect
-              onClick={handleAddItem} // Add item functionality
-            >
-              Add Item
-            </Button>
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: "space-between",
-                width: "25%",
-              }}
-            >
-              <Button
-                variant="contained"
-                color="success"
-                onClick={handleSubmit} // Attach the handleSubmit function to the onClick event
-              >
-                Create Order
-              </Button>
-            </Box>
-          </Box>
-        </Box>
+        </Paper>
+        <Button variant="contained" color="success" onClick={handleSubmit}>
+          Submit Order
+        </Button>
       </Box>
     </Container>
   );

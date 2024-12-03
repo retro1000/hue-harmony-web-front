@@ -14,6 +14,7 @@ import ViewIcon from '@mui/icons-material/RemoveRedEye'
 import AddIcon from '@mui/icons-material/AddBox'
 import AddCreditIcon from '@mui/icons-material/PersonAdd'
 import useAuth from "app/hooks/useAuth";
+import { useAxios } from "../../hooks/useAxios";
 
 
 // STYLED COMPONENTS
@@ -27,6 +28,7 @@ const Container = styled("div")(({ theme }) => ({
 }));
 
 function CreditList() {
+  const { api, apiNonAuth } = useAxios();
 
     const navigate = useNavigate();
 
@@ -159,6 +161,29 @@ function CreditList() {
 
     }
 
+
+    const handleCreate = async () => {
+      console.log(newCredit);
+      try {
+        // Send the request to the backend
+        const response = await apiNonAuth.post(
+          "notes/credit/create",
+          newCredit
+        );
+    
+        // Log success
+        console.log("Checkout successful:", response.data);
+    
+        // Clear cart items and close the dialog
+        
+        
+      } catch (error) {
+        // Log any errors
+        console.error("Checkout failed:", error.response?.data || error.message);
+      }
+    };
+
+
     return (
         <Container>
           <Box className="breadcrumb">
@@ -198,8 +223,7 @@ function CreditList() {
               setOpen={setAddCreditOn}
               reasonCloseOn={true}
               setValues={setNewCredit}
-              url=""
-              data={newCredit}
+              handleSubmit={handleCreate}
             />:''
           }
         </Container>

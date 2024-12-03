@@ -12,6 +12,7 @@ import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import axios from "axios";
+import { useAxios } from "../../hooks/useAxios";
 
 import moment from 'moment';
 
@@ -204,8 +205,9 @@ const createFormFields = (fields) => {
 const formMaxHeight = 500
 
 
-export default function PopupFormDialog({popupSx='md', open, titleIcon: TitleIcon, title, setOpen, message, fields, setVariations, submitButton, reasonCloseOn=false, setValues,url,data}) {
+export default function PopupFormDialog({popupSx='md', open, titleIcon: TitleIcon, title, setOpen, message, fields, setVariations, submitButton, reasonCloseOn=false, setValues,handleSubmit}) {
 
+  const { api, apiNonAuth } = useAxios();
   const [expand, setExpand] = useState([]);
 
   useEffect(() => {
@@ -225,22 +227,7 @@ export default function PopupFormDialog({popupSx='md', open, titleIcon: TitleIco
     setExpand(expand.map((e, index) => i===index?!e:e));
   };
 
-  const handleSubmit = async (url, data) => {
-    try {
-      // Send the request to the backend using axios
-      const response = await axios.post(url, data);
-  
-      // Invoke the success callback if provided
-     
-  
-      console.log('Request successful:', response.data);
-    } catch (error) {
-      // Invoke the error callback if provided
-      
-  
-      console.error('Error occurred:', error);
-    }
-  };
+
 
   // const textFields = [].concat(fields.filter(field=>(['number', 'text', 'email'].includes(field.type))))
   // const radios = [].concat(fields.filter(field=>(field.type==='radio')))
@@ -301,7 +288,7 @@ export default function PopupFormDialog({popupSx='md', open, titleIcon: TitleIco
             Close
           </Button>
 
-          <Button variant="contained" onClick={handleSubmit(url,data)} color="primary">
+          <Button variant="contained" onClick={handleSubmit}  color="primary">
             {submitButton}
           </Button>
         </DialogActions>

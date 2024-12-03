@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from 'axios';
+import { useAxios } from "../../hooks/useAxios";
 import {
   Stack,
   Box,
@@ -9,6 +10,8 @@ import {
   IconButton,
   Icon,
   Button,
+  Select,
+  MenuItem
 } from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 
@@ -17,13 +20,19 @@ import {
   SimpleCard,
   MuiTable,
   PopupFormDialog,
+  TButton,
 } from "app/components";
+
+//import { SearchBarDefault, Breadcrumb, SimpleCard, MuiTable, PopupFormDialog} from "app/components";
 
 import { useNotistack } from "app/hooks/useNotistack";
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ViewIcon from '@mui/icons-material/RemoveRedEye'
 import AddCustomerIcon from '@mui/icons-material/PersonAdd';
+import useAuth from "app/hooks/useAuth";
+import AddIcon from '@mui/icons-material/AddBox'
+
 //import useAuth from "app/hooks/useAuth";
 
 // STYLED COMPONENTS
@@ -36,7 +45,12 @@ const Container = styled("div")(({ theme }) => ({
   },
 }));
 
+
+
+
+
 function CustomerList() {
+  const { api, apiNonAuth } = useAxios();
  // const { role } = useAuth();
   const navigate = useNavigate();
   const [selectedAction, setSelectedAction] = useState("barcode");
@@ -50,12 +64,13 @@ function CustomerList() {
     contactPerson: "",
     nic: "",
     contactNo: "",
-    emailAddress: "",
+    email: "",
     contactPersonNumber: "",
     landPhone: "",
     businessAddress: "",
     deliveryAddress: "",
     contactNos: [],
+    address:""
   });
 
   const [columns, setColumns] = useState([
@@ -66,7 +81,7 @@ function CustomerList() {
     { label: "Shipping Address", field: "shippingAddress" },
     { label: "Contact No", field: "contactNo" },
     { label: "Contact Person Number", field: "contactPersonNumber" },
-    { label: "Email", field: "emailAddress" },
+    { label: "Email", field: "email" },
     { label: "Total Purchases", field: "totalPurchases" },
     { label: "Status", field: "status" },
     {
@@ -83,47 +98,67 @@ function CustomerList() {
       ),
     },
   ]);
+  const {role} = useAuth() 
+  const handleCreate = async () => {
+    const customerData = {
+      address: newCustomer.deliveryAddress || "",
+      nicNo: newCustomer.nicNo || "", // Assuming you collect this in another form input
+      businessName: newCustomer.businessName || "",
+      contactPerson: newCustomer.contactPerson || "",
+      landPhone: newCustomer.landPhone || "",
+      deliveryAddress: newCustomer.deliveryAddress || "",
+      contactPersonNumber: newCustomer.contactPersonNumber || "",
+      customerDto: {
+        firstName: newCustomer.firstName || "",
+        lastName: newCustomer.lastName || "",
+        contactNos: [newCustomer.contactNo, newCustomer.contactPersonNumber].filter(Boolean), // Collect primary and secondary numbers
+        email: newCustomer.email || "",
+      },
+    };
+  
+    console.log("Customer Data:", customerData);
+  
+    try {
+      // Send the request to the backend
+      const response = await apiNonAuth.post(
+        "customer/create/wholesale-customer",
+        customerData
+      );
+      
+      setAddCustomerOn(false);
+  
+      // Log success
+      console.log("Checkout successful:", response.data);
+      
+      // Additional success logic here
+    } catch (error) {
+      // Log any errors
+      console.error("Checkout failed:", error.response?.data || error.message);
+    }
+  };
+  
 
   // Fetch customer data from backend
   useEffect(() => {
-    const fetchCustomerData = async () => {
+    const fetchData = async () => {
       try {
-       // const response = await axios.get('/api/customers');
-        const response = null;
-        // const fetchedData = response.data.map(customer => [
-        //   customer.id,
-        //   customer.firstName,
-        //   customer.lastName,
-        //   customer.businessAddress,
-        //   customer.shippingAddress,
-        //   customer.contactNo,
-        //   customer.contactPersonNumber,
-        //   customer.emailAddress,
-        //   customer.totalPurchases,
-        //   customer.status,
-        // ]);
-        //setDataTableData(fetchedData);
-      } catch (error) {
-        console.error('Error fetching customer data:', error);
+        const response = await apiNonAuth.get(
+          "wholesalecustomer/get-all"
+        );
+        
+       setDataTableData(response.data);
+        // setProducts(transformedProducts);
+      } catch (err) {
+        console.error(err);
       }
     };
-
-   // fetchCustomerData();
+  
+    fetchData();
   }, []);
+ 
 
   // Function to handle adding a new customer
-  const handleAddCustomer = async () => {
-    try {
-      const response = await axios.post('/api/customers', newCustomer);
-      if (response.status === 201) {
-        // Close the popup form and reload the customer data
-        setAddCustomerOn(false);
-       // fetchCustomerData();
-      }
-    } catch (error) {
-      console.error('Error adding new customer:', error);
-    }
-  };
+
 
   // Handling actions on customer (view/edit/delete)
   const handleViewCustomer = (row) => {
@@ -177,6 +212,17 @@ function CustomerList() {
           setValue: (val) => setNewCustomer({ ...newCustomer, businessName: val }),
         },
         {
+          key: "cus_address_text",
+          required: false,
+          id: "cus_address_text",
+          name: "address",
+          label: "Address",
+          type: "text",
+          placeholder: "Enter address",
+          value: newCustomer.address || "",
+          setValue: (val) => setNewCustomer({ ...newCustomer, address: val }),
+        },
+        {
           key: "cus_contact_person_text",
           required: false,
           id: "cus_contact_person_text",
@@ -202,12 +248,12 @@ function CustomerList() {
           key: "cus_email_text",
           required: true,
           id: "cus_email_text",
-          name: "emailAddress",
+          name: "email",
           label: "Email Address",
           type: "email",
           placeholder: "Enter email address",
-          value: newCustomer.emailAddress || "",
-          setValue: (val) => setNewCustomer({ ...newCustomer, emailAddress: val }),
+          value: newCustomer.email || "",
+          setValue: (val) => setNewCustomer({ ...newCustomer, email: val }),
         },
         {
           key: "cus_delivery_address_text",
@@ -219,6 +265,17 @@ function CustomerList() {
           placeholder: "Enter delivery address",
           value: newCustomer.deliveryAddress || "",
           setValue: (val) => setNewCustomer({ ...newCustomer, deliveryAddress: val }),
+        },
+        {
+          key: "cus_nic_text",
+          required: true,
+          id: "cus_nic_text",
+          name: "nicNo",
+          label: "NIC Number",
+          type: "text",
+          placeholder: "Enter NIC number",
+          value: newCustomer.nicNo || "",
+          setValue: (val) => setNewCustomer({ ...newCustomer, nicNo: val }),
         },
       ],
     },
@@ -250,35 +307,42 @@ function CustomerList() {
       ],
     },
   ];
+  
 
   return (
     <Container>
-      <Stack direction="row" justifyContent="space-between">
-        <Breadcrumb routeSegments={[{ name: "Customers", path: "/customer/list" }]} />
-        {/* {role === "admin" && (
-          <IconButton onClick={() => setAddCustomerOn(true)} color="primary">
-            <AddCustomerIcon />
-          </IconButton>
-        )} */}
-      </Stack>
-      <SimpleCard title="Customer List">
-        <Grid container spacing={3}>
-          <Grid item xs={12} md={6}>
-            {/* Search bar logic */}
-          </Grid>
-        </Grid>
-        <MuiTable
-          columns={columns}
-          data={datatableData}
-          count={datatableData.length}
-        />
-      </SimpleCard>
+      <Stack sx={{display: 'flex', justifyContent: 'center', alignItems: 'flex-start', width: '100%'}} spacing={5}>
+              <Box gap={'0.5em'} display={'flex'} flexWrap={'wrap'} sx={{width: '100%'}}>
+                {role==='BACKOFFICE'?<TButton 
+                  title={'Add Wholesale Customer'} 
+                  startIcon={<AddIcon />} 
+                  variant={'contained'} 
+                  label={'Whole Sale Customer'} 
+                  color={'primary'} 
+                  fun={setAddCustomerOn}>
+                </TButton>:''}
+              </Box>
+              <SimpleCard sx={{width: '100%', top: '-3em'}} title={'Search Customers'}>
+                <Box display={'flex'} flexWrap={'wrap'} gap={'0.4em'} sx={{width: '100%'}}>
+                  <Select sx={{width: '20%'}} value={selectedAction} size="small" onChange={(event)=>setSelectedAction(event.target.value)}>
+                    <MenuItem value={'Invoice_Id'}>Search by Invoice Id</MenuItem>
+                  </Select>
+                  {/* <SearchBarDefault sx={{width: '80%'}} value={searchText} setValue={setSearchText} placeholder={'Search Credits...'} search={search}></SearchBarDefault> */}
+                </Box>
+                <MuiTable search={true} print={false} download={false} columns={columns} data={datatableData} selectableRows={'none'} filterType={'text'}/>
+              </SimpleCard>
+              
+          </Stack>
       <PopupFormDialog
         open={addCustomerOn}
+        setOpen={setAddCustomerOn}
         title="Add New Customer"
-        onClose={() => setAddCustomerOn(false)}
-        formFields={addCustomerFields}
-        onSubmit={handleAddCustomer}
+        fields={addCustomerFields}
+       // onSubmit={handleAddCustomer}
+       submitButton="Create"
+       handleSubmit={handleCreate}
+      reasonCloseOn={true}
+      setValues={setNewCustomer}
       />
     </Container>
   );
