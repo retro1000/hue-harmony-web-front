@@ -129,6 +129,7 @@ const AddProduct = () => {
       formData.productDiscount,
       formData.productName,
       formData.productSize,
+      formData.productColor,
       formData.productPrice,
       formData.productStatus,
       formData.productTypes,
@@ -176,6 +177,15 @@ const AddProduct = () => {
           label="Product Name"
           name="productName"
           value={formData.productName}
+          onChange={handleChange}
+          required
+          margin="normal"
+        />
+        <TextField
+          fullWidth
+          label="Color"
+          name="productColor"
+          value={formData.productColor}
           onChange={handleChange}
           required
           margin="normal"
