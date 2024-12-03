@@ -38,6 +38,7 @@ const ProductGrid = ({ Title }) => {
   // Transform `mapData` to `products` when `mapData` changes
   useEffect(() => {
     const data = mapData.map((product) => ({
+      id: product.productId,
       name: product.productName, // Product Name
       productDescription: product.productDescription, // Product Description
       productPrice: product.productPrice, // Product Price
@@ -63,11 +64,15 @@ const ProductGrid = ({ Title }) => {
         spacing={2.5}
         sx={{ width: "100%", maxWidth: 1500, mt: 3 }}
       >
-        {products.map((product, index) => (
-          <Grid item xs={12} sm={6} md={3} key={index}>
-            <ProductCard product={product} />
-          </Grid>
-        ))}
+        {/* Select 4 random products */}
+        {products
+          .sort(() => 0.5 - Math.random()) // Shuffle the array
+          .slice(0, 4) // Take the first 4 items
+          .map((product, index) => (
+            <Grid item xs={12} sm={6} md={3} key={index}>
+              <ProductCard product={product} />
+            </Grid>
+          ))}
       </Grid>
       <br />
       <Box
@@ -92,6 +97,8 @@ const ProductGrid = ({ Title }) => {
       </Box>
     </>
   );
+  
+  
 };
 
 export default ProductGrid;
