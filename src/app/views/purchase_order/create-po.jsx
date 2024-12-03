@@ -40,8 +40,8 @@ function PurchaseOrderForm() {
 
   const createPurchaseOrder = async (orderData) => {
     try {
-      const response = await api.post(
-        `${API_URL}/purchase-orders/create`,
+      const response = await apiNonAuth.post(
+        "/purchase-order/create",
         orderData
       );
       return response.data;
@@ -64,6 +64,7 @@ function PurchaseOrderForm() {
   }, []);
 
   const handleSubmit = async () => {
+    console.log(description, selectedSupplier, cart.length);
     if (!description || !selectedSupplier || cart.length === 0) {
       alert("Please fill in all required fields");
       return;
@@ -71,18 +72,18 @@ function PurchaseOrderForm() {
 
     const orderData = {
       description,
-      supplier: { id: selectedSupplier.id },
+      supplier: {
+        supplierId: selectedSupplier.id,
+      },
       purchaseOrderProduct: cart.map((item) => ({
-        product: { id: item.id },
+        productId: item.id,
         quantity: item.quantity,
       })),
-      status: "PENDING", // Default status
     };
 
     try {
       const response = await createPurchaseOrder(orderData);
       alert("Purchase Order Created Successfully");
-      // Clear form on success
       setDescription("");
       setSelectedSupplier(null);
       setCart([]);
@@ -173,6 +174,10 @@ function PurchaseOrderForm() {
     setCart((prevCart) => prevCart.filter((item) => item.id !== id));
   };
 
+  const handleDescriptionChange = (event) => {
+    setDescription(event.target.value);
+  };
+
   return (
     <Container maxWidth="md" sx={{ mt: 5, mb: 5 }}>
       <Paper elevation={3} sx={{ p: 4 }}>
@@ -189,6 +194,8 @@ function PurchaseOrderForm() {
             label="Description"
             variant="outlined"
             margin="normal"
+            value={description}
+            onChange={handleDescriptionChange}
             sx={{ mb: 2 }}
           />
           <Autocomplete
@@ -301,6 +308,16 @@ function PurchaseOrderForm() {
             </Table>
           </Box>
         )}
+        <Box mt={4} textAlign="right">
+          <Button
+            variant="contained"
+            color="primary"
+            size="large"
+            onClick={handleSubmit}
+          >
+            Submit Order
+          </Button>
+        </Box>
       </Paper>
     </Container>
   );
