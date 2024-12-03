@@ -25,8 +25,6 @@ function PurchaseOrderForm() {
   const { api } = useAxios();
   const { apiNonAuth } = useAxios();
 
-  const API_URL = "http://localhost:8080/";
-
   const fetchSuppliers = async () => {
     try {
       const response = await apiNonAuth.get(`/supplier/getall`);
