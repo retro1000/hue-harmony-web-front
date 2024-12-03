@@ -8,6 +8,8 @@ import WalletIcon from '@mui/icons-material/AccountBalanceWallet';
 import HistoryIcon from '@mui/icons-material/History';
 import PersonIcon from '@mui/icons-material/Person';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
+import Cashier5Image from '../../../images/cashier5.png';
+import Cashier4Image from '../../../images/cashier4.png';
 
 const ProfileSidebar = () => {
   return (
@@ -35,7 +37,7 @@ const ProfileSidebar = () => {
           }}
         >
           <img
-            src="assets/images/cashier5.png"
+            src={Cashier5Image}
             alt="Employee"
             style={{
               width: "100%",
@@ -112,7 +114,7 @@ const ProfileSidebar = () => {
           }}
         >
           <img
-            src="assets/images/cashier4.png"
+            src={Cashier4Image}
             alt="Employee"
             style={{
               width: "100%",

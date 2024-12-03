@@ -3,7 +3,7 @@ import Loadable from "app/components/Loadable";
 import { authRoles } from "app/auth/authRoles";
 import AuthGuard from "app/auth/AuthGuard";
 
-const PosHomePage = Loadable(lazy(() => import("./Pos-home")));
+const PosHomePage = Loadable(lazy(() => import("./Pos-homeN")));
 const WishlistPage = Loadable(lazy(() => import("../../../../src/components/App/App")));
 const PosOrderList = Loadable(lazy(() => import("./Order-list")));
 const SalesSummary = Loadable(lazy(() => import("./Sales-summary")));
@@ -22,7 +22,7 @@ const PosRoutes = [
         path: "pos/order-list",
         element: (
             //<AuthGuard auth={authRoles.manager}>
-                <PosHomePage />
+                <PosOrderList/>
             //</AuthGuard>
         ),
     },
