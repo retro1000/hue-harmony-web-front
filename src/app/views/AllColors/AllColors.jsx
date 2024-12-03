@@ -5,28 +5,40 @@ import ProductGrid from "./component/ProductGrid"; // Assuming ProductGrid is im
 const ColorGridPage = () => {
   // Array of color codes
   const colorArray = [
-    "#FF5733",
-    "#33FF57",
-    "#3357FF",
-    "#FFFF33",
-    "#FF33FF",
-    "#33FFFF",
-    "#FFA500",
-    "#800080",
-    "#008080",
-    "#000080",
-    "#800000",
-    "#008000",
-    "#FFC0CB",
-    "#00FFFF",
-    "#0000FF",
-    "#FF0000",
-    "#FFD700",
-    "#4B0082",
-    "#EE82EE",
-    "#A52A2A",
+    "#A52A2A", // BROWN
+    "#FFDAB9", // PEACH_PUFF
+    "#FFC0CB", // PINK
+    "#F5F5DC", // BEIGE
+    "#FFF8DC", // CORNSILK
+    "#FF007F", // DEEP_PINK
+    "#FF69B4", // HOT_PINK
+    "#FAEBD7", // ANTIQUE_WHITE
+    "#FF8C69", // DARK_SALMON
+    "#F8F8FF", // GHOST_WHITE
+    "#FFEFD5", // PAPAYA_WHIP
+    "#D2B48C", // TAN
+    "#FFC8C8", // LIGHT_PINK
+    "#FDF5E6", // OLD_LACE
+    "#FF4500", // ORANGE_RED
+    "#F5DEB3", // WHEAT
+    "#000000", // BLACK
+    "#FFFFFF", // WHITE
+    "#FF0000", // RED
+    "#00FF00", // GREEN
+    "#0000FF", // BLUE
+    "#00FFFF", // CYAN
+    "#FF00FF", // MAGENTA
+    "#FFFF00", // YELLOW
+    "#FFA500", // ORANGE
+    "#800080", // PURPLE
+    "#808080", // GRAY
+    "#C0C0C0", // SILVER
+    "#FFD700", // GOLD
+    "#000080", // NAVY
+    "#008080", // TEAL
+    "#800000"  // MAROON
   ];
-
+  
   // State to track the currently active color
   const [activeColorIndex, setActiveColorIndex] = useState(null);
 
@@ -55,7 +67,7 @@ const ColorGridPage = () => {
                     display: "flex",
                     justifyContent: "center",
                     alignItems: "center",
-                    color: "#fff",
+                    color: "#000",
                     fontWeight: "bold",
                     textAlign: "center",
                     borderRadius: "16px", // Rounded edges
@@ -77,7 +89,7 @@ const ColorGridPage = () => {
             {activeColorIndex === index && (
               <Grid item xs={12}>
                 <Box mt={2}>
-                  <ProductGrid ProductColor={color} />
+                  <ProductGrid Title={"Products"} productColor={color} />
                 </Box>
               </Grid>
             )}
