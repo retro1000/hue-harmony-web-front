@@ -13,9 +13,14 @@ import ProductGrid from "../../components/HomePage/PopularProducts";
 import Footer from "../../components/ProductPage/Footer";
 import NotFound from "../sessions/NotFound";
 import { MatxLoading } from "app/components";
+import { useNavigate } from "react-router-dom";
+
+// Inside your ProductDetails component
+
 
 
 const ProductDetails = () => {
+
   const { id } = useParams()
 
   const { api } = useAxios()
@@ -46,6 +51,8 @@ const ProductDetails = () => {
 
   const [notFount, setNotFound] = useState(false)
 
+  const [size, setSize] = useState(0);
+  const [productColor, setProductColor] = useState('');
   const [brand, setBrand] = useState('');
   const [coat, setCoat] = useState('');
   const [coverage, setCoverage] = useState('');
@@ -64,12 +71,15 @@ const ProductDetails = () => {
   const [productFeatures, setProductFeatures] = useState([]);
   const [selectedImages, setSelectedImages] = useState([]);
 
+  const [userQuantity, setUserQuantity] = useState(0);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchProduct = async () => {
         try {
             const [productRes, reviewRes] = await Promise.allSettled([
-              apiNonAuth.get(`/product/read/2`),
+              apiNonAuth.get(`/product/read/${id}`),
               apiNonAuth.get(`/product/review/get/${id}`)
             ]);
 
@@ -78,6 +88,8 @@ const ProductDetails = () => {
             if (productRes.value.status === 200) {
                 setNotFound(false)
                 const product = productRes.value.data;
+                setProductColor(product.productColor);
+                setSize(product.productSize);
                 setBrand(product.brand);
                 setCoat(product.coat);
                 setCoverage(product.coverage);
@@ -118,6 +130,28 @@ const ProductDetails = () => {
     
 }, []);
 
+
+
+
+const buyNow = () => {
+  const orderObject = {
+    type: "buy",
+    products: [
+      {
+        id,
+        productName,
+        productImage: selectedImages[0], 
+        price: productPrice,
+        quantity: userQuantity,
+      },
+    ],
+  };
+
+  navigate("/billing-details", { state: orderObject });
+};
+
+
+
 const formatToLKR = (number) => {
   return new Intl.NumberFormat('en-LK', {
       style: 'currency',
@@ -156,9 +190,10 @@ const addToCart = async () => {
   }
 }
 
-const buyNow = () => {
-  console.log(orders)
-}
+
+const handleQuantityChange = (newQuantity) => {
+  setUserQuantity(newQuantity);
+};
 
 if(notFount) return <NotFound />
 
@@ -184,10 +219,16 @@ if(pageLoading) return <MatxLoading />
           </Typography>
           <Box display="flex" alignItems="center" gap={2} mb={2}>
             <Rating value={4.5} readOnly precision={0.5} />
-            <Typography variant="body2">(150 Reviews)</Typography>
+            {(productQuantity - onlineLimit > 0) ? 
             <Typography variant="body2" color="success.main">
-              In Stock
+            In Stock
+          </Typography>
+          :
+          <Typography variant="body2" color="error.main">
+              Out of Stock
             </Typography>
+            }
+            
           </Box>
           <Typography
             variant="h5"
@@ -199,13 +240,13 @@ if(pageLoading) return <MatxLoading />
             {productDescription}
           </Typography>
           <Box sx={{ borderTop: "1px solid black", my: 3 }} />
-          <ColorSelector />
-          <SizeSelector />
+          <ColorSelector productColor={productColor}/>
+          <SizeSelector productSize = {size}/>
           <Box display="flex" alignItems="center" gap={2} my={3}>
-            <QuantitySelector />
-            <Button variant="contained" color="error" sx={{ flexGrow: 1 }}>
-              Buy Now
-            </Button>
+          <QuantitySelector onQuantityChange={handleQuantityChange} />
+          <Button variant="contained" color="error" sx={{ flexGrow: 1 }} onClick={buyNow}>
+            Buy Now
+          </Button>
             <Button variant="outlined">
               <img
                 src="https://cdn.builder.io/api/v1/image/assets/TEMP/0fa9def9ca7809dc127749110b56d93aaeb78208b8aca3ad0069665c489173ab?apiKey=6f06a6b4e70e4dde93ec8099db2adb9d&&apiKey=6f06a6b4e70e4dde93ec8099db2adb9d"
