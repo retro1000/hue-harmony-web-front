@@ -29,6 +29,7 @@ import orderRoutes from "./views/order/order-routes";
 import creditDebitRoutes from "./views/credit-debit/credit-debit-routes";
 import productsDetails from "./views/ProductsDetails/PDetails-route";
 import wishlistRoutes from "./views/wishlist/wishlist-routes";
+import allColorRoutes from "./views/AllColors/AllColor-routes";
 
 // E-CHART PAGE
 const AppEchart = Loadable(
@@ -68,6 +69,7 @@ const routes = [
       ...InvoiceRoutes,
       ...productsDetails,
       ...wishlistRoutes,
+      ...allColorRoutes,
       {
         path: "/dashboard/default",
         element: (
