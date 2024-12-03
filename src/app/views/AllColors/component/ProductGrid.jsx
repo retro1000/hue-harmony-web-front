@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Grid, Box, Typography } from "@mui/material";
-import ProductCard from "../../../components/ProductPage/ProductCard";
+import ProductCard from "../../../components/Card/ProductCard";
 
 const ProductGrid = ({ Title, productColor }) => {
   const [mapData, setMapData] = useState([]);

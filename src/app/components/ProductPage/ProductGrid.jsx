@@ -18,7 +18,7 @@ const ProductGrid = () => {
         const data1 = await response.json();
         const data = data1;
         setMapData(data);
-        console.log("prodaaaaaaaaaaaaaaaaaaaaaaa", mapData);
+
       } catch (error) {
         setError(error.message);
       } finally {
