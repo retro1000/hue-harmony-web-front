@@ -1,14 +1,26 @@
-
 import React, { useState } from "react";
 import { Box, IconButton, Typography } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 
-const QuantitySelector = () => {
+const QuantitySelector = ({ onQuantityChange }) => {
   const [quantity, setQuantity] = useState(2);
 
-  const handleIncrease = () => setQuantity((prev) => prev + 1);
-  const handleDecrease = () => setQuantity((prev) => (prev > 1 ? prev - 1 : 1));
+  const handleIncrease = () => {
+    setQuantity((prev) => {
+      const newQuantity = prev + 1;
+      onQuantityChange(newQuantity); // Notify parent
+      return newQuantity;
+    });
+  };
+
+  const handleDecrease = () => {
+    setQuantity((prev) => {
+      const newQuantity = prev > 1 ? prev - 1 : 1;
+      onQuantityChange(newQuantity); // Notify parent
+      return newQuantity;
+    });
+  };
 
   return (
     <Box

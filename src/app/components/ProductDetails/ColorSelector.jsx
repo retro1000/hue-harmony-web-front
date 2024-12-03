@@ -1,15 +1,13 @@
 import React, { useState } from "react";
 import { Box, Typography, Radio, Card, CardContent, CardActions, Button } from "@mui/material";
 
-const ColorSelector = () => {
+const ColorSelector = (productColor) => {
   const [selectedColor, setSelectedColor] = useState(null);
 
+
+
   const colors = [
-    "#a0bfe0",
-    "#a0b0e0",
-    "#a0bce0",
-    "#e07575",
-    // Add more colors as needed
+    {productColor}
   ];
 
   return (
