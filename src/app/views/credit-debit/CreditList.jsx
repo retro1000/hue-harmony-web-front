@@ -45,124 +45,70 @@ function CreditList() {
 
   const [newCredit, setNewCredit] = useState({});
 
+  const handleFormSubmit = () => {
+    console.log("Submitted Credit Data:", newCredit);
+    // Add your form submission logic here
+    setAddCreditOn(false); // Close the popup after submission
+  };
+
   const addCreditFields = [
     {
-      title: 'Credit Details',
+      title: "Credit Details",
       inputs: [
         {
-          key: "cus_f_name_text",
+          key: "invoice_select",
           required: true,
-          id: "cus_f_name_text",
-          name: "firstName",
-          label: "First Name",
-          type: "text",
-          placeholder: "Enter Credit first name",
-          value: newCredit.firstName || "",
-          setValue: (val) =>
-            setNewCredit({ ...newCredit, firstName: val }),
+          id: "invoice_select",
+          name: "invoice",
+          label: "Select Invoice",
+          type: "select",
+          options: [
+            { label: "Invoice #1234", value: "1234" },
+            { label: "Invoice #5678", value: "5678" },
+            // Add more invoice options here
+          ],
+          placeholder: "Select an invoice",
+          value: newCredit.invoice,
+          setValue: (val) => setNewCredit({ ...newCredit, invoice: val }),
         },
         {
-          key: "cus_l_name_text",
+          key: "amount_field",
           required: true,
-          id: "cus_l_name_text",
-          name: "lastName",
-          label: "Last Name",
-          type: "text",
-          placeholder: "Enter Credit last name",
-          value: newCredit.lastName || "",
-          setValue: (val) =>
-            setNewCredit({ ...newCredit, lastName: val }),
+          id: "amount_field",
+          name: "amount",
+          label: "Amount",
+          type: "number",
+          placeholder: "Enter amount",
+          value: newCredit.amount,
+          setValue: (val) => setNewCredit({ ...newCredit, amount: val }),
         },
         {
-          key: "b_address_text",
+          key: "reason_field",
           required: true,
-          break: false,
-          id: "b_address_text",
-          name: "billingAddress",
-          label: "Billing Address",
+          id: "reason_field",
+          name: "reason",
+          label: "Reason",
           type: "text",
-          placeholder: "Enter billing address",
-          value: newCredit.billingAddress || "",
-          setValue: (val) =>
-            setNewCredit({ ...newCredit, billingAddress: val }),
-          sx: { width: "50%" },
+          placeholder: "Enter reason",
+          value: newCredit.reason,
+          setValue: (val) => setNewCredit({ ...newCredit, reason: val }),
         },
         {
-          key: "s_address_text",
+          key: "date_field",
           required: true,
-          id: "s_address_text",
-          name: "shippingAddress",
-          label: "Shipping Address",
-          type: "text",
-          break: true,
-          placeholder: "Enter shipping address",
-          value: newCredit.shippingAddress || "",
-          setValue: (val) =>
-            setNewCredit({ ...newCredit, shippingAddress: val }),
-          sx: { width: "50%" },
+          id: "date_field",
+          name: "date",
+          label: "Date",
+          type: "date",
+          placeholder: "Select a date",
+          value: newCredit.date,
+          setValue: (val) => setNewCredit({ ...newCredit, date: val }),
         },
-        {
-          key: "contact_no",
-          id: "contact_no",
-          required: true, 
-          name: "primaryContactNo",
-          label: "Primary Contact Number",
-          type: "tel",
-          placeholder: "Enter primary contact number",
-          value: newCredit.primaryContactNo || "",
-          setValue: (val) => setNewCredit({ ...newCredit, primaryContactNo: val }),
-        },
-      ]
+      ],
     },
-    {
-      title: 'Additional Details',
-      inputs: [
-        {
-          key: "sup_email_text",
-          required: false,
-          id: "sup_email_text",
-          name: "CreditEmail",
-          label: "Credit Email",
-          type: "email",
-          placeholder: "Enter Credit email",
-          value: newCredit.CreditEmail || "",
-          setValue: (val) =>
-            setNewCredit({ ...newCredit, CreditEmail: val }),
-        },
-        {
-          key: "secondary_contact_no",
-          id: "secondary_contact_no",
-          required: true, 
-          name: "otherContactNo",
-          label: "Other Contact Number",
-          type: "tel",
-          placeholder: "Enter other contact number",
-          value: newCredit.otherContactNo || "",
-          setValue: (val) => setNewCredit({ ...newCredit, otherContactNo: val }),
-        },
-      ]
-    }
   ];
 
-    const [datatableData, setDataTableData] = useState([
-      ['1', 'D#45er', 'Dulux', '11000.00', '13 Jun 2024', 'User1',  'Available'],
-      ['D#45er', 'Wall paint', 'Dulux', 'Paint', 'Red', '4 Ltr', '11000.00', '13', 'Inactive'],
-      ['D#45er', 'Wall paint', 'Dulux', 'Paint', 'Red', '4 Ltr', '11000.00', '13', 'Pending'],
-      ['D#45er', 'Wall paint', 'Dulux', 'Paint', 'Red', '4 Ltr', '11000.00', '13', 'Blocked'],
-      ['D#45er', 'Wall paint', 'Dulux', 'Paint', 'Red', '4 Ltr', '11000.00', '13', 'Sold'],
-      ['Kaui Ignace', 'Example Inc.', 'Yonkers', 'NY'],
-      ['Esperanza Susanne', 'Example Inc.', 'Hartford', 'CT'],
-      ['Christian Birgitte', 'Example Inc.', 'Tampa', 'FL'],
-      ['Meral Elias', 'Example Inc.', 'Hartford', 'CT'],
-      ['Deep Pau', 'Example Inc.', 'Yonkers', 'NY'],
-      ['Sebastiana Hani', 'Example Inc.', 'Dallas', 'TX'],
-      ['Marciano Oihana', 'Example Inc.', 'Yonkers', 'NY'],
-      ['Brigid Ankur', 'Example Inc.', 'Dallas', 'TX'],
-      ['Anna Siranush', 'Example Inc.', 'Yonkers', 'NY'],
-      ['Avram Sylva', 'Example Inc.', 'Hartford', 'CT'],
-      ['Serafima Babatunde', 'Example Inc.', 'Tampa', 'FL'],
-      ['Gaston Festus', 'Example Inc.', 'Tampa', 'FL'],
-    ]);
+    const [datatableData, setDataTableData] = useState([]);
 
     const [columns, setColumns] = useState([
       {
@@ -172,26 +118,20 @@ function CreditList() {
           display: false,
         },
       },
+      
       {
-        name:'Barcode',
-        label: 'Barcode',
+        name:'Invoice_Id',
+        label: 'Invoice Id',
       },
       {
-        name:'Credit Name',
-        label: 'Credit Name',
+        name:'Amount',
+        label: 'Amount (LKR)',
       },
       {
-        name:'Grand Total',
-        label: 'Grand Total (LKR)',
-      },
-      {
-        name:'Created On',
+        name:'Created_On',
         label: 'Created On',
       },
-      {
-        name:'Created By',
-        label: 'Created By',
-      },
+     
       {
         name:'Status',
         label: 'Status',
@@ -239,30 +179,27 @@ function CreditList() {
               <SimpleCard sx={{width: '100%', top: '-3em'}} title={'Search Credits'}>
                 <Box display={'flex'} flexWrap={'wrap'} gap={'0.4em'} sx={{width: '100%'}}>
                   <Select sx={{width: '20%'}} value={selectedAction} size="small" onChange={(event)=>setSelectedAction(event.target.value)}>
-                    <MenuItem value={'barcode'}>Search by name</MenuItem>
-                    <MenuItem value={'name'}>Search by contact number</MenuItem>
-                    <MenuItem value={'name'}>Search by address</MenuItem>
-                    <MenuItem value={'all'}>Search by all</MenuItem>
+                    <MenuItem value={'Invoice_Id'}>Search by Invoice Id</MenuItem>
                   </Select>
                   <SearchBarDefault sx={{width: '80%'}} value={searchText} setValue={setSearchText} placeholder={'Search Credits...'} search={search}></SearchBarDefault>
                 </Box>
-                {searchResult && searchResult.length>0 && <MuiTable search={false} print={false} download={false} columns={columns} dataTableData={searchResult} selectableRows={'none'} filterType={'text'}/>}
+                <MuiTable search={false} print={false} download={false} columns={columns} dataTableData={datatableData} selectableRows={'none'} filterType={'text'}/>
               </SimpleCard>
-              <SimpleCard sx={{width: '100%'}}>
-                <MuiTable print={true} download={true} title={'Credits'} columns={columns} dataTableData={datatableData} selectableRows={'none'} filterType={'text'}/>
-              </SimpleCard>
+              
           </Stack>
           {  
             role==='BACKOFFICE'?
             <PopupFormDialog
               open={addCreditOn}
-              title="Add Credit"
-              submitButton="Add Credit"
+              title="Credit Note"
+              submitButton="Create"
               titleIcon={<AddCreditIcon />}
               fields={addCreditFields}
               setOpen={setAddCreditOn}
               reasonCloseOn={true}
               setValues={setNewCredit}
+              url=""
+              data={newCredit}
             />:''
           }
         </Container>
