@@ -6,6 +6,7 @@ import AuthGuard from "app/auth/AuthGuard";
 const WholesaleOrderList = Loadable(lazy(() => import("./WholesaleOrderList")));
 const RetailOrderList = Loadable(lazy(() => import("./RetailOrderList")));
 const OrderDetails = Loadable(lazy(() => import("./OrderDetails")));
+const CreateOrder = Loadable(lazy(() => import("./create-sales-order")));
 
 const orderRoutes = [
   {
@@ -32,6 +33,15 @@ const orderRoutes = [
       </AuthGuard>
     ),
   },
+  {
+    path: "/order/crete-order",
+    element: (
+      <AuthGuard auth={[...authRoles.back_office, ...authRoles.sales_manager]}>
+        <CreateOrder />
+        </AuthGuard> 
+    ),
+  },
+  
 ];
 
 export default orderRoutes;

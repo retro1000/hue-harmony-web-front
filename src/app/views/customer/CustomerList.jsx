@@ -1,40 +1,39 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-
+import axios from 'axios';
+import { useAxios } from "../../hooks/useAxios";
 import {
   Stack,
   Box,
   styled,
-  Tabs,
-  Tab,
-  Typography,
-  Select,
-  Button,
   Grid,
   IconButton,
   Icon,
-  MenuItem,
+  Button,
+  Select,
+  MenuItem
 } from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 
 import {
-  SearchBarDefault,
   Breadcrumb,
   SimpleCard,
   MuiTable,
-  TButton,
   PopupFormDialog,
+  TButton,
 } from "app/components";
 
-import { useNotistack } from "app/hooks/useNotistack";
+//import { SearchBarDefault, Breadcrumb, SimpleCard, MuiTable, PopupFormDialog} from "app/components";
 
+import { useNotistack } from "app/hooks/useNotistack";
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ViewIcon from '@mui/icons-material/RemoveRedEye'
-import AddIcon from '@mui/icons-material/AddBox'
-import AddCustomerIcon from '@mui/icons-material/PersonAdd'
+import AddCustomerIcon from '@mui/icons-material/PersonAdd';
 import useAuth from "app/hooks/useAuth";
+import AddIcon from '@mui/icons-material/AddBox'
 
+//import useAuth from "app/hooks/useAuth";
 
 // STYLED COMPONENTS
 const Container = styled("div")(({ theme }) => ({
@@ -46,55 +45,134 @@ const Container = styled("div")(({ theme }) => ({
   },
 }));
 
+
+
+
+
 function CustomerList() {
-
-    const {role} = useAuth()
-
-    const navigate = useNavigate();
-
+  const { api, apiNonAuth } = useAxios();
+ // const { role } = useAuth();
+  const navigate = useNavigate();
   const [selectedAction, setSelectedAction] = useState("barcode");
-
   const [searchText, setSearchText] = useState(undefined);
-
-  const [searchResult, setSearchResult] = useState([
-    [
-      "6",
-      "Meral Elias",
-      "Example St, Hartford",
-      "Example St, Hartford",
-      "0712233445",
-      "0701223344",
-      "meral.elias@example.com",
-      "70000.00",
-      "Active",
-    ],
-    [
-      "7",
-      "Esperanza Susanne",
-      "Example Ave, Hartford",
-      "Example Ave, Hartford",
-      "0713344556",
-      "0702334455",
-      "esperanza.susanne@example.com",
-      "95000.00",
-      "Inactive",
-    ],
-    [
-      "8",
-      "Christian Birgitte",
-      "Example Blvd, Tampa",
-      "Example Blvd, Tampa",
-      "0714455667",
-      "0703445566",
-      "christian.birgitte@example.com",
-      "110000.00",
-      "Active",
-    ],
-  ]);
-
+  const [datatableData, setDataTableData] = useState([]);
   const [addCustomerOn, setAddCustomerOn] = useState(false);
+  const [newCustomer, setNewCustomer] = useState({
+    firstName: "",
+    lastName: "",
+    businessName: "",
+    contactPerson: "",
+    nic: "",
+    contactNo: "",
+    email: "",
+    contactPersonNumber: "",
+    landPhone: "",
+    businessAddress: "",
+    deliveryAddress: "",
+    contactNos: [],
+    address:""
+  });
 
-  const [newCustomer, setNewCustomer] = useState({});
+  const [columns, setColumns] = useState([
+    { label: "ID", field: "id" },
+    { label: "First Name", field: "firstName" },
+    { label: "Last Name", field: "lastName" },
+    { label: "Business Address", field: "businessAddress" },
+    { label: "Shipping Address", field: "shippingAddress" },
+    { label: "Contact No", field: "contactNo" },
+    { label: "Contact Person Number", field: "contactPersonNumber" },
+    { label: "Email", field: "email" },
+    { label: "Total Purchases", field: "totalPurchases" },
+    { label: "Status", field: "status" },
+    {
+      label: "Actions",
+      field: "actions",
+      render: (row) => (
+        
+          <IconButton onClick={() => handleViewCustomer(row)}>
+            <ViewIcon />
+          </IconButton>
+         
+         
+        
+      ),
+    },
+  ]);
+  const {role} = useAuth() 
+  const handleCreate = async () => {
+    const customerData = {
+      address: newCustomer.deliveryAddress || "",
+      nicNo: newCustomer.nicNo || "", // Assuming you collect this in another form input
+      businessName: newCustomer.businessName || "",
+      contactPerson: newCustomer.contactPerson || "",
+      landPhone: newCustomer.landPhone || "",
+      deliveryAddress: newCustomer.deliveryAddress || "",
+      contactPersonNumber: newCustomer.contactPersonNumber || "",
+      customerDto: {
+        firstName: newCustomer.firstName || "",
+        lastName: newCustomer.lastName || "",
+        contactNos: [newCustomer.contactNo, newCustomer.contactPersonNumber].filter(Boolean), // Collect primary and secondary numbers
+        email: newCustomer.email || "",
+      },
+    };
+  
+    console.log("Customer Data:", customerData);
+  
+    try {
+      // Send the request to the backend
+      const response = await apiNonAuth.post(
+        "customer/create/wholesale-customer",
+        customerData
+      );
+      
+      setAddCustomerOn(false);
+  
+      // Log success
+      console.log("Checkout successful:", response.data);
+      
+      // Additional success logic here
+    } catch (error) {
+      // Log any errors
+      console.error("Checkout failed:", error.response?.data || error.message);
+    }
+  };
+  
+
+  // Fetch customer data from backend
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await apiNonAuth.get(
+          "wholesalecustomer/get-all"
+        );
+        
+       setDataTableData(response.data);
+        // setProducts(transformedProducts);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+  
+    fetchData();
+  }, []);
+ 
+
+  // Function to handle adding a new customer
+
+
+  // Handling actions on customer (view/edit/delete)
+  const handleViewCustomer = (row) => {
+    navigate(`/customer/view/${row.id}`);
+  };
+
+  const handleEditCustomer = (row) => {
+    navigate(`/customer/edit/${row.id}`);
+  };
+
+  const handleDeleteCustomer = (row) => {
+    // Handle delete customer logic
+    console.log("Deleting customer", row.id);
+  };
 
   const addCustomerFields = [
     {
@@ -123,308 +201,151 @@ function CustomerList() {
           setValue: (val) => setNewCustomer({ ...newCustomer, lastName: val }),
         },
         {
-          key: "business_name",
+          key: "cus_biz_name_text",
           required: false,
-          id: "business_name",
+          id: "cus_biz_name_text",
           name: "businessName",
           label: "Business Name",
           type: "text",
-          placeholder: "Enter business name (if applicable)",
+          placeholder: "Enter business name",
           value: newCustomer.businessName || "",
           setValue: (val) => setNewCustomer({ ...newCustomer, businessName: val }),
         },
         {
-          key: "contact_person",
+          key: "cus_address_text",
           required: false,
-          id: "contact_person",
+          id: "cus_address_text",
+          name: "address",
+          label: "Address",
+          type: "text",
+          placeholder: "Enter address",
+          value: newCustomer.address || "",
+          setValue: (val) => setNewCustomer({ ...newCustomer, address: val }),
+        },
+        {
+          key: "cus_contact_person_text",
+          required: false,
+          id: "cus_contact_person_text",
           name: "contactPerson",
           label: "Contact Person",
           type: "text",
-          placeholder: "Enter contact person name",
+          placeholder: "Enter contact person",
           value: newCustomer.contactPerson || "",
           setValue: (val) => setNewCustomer({ ...newCustomer, contactPerson: val }),
         },
         {
-          key: "nic_number",
+          key: "cus_contact_no_text",
           required: true,
-          id: "nic_number",
-          name: "nic",
-          label: "NIC Number",
-          type: "text",
-          placeholder: "Enter NIC number",
-          value: newCustomer.nic || "",
-          setValue: (val) => setNewCustomer({ ...newCustomer, nic: val }),
-        },
-        {
-          key: "contact_no",
-          required: true,
-          id: "contact_no",
+          id: "cus_contact_no_text",
           name: "contactNo",
-          label: "Primary Phone Number",
-          type: "tel",
-          placeholder: "Enter primary phone number",
+          label: "Contact Number",
+          type: "text",
+          placeholder: "Enter contact number",
           value: newCustomer.contactNo || "",
           setValue: (val) => setNewCustomer({ ...newCustomer, contactNo: val }),
         },
         {
-          key: "email_address",
-          required: false,
-          id: "email_address",
-          name: "emailAddress",
+          key: "cus_email_text",
+          required: true,
+          id: "cus_email_text",
+          name: "email",
           label: "Email Address",
           type: "email",
           placeholder: "Enter email address",
-          value: newCustomer.emailAddress || "",
-          setValue: (val) => setNewCustomer({ ...newCustomer, emailAddress: val }),
+          value: newCustomer.email || "",
+          setValue: (val) => setNewCustomer({ ...newCustomer, email: val }),
+        },
+        {
+          key: "cus_delivery_address_text",
+          required: false,
+          id: "cus_delivery_address_text",
+          name: "deliveryAddress",
+          label: "Delivery Address",
+          type: "text",
+          placeholder: "Enter delivery address",
+          value: newCustomer.deliveryAddress || "",
+          setValue: (val) => setNewCustomer({ ...newCustomer, deliveryAddress: val }),
+        },
+        {
+          key: "cus_nic_text",
+          required: true,
+          id: "cus_nic_text",
+          name: "nicNo",
+          label: "NIC Number",
+          type: "text",
+          placeholder: "Enter NIC number",
+          value: newCustomer.nicNo || "",
+          setValue: (val) => setNewCustomer({ ...newCustomer, nicNo: val }),
         },
       ],
     },
     {
-      title: "Address Details",
+      title: "Additional Contact Numbers",
       inputs: [
         {
-          key: "business_address",
-          required: true,
-          id: "business_address",
-          name: "businessAddress",
-          label: "Business Address",
+          key: "cus_land_phone_text",
+          required: false,
+          id: "cus_land_phone_text",
+          name: "landPhone",
+          label: "Landline Phone",
           type: "text",
-          placeholder: "Enter business address",
-          value: newCustomer.businessAddress || "",
-          setValue: (val) => setNewCustomer({ ...newCustomer, businessAddress: val }),
+          placeholder: "Enter landline phone",
+          value: newCustomer.landPhone || "",
+          setValue: (val) => setNewCustomer({ ...newCustomer, landPhone: val }),
         },
         {
-          key: "delivery_address",
+          key: "cus_contact_person_number_text",
           required: false,
-          id: "delivery_address",
-          name: "deliveryAddress",
-          label: "Delivery Address",
+          id: "cus_contact_person_number_text",
+          name: "contactPersonNumber",
+          label: "Contact Person Number",
           type: "text",
-          placeholder: "Enter delivery address (if different)",
-          value: newCustomer.deliveryAddress || "",
-          setValue: (val) => setNewCustomer({ ...newCustomer, deliveryAddress: val }),
+          placeholder: "Enter contact person number",
+          value: newCustomer.contactPersonNumber || "",
+          setValue: (val) => setNewCustomer({ ...newCustomer, contactPersonNumber: val }),
         },
       ],
     },
   ];
   
-  
-  
-
-  const [datatableData, setDataTableData] = useState([
-    [
-      "1",
-      "John Doe",
-      "123 Main St, Springfield",
-      "456 Elm St, Springfield",
-      "0777123456",
-      "0711123456",
-      "john.doe@example.com",
-      "150000.00",
-      "Active",
-    ],
-    [
-      "2",
-      "Jane Smith",
-      "789 Oak St, Springfield",
-      "101 Pine St, Springfield",
-      "0777654321",
-      "0711654321",
-      "jane.smith@example.com",
-      "120000.00",
-      "Inactive",
-    ],
-    [
-      "3",
-      "Bob Johnson",
-      "456 Cedar St, Springfield",
-      "789 Maple St, Springfield",
-      "0777234567",
-      "0711234567",
-      "bob.johnson@example.com",
-      "90000.00",
-      "Active",
-    ],
-    [
-      "4",
-      "Alice Brown",
-      "101 Birch St, Springfield",
-      "123 Oak St, Springfield",
-      "0777345678",
-      "0711345678",
-      "alice.brown@example.com",
-      "80000.00",
-      "Pending",
-    ],
-    [
-      "5",
-      "Tom White",
-      "202 Willow St, Springfield",
-      "234 Ash St, Springfield",
-      "0777456789",
-      "0711456789",
-      "tom.white@example.com",
-      "50000.00",
-      "Blocked",
-    ],
-    [
-      "6",
-      "Meral Elias",
-      "Example St, Hartford",
-      "Example St, Hartford",
-      "0712233445",
-      "0701223344",
-      "meral.elias@example.com",
-      "70000.00",
-      "Active",
-    ],
-    [
-      "7",
-      "Esperanza Susanne",
-      "Example Ave, Hartford",
-      "Example Ave, Hartford",
-      "0713344556",
-      "0702334455",
-      "esperanza.susanne@example.com",
-      "95000.00",
-      "Inactive",
-    ],
-    [
-      "8",
-      "Christian Birgitte",
-      "Example Blvd, Tampa",
-      "Example Blvd, Tampa",
-      "0714455667",
-      "0703445566",
-      "christian.birgitte@example.com",
-      "110000.00",
-      "Active",
-    ],
-    [
-      "9",
-      "Deep Pau",
-      "Example Rd, Yonkers",
-      "Example Rd, Yonkers",
-      "0715566778",
-      "0704556677",
-      "deep.pau@example.com",
-      "135000.00",
-      "Pending",
-    ],
-    [
-      "10",
-      "Anna Siranush",
-      "Example Ln, Yonkers",
-      "Example Ln, Yonkers",
-      "0716677889",
-      "0705667788",
-      "anna.siranush@example.com",
-      "115000.00",
-      "Blocked",
-    ],
-  ]);
-
-  const [columns, setColumns] = useState([
-    {
-      name: "id",
-      label: "ID",
-      options: {
-        display: false,
-      },
-    },
-    {
-      name: "Customer Name",
-      label: "Customer Name",
-    },
-    {
-      name: "Billing Address",
-      label: "Billing Address",
-    },
-    {
-      name: "Shipping Address",
-      label: "Shipping Address",
-    },
-    {
-      name: "Primary Contact No.",
-      label: "Primary Contact No.",
-    },
-    {
-      name: "Other Contact No.",
-      label: "Other Contact No.",
-    },
-    {
-      name: "Email",
-      label: "Email",
-    },
-    {
-      name: "Total Purchases (LKR)",
-      label: "Total Purchases (LKR)",
-    },
-    {
-      name: "Status",
-      label: "Status",
-    },
-    {
-      name: "Actions",
-      label: "Actions",
-      options: {
-        buttonsConfig: [
-          {
-            type: "icon",
-            icon: ViewIcon,
-            color: "primary",
-            size: "small",
-            onClick: (index) => {
-              navigate(`/customer/view/${datatableData[index][0]}`);
-            },
-          },
-        ],
-      },
-    },
-  ]);
-
-  const search = () => {};
 
   return (
     <Container>
-      <Box className="breadcrumb">
-        <Breadcrumb routeSegments={[{ name: "Customer" }, { name: "List" }]} />
-      </Box>
-
-          <Stack sx={{display: 'flex', justifyContent: 'center', alignItems: 'flex-start', width: '100%'}} spacing={5}>
+      <Stack sx={{display: 'flex', justifyContent: 'center', alignItems: 'flex-start', width: '100%'}} spacing={5}>
               <Box gap={'0.5em'} display={'flex'} flexWrap={'wrap'} sx={{width: '100%'}}>
-                {role==='BACKOFFICE'?<TButton title={'Add new customer'} startIcon={<AddIcon />} variant={'contained'} label={'Customer'} color={'primary'} fun={setAddCustomerOn}></TButton>:""}
+                {role==='BACKOFFICE'?<TButton 
+                  title={'Add Wholesale Customer'} 
+                  startIcon={<AddIcon />} 
+                  variant={'contained'} 
+                  label={'Whole Sale Customer'} 
+                  color={'primary'} 
+                  fun={setAddCustomerOn}>
+                </TButton>:''}
               </Box>
-              <SimpleCard sx={{width: '100%', top: '-3em'}} title={'Search customers'}>
+              <SimpleCard sx={{width: '100%', top: '-3em'}} title={'Search Customers'}>
                 <Box display={'flex'} flexWrap={'wrap'} gap={'0.4em'} sx={{width: '100%'}}>
                   <Select sx={{width: '20%'}} value={selectedAction} size="small" onChange={(event)=>setSelectedAction(event.target.value)}>
-                    <MenuItem value={'barcode'}>Search by name</MenuItem>
-                    <MenuItem value={'name'}>Search by contact number</MenuItem>
-                    <MenuItem value={'name'}>Search by address</MenuItem>
-                    <MenuItem value={'all'}>Search by all</MenuItem>
+                    <MenuItem value={'Invoice_Id'}>Search by Invoice Id</MenuItem>
                   </Select>
-                  <SearchBarDefault sx={{width: '80%'}} value={searchText} setValue={setSearchText} placeholder={'Search customers...'} search={search}></SearchBarDefault>
+                  {/* <SearchBarDefault sx={{width: '80%'}} value={searchText} setValue={setSearchText} placeholder={'Search Credits...'} search={search}></SearchBarDefault> */}
                 </Box>
-                {searchResult && searchResult.length>0 && <MuiTable search={false} print={false} download={false} columns={columns} dataTableData={searchResult} selectableRows={'none'} filterType={'text'}/>}
+                <MuiTable search={true} print={false} download={false} columns={columns} data={datatableData} selectableRows={'none'} filterType={'text'}/>
               </SimpleCard>
-              <SimpleCard sx={{width: '100%'}}>
-                <MuiTable print={true} download={true} title={'Customers'} columns={columns} dataTableData={datatableData} selectableRows={'none'} filterType={'text'}/>
-              </SimpleCard>
+              
           </Stack>
-          {role==='BACKOFFICE'?
-            <PopupFormDialog
-              open={addCustomerOn}
-              title="Add Customer"
-              submitButton="Add Customer"
-              titleIcon={<AddCustomerIcon />}
-              fields={addCustomerFields}
-              setOpen={setAddCustomerOn}
-              reasonCloseOn={true}
-              setValues={setNewCustomer}
-            />:''
-          }
-        </Container>
-    );
+      <PopupFormDialog
+        open={addCustomerOn}
+        setOpen={setAddCustomerOn}
+        title="Add New Customer"
+        fields={addCustomerFields}
+       // onSubmit={handleAddCustomer}
+       submitButton="Create"
+       handleSubmit={handleCreate}
+      reasonCloseOn={true}
+      setValues={setNewCustomer}
+      />
+    </Container>
+  );
 }
 
 export default CustomerList;

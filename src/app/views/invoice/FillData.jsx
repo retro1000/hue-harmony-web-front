@@ -1,77 +1,148 @@
-import React from 'react';
-import { Box, TextField, Grid, Typography, MenuItem } from '@mui/material';
+import React, { useState } from "react";
+import {
+  Box,
+  TextField,
+  Grid,
+  Typography,
+  MenuItem,
+  Button,
+} from "@mui/material";
 
 const FillData = () => {
+  // Use state to hold the form data
+  const [formData, setFormData] = useState({
+    orderDate: "",
+    orderNotes: "",
+    discountAmount: 0,
+    billingAddress: "",
+    shipmentVariationStatus: "PENDING", // Default value
+    shipmentDate: "",
+  });
+
+  // Handle form submission
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    // Create JSON object from form data
+    const jsonData = {
+      orderDate: formData.orderDate,
+      orderNotes: formData.orderNotes,
+      discountAmount: formData.discountAmount,
+      billingAddress: formData.billingAddress,
+      totalAmount: formData.totalAmount,
+      shipmentVariationStatus: formData.shipmentVariationStatus,
+      shipmentDate: formData.shipmentDate,
+    };
+
+    console.log(jsonData); // Log the JSON data or submit it to your backend
+  };
+
+  // Handle input changes
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
   return (
     <Box sx={{ p: 2, borderRadius: 2 }}>
-        <Box sx={{display:'flex',justifyContent:'center',paddingBottom:2}}>
+      <Box sx={{ display: "flex", justifyContent: "center", paddingBottom: 2 }}>
         <Typography variant="h5" fontWeight={600} gutterBottom>
-        Please Fill Data
-      </Typography>
-        </Box>
-     
-      <Grid container spacing={2}>
-        <Grid item xs={4}>
-          <TextField select label="Store" fullWidth required>
-            <MenuItem value="MAIN - MAIN STORE">MAIN - MAIN STORE</MenuItem>
-          </TextField>
+          Please Fill Data
+        </Typography>
+      </Box>
+
+      <form onSubmit={handleSubmit}>
+        <Grid container spacing={2}>
+          {/* Order Date */}
+          <Grid item xs={4}>
+            <TextField
+              label="Order Date" // Uncomment this if you want the label to show
+              fullWidth
+              required
+              name="orderDate"
+              value={formData.orderDate}
+              onChange={handleInputChange}
+              type="date"
+              InputLabelProps={{
+                shrink: true, // Ensures the label stays above the input even when the input is not focused
+              }}
+             
+            />
+          </Grid>
+
+          {/* Order Notes */}
+          <Grid item xs={4}>
+            <TextField
+              label="Order Notes"
+              fullWidth
+              name="orderNotes"
+              value={formData.orderNotes}
+              onChange={handleInputChange}
+            />
+          </Grid>
+
+          {/* Discount Amount */}
+          <Grid item xs={4}>
+            <TextField
+              label="Discount Amount"
+              fullWidth
+              name="discountAmount"
+              value={formData.discountAmount}
+              onChange={handleInputChange}
+              type="number"
+            />
+          </Grid>
+
+          {/* Billing Address */}
+          <Grid item xs={4}>
+            <TextField
+              label="Billing Address"
+              fullWidth
+              name="billingAddress"
+              value={formData.billingAddress}
+              onChange={handleInputChange}
+            />
+          </Grid>
+
+          {/* Total Amount */}
+          <Grid item xs={4}>
+            <TextField
+              label="Total Amount"
+              fullWidth
+              name="totalAmount"
+              value={formData.totalAmount}
+              onChange={handleInputChange}
+              type="number"
+            />
+          </Grid>
+
+          {/* Shipment Date */}
+          <Grid item xs={4}>
+            <TextField
+              label="Shipment Date" // Uncomment this if you want the label to show
+              fullWidth
+              required
+              name="shipmentDate"
+              value={formData.shipmentDate}
+              onChange={handleInputChange}
+              type="date"
+              InputLabelProps={{
+                shrink: true, // Ensures the label stays above the input even when the input is not focused
+              }}
+              
+            />
+          </Grid>
+
+          <Grid item xs={12}>
+            <Button variant="contained" type="submit">
+              Submit
+            </Button>
+          </Grid>
         </Grid>
-        <Grid item xs={4}>
-          <TextField select label="Sales Rep" fullWidth required>
-            <MenuItem value="Codevus Bot">Codevus Bot</MenuItem>
-          </TextField>
-        </Grid>
-        <Grid item xs={4}>
-          <TextField label="PO No" fullWidth />
-        </Grid>
-        <Grid item xs={4}>
-          <TextField select label="Class" fullWidth>
-            <MenuItem value="Common">Common</MenuItem>
-          </TextField>
-        </Grid>
-        <Grid item xs={4}>
-          <TextField label="Invoice Date" fullWidth />
-        </Grid>
-        <Grid item xs={4}>
-          <TextField label="Due Date" fullWidth />
-        </Grid>
-        <Grid item xs={4}>
-          <TextField label="Shipping VIA" fullWidth />
-        </Grid>
-        <Grid item xs={4}>
-          <TextField label="Tracking No" fullWidth />
-        </Grid>
-        <Grid item xs={4}>
-          <TextField label="Shipping Date" fullWidth />
-        </Grid>
-        <Grid item xs={4}>
-          <TextField select label="Price Book" fullWidth required>
-            <MenuItem value="Default">Default</MenuItem>
-          </TextField>
-        </Grid>
-        <Grid item xs={4}>
-          <TextField select label="Currency" fullWidth>
-            <MenuItem value="LKR">LKR</MenuItem>
-          </TextField>
-        </Grid>
-        <Grid item xs={4}>
-          <TextField label="Currency Rate" fullWidth value="1" />
-        </Grid>
-        <Grid item xs={4}>
-          <TextField select label="Asset" fullWidth>
-            <MenuItem value="Please Select">Please Select</MenuItem>
-          </TextField>
-        </Grid>
-        <Grid item xs={4}>
-          <TextField label="Contact Person" fullWidth />
-        </Grid>
-        <Grid item xs={4}>
-          <TextField label="Credit Days" fullWidth value="1000" />
-        </Grid>
-        <Grid item xs={12}>
-          <TextField label="Invoice Memo" fullWidth multiline rows={4} />
-        </Grid>
-      </Grid>
+      </form>
     </Box>
   );
 };

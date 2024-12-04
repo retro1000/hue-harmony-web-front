@@ -11,6 +11,8 @@ import DialogContentText from '@mui/material/DialogContentText';
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers';
+import axios from "axios";
+import { useAxios } from "../../hooks/useAxios";
 
 import moment from 'moment';
 
@@ -203,8 +205,9 @@ const createFormFields = (fields) => {
 const formMaxHeight = 500
 
 
-export default function PopupFormDialog({popupSx='md', open, titleIcon: TitleIcon, title, setOpen, message, fields, setVariations, submitButton, reasonCloseOn=false, setValues}) {
+export default function PopupFormDialog({popupSx='md', open, titleIcon: TitleIcon, title, setOpen, message, fields, setVariations, submitButton, reasonCloseOn=false, setValues,handleSubmit}) {
 
+  const { api, apiNonAuth } = useAxios();
   const [expand, setExpand] = useState([]);
 
   useEffect(() => {
@@ -224,11 +227,7 @@ export default function PopupFormDialog({popupSx='md', open, titleIcon: TitleIco
     setExpand(expand.map((e, index) => i===index?!e:e));
   };
 
-  const handleSubmit = () => {
-    // setVariations(values);
-    // setOpen(false);
-    // setValues({})
-  }
+
 
   // const textFields = [].concat(fields.filter(field=>(['number', 'text', 'email'].includes(field.type))))
   // const radios = [].concat(fields.filter(field=>(field.type==='radio')))
@@ -289,7 +288,7 @@ export default function PopupFormDialog({popupSx='md', open, titleIcon: TitleIco
             Close
           </Button>
 
-          <Button variant="contained" onClick={handleSubmit} color="primary">
+          <Button variant="contained" onClick={handleSubmit}  color="primary">
             {submitButton}
           </Button>
         </DialogActions>

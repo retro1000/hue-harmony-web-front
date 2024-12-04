@@ -46,6 +46,8 @@ import "@fontsource/roboto/700.css";
 import { useAxios } from "../../hooks/useAxios";
 import "@fontsource/poppins";
 
+
+
 function PosHomeN() {
   const [loyaltyDiscount, setLoyaltyDiscount] = React.useState(0); 
   const [loyaltyStatus, setLoyaltyStatus] = useState(null);
@@ -165,7 +167,7 @@ function PosHomeN() {
           name: product.productName,
           price: product.productPrice,
           availability: "In Stock",
-          imageUrl: "/assets/images/default.png",
+          imageUrl: product.productImages[0],
           discount: product.productDiscount,
         }));
         setProducts(transformedProducts);

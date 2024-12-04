@@ -381,6 +381,10 @@ function WholesaleOrderList() {
     },
   ]);
 
+  const orderForm = () => {
+    navigate('/order/crete-order'); // Redirects to the "Order" page
+  };
+
   const search = () => {};
 
   return (
@@ -415,7 +419,7 @@ function WholesaleOrderList() {
             startIcon={<AddIcon />}
             variant="contained"
             color="primary"
-            fun={setAddSupplierOn}
+            fun={orderForm}
             label={"Order"}
           ></TButton>
         </Box>
