@@ -13,12 +13,22 @@ import {
   Grid,
 } from "@mui/material";
 import MultiSelectChip from "./Components/MultipleSelection";
+import { useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
-const UpdateProduct = ({ productId }) => {
+
+
+const UpdateProduct = () => {
+
+  const { id } = useParams();
+
+  const productId = id;
+
   const [formData, setFormData] = useState({
     productId: "",
     productName: "",
     productDescription: "",
+    producrSize:0,
     productPrice: 0,
     productDiscount: 0,
     coat: 0,
@@ -37,6 +47,8 @@ const UpdateProduct = ({ productId }) => {
   });
 
   const [selectedImages, setSelectedImages] = useState([]);
+
+  const navigate = useNavigate();
 
   const positions = ["EXTERIOR",
     "INTERIOR",
@@ -104,12 +116,13 @@ const UpdateProduct = ({ productId }) => {
   useEffect(() => {
     const fetchProductDetails = async () => {
       try {
-        const response = await axios.get(`http://localhost:8080/product/read/29`);
+        const response = await axios.get(`http://localhost:8080/product/read/${productId}`);
         const product = response.data;
 
         setFormData({
           productId: product.productId,
           productName: product.productName || "",
+          productSize: product.productSize || 0,
           productDescription: product.productDescription || "",
           productPrice: product.productPrice || 0,
           productDiscount: product.productDiscount || 0,
@@ -148,12 +161,13 @@ const UpdateProduct = ({ productId }) => {
 
     try {
       console.log("Payload being sent:", JSON.stringify(updatedProduct));
-      await axios.put(`http://localhost:8080/product/update?productId=29`, updatedProduct, {
+      await axios.put(`http://localhost:8080/product/update?productId=${productId}`, updatedProduct, {
         headers: {
           "Content-Type": "application/json",
         },
       });
       alert("Product updated successfully!");
+      navigate('/product/list');
     } catch (error) {
       console.error("Error updating product:", error);
       alert("Failed to update product. Please try again.");

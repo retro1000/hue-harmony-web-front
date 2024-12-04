@@ -209,6 +209,7 @@ export default function MuiTable({ columnOrder, path, serverSide=true, rowsPerPa
   const { CamelCaseWordFormat2 } = useFormatter()
 
   const upadteDataTable = (id) => {
+    console.log(id)
     setDataTableData(dataTableData.filter(p => p[0]!==id))
   }
 

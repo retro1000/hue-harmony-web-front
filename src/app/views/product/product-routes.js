@@ -28,7 +28,7 @@ const productRoutes = [
     ),
   },
   {
-    path: "/product/update",
+    path: "/product/update/:id",
     element: (
 
         <UpdateProduct />

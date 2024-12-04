@@ -557,10 +557,12 @@ function ProductList() {
             size: "small",
             onClick: (id, upadteDataTable) => {
               // console.log(data)
-              apiNonAuth.delete("product/delete/"+id)
+              apiNonAuth.delete(`product/delete?productId=${id}`)
                 .then(response => {
                   if(response.status===200){
                     triggerNotification([{text: "Product deleted successfully.", variant: 'success'}])
+                    console.log(id)
+
                     upadteDataTable(id);
                   }
                 })
