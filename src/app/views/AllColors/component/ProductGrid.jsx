@@ -1,52 +1,59 @@
 import React, { useState, useEffect } from "react";
-import { Grid, Typography, Box } from "@mui/material";
-import { ProductCard, TButton } from "..";
+import { Grid, Box, Typography } from "@mui/material";
+import ProductCard from "../../../components/Card/ProductCard";
 
-const ProductGrid = ({ Title }) => {
+const ProductGrid = ({ Title, productColor }) => {
   const [mapData, setMapData] = useState([]);
   const [products, setProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [httpError, setHttpError] = useState(null);
 
   useEffect(() => {
+
     const fetchProducts = async () => {
-      const baseUrl = `http://localhost:8080/product/read/popular`;
+      const newColor = productColor.slice(1); // Remove #
+
+      const baseUrl = `http://localhost:8080/product/filter-color/${newColor}`;
 
       try {
-        const response = await fetch(baseUrl);
+        const response = await fetch(baseUrl, {
+            headers: { Accept: "application/json" }
+          });
 
         if (!response.ok) {
-          throw new Error("Something went wrong in products fetching");
+          throw new Error("Something went wrong while fetching products");
         }
 
-        const responseJson = await response.json();
-        const responseData = responseJson.content;
-
+        const responseData = await response.json(); 
         console.log("responseData", responseData);
-
         setMapData(responseData);
         setIsLoading(false);
       } catch (error) {
+        setHttpError("No Products Available in this color");
         setIsLoading(false);
-        setHttpError(error.message);
       }
+    
     };
 
     fetchProducts();
-  }, []);
+  }, [productColor]); // Re-run fetch when `productColor` changes
 
-  // Transform `mapData` to `products` when `mapData` changes
   useEffect(() => {
+    // Transform `mapData` to `products`
     const data = mapData.map((product) => ({
-      id: product.productId,
+      id: product.productId || "N/A", // Use a fallback for null IDs
       name: product.productName, // Product Name
       productDescription: product.productDescription, // Product Description
       productPrice: product.productPrice, // Product Price
       productDiscount: product.productDiscount, // Product Discount
-      image: product.imageIds[1], // Product Image
+      image: product.imageIds[1] , // Use the first image or fallback to empty
     }));
     setProducts(data);
   }, [mapData]);
+
+  if (isLoading) {
+    return <p>No product in this color</p>;
+  }
 
   if (httpError) {
     return (
@@ -78,12 +85,9 @@ const ProductGrid = ({ Title }) => {
       <Box
         width={"100%"}
         sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}
-      >
-      </Box>
+      ></Box>
     </>
   );
-  
-  
 };
 
 export default ProductGrid;

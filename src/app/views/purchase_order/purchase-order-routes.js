@@ -5,11 +5,11 @@ import AuthGuard from "app/auth/AuthGuard";
 import PurchaseOrderUpsert from "./PurchaseOrderUpsert";
 
 const PurchaseOrderList = Loadable(lazy(() => import("./PurchaseOrderList")));
+const PurchaseOrderForm = Loadable(lazy(() => import("./create-po")));
 const PurchaseOrderDetails = Loadable(
   lazy(() => import("./PurchaseOrderDetails"))
 );
 const SalesOrderDetails = Loadable(lazy(() => import("./SalesOrderDetails")));
-const PurchaseOrderCreate = Loadable(lazy(() => import("./create-po")));
 
 const PurchaseOrderRoutes = [
   {
@@ -49,7 +49,7 @@ const PurchaseOrderRoutes = [
     element: (
       // <AuthGuard auth={[...authRoles.inventory_manager]}>
       // <PurchaseOrderUpsert type={"create"} />
-      <PurchaseOrderCreate />
+      <PurchaseOrderForm />
       // {/* </AuthGuard> */}
     ),
   },

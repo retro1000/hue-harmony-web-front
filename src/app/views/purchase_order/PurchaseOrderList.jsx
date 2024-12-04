@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 import {
@@ -34,6 +34,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import ViewIcon from "@mui/icons-material/RemoveRedEye";
 import AddIcon from "@mui/icons-material/AddBox";
 import AddPurchaseOrderIcon from "@mui/icons-material/AddBox";
+import { useAxios } from "app/hooks/useAxios";
 
 // STYLED COMPONENTS
 const Container = styled("div")(({ theme }) => ({
@@ -46,13 +47,14 @@ const Container = styled("div")(({ theme }) => ({
 }));
 
 function PurchaseOrderList() {
+  const { api } = useAxios();
+  const { apiNonAuth } = useAxios();
+
   const navigate = useNavigate();
-  
 
   const handleCreatePurchaseOrder = () => {
-    navigate('/purchase-order/create'); 
+    navigate("/purchase-order/create");
   };
-
 
   const [selectedAction, setSelectedAction] = useState("barcode");
 
@@ -168,80 +170,35 @@ function PurchaseOrderList() {
     },
   ];
 
-  const [searchResult, setSearchResult] = useState([
-    [
-      "PO12345",
-      "Dulux Paints",
-      "John Doe",
-      "30 Jul 2024",
-      "100,000.00",
-      "Pending",
-    ],
-    [
-      "PO67890",
-      "Sherwin-Williams",
-      "Jane Smith",
-      "25 Jul 2024",
-      "150,000.00",
-      "Completed",
-    ],
-    [
-      "PO54321",
-      "Asian Paints",
-      "Bob Johnson",
-      "20 Jul 2024",
-      "200,000.00",
-      "Cancelled",
-    ],
-  ]);
+  const [searchResult, setSearchResult] = useState([]);
 
-  const [datatableData, setDataTableData] = useState([
-    [
-      "PO12345",
-      "Dulux Paints",
-      "John Doe",
-      "30 Jul 2024",
-      "100,000.00",
-      "Pending",
-    ],
-    [
-      "PO67890",
-      "Sherwin-Williams",
-      "Jane Smith",
-      "25 Jul 2024",
-      "150,000.00",
-      "Completed",
-    ],
-    [
-      "PO54321",
-      "Asian Paints",
-      "Bob Johnson",
-      "20 Jul 2024",
-      "200,000.00",
-      "Cancelled",
-    ],
-    [
-      "PO11111",
-      "Nippon Paint",
-      "Alice White",
-      "15 Jul 2024",
-      "250,000.00",
-      "Pending",
-    ],
-    [
-      "PO22222",
-      "PPG Industries",
-      "Tom Brown",
-      "10 Jul 2024",
-      "180,000.00",
-      "Shipped",
-    ],
-  ]);
+  const [datatableData, setDatatableData] = useState([]);
+
+  useEffect(() => {
+    const fetchPurchaseOrders = async () => {
+      try {
+        const response = await apiNonAuth.get("/purchase-orders/getPO");
+        const data = response.data.map((order) => [
+          order.po_number,
+          order.supplier_name,
+          order.contact_person,
+          order.order_date,
+          order.total_amount,
+          order.status,
+        ]);
+        setDatatableData(data);
+      } catch (error) {
+        console.error("Error fetching purchase orders", error);
+      }
+    };
+
+    fetchPurchaseOrders();
+  }, []);
 
   const [columns, setColumns] = useState([
     {
       name: "PO Number",
-      label: "PO Number",
+      label: "PO ID",
     },
     {
       name: "Supplier Name",
@@ -249,16 +206,16 @@ function PurchaseOrderList() {
     },
     {
       name: "Contact Person",
-      label: "Contact Person",
+      label: "Suppier_ID",
     },
     {
       name: "Order Date",
-      label: "Order Date",
+      label: "Description",
     },
-    {
-      name: "Total Amount",
-      label: "Total Amount (LKR)",
-    },
+    // {
+    //   name: "Total Amount",
+    //   label: "Total Amount (LKR)",
+    // },
     {
       name: "Status",
       label: "Status",
@@ -319,13 +276,14 @@ function PurchaseOrderList() {
           sx={{ width: "100%" }}
         >
           <TButton
-      startIcon={<AddIcon />}
-      variant="contained"
-      color="primary"
-      label="Purchase Order"
-      title="Create new purchase order"
-      onClick={handleCreatePurchaseOrder}
-    ></TButton>
+            startIcon={<AddIcon />}
+            variant="contained"
+            color="primary"
+            label="Purchase Order"
+            title="Create new purchase order"
+            // onClick={handleCreatePurchaseOrder}
+            fun={handleCreatePurchaseOrder}
+          ></TButton>
         </Box>
         <SimpleCard
           sx={{ width: "100%", top: "-3em" }}
