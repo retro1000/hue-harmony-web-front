@@ -1,5 +1,11 @@
 import { Box, Card, Grid, IconButton, styled, Tooltip } from "@mui/material";
-import { AttachMoney, Group, ShoppingCart, Store, ArrowRightAlt } from "@mui/icons-material";
+import {
+  AttachMoney,
+  Group,
+  ShoppingCart,
+  Store,
+  ArrowRightAlt,
+} from "@mui/icons-material";
 import { Small } from "app/components/Typography";
 
 // STYLED COMPONENTS
@@ -10,7 +16,7 @@ const StyledCard = styled(Card)(({ theme }) => ({
   justifyContent: "space-between",
   padding: "24px !important",
   background: theme.palette.background.paper,
-  [theme.breakpoints.down("sm")]: { padding: "16px !important" }
+  [theme.breakpoints.down("sm")]: { padding: "16px !important" },
 }));
 
 const ContentBox = styled(Box)(({ theme }) => ({
@@ -18,7 +24,11 @@ const ContentBox = styled(Box)(({ theme }) => ({
   flexWrap: "wrap",
   alignItems: "center",
   "& small": { color: theme.palette.text.secondary },
-  "& .icon": { opacity: 0.6, fontSize: "44px", color: theme.palette.primary.main }
+  "& .icon": {
+    opacity: 0.6,
+    fontSize: "44px",
+    color: theme.palette.primary.main,
+  },
 }));
 
 const Heading = styled("h6")(({ theme }) => ({
@@ -26,15 +36,15 @@ const Heading = styled("h6")(({ theme }) => ({
   marginTop: "4px",
   fontSize: "14px",
   fontWeight: "500",
-  color: theme.palette.primary.main
+  color: theme.palette.primary.main,
 }));
 
 export default function StatCards() {
   const cardList = [
-    { name: "New Users", amount: 3050, Icon: Group },
-    { name: "This week Sales", amount: "$80,500", Icon: AttachMoney },
-    { name: "Inventory Status", amount: "8.5% Stock Surplus", Icon: Store },
-    { name: "Orders to deliver", amount: "305 Orders", Icon: ShoppingCart }
+    { name: "New Users", amount: 12, Icon: Group },
+    { name: "This week Sales", amount: "$15,000", Icon: AttachMoney },
+    // { name: "Inventory Status", amount: "8.5% Stock Surplus", Icon: Store },
+    { name: "Orders to deliver", amount: "32 Orders", Icon: ShoppingCart },
   ];
 
   return (

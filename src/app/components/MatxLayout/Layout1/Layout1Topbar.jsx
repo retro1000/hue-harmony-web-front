@@ -8,7 +8,7 @@ import {
   useTheme,
   MenuItem,
   IconButton,
-  useMediaQuery
+  useMediaQuery,
 } from "@mui/material";
 
 import { NotificationProvider } from "app/contexts/NotificationContext";
@@ -32,17 +32,17 @@ import {
   WebAsset,
   MailOutline,
   StarOutline,
-  PowerSettingsNew
+  PowerSettingsNew,
 } from "@mui/icons-material";
 import React from "react";
 
-import WishListIcon from '@mui/icons-material/Favorite'
+import WishListIcon from "@mui/icons-material/Favorite";
 import { Typography } from "antd";
 import { color } from "echarts";
 
 // STYLED COMPONENTS
 const StyledIconButton = styled(IconButton)(({ theme }) => ({
-  color: theme.palette.text.primary
+  color: theme.palette.text.primary,
 }));
 
 const TopbarContainer = styled(Box)(({ theme }) => ({
@@ -55,7 +55,7 @@ const TopbarContainer = styled(Box)(({ theme }) => ({
   justifyContent: "space-between",
   background: theme.palette.primary.main,
   [theme.breakpoints.down("sm")]: { paddingLeft: 16, paddingRight: 16 },
-  [theme.breakpoints.down("xs")]: { paddingLeft: 14, paddingRight: 16 }
+  [theme.breakpoints.down("xs")]: { paddingLeft: 14, paddingRight: 16 },
 }));
 
 const UserMenu = styled(Box)({
@@ -64,7 +64,7 @@ const UserMenu = styled(Box)({
   borderRadius: 24,
   cursor: "pointer",
   alignItems: "center",
-  "& span": { margin: "0 8px" }
+  "& span": { margin: "0 8px" },
 });
 
 const StyledItem = styled(MenuItem)(({ theme }) => ({
@@ -75,14 +75,14 @@ const StyledItem = styled(MenuItem)(({ theme }) => ({
     width: "100%",
     display: "flex",
     alignItems: "center",
-    textDecoration: "none"
+    textDecoration: "none",
   },
-  "& span": { marginRight: "10px", color: theme.palette.text.primary }
+  "& span": { marginRight: "10px", color: theme.palette.text.primary },
 }));
 
 const IconBox = styled("div")(({ theme }) => ({
   display: "inherit",
-  [theme.breakpoints.down("md")]: { display: "none !important" }
+  [theme.breakpoints.down("md")]: { display: "none !important" },
 }));
 
 const Layout1Topbar = () => {
@@ -91,10 +91,12 @@ const Layout1Topbar = () => {
   const { logout, user, role } = useAuth();
   const isMdScreen = useMediaQuery(theme.breakpoints.down("md"));
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const updateSidebarMode = (sidebarSettings) => {
-    updateSettings({ layout1Settings: { leftSidebar: { ...sidebarSettings } } });
+    updateSettings({
+      layout1Settings: { leftSidebar: { ...sidebarSettings } },
+    });
   };
 
   const handleSidebarToggle = () => {
@@ -110,45 +112,99 @@ const Layout1Topbar = () => {
 
   const TopbarRoot = styled("div")({
     top: 0,
-    padding: !user || role==='USER' ? '0 3%' : '0',
+    padding: !user || role === "USER" ? "0 3%" : "0",
     zIndex: 96,
     // borderBottom: '0.1em solid gray',
-    height: !user || role==='USER' ? 80 : topBarHeight,
+    height: !user || role === "USER" ? 80 : topBarHeight,
     // boxShadow: themeShadows[8],
     transition: "all 0.3s ease",
-    background: 'white'
+    background: "white",
   });
 
   return (
     <TopbarRoot>
       <TopbarContainer>
         <Box display="flex">
-          {
-            !user || role==='USER' ?  
-              <React.Fragment>
-                <Box
-                  onClick={()=>navigate("/")}
-                  component="img"
-                  src="/assets/images/logos/HH01.png"
-                  alt="Logo"
-                  sx={{ width: '180px', height: 'auto', borderRadius: 1, cursor:"pointer" }}
+          {!user || role === "USER" ? (
+            <React.Fragment>
+              <Box
+                onClick={() => navigate("/")}
+                component="img"
+                src="/assets/images/logos/HH01.png"
+                alt="Logo"
+                sx={{
+                  width: "180px",
+                  height: "auto",
+                  borderRadius: 1,
+                  cursor: "pointer",
+                }}
+              ></Box>
+              <Box
+                display="flex"
+                alignItems="center"
+                gap="1.5em"
+                marginLeft="3em"
+              >
+                <Typography
+                  style={{
+                    fontWeight: "500",
+                    fontSize: "15px",
+                    cursor: "pointer",
+                  }}
+                  onClick={() => navigate("/")}
                 >
-                </Box>
-                <Box display='flex' alignItems='center' gap='1.5em' marginLeft='3em'>
-                  <Typography style={{fontWeight: '500', fontSize: '15px',cursor: 'pointer'}} onClick={()=>navigate("/")}>Home</Typography>
-                  <Typography style={{fontWeight: '500', fontSize: '15px',cursor: 'pointer'}} onClick={()=>navigate("/allcolors")}>All Colors</Typography>
-                  <Typography style={{fontWeight: '500', fontSize: '15px', cursor: 'pointer'}} onClick={()=>navigate("/product/filter-product")}>Products</Typography>
-                  <Typography style={{fontWeight: '500', fontSize: '15px', cursor: 'pointer'}} onClick={()=>navigate("/about")}>About</Typography>
-                  <Typography style={{fontWeight: '500', fontSize: '15px', cursor: 'pointer'}} onClick={()=>navigate("/Contactus")}>Contact</Typography>
-                </Box>
-              </React.Fragment> :
-              <React.Fragment>
-                <StyledIconButton onClick={handleSidebarToggle}>
-                  <Menu />
-                </StyledIconButton>
+                  Home
+                </Typography>
+                <Typography
+                  style={{
+                    fontWeight: "500",
+                    fontSize: "15px",
+                    cursor: "pointer",
+                  }}
+                  onClick={() => navigate("/allcolors")}
+                >
+                  All Colors
+                </Typography>
+                <Typography
+                  style={{
+                    fontWeight: "500",
+                    fontSize: "15px",
+                    cursor: "pointer",
+                  }}
+                  onClick={() => navigate("/product/filter-product")}
+                >
+                  Products
+                </Typography>
+                <Typography
+                  style={{
+                    fontWeight: "500",
+                    fontSize: "15px",
+                    cursor: "pointer",
+                  }}
+                  onClick={() => navigate("/about")}
+                >
+                  About
+                </Typography>
+                <Typography
+                  style={{
+                    fontWeight: "500",
+                    fontSize: "15px",
+                    cursor: "pointer",
+                  }}
+                  onClick={() => navigate("/Contactus")}
+                >
+                  Contact
+                </Typography>
+              </Box>
+            </React.Fragment>
+          ) : (
+            <React.Fragment>
+              <StyledIconButton onClick={handleSidebarToggle}>
+                <Menu />
+              </StyledIconButton>
 
-                <IconBox>
-                  <StyledIconButton>
+              <IconBox>
+                {/* <StyledIconButton>
                     <MailOutline />
                   </StyledIconButton>
 
@@ -158,55 +214,55 @@ const Layout1Topbar = () => {
 
                   <StyledIconButton>
                     <StarOutline />
-                  </StyledIconButton>
-                </IconBox>
-              </React.Fragment>
-          }
+                  </StyledIconButton> */}
+              </IconBox>
+            </React.Fragment>
+          )}
         </Box>
 
         <Box display="flex" alignItems="center">
           <MatxSearchBox />
-          {
-            !user ?
-              <React.Fragment>
-                <Box display='flex' gap='0.8em'>
-                  <TButton
-                    title='Login'
-                    label='Log in'
+          {!user ? (
+            <React.Fragment>
+              <Box display="flex" gap="0.8em">
+                <TButton
+                  title="Login"
+                  label="Log in"
+                  variant="outlined"
+                  sx={{ bordder: "#000000", color: "black" }}
+                  fun={() => navigate("/login")}
+                ></TButton>
+                <TButton
+                  title="Signup"
+                  label="Sign up"
+                  variant="contained"
+                  sx={{ background: "#ED005D", color: "white" }}
+                  fun={() => navigate("/signup")}
+                ></TButton>
+              </Box>
+            </React.Fragment>
+          ) : (
+            <React.Fragment>
+              <NotificationProvider>
+                <NotificationBar />
+              </NotificationProvider>
+              {role === "USER" ? (
+                <React.Fragment>
+                  <TIconButton
+                    title="Wish List"
+                    icon={WishListIcon}
                     variant="outlined"
-                    sx={{bordder: '#000000', color: 'black'}}
-                    fun={() => navigate('/login')}
-                  ></TButton>
-                  <TButton
-                    title='Signup'
-                    label='Sign up'
-                    variant="contained"
-                    sx={{background: '#ED005D', color: 'white'}}
-                    fun={() => navigate('/signup')}
-                  ></TButton>
-                </Box>
-              </React.Fragment> :
-              <React.Fragment>
-                <NotificationProvider>
-                  <NotificationBar />
-                </NotificationProvider>
-                {
-                  role==='USER'?
-                    <React.Fragment>
-                      <TIconButton
-                        title="Wish List"
-                        icon={WishListIcon}
-                        variant='outlined'
-                      ></TIconButton>
-                      <ShoppingCart />
-                    </React.Fragment>
-                  : ''  
-                }
-              </React.Fragment>
-          }
-          {
-            !user ?
-            '' :
+                  ></TIconButton>
+                  <ShoppingCart />
+                </React.Fragment>
+              ) : (
+                ""
+              )}
+            </React.Fragment>
+          )}
+          {!user ? (
+            ""
+          ) : (
             <MatxMenu
               menuButton={
                 <UserMenu>
@@ -215,9 +271,13 @@ const Layout1Topbar = () => {
                       Hi <strong>{user?user.username:''}</strong>
                     </Span>
                   </Hidden> */}
-                  <Avatar src={user?user.avatar:''} sx={{ cursor: "pointer" }} />
+                  <Avatar
+                    src={user ? user.avatar : ""}
+                    sx={{ cursor: "pointer" }}
+                  />
                 </UserMenu>
-              }>
+              }
+            >
               <StyledItem>
                 <Link to="/">
                   <Home />
@@ -242,7 +302,7 @@ const Layout1Topbar = () => {
                 <Span>Logout</Span>
               </StyledItem>
             </MatxMenu>
-          }
+          )}
         </Box>
       </TopbarContainer>
     </TopbarRoot>

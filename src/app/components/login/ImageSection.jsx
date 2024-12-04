@@ -1,4 +1,3 @@
-
 import React from "react";
 import { Box } from "@mui/material";
 
@@ -14,7 +13,7 @@ const ImageSection = () => {
       }}
     >
       <img
-        src="/assets/images/2147689044.jpg"
+        src="/assets/images/123.jpg"
         alt="Login illustration"
         style={{
           width: "100%",

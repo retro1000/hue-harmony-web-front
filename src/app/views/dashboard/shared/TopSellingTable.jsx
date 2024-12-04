@@ -12,7 +12,7 @@ import {
   TableBody,
   TableCell,
   TableHead,
-  IconButton
+  IconButton,
 } from "@mui/material";
 import { Paragraph } from "app/components/Typography";
 
@@ -23,13 +23,13 @@ const CardHeader = styled(Box)(() => ({
   paddingRight: "24px",
   marginBottom: "12px",
   alignItems: "center",
-  justifyContent: "space-between"
+  justifyContent: "space-between",
 }));
 
 const Title = styled("span")(() => ({
   fontSize: "1rem",
   fontWeight: "500",
-  textTransform: "capitalize"
+  textTransform: "capitalize",
 }));
 
 const ProductTable = styled(Table)(() => ({
@@ -39,10 +39,10 @@ const ProductTable = styled(Table)(() => ({
     width: 50,
     height: 15,
     borderRadius: 500,
-    boxShadow: "0 0 2px 0 rgba(0, 0, 0, 0.12), 0 2px 2px 0 rgba(0, 0, 0, 0.24)"
+    boxShadow: "0 0 2px 0 rgba(0, 0, 0, 0.12), 0 2px 2px 0 rgba(0, 0, 0, 0.24)",
   },
   "& td": { borderBottom: "none" },
-  "& td:first-of-type": { paddingLeft: "16px !important" }
+  "& td:first-of-type": { paddingLeft: "16px !important" },
 }));
 
 const Small = styled("small")(({ bgcolor }) => ({
@@ -53,7 +53,7 @@ const Small = styled("small")(({ bgcolor }) => ({
   borderRadius: "4px",
   overflow: "hidden",
   background: bgcolor,
-  boxShadow: "0 0 2px 0 rgba(0, 0, 0, 0.12), 0 2px 2px 0 rgba(0, 0, 0, 0.24)"
+  boxShadow: "0 0 2px 0 rgba(0, 0, 0, 0.12), 0 2px 2px 0 rgba(0, 0, 0, 0.24)",
 }));
 
 export default function TopSellingTable() {
@@ -65,11 +65,11 @@ export default function TopSellingTable() {
   return (
     <Card elevation={3} sx={{ pt: "20px", mb: 3 }}>
       <CardHeader>
-        <Title>top selling products</Title>
-        <Select size="small" defaultValue="this_month">
-          <MenuItem value="this_month">This Month</MenuItem>
-          <MenuItem value="last_month">Last Month</MenuItem>
-        </Select>
+        <Title>latest products</Title>
+        {/* <Select size="small" defaultValue="this_month">
+          {/* <MenuItem value="this_month">This Month</MenuItem>
+          <MenuItem value="last_month">Last Month</MenuItem> */}
+        {/* </Select> } */}
       </CardHeader>
 
       <Box overflow="auto">
@@ -88,30 +88,43 @@ export default function TopSellingTable() {
                 Stock Status
               </TableCell>
 
-              <TableCell colSpan={1} sx={{ px: 0 }}>
+              {/* <TableCell colSpan={1} sx={{ px: 0 }}>
                 Action
-              </TableCell>
+              </TableCell> */}
             </TableRow>
           </TableHead>
 
           <TableBody>
             {productList.map((product, index) => (
               <TableRow key={index} hover>
-                <TableCell colSpan={4} align="left" sx={{ px: 0, textTransform: "capitalize" }}>
+                <TableCell
+                  colSpan={4}
+                  align="left"
+                  sx={{ px: 0, textTransform: "capitalize" }}
+                >
                   <Box display="flex" alignItems="center" gap={4}>
                     <Avatar src={product.imgUrl} />
                     <Paragraph>{product.name}</Paragraph>
                   </Box>
                 </TableCell>
 
-                <TableCell align="left" colSpan={2} sx={{ px: 0, textTransform: "capitalize" }}>
-                  ${product.price > 999 ? (product.price / 1000).toFixed(1) + "k" : product.price}
+                <TableCell
+                  align="left"
+                  colSpan={2}
+                  sx={{ px: 0, textTransform: "capitalize" }}
+                >
+                  Rs.
+                  {product.price > 999
+                    ? product.price.toFixed(1)
+                    : product.price}
                 </TableCell>
 
                 <TableCell sx={{ px: 0 }} align="left" colSpan={2}>
                   {product.available ? (
                     product.available < 20 ? (
-                      <Small bgcolor={bgSecondary}>{product.available} available</Small>
+                      <Small bgcolor={bgSecondary}>
+                        {product.available} available
+                      </Small>
                     ) : (
                       <Small bgcolor={bgPrimary}>in stock</Small>
                     )
@@ -120,11 +133,11 @@ export default function TopSellingTable() {
                   )}
                 </TableCell>
 
-                <TableCell sx={{ px: 0 }} colSpan={1}>
+                {/* <TableCell sx={{ px: 0 }} colSpan={1}>
                   <IconButton>
                     <Edit color="primary" />
                   </IconButton>
-                </TableCell>
+                </TableCell> */}
               </TableRow>
             ))}
           </TableBody>
@@ -137,32 +150,32 @@ export default function TopSellingTable() {
 const productList = [
   {
     imgUrl: "/assets/images/dulux.png",
-    name: "Dulux",
+    name: "JAT",
     price: 100,
-    available: 15
+    available: 15,
   },
   {
     imgUrl: "/assets/images/dulux.png",
     name: "Dulux",
     price: 1500,
-    available: 30
+    available: 0,
   },
   {
     imgUrl: "/assets/images/dulux.png",
-    name: "Dulux",
+    name: "Asian Paint",
     price: 1900,
-    available: 35
+    available: 35,
   },
   {
     imgUrl: "/assets/images/dulux.png",
-    name: "Dulux",
-    price: 100,
-    available: 0
+    name: "Kansai",
+    price: 2500,
+    available: 12,
   },
   {
     imgUrl: "/assets/images/dulux.png",
-    name: "Dulux",
-    price: 1190,
-    available: 5
-  }
+    name: "Prime Coat",
+    price: 4300,
+    available: 15,
+  },
 ];
