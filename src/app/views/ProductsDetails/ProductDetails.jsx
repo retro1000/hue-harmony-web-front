@@ -60,6 +60,9 @@ const ProductDetails = () => {
   const [productFeatures, setProductFeatures] = useState([]);
   const [selectedImages, setSelectedImages] = useState([]);
   const [userQuantity, setUserQuantity] = useState(0);
+
+
+  const [qty, setQty] = useState(1)
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -115,6 +118,10 @@ const ProductDetails = () => {
     fetchProduct();
   }, []);
 
+  const buyNow = () => {
+    navigate('/billing-details', {state: {type: 'buy', products: [{id: id, quantity: qty, productName: productName, price: productPrice-productDiscount, productImage: productImages[0]}]}})
+  }
+
   if (notFount) return <NotFound />;
   if (pageLoading) return <MatxLoading />;
 
@@ -158,8 +165,8 @@ const ProductDetails = () => {
             <ColorSelector productColor={productColor} />
             <SizeSelector productSize={size} />
             <Box display="flex" alignItems="center" gap={2} my={3}>
-              <QuantitySelector />
-              <Button variant="contained" color="error" sx={{ flexGrow: 1 }}>
+              <QuantitySelector qty={qty} onQuantityChange={setQty}/>
+              <Button variant="contained" color="error" sx={{ flexGrow: 1 }} onClick={buyNow}>
                 Buy Now
               </Button>
               <Button variant="outlined">

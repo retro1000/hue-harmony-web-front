@@ -3,8 +3,8 @@ import { Box, IconButton, Typography } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 
-const QuantitySelector = ({ onQuantityChange }) => {
-  const [quantity, setQuantity] = useState(2);
+const QuantitySelector = ({ qty, onQuantityChange }) => {
+  const [quantity, setQuantity] = useState(qty);
 
   const handleIncrease = () => {
     setQuantity((prev) => {

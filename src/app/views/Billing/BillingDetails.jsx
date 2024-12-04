@@ -5,7 +5,7 @@ import BillingDetailsHeader from "../../components/BillingDetails/BillingDetails
 import BillingForm from "../../components/BillingDetails/BillingForm";
 import OrderSummary from "../../components/BillingDetails/OrderSummary";
 import Footer from "../../components/ProductPage/Footer";
-import {useLocation} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 import {useAxios} from "../../hooks/useAxios";
 import PaymentGrid from "./component/PaymentGrid";
 import {useNotistack} from "../../hooks/useNotistack";
@@ -72,10 +72,11 @@ const BillingDetails = () => {
   })
 
   const location = useLocation();
+  const navigate = useNavigate()
   const { triggerNotifications } = useNotistack()
-  // const { state } = location || {};
+  const { state } = location || {};
 
-  const { api } = useAxios()
+  const { api, apiNonAuth } = useAxios()
 
   useEffect(() => {
     console.log(state)
@@ -99,8 +100,8 @@ const BillingDetails = () => {
 
   const placeOrder = () => {
     isPlaceOrderValid() &&
-        api.post(
-            '/place-order/online',
+        apiNonAuth.post(
+            '/orders/place-order/online',
             {
               ...orderDetails,
               ...(orderDetails.paymentMethod === 'CARD' ? {linkedCardDto : {...cardDetails, linkedCardChoice: cardDetails?.chooseType || 'MENTIONED'}} : {}),
@@ -109,6 +110,7 @@ const BillingDetails = () => {
               .then(response => {
                 if(response.status===200){
                   triggerNotifications([{text: 'Order successfully placed.', variant: 'success'}])
+                  navigate('/filter-product')
                 }
               })
               .catch(error => {
