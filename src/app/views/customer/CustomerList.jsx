@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from 'axios';
+import axios from "axios";
 import { useAxios } from "../../hooks/useAxios";
 import {
   Stack,
@@ -11,7 +11,7 @@ import {
   Icon,
   Button,
   Select,
-  MenuItem
+  MenuItem,
 } from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 
@@ -26,12 +26,12 @@ import {
 //import { SearchBarDefault, Breadcrumb, SimpleCard, MuiTable, PopupFormDialog} from "app/components";
 
 import { useNotistack } from "app/hooks/useNotistack";
-import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/Delete';
-import ViewIcon from '@mui/icons-material/RemoveRedEye'
-import AddCustomerIcon from '@mui/icons-material/PersonAdd';
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
+import ViewIcon from "@mui/icons-material/RemoveRedEye";
+import AddCustomerIcon from "@mui/icons-material/PersonAdd";
 import useAuth from "app/hooks/useAuth";
-import AddIcon from '@mui/icons-material/AddBox'
+import AddIcon from "@mui/icons-material/AddBox";
 
 //import useAuth from "app/hooks/useAuth";
 
@@ -45,17 +45,10 @@ const Container = styled("div")(({ theme }) => ({
   },
 }));
 
-
-
-
-
 function CustomerList() {
   const { api, apiNonAuth } = useAxios();
- // const { role } = useAuth();
   const navigate = useNavigate();
-  const [selectedAction, setSelectedAction] = useState("barcode");
-  const [searchText, setSearchText] = useState(undefined);
-  const [datatableData, setDataTableData] = useState([]);
+
   const [addCustomerOn, setAddCustomerOn] = useState(false);
   const [newCustomer, setNewCustomer] = useState({
     firstName: "",
@@ -70,39 +63,39 @@ function CustomerList() {
     businessAddress: "",
     deliveryAddress: "",
     contactNos: [],
-    address:""
+    address: "",
   });
 
-  const [columns, setColumns] = useState([
-    { label: "ID", field: "id" },
-    { label: "First Name", field: "firstName" },
-    { label: "Last Name", field: "lastName" },
-    { label: "Business Address", field: "businessAddress" },
-    { label: "Shipping Address", field: "shippingAddress" },
-    { label: "Contact No", field: "contactNo" },
-    { label: "Contact Person Number", field: "contactPersonNumber" },
-    { label: "Email", field: "email" },
-    { label: "Total Purchases", field: "totalPurchases" },
-    { label: "Status", field: "status" },
+  const [data, setData] = useState([]); // State for customer data
+
+  const columns = [
+    { label: "ID", name: "id" },
+    { label: "First Name", name: "firstName" },
+    { label: "Last Name", name: "lastName" },
+   // { label: "Business Address", name: "businessAddress" },
+    { label: "Shipping Address", name: "shippingAddress" },
+    { label: "Contact No", name: "contactNo" },
+   // { label: "Contact Person Number", name: "contactPersonNumber" },
+   // { label: "Email", name: "email" },
+   // { label: "Total Purchases", name: "totalPurchases" },
+    { label: "Status", name: "status" },
     {
       label: "Actions",
-      field: "actions",
+      name: "actions",
       render: (row) => (
-        
-          <IconButton onClick={() => handleViewCustomer(row)}>
-            <ViewIcon />
-          </IconButton>
-         
-         
-        
+        <IconButton onClick={() => handleViewCustomer(row)}>
+          <ViewIcon />
+        </IconButton>
       ),
     },
-  ]);
-  const {role} = useAuth() 
+  ];
+
+  const { role } = useAuth();
+
   const handleCreate = async () => {
     const customerData = {
       address: newCustomer.deliveryAddress || "",
-      nicNo: newCustomer.nicNo || "", // Assuming you collect this in another form input
+      nicNo: newCustomer.nicNo || "",
       businessName: newCustomer.businessName || "",
       contactPerson: newCustomer.contactPerson || "",
       landPhone: newCustomer.landPhone || "",
@@ -111,56 +104,60 @@ function CustomerList() {
       customerDto: {
         firstName: newCustomer.firstName || "",
         lastName: newCustomer.lastName || "",
-        contactNos: [newCustomer.contactNo, newCustomer.contactPersonNumber].filter(Boolean), // Collect primary and secondary numbers
+        contactNos: [newCustomer.contactNo, newCustomer.contactPersonNumber].filter(Boolean),
         email: newCustomer.email || "",
       },
     };
-  
+
     console.log("Customer Data:", customerData);
-  
+
     try {
-      // Send the request to the backend
       const response = await apiNonAuth.post(
         "customer/create/wholesale-customer",
         customerData
       );
-      
+
       setAddCustomerOn(false);
-  
-      // Log success
+
       console.log("Checkout successful:", response.data);
-      
-      // Additional success logic here
+
+      // Reload data after successful creation
+      fetchData();
     } catch (error) {
-      // Log any errors
       console.error("Checkout failed:", error.response?.data || error.message);
     }
   };
-  
 
-  // Fetch customer data from backend
+  const fetchData = async () => {
+    try {
+      const response = await apiNonAuth.get("wholesalecustomer/get-all");
+      const transformedData = response.data.map((product) => ({
+        id: product.customerId,
+        firstName: product.firstName,
+        lastName: product.lastName,
+        businessAddress: product.businessAddress,
+        shippingAddress: product.shippingAddress,
+        contactNo: product.contactNo,
+        contactPersonNumber: product.contactPersonNumber,
+        email: product.email,
+        totalPurchases: product.totalPurchases,
+        status: product.status,
+        actions: (
+          <IconButton onClick={() => handleViewCustomer(product)}>
+            <ViewIcon />
+          </IconButton>
+        ),
+      }));
+      setData(transformedData);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await apiNonAuth.get(
-          "wholesalecustomer/get-all"
-        );
-        
-       setDataTableData(response.data);
-        // setProducts(transformedProducts);
-      } catch (err) {
-        console.error(err);
-      }
-    };
-  
     fetchData();
   }, []);
- 
 
-  // Function to handle adding a new customer
-
-
-  // Handling actions on customer (view/edit/delete)
   const handleViewCustomer = (row) => {
     navigate(`/customer/view/${row.id}`);
   };
@@ -170,7 +167,6 @@ function CustomerList() {
   };
 
   const handleDeleteCustomer = (row) => {
-    // Handle delete customer logic
     console.log("Deleting customer", row.id);
   };
 
@@ -302,47 +298,54 @@ function CustomerList() {
           type: "text",
           placeholder: "Enter contact person number",
           value: newCustomer.contactPersonNumber || "",
-          setValue: (val) => setNewCustomer({ ...newCustomer, contactPersonNumber: val }),
+          setValue: (val) =>
+            setNewCustomer({ ...newCustomer, contactPersonNumber: val }),
         },
       ],
     },
   ];
-  
 
   return (
     <Container>
-      <Stack sx={{display: 'flex', justifyContent: 'center', alignItems: 'flex-start', width: '100%'}} spacing={5}>
-              <Box gap={'0.5em'} display={'flex'} flexWrap={'wrap'} sx={{width: '100%'}}>
-                {role==='BACKOFFICE'?<TButton 
-                  title={'Add Wholesale Customer'} 
-                  startIcon={<AddIcon />} 
-                  variant={'contained'} 
-                  label={'Whole Sale Customer'} 
-                  color={'primary'} 
-                  fun={setAddCustomerOn}>
-                </TButton>:''}
-              </Box>
-              <SimpleCard sx={{width: '100%', top: '-3em'}} title={'Search Customers'}>
-                <Box display={'flex'} flexWrap={'wrap'} gap={'0.4em'} sx={{width: '100%'}}>
-                  <Select sx={{width: '20%'}} value={selectedAction} size="small" onChange={(event)=>setSelectedAction(event.target.value)}>
-                    <MenuItem value={'Invoice_Id'}>Search by Invoice Id</MenuItem>
-                  </Select>
-                  {/* <SearchBarDefault sx={{width: '80%'}} value={searchText} setValue={setSearchText} placeholder={'Search Credits...'} search={search}></SearchBarDefault> */}
-                </Box>
-                <MuiTable search={true} print={false} download={false} columns={columns} data={datatableData} selectableRows={'none'} filterType={'text'}/>
-              </SimpleCard>
-              
-          </Stack>
+      <Stack
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "flex-start",
+          width: "100%",
+        }}
+        spacing={5}
+      >
+        <Box
+          gap={"0.5em"}
+          display={"flex"}
+          flexWrap={"wrap"}
+          sx={{ width: "100%" }}
+        >
+          {role === "BACKOFFICE" ? (
+            <TButton
+              title={"Add Wholesale Customer"}
+              startIcon={<AddIcon />}
+              variant={"contained"}
+              label={"Whole Sale Customer"}
+              color={"primary"}
+              fun={setAddCustomerOn}
+            />
+          ) : (
+            ""
+          )}
+        </Box>
+        <MuiTable title="Enhanced Table" columns={columns} data={data} />
+      </Stack>
       <PopupFormDialog
         open={addCustomerOn}
         setOpen={setAddCustomerOn}
         title="Add New Customer"
         fields={addCustomerFields}
-       // onSubmit={handleAddCustomer}
-       submitButton="Create"
-       handleSubmit={handleCreate}
-      reasonCloseOn={true}
-      setValues={setNewCustomer}
+        submitButton="Create"
+        handleSubmit={handleCreate}
+        reasonCloseOn={true}
+        setValues={setNewCustomer}
       />
     </Container>
   );
