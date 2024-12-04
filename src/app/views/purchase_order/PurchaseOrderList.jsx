@@ -25,6 +25,8 @@ import {
   SimpleCard,
   MuiTable,
   TButton,
+  MuiTable2,
+  CheckBoxGroup,
 } from "app/components";
 
 import { useNotistack } from "app/hooks/useNotistack";
@@ -174,81 +176,356 @@ function PurchaseOrderList() {
 
   const [datatableData, setDatatableData] = useState([]);
 
-  useEffect(() => {
-    const fetchPurchaseOrders = async () => {
-      try {
-        const response = await apiNonAuth.get("/purchase-orders/getPO");
-        const data = response.data.map((order) => [
-          order.po_number,
-          order.supplier_name,
-          order.contact_person,
-          order.order_date,
-          order.total_amount,
-          order.status,
-        ]);
-        setDatatableData(data);
-      } catch (error) {
-        console.error("Error fetching purchase orders", error);
-      }
-    };
+  // useEffect(() => {
+  //   const fetchPurchaseOrders = async () => {
+  //     try {
+  //       const response = await apiNonAuth.get("/purchase-orders/getPO");
+  //       const data = response.data.map((order) => [
+  //         order.po_number,
+  //         order.supplier_name,
+  //         order.contact_person,
+  //         order.order_date,
+  //         order.total_amount,
+  //         order.status,
+  //       ]);
+  //       setDatatableData(data);
+  //     } catch (error) {
+  //       console.error("Error fetching purchase orders", error);
+  //     }
+  //   };
 
-    fetchPurchaseOrders();
-  }, []);
+  //   fetchPurchaseOrders();
+  // }, []);
 
   const [columns, setColumns] = useState([
     {
-      name: "PO Number",
-      label: "PO ID",
+      name: "Purchase Order Id",
+      label: "Purchase Order Id",
+      options: {
+        filter: false,
+        // display: false
+      }
+
     },
     {
-      name: "Supplier Name",
-      label: "Supplier Name",
-    },
-    {
-      name: "Contact Person",
-      label: "Suppier_ID",
-    },
-    {
-      name: "Order Date",
+      name: "Description",
       label: "Description",
+      options: {
+        filter: false
+      }
     },
     // {
-    //   name: "Total Amount",
-    //   label: "Total Amount (LKR)",
+    //   name: "Brands",
+    //   label: "Brands",
+    //   options: {
+    //     filter: true,
+    //     filterType: "custom",
+    //     filterOptions: {
+    //       logic: (value, filters) => {
+    //         // Custom logic to determine if a row is displayed
+    //         return filters.length > 0 && !filters.includes(value);
+    //       },
+    //       display: (filterList, onChange, index, column) => (
+    //         <div style={{ padding: '16px' }}>
+    //           <CheckBoxGroup
+    //               label="Brand"
+    //             options={["Dulux", "Robbialac", "Nippon Paint", "Asian Paint", "Kansai Paint"]}
+    //             selectedOptions={filterList[index] || []}
+    //             onChange={(selected) => {
+    //               filterList[index] = selected;
+    //               onChange(filterList[index], index, column);
+    //             }}
+    //           />
+    //         </div>
+    //       ),
+    //     },
+    //     customFilterListRender: (value) => {
+    //       // Render custom filter values in the filter chip
+    //       if (value.length) {
+    //         return `Brands: ${value.join(", ")}`;
+    //       }
+    //       return false;
+    //     },
+    //   },
+    // },
+    // {
+    //   name: "Room Type",
+    //   label: "Room Type",
+    //   options: {
+    //     filter: true,
+    //     filterType: "custom",
+    //     filterOptions: {
+    //       logic: (value, filters) => {
+    //         // Custom logic to determine if a row is displayed
+    //         return filters.length > 0 && !filters.includes(value);
+    //       },
+    //       display: (filterList, onChange, index, column) => (
+    //           <div style={{ padding: '16px' }}>
+    //             <CheckBoxGroup
+    //                 label="Room type"
+    //                 options={["Bathroom", "Bedroom", "Childrens Room", "Kitchen", "Living Room", "Home Office", "Hallway", "Dining Room"]}
+    //                 selectedOptions={filterList[index] || []}
+    //                 onChange={(selected) => {
+    //                   filterList[index] = selected;
+    //                   onChange(filterList[index], index, column);
+    //                 }}
+    //             />
+    //           </div>
+    //       ),
+    //     },
+    //     customFilterListRender: (value) => {
+    //       // Render custom filter values in the filter chip
+    //       if (value.length) {
+    //         return `Room type: ${value.join(", ")}`;
+    //       }
+    //       return false;
+    //     },
+    //   },
+    // },
+    // {
+    //   name: "Finish",
+    //   label: "Finish",
+    //   options: {
+    //     filter: true,
+    //     filterType: "custom",
+    //     filterOptions: {
+    //       logic: (value, filters) => {
+    //         // Custom logic to determine if a row is displayed
+    //         return filters.length > 0 && !filters.includes(value);
+    //       },
+    //       display: (filterList, onChange, index, column) => (
+    //           <div style={{ padding: '16px' }}>
+    //             <CheckBoxGroup
+    //                 label="Finish"
+    //                 options={["Gloss", "Gloss Semi Gloss Matte", "High Gloss", "Low Sheen", "Matt", "Mid Sheen", "Semi Gloss"]}
+    //                 selectedOptions={filterList[index] || []}
+    //                 onChange={(selected) => {
+    //                   filterList[index] = selected;
+    //                   onChange(filterList[index], index, column);
+    //                 }}
+    //             />
+    //           </div>
+    //       ),
+    //     },
+    //     customFilterListRender: (value) => {
+    //       // Render custom filter values in the filter chip
+    //       if (value.length) {
+    //         return `Finish: ${value.join(", ")}`;
+    //       }
+    //       return false;
+    //     },
+    //   },
+    // },
+    // {
+    //   name: "Size",
+    //   label: "Size (LTR)",
+    //   options: {
+    //     filter: true,
+    //     filterType: "custom",
+    //     filterOptions: {
+    //       logic: (value, filters) => {
+    //         // Custom logic to determine if a row is displayed
+    //         return filters.length > 0 && !filters.includes(value);
+    //       },
+    //       display: (filterList, onChange, index, column) => (
+    //           <div style={{ padding: '16px' }}>
+    //             <CheckBoxGroup
+    //                 label="Size"
+    //                 options={["L 1", "L 5", "L 10", "L 20", "L 50"]}
+    //                 selectedOptions={filterList[index] || []}
+    //                 onChange={(selected) => {
+    //                   filterList[index] = selected;
+    //                   onChange(filterList[index], index, column);
+    //                 }}
+    //             />
+    //           </div>
+    //       ),
+    //     },
+    //     customFilterListRender: (value) => {
+    //       // Render custom filter values in the filter chip
+    //       if (value.length) {
+    //         return `Size: ${value.join(", ")}`;
+    //       }
+    //       return false;
+    //     },
+    //   },
+    // },
+    {
+      name: "Supplier",
+      label: "Supplier",
+      options: {
+        filter: false
+      }
+    },
+    // {
+    //   name: "Stocks",
+    //   label: "Stock",
+    //   options: {
+    //     filter: false
+    //   }
     // },
     {
       name: "Status",
       label: "Status",
+      options: {
+        filter: true,
+        filterType: "custom",
+        filterOptions: {
+          logic: (value, filters) => {
+            // Custom logic to determine if a row is displayed
+            return filters.length > 0 && !filters.includes(value);
+          },
+          display: (filterList, onChange, index, column) => (
+              <div style={{ padding: '16px' }}>
+                <CheckBoxGroup
+                    label="Status"
+                    options={["Approved", "Rejected", "Pending"]}
+                    selectedOptions={filterList[index] || []}
+                    onChange={(selected) => {
+                      filterList[index] = selected;
+                      onChange(filterList[index], index, column);
+                    }}
+                />
+              </div>
+          ),
+        },
+        customFilterListRender: (value) => {
+          // Render custom filter values in the filter chip
+          if (value.length) {
+            return `Status: ${value.join(", ")}`;
+          }
+          return false;
+        },
+      },
     },
     {
       name: "Actions",
       label: "Actions",
       options: {
-        buttonsConfig: [
-          {
-            type: "icon",
-            icon: ViewIcon,
-            color: "primary",
-            size: "small",
-            onClick: (index) => {
-              const selectedOrder = datatableData[index];
-              const orderrData = {
-                id: selectedOrder[0],
-                supplierName: selectedOrder[1],
-                contactPerson: selectedOrder[2],
-                orderDate: selectedOrder[3],
-                totalAmount: selectedOrder[4],
-                status: selectedOrder[5],
-              };
-              navigate(`/purchase-order/view/${orderrData.id}`, {
-                state: orderrData,
-              });
+              buttonsConfig: [
+                {
+                  type: "icon",
+                  icon: ViewIcon,
+                  color: "primary",
+                  size: "small",
+                  onClick: (id, upadteDataTable, row={}) => {
+                    const selectedOrder = row;
+                    const orderrData = {
+                      id: selectedOrder[0],
+                      supplierName: selectedOrder[1],
+                      contactPerson: selectedOrder[2],
+                      orderDate: selectedOrder[3],
+                      totalAmount: selectedOrder[4],
+                      status: selectedOrder[5],
+                    };
+                    navigate(`/purchase-order/view/${orderrData.id}`, {
+                      state: orderrData,
+                    });
+                  },
+                },
+              ],
             },
-          },
-        ],
-      },
+      // options: {
+      //   buttonsConfig: [
+      //     {
+      //       title: "View item",
+      //       type: "icon",
+      //       icon: ViewIcon,
+      //       color: "primary",
+      //       size: "small",
+      //       onClick: (id, upadteDataTable) => {
+      //         navigate('/productDetails/'+id)
+      //       },
+      //     },
+      //     {
+      //       title: "Edit item",
+      //       type: "icon",
+      //       icon: EditIcon,
+      //       color: "primary",
+      //       size: "small",
+      //       onClick: (id, upadteDataTable) => {
+      //         navigate('/product/update/'+id)
+      //       },
+      //     },
+      //     {
+      //       title: "Remove item",
+      //       type: "icon",
+      //       icon: DeleteIcon,
+      //       color: "error",
+      //       size: "small",
+      //       onClick: (id, upadteDataTable) => {
+      //         // console.log(data)
+      //         apiNonAuth.delete("product/delete/"+id)
+      //           .then(response => {
+      //             if(response.status===200){
+      //               triggerNotification([{text: "Product deleted successfully.", variant: 'success'}])
+      //               upadteDataTable(id);
+      //             }
+      //           })
+      //           .catch(error => {
+
+      //           })
+      //       },
+      //     },
+      //   ],
+      // },
     },
   ]);
+
+  // const [columns, setColumns] = useState([
+  //   {
+  //     name: "PO Number",
+  //     label: "PO ID",
+  //   },
+  //   {
+  //     name: "Supplier Name",
+  //     label: "Supplier Name",
+  //   },
+  //   {
+  //     name: "Contact Person",
+  //     label: "Suppier_ID",
+  //   },
+  //   {
+  //     name: "Order Date",
+  //     label: "Description",
+  //   },
+  //   // {
+  //   //   name: "Total Amount",
+  //   //   label: "Total Amount (LKR)",
+  //   // },
+  //   {
+  //     name: "Status",
+  //     label: "Status",
+  //   },
+  //   {
+  //     name: "Actions",
+  //     label: "Actions",
+  //     options: {
+  //       buttonsConfig: [
+  //         {
+  //           type: "icon",
+  //           icon: ViewIcon,
+  //           color: "primary",
+  //           size: "small",
+  //           onClick: (index) => {
+  //             const selectedOrder = datatableData[index];
+  //             const orderrData = {
+  //               id: selectedOrder[0],
+  //               supplierName: selectedOrder[1],
+  //               contactPerson: selectedOrder[2],
+  //               orderDate: selectedOrder[3],
+  //               totalAmount: selectedOrder[4],
+  //               status: selectedOrder[5],
+  //             };
+  //             navigate(`/purchase-order/view/${orderrData.id}`, {
+  //               state: orderrData,
+  //             });
+  //           },
+  //         },
+  //       ],
+  //     },
+  //   },
+  // ]);
 
   const search = () => {};
 
@@ -285,7 +562,7 @@ function PurchaseOrderList() {
             fun={handleCreatePurchaseOrder}
           ></TButton>
         </Box>
-        <SimpleCard
+        {/* <SimpleCard
           sx={{ width: "100%", top: "-3em" }}
           title={"Search purchase order"}
         >
@@ -327,9 +604,9 @@ function PurchaseOrderList() {
               filterType={"text"}
             />
           )}
-        </SimpleCard>
+        </SimpleCard> */}
         <SimpleCard sx={{ width: "100%" }}>
-          <MuiTable
+          <MuiTable2
             print={true}
             download={true}
             title={"Purchase Orders"}
@@ -337,6 +614,10 @@ function PurchaseOrderList() {
             dataTableData={datatableData}
             selectableRows={"none"}
             filterType={"text"}
+            rowsPerPage={true}
+            serverSide={true}
+            path={'purchase-order'}
+            columnOrder={["purchaseOrderId", "description", "supplier", "status"]}
           />
         </SimpleCard>
       </Stack>

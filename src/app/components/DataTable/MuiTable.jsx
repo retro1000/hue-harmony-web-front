@@ -144,7 +144,7 @@ const renderButtons = (buttonsConfig, rowData, upadteDataTable) => {
           title={title}
           color={color}
           size={size}
-          fun={() => onClick(rowData[0], upadteDataTable)}
+          fun={() => onClick(rowData[0], upadteDataTable, rowData)}
           icon={icon}
         ></TIconButton>
       );
@@ -157,7 +157,7 @@ const renderButtons = (buttonsConfig, rowData, upadteDataTable) => {
           variant="outlined"
           color={color}
           size={size}
-          onClick={() => onClick(rowData[0], upadteDataTable)}
+          onClick={() => onClick(rowData[0], upadteDataTable, rowData)}
           style={{ marginLeft: 8 }}
           label={label}
         ></TButton>
