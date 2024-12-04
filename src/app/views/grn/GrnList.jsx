@@ -26,6 +26,7 @@ import {
   SimpleCard,
   MuiTable,
   NumberFormatField,
+  MuiTable2,
 } from "app/components";
 
 import { useNotistack } from "app/hooks/useNotistack";
@@ -431,7 +432,7 @@ function GrnList() {
                   fun={setAddGrnOn}
                 ></TButton>:''}
               </Box>
-              <SimpleCard sx={{width: '100%', top: '-3em'}} title={'Search Good recieved notes'}>
+              {/* <SimpleCard sx={{width: '100%', top: '-3em'}} title={'Search Good recieved notes'}>
                 <Box display={'flex'} flexWrap={'wrap'} gap={'0.4em'} sx={{width: '100%'}}>
                   <Select sx={{width: '20%'}} value={selectedAction} size="small" onChange={(event)=>setSelectedAction(event.target.value)}>
                     <MenuItem value={'barcode'}>Search by grn barcode</MenuItem>
@@ -441,9 +442,12 @@ function GrnList() {
                   <SearchBarDefault sx={{width: '80%'}} value={searchText} setValue={setSearchText} placeholder={'Search Good recieved notes...'} search={search}></SearchBarDefault>
                 </Box>
                 {searchResult && searchResult.length>0 && <MuiTable search={false} print={false} download={false} columns={columns} dataTableData={searchResult} selectableRows={'none'} filterType={'text'}/>}
-              </SimpleCard>
+              </SimpleCard> */}
               <SimpleCard sx={{width: '100%'}}>
-                <MuiTable print={true} download={true} title={'Good recieved notes'} columns={columns} dataTableData={datatableData} selectableRows={'none'} filterType={'text'}/>
+                <MuiTable2 print={true} download={true} title={'Good recieved notes'} columns={columns} dataTableData={datatableData} selectableRows={'none'} filterType={'text'}                rowsPerPage={true}
+           serverSide={true}
+          path={'grn'}
+columnOrder={["grnId", "description", "supplier", "status"]}/>
               </SimpleCard>
           </Stack>
 
