@@ -26,7 +26,7 @@ import {
   MuiTable,
   TButton,
   CheckboxGroup,
-  CheckBoxGroup,
+  CheckBoxGroup, MuiTable2,
 } from "app/components";
 
 import { useNotistack } from "app/hooks/useNotistack";
@@ -39,6 +39,7 @@ import BulkAddIcon from "@mui/icons-material/Queue";
 import AddProductIcon from "@mui/icons-material/Inventory";
 import { min } from "lodash";
 import { useEffect } from "react";
+import {useNavigate} from "react-router-dom";
 
 // STYLED COMPONENTS
 const Container = styled("div")(({ theme }) => ({
@@ -59,7 +60,11 @@ function ProductList() {
 
   const [newProduct, setNewProduct] = useState({});
 
-const {api, apiNonAuth} = useAxios();  
+  const {api, apiNonAuth} = useAxios();
+
+  const navigate = useNavigate()
+
+  const {triggerNotification} = useNotistack()
 
   const addProductFields = [
     {
@@ -303,83 +308,41 @@ const {api, apiNonAuth} = useAxios();
     },
   ];
 
-  // const [searchResult, setSearchResult] = useState([
-  //   [
-  //     "BRL4501",
-  //     "Ultra White Paint",
-  //     "Dulux",
-  //     "Paint",
-  //     "White",
-  //     "5 Ltr",
-  //     "1500.00",
-  //     "25",
-  //     "Available",
-  //   ],
-  //   [
-  //     "BRL4502",
-  //     "Gloss Finish Paint",
-  //     "Nippon Paints",
-  //     "Paint",
-  //     "Blue",
-  //     "2 Ltr",
-  //     "1200.00",
-  //     "18",
-  //     "Available",
-  //   ],
-  //   [
-  //     "BRL4503",
-  //     "Matt Black Paint",
-  //     "Berger",
-  //     "Paint",
-  //     "Black",
-  //     "10 Ltr",
-  //     "1800.00",
-  //     "10",
-  //     "Unavailable",
-  //   ],
-  //   [
-  //     "BRL4504",
-  //     "Exterior Wall Coating",
-  //     "Jotun",
-  //     "Coating",
-  //     "Yellow",
-  //     "20 Ltr",
-  //     "2400.00",
-  //     "15",
-  //     "Available",
-  //   ],
-  // ]);
-
   const [datatableData, setDataTableData] = useState([]);
 
-  useEffect(()=>{
-    const fetchProducts = async () =>{
-      try{
-        const response = await apiNonAuth.get('product');
-        setDataTableData(response.data);
-      }catch(err){
+  // useEffect(()=>{
+  //   const fetchProducts = async () =>{
+  //     try{
+  //       const response = await apiNonAuth.get('product');
+  //       setDataTableData(response.data);
+  //     }catch(err){
 
-      }
+  //     }
       
-    };
-    fetchProducts();
-  },[])
+  //   };
+  //   fetchProducts();
+  // },[])
 
   const [columns, setColumns] = useState([
     {
-      name: "Barcode",
-      label: "Barcode",
+      name: "Product Id",
+      label: "Product Id",
+      options: {
+        filter: false,
+        // display: false
+      }
+
+    },
+    {
+      name: "Product Name",
+      label: "Product Name",
       options: {
         filter: false
       }
     },
     {
-      name: "Product Name",
-      label: "Product Name",
-    },
-    {
-      name: "Brand",
-      label: "Brand",
+      name: "Brands",
+      label: "Brands",
       options: {
         filter: true,
         filterType: "custom",
@@ -391,7 +354,8 @@ const {api, apiNonAuth} = useAxios();
           display: (filterList, onChange, index, column) => (
             <div style={{ padding: '16px' }}>
               <CheckBoxGroup
-                options={["Active", "Inactive", "Pending", "Canceled"]}
+                  label="Brand"
+                options={["Dulux", "Robbialac", "Nippon Paint", "Asian Paint", "Kansai Paint"]}
                 selectedOptions={filterList[index] || []}
                 onChange={(selected) => {
                   filterList[index] = selected;
@@ -404,35 +368,161 @@ const {api, apiNonAuth} = useAxios();
         customFilterListRender: (value) => {
           // Render custom filter values in the filter chip
           if (value.length) {
-            return `Status: ${value.join(", ")}`;
+            return `Brands: ${value.join(", ")}`;
           }
           return false;
         },
       },
     },
+    // {
+    //   name: "Room Type",
+    //   label: "Room Type",
+    //   options: {
+    //     filter: true,
+    //     filterType: "custom",
+    //     filterOptions: {
+    //       logic: (value, filters) => {
+    //         // Custom logic to determine if a row is displayed
+    //         return filters.length > 0 && !filters.includes(value);
+    //       },
+    //       display: (filterList, onChange, index, column) => (
+    //           <div style={{ padding: '16px' }}>
+    //             <CheckBoxGroup
+    //                 label="Room type"
+    //                 options={["Bathroom", "Bedroom", "Childrens Room", "Kitchen", "Living Room", "Home Office", "Hallway", "Dining Room"]}
+    //                 selectedOptions={filterList[index] || []}
+    //                 onChange={(selected) => {
+    //                   filterList[index] = selected;
+    //                   onChange(filterList[index], index, column);
+    //                 }}
+    //             />
+    //           </div>
+    //       ),
+    //     },
+    //     customFilterListRender: (value) => {
+    //       // Render custom filter values in the filter chip
+    //       if (value.length) {
+    //         return `Room type: ${value.join(", ")}`;
+    //       }
+    //       return false;
+    //     },
+    //   },
+    // },
     {
-      name: "Product Type",
-      label: "Product Type",
+      name: "Finish",
+      label: "Finish",
+      options: {
+        filter: true,
+        filterType: "custom",
+        filterOptions: {
+          logic: (value, filters) => {
+            // Custom logic to determine if a row is displayed
+            return filters.length > 0 && !filters.includes(value);
+          },
+          display: (filterList, onChange, index, column) => (
+              <div style={{ padding: '16px' }}>
+                <CheckBoxGroup
+                    label="Finish"
+                    options={["Gloss", "Gloss Semi Gloss Matte", "High Gloss", "Low Sheen", "Matt", "Mid Sheen", "Semi Gloss"]}
+                    selectedOptions={filterList[index] || []}
+                    onChange={(selected) => {
+                      filterList[index] = selected;
+                      onChange(filterList[index], index, column);
+                    }}
+                />
+              </div>
+          ),
+        },
+        customFilterListRender: (value) => {
+          // Render custom filter values in the filter chip
+          if (value.length) {
+            return `Finish: ${value.join(", ")}`;
+          }
+          return false;
+        },
+      },
     },
-    {
-      name: "Color",
-      label: "Color",
-    },
-    {
-      name: "Size",
-      label: "Size (LTR)",
-    },
+    // {
+    //   name: "Size",
+    //   label: "Size (LTR)",
+    //   options: {
+    //     filter: true,
+    //     filterType: "custom",
+    //     filterOptions: {
+    //       logic: (value, filters) => {
+    //         // Custom logic to determine if a row is displayed
+    //         return filters.length > 0 && !filters.includes(value);
+    //       },
+    //       display: (filterList, onChange, index, column) => (
+    //           <div style={{ padding: '16px' }}>
+    //             <CheckBoxGroup
+    //                 label="Size"
+    //                 options={["L 1", "L 5", "L 10", "L 20", "L 50"]}
+    //                 selectedOptions={filterList[index] || []}
+    //                 onChange={(selected) => {
+    //                   filterList[index] = selected;
+    //                   onChange(filterList[index], index, column);
+    //                 }}
+    //             />
+    //           </div>
+    //       ),
+    //     },
+    //     customFilterListRender: (value) => {
+    //       // Render custom filter values in the filter chip
+    //       if (value.length) {
+    //         return `Size: ${value.join(", ")}`;
+    //       }
+    //       return false;
+    //     },
+    //   },
+    // },
     {
       name: "Selling Price",
       label: "Selling Price (LKR)",
+      options: {
+        filter: false
+      }
     },
     {
       name: "Stocks",
       label: "Stock",
+      options: {
+        filter: false
+      }
     },
     {
       name: "Status",
       label: "Status",
+      options: {
+        filter: true,
+        filterType: "custom",
+        filterOptions: {
+          logic: (value, filters) => {
+            // Custom logic to determine if a row is displayed
+            return filters.length > 0 && !filters.includes(value);
+          },
+          display: (filterList, onChange, index, column) => (
+              <div style={{ padding: '16px' }}>
+                <CheckBoxGroup
+                    label="Status"
+                    options={["Available", "Unavailable"]}
+                    selectedOptions={filterList[index] || []}
+                    onChange={(selected) => {
+                      filterList[index] = selected;
+                      onChange(filterList[index], index, column);
+                    }}
+                />
+              </div>
+          ),
+        },
+        customFilterListRender: (value) => {
+          // Render custom filter values in the filter chip
+          if (value.length) {
+            return `Status: ${value.join(", ")}`;
+          }
+          return false;
+        },
+      },
     },
     {
       name: "Actions",
@@ -445,8 +535,8 @@ const {api, apiNonAuth} = useAxios();
             icon: ViewIcon,
             color: "primary",
             size: "small",
-            onClick: (index) => {
-              console.log("View button clicked for row", index);
+            onClick: (id, upadteDataTable) => {
+              navigate('/productDetails/'+id)
             },
           },
           {
@@ -455,8 +545,8 @@ const {api, apiNonAuth} = useAxios();
             icon: EditIcon,
             color: "primary",
             size: "small",
-            onClick: (index) => {
-              console.log("Edit icon button clicked for row", index);
+            onClick: (id, upadteDataTable) => {
+              navigate('/product/update/'+id)
             },
           },
           {
@@ -465,8 +555,18 @@ const {api, apiNonAuth} = useAxios();
             icon: DeleteIcon,
             color: "error",
             size: "small",
-            onClick: (index) => {
-              console.log("Delete icon button clicked for row", index);
+            onClick: (id, upadteDataTable) => {
+              // console.log(data)
+              apiNonAuth.delete("product/delete/"+id)
+                .then(response => {
+                  if(response.status===200){
+                    triggerNotification([{text: "Product deleted successfully.", variant: 'success'}])
+                    upadteDataTable(id);
+                  }
+                })
+                .catch(error => {
+
+                })
             },
           },
         ],
@@ -561,7 +661,7 @@ const {api, apiNonAuth} = useAxios();
           )}
         </SimpleCard> */}
         <SimpleCard sx={{ width: "100%" }}>
-          <MuiTable
+          <MuiTable2
             print={true}
             download={true}
             title={"Products"}
@@ -572,6 +672,7 @@ const {api, apiNonAuth} = useAxios();
             rowsPerPage={true}
             serverSide={true}
             path={'product'}
+            columnOrder={["productId", "productName", "brand", "finish", "productPrice", "productQuantity", "productStatus"]}
           />
         </SimpleCard>
       </Stack>

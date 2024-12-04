@@ -8,7 +8,7 @@ const ProductsDetails = Loadable(lazy(() => import('../ProductsDetails/ProductDe
 
 const productsDetails = [
   {
-    path: "/productDetails",
+    path: "/productDetails/:id",
     element: <ProductsDetails />
   },
 ];
