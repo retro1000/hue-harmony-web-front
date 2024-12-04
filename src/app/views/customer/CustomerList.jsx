@@ -335,7 +335,7 @@ function CustomerList() {
             ""
           )}
         </Box>
-        <MuiTable title="Enhanced Table" columns={columns} data={data} />
+        <MuiTable title="Customers" columns={columns} data={data} />
       </Stack>
       <PopupFormDialog
         open={addCustomerOn}
