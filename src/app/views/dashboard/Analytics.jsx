@@ -11,19 +11,19 @@ import TopSellingTable from "./shared/TopSellingTable";
 // STYLED COMPONENTS
 const ContentBox = styled("div")(({ theme }) => ({
   margin: "30px",
-  [theme.breakpoints.down("sm")]: { margin: "16px" }
+  [theme.breakpoints.down("sm")]: { margin: "16px" },
 }));
 
 const Title = styled("span")(() => ({
   fontSize: "1rem",
   fontWeight: "500",
   marginRight: ".5rem",
-  textTransform: "capitalize"
+  textTransform: "capitalize",
 }));
 
 const SubTitle = styled("span")(({ theme }) => ({
   fontSize: "0.875rem",
-  color: theme.palette.text.secondary
+  color: theme.palette.text.secondary,
 }));
 
 const H4 = styled("h4")(({ theme }) => ({
@@ -31,7 +31,7 @@ const H4 = styled("h4")(({ theme }) => ({
   fontWeight: "500",
   marginBottom: "16px",
   textTransform: "capitalize",
-  color: theme.palette.text.secondary
+  color: theme.palette.text.secondary,
 }));
 
 export default function Analytics() {
@@ -44,10 +44,19 @@ export default function Analytics() {
           <Grid item lg={12} md={12} sm={12} xs={12}>
             <StatCards />
             <TopSellingTable />
-            <StatCards2 />
+            <div>
+              <h2 style={{ textAlign: "left", marginBottom: "16px" }}>
+                Brands
+              </h2>
+              <DoughnutChart
+                height="300px"
+                color={["#133E87", "#608BC1", "#CBDCEB"]}
+                position="left"
+              />
+            </div>
 
+            {/* <StatCards2 /> */}
           </Grid>
-
         </Grid>
       </ContentBox>
     </Fragment>
