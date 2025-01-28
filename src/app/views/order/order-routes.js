@@ -20,9 +20,9 @@ const orderRoutes = [
   {
     path: "/order/retail/list",
     element: (
-      <AuthGuard auth={[...authRoles.sales_manager, ...authRoles.back_office]}>
+      // <AuthGuard auth={[...authRoles.sales_manager, ...authRoles.back_office]}>
         <RetailOrderList />
-      </AuthGuard>
+      // </AuthGuard>
     ),
   },
   {

@@ -1,6 +1,6 @@
 import { createContext, useEffect, useReducer } from "react";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useAxios } from "app/hooks/useAxios";
 
 // CUSTOM COMPONENT
 import { MatxLoading } from "app/components";
@@ -47,7 +47,7 @@ const AuthContext = createContext({
 export const AuthProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
   const navigate = useNavigate()
-
+  const { apiNonAuth, api } = useAxios()
   // const login = async (username, password, rememberMe) => {
   //   const response = await axios.post(`${backendApi}/login/validate`, { username:username, password:password, rememberMe:rememberMe });
   //   const { user, token, role } = response.data;
@@ -57,31 +57,62 @@ export const AuthProvider = ({ children }) => {
   //   dispatch({ type: "LOGIN", payload: { user, role } });
   // };
 
-  const login = async (email, password, rememberMe) => {
-    const response = await axios.post("/api/auth/login", { email, password });
-    const { user, role } = response.data;
-    const token = "token"
-    localStorage.setItem("token", token);
+  // const login = async (email, password, rememberMe) => {
+  //   const response = await apiNonAuth.post("/api/auth/login", { email, password });
+  //   const { user, role } = response.data;
+  //   const token = "token"
+  //   localStorage.setItem("token", token);
 
-    dispatch({ type: "LOGIN", payload: { user, token, role } });
-    return role;
+  //   dispatch({ type: "LOGIN", payload: { user, token, role } });
+  //   return role;
+  // };
+
+  // const getRole = async () => {
+  //   return initialState.role;
+  // }
+
+  const login = async (username, password, rememberMe) => {
+    await apiNonAuth.post('/login/validate', { username:username, password:password, rememberMe:rememberMe })
+       .then(response => {
+         const { user, token, role } = response.data;
+         localStorage.setItem('token', token)
+         dispatch({ type: "LOGIN", payload: { user, role } });
+         navigate(!role || role==='USER' || role==='GUEST'?'/':role==='CASHIER'?'/pos-home':'/dashboard/default');
+       })
+       .catch((error) => {
+       })
+    // const { user, token, role } = { user: {name: 'damitha'}, token: 'token', role: 'ADMIN' };
+    
   };
 
-  const getRole = async () => {
-    return initialState.role;
-  }
+  // const register = async (email, username, password) => {
+  //   const response = await axios.post("/api/auth/register", {
+  //     email,
+  //     username,
+  //     password,
+  //   });
+  //   const { user, token } = response.data;
 
-  const register = async (email, username, password) => {
-    const response = await axios.post("/api/auth/register", {
-      email,
-      username,
-      password,
-    });
-    const { user, token } = response.data;
+  //   localStorage.setItem("token", token);
 
-    localStorage.setItem("token", token);
+  //   dispatch({ type: "REGISTER", payload: { user } });
+  // };
 
-    dispatch({ type: "REGISTER", payload: { user } });
+  const register = async (data) => {
+    try {
+      const response = await apiNonAuth.post("/users/signup", data);
+      if (response.status === 201) {
+        const { user, token, role, message } = response.data;
+        localStorage.setItem('token', token);
+        dispatch({ type: "REGISTER", payload: { user, role } });
+        return { status: response.status, data: message };
+      }
+    } catch (error) {
+      return {
+        status: error.response?.status,
+        data: error.response?.data
+      };
+    }
   };
 
   const logout = () => {
@@ -109,7 +140,7 @@ export const AuthProvider = ({ children }) => {
     (async () => {
         const token = localStorage.getItem('token');
         if(token){
-          await axios.get(`${backendApi}/login/profile/view`, {headers: {'Authorization':`Bearer ${token}`}})
+          await apiNonAuth.get(`${backendApi}/login/profile/view`, {headers: {'Authorization':`Bearer ${token}`}})
             .then((res) => {
               if(res.status===200){
                 const { user, role } = res.data
@@ -131,7 +162,7 @@ export const AuthProvider = ({ children }) => {
 
   return (
     <AuthContext.Provider
-      value={{ ...state, method: "JWT", login, logout, register, getRole }}
+      value={{ ...state, method: "JWT", login, logout, register }}
     >
       {children}
     </AuthContext.Provider>

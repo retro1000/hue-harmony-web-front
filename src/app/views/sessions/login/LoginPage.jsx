@@ -22,12 +22,8 @@ const LoginPage = () => {
 
   const handleFormSubmit = async () => {
     setLoading(true);
-    try {
-      const role = await login(username, password, remember);
-      navigate(!role || role==='USER' || role==='GUEST'?'/':role==='CASHIER'?'/pos-home':'/dashboard/default');
-    } catch (e) {
-      setLoading(false);
-    }
+    await login(username, password, remember);
+    setLoading(false);
   };
 
   return (

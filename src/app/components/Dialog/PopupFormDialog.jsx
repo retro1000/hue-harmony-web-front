@@ -25,6 +25,7 @@ import 'react-phone-input-2/lib/style.css'
 import AddIcon from '@mui/icons-material/Add'
 import MinusIcon from '@mui/icons-material/Remove'
 import { useEffect } from 'react';
+import { LoadingButton } from '@mui/lab';
 
 const AccordionRoot = styled("div")(({ theme }) => ({
   width: "100%",
@@ -205,7 +206,7 @@ const createFormFields = (fields) => {
 const formMaxHeight = 500
 
 
-export default function PopupFormDialog({popupSx='md', open, titleIcon: TitleIcon, title, setOpen, message, fields, setVariations, submitButton, reasonCloseOn=false, setValues,handleSubmit}) {
+export default function PopupFormDialog({popupSx='md', loading, open, titleIcon: TitleIcon, title, setOpen, message, fields, setVariations, submitButton, reasonCloseOn=false, setValues,handleSubmit}) {
 
   const { api, apiNonAuth } = useAxios();
   const [expand, setExpand] = useState([]);
@@ -288,9 +289,14 @@ export default function PopupFormDialog({popupSx='md', open, titleIcon: TitleIco
             Close
           </Button>
 
-          <Button variant="contained" onClick={handleSubmit}  color="primary">
+          <LoadingButton
+            variant="contained"
+            onClick={handleSubmit}
+            color="primary"
+            loading={loading}
+          >
             {submitButton}
-          </Button>
+          </LoadingButton>
         </DialogActions>
       </Dialog>
     </Box>

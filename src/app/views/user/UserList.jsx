@@ -32,6 +32,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import ViewIcon from "@mui/icons-material/RemoveRedEye";
 import AddIcon from "@mui/icons-material/AddBox";
 import AddUserIcon from "@mui/icons-material/PersonAddAlt";
+import { useAxios } from "app/hooks/useAxios";
 // import { Tooltip } from "@mui/material";
 
 // STYLED COMPONENTS
@@ -51,6 +52,10 @@ function UserList() {
 
   const [addUserOn, setAddUserOn] = useState(false);
 
+  const [loading, setLoading] = useState(false)
+
+  const { api } = useAxios();
+
    
 
     const [editUserOn, setEditUserOn] = useState(false);
@@ -58,6 +63,20 @@ function UserList() {
 
     const [newUser, setNewUser] = useState({})
     const [editUser, setEditUserValues] = useState({})
+
+    const createUser = async() => {
+       setLoading(true)
+       await api.post('/users/create', {...newUser})
+        .then(response => {
+          
+        })
+        .catch(error => {
+
+        })
+        .finally(() => {
+          setLoading(false)
+        })
+    }
 
   const addUserFields = [
     {
@@ -140,6 +159,10 @@ function UserList() {
           options: [
             { label: "Admin", value: 1 },
             { label: "User", value: 2 },
+            { label: "Back-Office Staff", value: 4 },
+            { label: "Sales-Manager", value: 5 },
+            { label: "Inventory-Manager", value: 6 },
+            { label: "Cashier", value: 3 },
           ],
         },
       ],
@@ -402,6 +425,8 @@ function UserList() {
                   setOpen={setAddUserOn}
                   reasonCloseOn={true}
                   setValues={setNewUser}
+                  loading={loading}
+                  handleSubmit={createUser}
                 />
 
           <PopupFormDialog

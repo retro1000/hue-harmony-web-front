@@ -5,7 +5,7 @@ const Signup = Loadable(lazy(() => import('../../sessions/register/signupPage'))
 
 const signupRoutes = [
   {
-    path: "/Signup",
+    path: "/signup",
     element: <Signup />
   }
 ];

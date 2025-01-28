@@ -6,7 +6,7 @@ const adminNav = [
     name: "Products",
     icon: "shopping_basket",
     children: [
-      { name: "Summary", iconText: "E", path: "/product/store/list" },
+      { name: "Summary", iconText: "E", path: "/product/list" },
       { name: "Create product", iconText: "E", path: "/product/create" },
     ],
   },

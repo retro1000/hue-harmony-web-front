@@ -46,7 +46,7 @@ const ProductGrid = ({ Title, productColor }) => {
       productDescription: product.productDescription, // Product Description
       productPrice: product.productPrice, // Product Price
       productDiscount: product.productDiscount, // Product Discount
-      image: product.imageIds[1] , // Use the first image or fallback to empty
+      image: product.imageIds[0] , // Use the first image or fallback to empty
     }));
     setProducts(data);
   }, [mapData]);

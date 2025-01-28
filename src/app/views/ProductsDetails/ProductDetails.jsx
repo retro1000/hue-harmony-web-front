@@ -166,7 +166,7 @@ const ProductDetails = () => {
             <SizeSelector productSize={size} />
             <Box display="flex" alignItems="center" gap={2} my={3}>
               <QuantitySelector qty={qty} onQuantityChange={setQty}/>
-              <Button variant="contained" color="error" sx={{ flexGrow: 1 }} onClick={buyNow}>
+              <Button variant="contained" color="error" sx={{ flexGrow: 1 }} onClick={buyNow} disabled={productQuantity - onlineLimit <= 0}>
                 Buy Now
               </Button>
               <Button variant="outlined">
