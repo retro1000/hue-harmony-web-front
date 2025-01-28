@@ -45,4 +45,5 @@ export { default as SearchPane } from "./SearchPane";
 export { default as InputField } from "./InputField/InputField";
 export { default as CheckBoxGroup } from "./InputField/CheckBoxGroup";
 export { default as RadioButtonGroup } from "./InputField/RadioButtonGroup";
+export { default as Footer } from "./Footer";
 

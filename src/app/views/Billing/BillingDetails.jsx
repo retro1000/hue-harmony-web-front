@@ -101,7 +101,7 @@ const BillingDetails = () => {
   const placeOrder = async () => {
 
     isPlaceOrderValid() &&
-      await apiNonAuth.post(
+      await api.post(
             '/orders/place-order/online',
             {
               ...orderDetails,
@@ -111,7 +111,7 @@ const BillingDetails = () => {
               .then(response => {
                 if(response.status===201){
                   triggerNotifications([{text: 'Order successfully placed.', variant: 'success'}])
-                  navigate('/filter-product')
+                  navigate('/product/filter-product')
                 }
               })
               .catch(error => {

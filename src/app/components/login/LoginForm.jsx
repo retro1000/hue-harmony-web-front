@@ -77,7 +77,7 @@ const LoginForm = ({ loading, loginTitle, loginSubtitle, onClick, username, setU
             color="primary"
             type="submit"
             fullWidth
-            // onClick={onClick}
+            onClick={onClick}
             loading={loading}
             // sx={{
             //   marginTop: "40px",

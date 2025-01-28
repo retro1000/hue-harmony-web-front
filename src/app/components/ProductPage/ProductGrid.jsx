@@ -36,7 +36,7 @@ const ProductGrid = () => {
       productDescription: product.productDescription, // Product Description
       productPrice: product.productPrice, // Product Price
       productDiscount: product.productDiscount, // Product Discount
-      image: product.imageIds[1], // Product Image
+      image: product.imageIds[0], // Product Image
     }));
 
     setProducts(data);
