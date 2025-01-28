@@ -78,14 +78,15 @@ const ProfileSidebar = () => {
               <OrderIcon sx={{ color: "#fff" }} />
             </IconButton>
           </Link>
-          <Link to="/pos/order-details" style={linkStyle}>
-            <IconButton sx={iconStyle}>
-              <MenuIcon sx={{ color: "#fff" }} />
-            </IconButton>
-          </Link>
+         
           <Link to="/pos/sales-summary" style={linkStyle}>
             <IconButton sx={iconStyle}>
               <WalletIcon sx={{ color: "#fff" }} />
+            </IconButton>
+          </Link>
+          <Link to="/pos/order-details" style={linkStyle}>
+            <IconButton sx={iconStyle}>
+              <MenuIcon sx={{ color: "#fff" }} />
             </IconButton>
           </Link>
           <Link to="/history" style={linkStyle}>

@@ -72,12 +72,12 @@ function CustomerList() {
     { label: "ID", name: "id" },
     { label: "First Name", name: "firstName" },
     { label: "Last Name", name: "lastName" },
-   // { label: "Business Address", name: "businessAddress" },
+    // { label: "Business Address", name: "businessAddress" },
     { label: "Shipping Address", name: "shippingAddress" },
     { label: "Contact No", name: "contactNo" },
-   // { label: "Contact Person Number", name: "contactPersonNumber" },
-   // { label: "Email", name: "email" },
-   // { label: "Total Purchases", name: "totalPurchases" },
+    // { label: "Contact Person Number", name: "contactPersonNumber" },
+    // { label: "Email", name: "email" },
+    // { label: "Total Purchases", name: "totalPurchases" },
     { label: "Status", name: "status" },
     {
       label: "Actions",
@@ -104,7 +104,10 @@ function CustomerList() {
       customerDto: {
         firstName: newCustomer.firstName || "",
         lastName: newCustomer.lastName || "",
-        contactNos: [newCustomer.contactNo, newCustomer.contactPersonNumber].filter(Boolean),
+        contactNos: [
+          newCustomer.contactNo,
+          newCustomer.contactPersonNumber,
+        ].filter(Boolean),
         email: newCustomer.email || "",
       },
     };
@@ -205,7 +208,8 @@ function CustomerList() {
           type: "text",
           placeholder: "Enter business name",
           value: newCustomer.businessName || "",
-          setValue: (val) => setNewCustomer({ ...newCustomer, businessName: val }),
+          setValue: (val) =>
+            setNewCustomer({ ...newCustomer, businessName: val }),
         },
         {
           key: "cus_address_text",
@@ -227,7 +231,8 @@ function CustomerList() {
           type: "text",
           placeholder: "Enter contact person",
           value: newCustomer.contactPerson || "",
-          setValue: (val) => setNewCustomer({ ...newCustomer, contactPerson: val }),
+          setValue: (val) =>
+            setNewCustomer({ ...newCustomer, contactPerson: val }),
         },
         {
           key: "cus_contact_no_text",
@@ -260,7 +265,8 @@ function CustomerList() {
           type: "text",
           placeholder: "Enter delivery address",
           value: newCustomer.deliveryAddress || "",
-          setValue: (val) => setNewCustomer({ ...newCustomer, deliveryAddress: val }),
+          setValue: (val) =>
+            setNewCustomer({ ...newCustomer, deliveryAddress: val }),
         },
         {
           key: "cus_nic_text",

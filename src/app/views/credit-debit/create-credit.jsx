@@ -14,21 +14,19 @@ const Container = styled("div")(({ theme }) => ({
   },
 }));
 
-const CreateInvoice = () => {
+const CreateCreditNote = () => {
   const { apiNonAuth } = useAxios();
   const navigate = useNavigate();
 
   const [customers, setCustomers] = useState([]);
   const [selectedCustomer, setSelectedCustomer] = useState(null);
-  const [selectedOrder, setSelectedOrder] = useState(null);
+  const [selectedInvoice, setSelectedInvoice] = useState(null);
   const [formData, setFormData] = useState({
-    invoiceDate: "",
-    invoiceNotes: "",
-    discountAmount: 0,
-    billingAddress: "",
-    totalAmount: 0,
+    creditNoteDate: "",
+    creditNoteNotes: "",
+    creditAmount: 0, // Add credit amount here
   });
-  const [orders, setOrders] = useState([]);
+  const [invoices, setInvoices] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -44,18 +42,18 @@ const CreateInvoice = () => {
   }, []);
 
   useEffect(() => {
-    const fetchOrders = async () => {
+    const fetchInvoices = async () => {
       if (selectedCustomer) {
         try {
-          const response = await apiNonAuth.get(`wholeSale/get-by-customer/${selectedCustomer.customerId}`);
-          setOrders(response.data);
+          const response = await apiNonAuth.get(`invoice/get-by-customer/${selectedCustomer.customerId}`);
+          setInvoices(response.data);
         } catch (err) {
-          console.error("Error fetching orders:", err);
+          console.error("Error fetching invoices:", err);
         }
       }
     };
 
-    fetchOrders();
+    fetchInvoices();
   }, [selectedCustomer]);
 
   const handleSelectCustomer = (e) => {
@@ -63,19 +61,17 @@ const CreateInvoice = () => {
       (customer) => customer.customerId === e.target.value
     );
     setSelectedCustomer(selected || null);
-    setSelectedOrder(null); // Reset order when customer changes
+    setSelectedInvoice(null); // Reset invoice when customer changes
   };
 
-  const handleSelectOrder = (e) => {
-    setSelectedOrder(e.target.value);
-    const selectedOrder = orders.find(order => order.orderId === e.target.value);
-    if (selectedOrder) {
+  const handleSelectInvoice = (e) => {
+    setSelectedInvoice(e.target.value);
+    const selectedInvoice = invoices.find(invoice => invoice.invoiceId === e.target.value);
+    if (selectedInvoice) {
       setFormData({
-        invoiceDate: selectedOrder.orderDate || '',
-        billingAddress: selectedOrder.billingAddress || '',
-        totalAmount: selectedOrder.totalAmount || 0,
-        discountAmount: 0,
-        invoiceNotes: '',
+        creditNoteDate: selectedInvoice.invoiceDate || '',
+        creditNoteNotes: '',
+        creditAmount: 0, // Reset credit amount when new invoice is selected
       });
     }
   };
@@ -87,35 +83,30 @@ const CreateInvoice = () => {
 
   const handleSubmit = () => {
     if (!selectedCustomer) {
-      alert("Please select a customer before submitting the invoice.");
+      alert("Please select a customer before submitting the credit note.");
       return;
     }
 
-    if (!selectedOrder) {
-      alert("Please select an order before submitting the invoice.");
+    if (!selectedInvoice) {
+      alert("Please select an invoice before submitting the credit note.");
       return;
     }
 
     const jsonData = {
-      invoiceDate: formData.invoiceDate,
-      invoiceNotes: formData.invoiceNotes,
-      customerId: selectedCustomer.customerId,  // Make sure this is correct
-      orderId: selectedOrder,
-      discountAmount: formData.discountAmount,
-      billingAddress: formData.billingAddress,
-      totalAmount: formData.totalAmount,
+      creditNoteDate: formData.creditNoteDate,
+      creditNoteNotes: formData.creditNoteNotes,
+      customer: selectedCustomer.customerId,
+      invoiceId: selectedInvoice,
+      creditAmount: formData.creditAmount, // Add credit amount to the request
     };
-
-    // Ensure the selectedCustomer has a valid customerId before calling the API
-    console.log(jsonData); // Log the data to confirm customerId is being passed
 
     const fetchData = async (data) => {
       try {
-        const response = await apiNonAuth.post("invoice/create", data);
-        console.log("Invoice Created", response);
-        navigate('/invoice/sales/list');
+        const response = await apiNonAuth.post("credit-debit/create/credit", data);
+        console.log("Credit Note Created", response);
+        navigate('/credit-debit/credit/list');
       } catch (err) {
-        console.error("Error creating invoice:", err);
+        console.error("Error creating credit note:", err);
       }
     };
 
@@ -125,11 +116,11 @@ const CreateInvoice = () => {
   return (
     <Container>
       <Box className="breadcrumb">
-        <Breadcrumb routeSegments={[{ name: "Invoice" }, { name: "Create" }]} />
+        <Breadcrumb routeSegments={[{ name: "Credit Note" }, { name: "Create" }]} />
       </Box>
       <Box sx={{ marginBottom: 6, mt: 4 }}>
         <Typography variant="h5" sx={{ fontWeight: 600, mb: 3 }}>
-          Create Invoice
+          Create Credit Note
         </Typography>
         <Paper elevation={1} sx={{ mb: 4, p: 2, borderRadius: 4 }}>
           <Typography variant="h6" gutterBottom>
@@ -170,21 +161,21 @@ const CreateInvoice = () => {
         {selectedCustomer && (
           <Paper elevation={1} sx={{ mb: 4, p: 2, borderRadius: 4 }}>
             <Typography variant="h6" gutterBottom>
-              Please Select an Order
+              Please Select an Invoice
             </Typography>
             <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
               <TextField
                 select
-                value={selectedOrder || ""}
+                value={selectedInvoice || ""}
                 variant="outlined"
                 size="small"
                 sx={{ mr: 2, flex: 1 }}
-                onChange={handleSelectOrder}
+                onChange={handleSelectInvoice}
               >
-                <MenuItem value="">Select an order</MenuItem>
-                {orders.map((order) => (
-                  <MenuItem key={order.orderId} value={order.orderId}>
-                    {order.orderId} | {order.orderDate}
+                <MenuItem value="">Select an invoice</MenuItem>
+                {invoices.map((invoice) => (
+                  <MenuItem key={invoice.id} value={invoice.id}>
+                    {invoice.id} | {invoice.invoiceDate}
                   </MenuItem>
                 ))}
               </TextField>
@@ -194,15 +185,15 @@ const CreateInvoice = () => {
 
         <Paper elevation={1} sx={{ mb: 4, p: 2, borderRadius: 4 }}>
           <Typography variant="h6" gutterBottom>
-            Invoice Details
+            Credit Note Details
           </Typography>
           <Grid container spacing={2}>
             <Grid item xs={6}>
               <TextField
-                label="Invoice Date"
+                label="Credit Note Date"
                 type="date"
-                name="invoiceDate"
-                value={formData.invoiceDate}
+                name="creditNoteDate"
+                value={formData.creditNoteDate}
                 onChange={handleInputChange}
                 InputLabelProps={{ shrink: true }}
                 fullWidth
@@ -210,38 +201,19 @@ const CreateInvoice = () => {
             </Grid>
             <Grid item xs={6}>
               <TextField
-                label="Billing Address"
-                name="billingAddress"
-                value={formData.billingAddress}
-                onChange={handleInputChange}
-                fullWidth
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <TextField
-                label="Discount Amount"
+                label="Credit Amount"
                 type="number"
-                name="discountAmount"
-                value={formData.discountAmount}
+                name="creditAmount"
+                value={formData.creditAmount}
                 onChange={handleInputChange}
                 fullWidth
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <TextField
-                label="Total Amount"
-                name="totalAmount"
-                value={formData.totalAmount}
-                onChange={handleInputChange}
-                fullWidth
-                disabled
               />
             </Grid>
             <Grid item xs={12}>
               <TextField
-                label="Invoice Notes"
-                name="invoiceNotes"
-                value={formData.invoiceNotes}
+                label="Credit Note Notes"
+                name="creditNoteNotes"
+                value={formData.creditNoteNotes}
                 onChange={handleInputChange}
                 multiline
                 rows={3}
@@ -257,11 +229,11 @@ const CreateInvoice = () => {
           onClick={handleSubmit}
           sx={{ mt: 4 }}
         >
-          Create Invoice
+          Create Credit Note
         </Button>
       </Box>
     </Container>
   );
 };
 
-export default CreateInvoice;
+export default CreateCreditNote;
